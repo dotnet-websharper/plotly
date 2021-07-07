@@ -3,41 +3,48 @@
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
+open WebSharper.Plotly.Traces
 
 module Definition =
 
-    let I1 =
-        Interface "I1"
-        |+> [
-                "test1" => T<string> ^-> T<string>
-            ]
-
-    let I2 =
-        Generic -- fun t1 t2 ->
-            Interface "I2"
-            |+> [
-                    Generic - fun m1 -> "foo" => m1 * t1 ^-> t2
-                ]
-
-    let C1 =
-        Class "C1"
-        |+> Instance [
-                "foo" =@ T<int>
-            ]
+    let Plotly =
+        Class "Plotly"
         |+> Static [
-                Constructor (T<unit> + T<int>)
-                "mem"   => (T<unit> + T<int> ^-> T<unit>)
-                "test2" => (TSelf -* T<int> ^-> T<unit>) * T<string> ^-> T<string>
-                "radius2" =? T<float>
-                |> WithSourceName "R2"
-            ]
+            "newPlot" => (T<string> + T<HTMLElement>) * T<Object> //TODO
+            "react" => T<unit> //TODO
+            "restyle" => T<unit> //TODO
+            "relayout" => T<unit> //TODO
+            "update" => T<unit> //TODO
+            "validate" => T<unit> //TODO
+            "makeTeamplate" => T<unit> //TODO
+            "validateTeamplate" => T<unit> //TODO
+            "addTraces" => T<unit> //TODO
+            "deleteTraces" => T<unit> //TODO
+            "moveTraces" => T<unit> //TODO
+            "extendTraces" => T<unit> //TODO
+            "prependTraces" => T<unit> //TODO
+            "addFrames" => T<unit> //TODO
+            "animate" => T<unit> //TODO
+            "purge" => T<unit> //TODO
+            "toImage" => T<unit> //TODO
+            "downloadImage" => T<unit> //TODO
+        ]
 
     let Assembly =
         Assembly [
+            Namespace "WebSharper.Plotly.Resources" [
+                Resource "PlotlyJsCDN" "https://cdn.plot.ly/plotly-2.2.0.min.js"
+                |> AssemblyWide
+            ]
             Namespace "WebSharper.Plotly" [
-                 I1
-                 I2
-                 C1
+                (*TracesModule.ScatterType
+                TracesModule.VisibleString
+                TracesModule.FontConfig
+                TracesModule.LegendGroupTitle
+                TracesModule.Modes
+                TracesModule.TextPosition
+                TracesModule.ScatterOptions*)
+                Plotly
             ]
         ]
 

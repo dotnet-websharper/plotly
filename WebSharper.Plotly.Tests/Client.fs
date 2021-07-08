@@ -20,9 +20,11 @@ module Client =
             "Paul"
         ]
 
-    let Tests = ScatterOptions2(Hoverinfo = HoverInfo.All)
+    //let Tests = ScatterOptions2(Hoverinfo = HoverInfo.All)
 
-    Console.Log(Tests)
+    let symbolTest = Plotly.Symbol.Triangle_sw_open_dot
+
+    //Console.Log(Tests)
 
     [<SPAEntryPoint>]
     let Main () =

@@ -3,8 +3,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Layout.fs" />
-    <Compile Include="Traces.fs" />
+    <Compile Include="Layout/Layout.fs" />
+    <Compile Include="Traces/Pie.fs" />
+    <Compile Include="Traces/Bar.fs" />
+    <Compile Include="Traces/ScatterGLTrace.fs" />
+    <Compile Include="Traces/ScatterTrace.fs" />
     <Compile Include="Main.fs" />
     <None Include="wsconfig.json" />
   </ItemGroup>

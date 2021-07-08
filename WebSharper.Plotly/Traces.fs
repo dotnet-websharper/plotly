@@ -27,20 +27,22 @@ module GenerateOptions =
         | [] -> result
         | w::ws -> permutation ws (putEverywhere w result [])
 
-    let rec converter (isolator:char) (nullValue:string) (result:string) (words:string list) =
+    let rec converter (isolator:char) (result:string) (words:string list) =
         match words with
-        | [] -> if result = "" then nullValue else result
+        | [] -> if result = "" then "" else result
         | w::ws -> 
             if result = ""
-            then converter isolator nullValue w ws
-            else converter isolator nullValue (result + "+" + w) ws
+            then converter isolator w ws
+            else converter isolator (result + "+" + w) ws
 
-    let allPermutations (words:string list) (isolator:char) (nullValue: string)= 
+    let allPermutations (words:string list) (isolator:char) = 
         permutation words [[]]
-        |> List.map (fun x-> converter isolator nullValue "" x)
+        |> List.map (fun x -> converter isolator "" x)
+        |> List.filter ((<>)"")
         |> Seq.ofList
 
-    //TODO: nullvalue is not needed
+
+    // example for usage: let example = allPermutations ["a";"b";"c"] '+'
 
     let Generate (values: seq<string>, d: char) : seq<string> =
         //TODO

@@ -1,9 +1,9 @@
-﻿namespace WebSharper.Plotly
+﻿namespace WebSharper.Plotly.Extension
 
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
-open WebSharper.Plotly.Traces
+open WebSharper.Plotly.Extension.Traces
 
 module Definition =
 
@@ -37,13 +37,17 @@ module Definition =
                 |> AssemblyWide
             ]
             Namespace "WebSharper.Plotly" [
-                (*TracesModule.ScatterType
+                TracesModule.ScatterType
                 TracesModule.VisibleString
                 TracesModule.FontConfig
                 TracesModule.LegendGroupTitle
                 TracesModule.Modes
                 TracesModule.TextPosition
-                TracesModule.ScatterOptions*)
+                TracesModule.ScatterOptions
+                TracesModule.GroupNorm
+                TracesModule.Orientation
+                TracesModule.HoverInfo
+                TracesModule.AltScatterOptions
                 Plotly
             ]
         ]

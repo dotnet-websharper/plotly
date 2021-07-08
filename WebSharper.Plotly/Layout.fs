@@ -1,4 +1,4 @@
-namespace WebSharper.Plotly.Layout
+namespace WebSharper.Plotly.Extension.Layout
 
 open WebSharper
 open WebSharper.InterfaceGenerator

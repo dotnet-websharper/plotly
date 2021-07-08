@@ -1,4 +1,4 @@
-namespace WebSharper.Plotly.Traces
+namespace WebSharper.Plotly.Extension.Traces
 
 open WebSharper
 open WebSharper.JavaScript
@@ -44,7 +44,7 @@ module GenerateOptions =
 
     let Generate (values: seq<string>, d: char) : seq<string> =
         //TODO
-        seq{""}
+        seq {"TODO"}
 
 module TracesModule =
 
@@ -80,15 +80,15 @@ module TracesModule =
 
     let TextPosition =
         Pattern.EnumInlines "TextPosition" [
-            "TopLeft", "top left"
-            "TopCenter", "top center"
-            "TopRight", "top right"
-            "MiddleLeft", "middle left"
-            "MiddleCenter", "middle center"
-            "MiddleRight", "middle right"
-            "BottomLeft", "bottom left"
-            "BottomCenter", "bottom center"
-            "BottomRight", "bottom right"
+            "TopLeft", "'top left'"
+            "TopCenter", "'top center'"
+            "TopRight", "'top right'"
+            "MiddleLeft", "'middle left'"
+            "MiddleCenter", "'middle center'"
+            "MiddleRight", "'middle right'"
+            "BottomLeft", "'bottom left'"
+            "BottomCenter", "'bottom center'"
+            "BottomRight", "'bottom right'"
         ]
 
     let HoverInfo =
@@ -105,10 +105,10 @@ module TracesModule =
         ]
 
     let GroupNorm =
-        Pattern.EnumStrings "GroupNorm" [
-            ""
-            "fraction"
-            "percent"
+        Pattern.EnumInlines "GroupNorm" [
+            "empty", "''"
+            "fraction", "'fraction'"
+            "percent", "'percent'"
         ]
 
     let ScatterOptions =
@@ -147,3 +147,40 @@ module TracesModule =
                 "groupnorm", GroupNorm.Type
             ]
         }
+
+    let AltScatterOptions =
+        Class "ScatterOptions2"
+        |+> Static [
+            Constructor T<unit>
+            |> WithInline "{type:'scatter'}"
+        ]
+        |+> Pattern.OptionalFields [
+            "name", T<string>
+            "visible", T<bool> + VisibleString.Type
+            "showlegend", T<bool>
+            "legendrank", T<int>
+            "legendgroup", T<string>
+            "legendgrouptitle", LegendGroupTitle.Type
+            "opacity", T<float>
+            "mode", Modes.Type
+            "ids", !| T<string>
+            "x", !| T<int>
+            "x0", T<int> + T<string>
+            "dx", T<int>
+            "y", !| T<int>
+            "y0", T<int> + T<string>
+            "dy", T<int>
+            "text", T<string> + !| T<string>
+            "textposition", TextPosition.Type
+            "texttemplate", T<string> + !| T<string>
+            "hovertext", T<string> + !| T<string>
+            "hoverinfo", HoverInfo.Type
+            "hovertemplate", T<string> + !| T<string>
+            "xhoverformat", T<string>
+            "yhoverformat", T<string>
+            "meta", T<int> + T<string>
+            "customdata", T<string> // undefined type, string is placeholder
+            "yaxis", T<string> //type is 'subplotid'
+            "orientation", Orientation.Type
+            "groupnorm", GroupNorm.Type
+        ]

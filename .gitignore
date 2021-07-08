@@ -1,2 +1,5 @@
-WebSharper.Plotly/bin
-WebSharper.Plotly/obj
+**/bin
+**/obj
+**/Content
+.vs
+*.user

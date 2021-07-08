@@ -64,11 +64,9 @@ module GenerateOptions =
 
 module TracesModule =
 
-    (*let ASD =
-        Pattern.Config "ASD" {
-            Required = []
-            Optional = []
-        }*)
+    //let generateEnum words isolator =
+    //    result =? T<seq<string>> |> (GenerateOptions.allPermutations words isolator)
+
     let NullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
 
     let Color = T<string> + T<Number> + (!| (!? (NullValue.Type + T<string> + T<Number>))) + (!| (!| ((!? (NullValue.Type + T<string> + T<Number>))))) 

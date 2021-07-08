@@ -1,4 +1,4 @@
-namespace WebSharper.Plotly.Extension.Layout
+namespace WebSharper.Plotly.Extension.Options
 
 // $begin{copyright}
 //
@@ -24,8 +24,7 @@ open WebSharper
 open WebSharper.InterfaceGenerator
 open WebSharper.JavaScript
 
-module LayoutModule =
+module OptionsModule =
 
-    let Layout =
-        Class "Layout"
-        // TODO
+    let Options =
+        Class "Options"

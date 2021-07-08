@@ -3,8 +3,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Options/Options.fs" />
     <Compile Include="Layout/Layout.fs" />
-    <Compile Include="Traces/Pie.fs" />
     <Compile Include="Traces/Bar.fs" />
     <Compile Include="Traces/ScatterGLTrace.fs" />
     <Compile Include="Traces/ScatterTrace.fs" />

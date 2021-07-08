@@ -24,6 +24,8 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.Traces
+open WebSharper.Plotly.Extension.Layout
+open WebSharper.Plotly.Extension.Options
 
 module ConcatNamespaceEntities =
     let concatNamespaceEntities (namespaceEntities: CodeModel.NamespaceEntity list list) =
@@ -31,10 +33,16 @@ module ConcatNamespaceEntities =
 
 module Definition =
 
+    let Data = !| TracesModule.ScatterOptions.Type
+
+    let Layout = LayoutModule.Layout
+
+    let Options = OptionsModule.Options
+
     let Plotly =
         Class "Plotly"
         |+> Static [
-            "newPlot" => (T<string> + T<HTMLElement>) * T<Object> //TODO
+            "newPlot" => (T<string> + T<HTMLElement>) * Data * !? Layout.Type * !? Options.Type ^-> T<HTMLElement> //TODO
             "react" => T<unit> //TODO
             "restyle" => T<unit> //TODO
             "relayout" => T<unit> //TODO
@@ -62,7 +70,11 @@ module Definition =
             ]
             Namespace "WebSharper.Plotly" (ConcatNamespaceEntities.concatNamespaceEntities [
                 TracesModule.ScatterTraceNamespaces
-                [Plotly]
+                [
+                    Layout
+                    Options
+                    Plotly
+                ]
             ])
         ]
 

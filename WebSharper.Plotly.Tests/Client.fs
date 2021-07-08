@@ -4,9 +4,12 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.JQuery
 open WebSharper.UI
+open WebSharper.UI.Html
 open WebSharper.UI.Client
 open WebSharper.UI.Templating
 open WebSharper.Plotly
+
+type P = PlotlyJs
 
 [<JavaScript>]
 module Client =
@@ -23,6 +26,26 @@ module Client =
     //let Tests = ScatterOptions2(Hoverinfo = HoverInfo.All)
 
     let symbolTest = Plotly.Symbol.Triangle_sw_open_dot
+
+    let marker = Plotly.Marker(Symbol = symbolTest)
+
+    (*x: [1, 2, 3, 4],
+    y: [10, 15, 13, 17],
+    mode: 'markers',*)
+
+    let x =
+        [|1; 2; 3; 4 |]
+        |> Array.map (Number)
+
+    let y =
+        [|10; 15; 13; 17 |]
+        |> Array.map (Number)
+
+    let scatterTrace = ScatterOptions()
+    scatterTrace.X <- x
+    scatterTrace.Y <- y
+
+    let chart = Plotly.Plotly.NewPlot("myDiv", [|scatterTrace|])
 
     //Console.Log(Tests)
 
@@ -43,3 +66,4 @@ module Client =
             )
             .Doc()
         |> Doc.RunById "main"
+        chart

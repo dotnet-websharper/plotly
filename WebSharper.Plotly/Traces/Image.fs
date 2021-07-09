@@ -28,14 +28,14 @@ module ImageModule =
 
     let ImgNullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
 
-    let ImgColor = T<string> + (T<int> + T<string>) + (!| (!? (ImgNullValue.Type + T<string> + (T<int> + T<string>)))) + (!| (!| ((!? (ImgNullValue.Type + T<string> + (T<int> + T<string>)))))) 
+    let ImgColor = T<string> + (T<int> + T<float>) + (!| (!? (ImgNullValue.Type + T<string> + (T<int> + T<float>)))) + (!| (!| ((!? (ImgNullValue.Type + T<string> + (T<int> + T<float>)))))) 
 
     let ImgFont =
         Pattern.Config "ImgFont" {
             Required = []
             Optional = [
                 "family", T<string> + !| T<string>
-                "size", (T<int> + T<string>) + !| T<int> + !| T<string>
+                "size", (T<int> + T<float>) + !| T<int> + !| T<string>
                 "color", ImgColor + !| ImgColor
             ]
         }
@@ -122,20 +122,20 @@ module ImageModule =
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
             "legendgrouptitle", ImgLegendGroupTitle.Type
-            "opacity", (T<int> + T<string>)
+            "opacity", (T<int> + T<float>)
             "ids", !| T<string> //data array
-            "x0", (T<int> + T<string>) + T<string>
-            "dx", (T<int> + T<string>)
-            "y0", (T<int> + T<string>) + T<string>
-            "dy", (T<int> + T<string>)
-            "z", (T<int> + T<string>) + T<string>
+            "x0", (T<int> + T<float>) + T<string>
+            "dx", (T<int> + T<float>)
+            "y0", (T<int> + T<float>) + T<string>
+            "dy", (T<int> + T<float>)
+            "z", (T<int> + T<float>) + T<string>
             "source", T<string>
-            "text", (T<int> + T<string>) + T<string>
-            "hovertext", (T<int> + T<string>) + T<string>
+            "text", (T<int> + T<float>) + T<string>
+            "hovertext", (T<int> + T<float>) + T<string>
             "hoverinfo", ImgHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
-            "meta", (T<int> + T<string>) + T<string>
-            "customdata", !| T<int> + !| T<string> + !| T<string> //data array
+            "meta", (T<int> + T<float>) + T<string>
+            "customdata", !| T<int> + !| T<float> + !| T<string> //data array
             "xaxis", T<string> // type: subplotid
             "yaxis", T<string> // type: subplotid
             "colormodel", ImgColorModel.Type
@@ -143,7 +143,7 @@ module ImageModule =
             "min", !| T<int> + !| T<string> + !| T<string> //array
             "zsmooth", ImgZSmooth.Type + T<bool>
             "hoverlabel", ImgHoverLabel.Type
-            "uirevision", (T<int> + T<string>) + T<string>
+            "uirevision", (T<int> + T<float>) + T<string>
         ]
 
     let ImageTraceNamespaces : CodeModel.NamespaceEntity list = [

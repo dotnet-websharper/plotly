@@ -23,12 +23,13 @@ namespace WebSharper.Plotly.Extension.Traces
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
+open WebSharper.Plotly.Extension.GenerateEnum
 
 module HeatMapModule =
 
     let HMNullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
 
-    let HMColor = T<string> + (T<float> + T<int>) + (!| (!? (NullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (NullValue.Type + T<string> + (T<float> + T<int>)))))) 
+    let HMColor = T<string> + (T<float> + T<int>) + (!| (!? (HMNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (HMNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
     let HMColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
 
@@ -79,7 +80,7 @@ module HeatMapModule =
             "pixels"
         ]
 
-     let HMXAnchor =
+    let HMXAnchor =
         Pattern.EnumStrings "HMXAnchor" [
             "left"
             "center"
@@ -271,55 +272,55 @@ module HeatMapModule =
     let HeatMapOptions = 
         Class "HeatMapOptions"
         |+> Static [
-            Constructor T <unit>
-            |> WithInline "{type:"heatmap"}"
+            Constructor T<unit>
+            |> WithInline "{type:'heatmap'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
             "visible", T<bool> + HMVisibleString.Type
             "showlegend", T<bool>
-            "legendrank", (T<float> + T<int>)
+            "legendrank", T<float> + T<int>
             "legendgroup", T<string>
             "legendgrouptitle", HMLegendGroupTitle.Type
-            "opacity", T<Number>
+            "opacity", (T<float> + T<int>)
             "ids", !| T<string> //data array
-            "x", !| T<string> //data array
-            "x0", T<Number> + !| T<string>
-            "dx", T<Number>
+            "x", !| T<float> + !| T<int> + !| T<string> //data array
+            "x0", (T<float> + T<int>) + !| T<string>
+            "dx", (T<float> + T<int>)
             "xtype", HMXYType.Type
-            "xgap", T<Number>
-            "y", !| T<string> //data array
-            "y0", T<Number> + !| T<string>
-            "dy", T<Number>
+            "xgap", (T<float> + T<int>)
+            "y", !| T<float> + !| T<int> + !| T<string> + !| (!| T<float> + !| T<int> + !| T<string>) + !| (!| (!| T<float> + !| T<int> + !| T<string>))    //data array
+            "y0", (T<float> + T<int>) + !| T<string>
+            "dy", (T<float> + T<int>)
             "ytype", HMXYType.Type
-            "ygap", T<Number>
-            "z", !| T<string> //data array
+            "ygap", (T<float> + T<int>)
+            "z", !| T<float> + !| T<int> + !| T<string> //data array
             "text", !| T<string> //data array
             "hovertext", !| T<string> //data array
             "hoverinfo", HMHoverInfo.Type
             "hovertemplate", T<string>
             "xhoverformat", T<string>
             "yhoverformat", T<string>
-            "meta", T<Number> + T<string>
+            "meta", (T<float> + T<int>) + T<string>
             "customdata", !| T<string> //data array
             "xaxis", T<string> //subplotid
             "yaxis", T<string> //subplotid
             "coloraxis", T<string> //subplotid
-            "xperiod", T<Number> + T<string>
+            "xperiod", (T<float> + T<int>) + T<string>
             "xperiodalignment", HMPeriodAlignment.Type
-            "xperiod0", T<Number> + T<string>
-            "yperiod", T<Number> + T<string>
+            "xperiod0", (T<float> + T<int>) + T<string>
+            "yperiod", (T<float> + T<int>) + T<string>
             "yperiodalignment", HMPeriodAlignment.Type
-            "yperiod0", T<Number> + T<string>
+            "yperiod0", (T<float> + T<int>) + T<string>
             "colorbar", HMColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", HMColorScale.Type
+            "colorscale", HMColorScale
             "showscale", T<bool>
             "zauto", T<bool>
             "zhoverformat", T<string>
-            "zmax", T<Number>
-            "mid", T<Number>
-            "min", T<Number>
+            "zmax", (T<float> + T<int>)
+            "mid", (T<float> + T<int>)
+            "min", (T<float> + T<int>)
             "zsmooth", HMZSmooth.Type + T<bool>
             "connectgaps", T<bool>
             "hoverlabel", HMHoverLabel.Type
@@ -327,7 +328,7 @@ module HeatMapModule =
             "transpose", T<bool>
             "xcalendar", HMCalendar.Type
             "ycalendar", HMCalendar.Type
-            "uirevision", T<Number> + T<string>
+            "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let HeatMapTraceNamespaces : CodeModel.NamespaceEntity list = [

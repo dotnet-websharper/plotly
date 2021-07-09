@@ -253,7 +253,7 @@ module BarModule =
         Pattern.EnumInlines "BarMarkerPatternShape" [
             "empty", "''"
             "slash", "'/'"
-            "backslash", "'asd'"
+            "backslash", """'\\'"""
             "x", "'x'"
             "minus", "'-'"
             "pipeline", "'|'"

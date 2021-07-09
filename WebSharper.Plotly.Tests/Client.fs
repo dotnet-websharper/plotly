@@ -16,7 +16,7 @@ module Client =
 
     (*x: [1, 2, 3, 4],
     y: [10, 15, 13, 17],
-    mode: 'markers',*)
+    mode: "markers",*)
 
     let scatterTrace = ScatterOptions()
     scatterTrace.X <- [|1; 2; 3; 4 |]
@@ -36,10 +36,17 @@ module Client =
     barTrace.X <- [|"giraffes"; "orangutans"; "monkeys"|]
     barTrace.Y <- [|20; 14; 23|]
 
+    let heatmap = HeatMapOptions()
+    heatmap.Z <- [|[|1; 5; 30; 50; 1|]; [|20; 1; 60; 80; 30|]; [|30; 60; 1; -10; 20|]|]
+    heatmap.X <- [|"Monday"; "Tuesday"; "Wednesday"; "Thursday"; "Friday"|]
+    heatmap.Y <- [|"Morning"; "Afternoon"; "Evening"|]
+    heatmap.Hoverongaps <- false
+
     let chart1 = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|])
     let chart2 = Plotly.Plotly.NewPlot("scatterglchartDiv", [|scatterGLTrace|])
     let chart3 = Plotly.Plotly.NewPlot("piechartDiv", [|pieTrace|])
     let chart4 = Plotly.Plotly.NewPlot("barchartDiv", [|barTrace|])
+    let chart5 = Plotly.Plotly.NewPlot("heatmapchartDiv", [|heatmap|])
 
     //Console.Log(Tests)
 
@@ -56,9 +63,12 @@ module Client =
             div [attr.id "piechartDiv"] []
             h2 [] [text "Bar chart"]
             div [attr.id "barchartDiv"] []
+            h2 [] [text "Heatmap chart"]
+            div [attr.id "heatmapchartDiv"] []
         ]
         |> Doc.RunById "main"
         chart1 |> ignore
         chart2 |> ignore
         chart3 |> ignore
         chart4 |> ignore
+        chart5 |> ignore

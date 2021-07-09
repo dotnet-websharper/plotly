@@ -33,7 +33,7 @@ module ConcatNamespaceEntities =
 
 module Definition =
 
-    let Data = !| ScatterModule.ScatterOptions.Type + !| ScatterGLModule.ScatterGLOptions.Type + !| PieModule.PieOptions.Type + !| BarModule.BarOptions.Type
+    let Data = !| ScatterModule.ScatterOptions.Type + !| ScatterGLModule.ScatterGLOptions.Type + !| PieModule.PieOptions.Type + !| BarModule.BarOptions.Type + !| HeatMapModule.HeatMapOptions.Type
 
     let Layout = LayoutModule.Layout
 
@@ -73,6 +73,7 @@ module Definition =
                 ScatterGLModule.ScatterGLTraceNamespaces
                 PieModule.PieTraceNamespaces
                 BarModule.BarTraceNamespaces
+                HeatMapModule.HeatMapTraceNamespaces
                 [
                     Layout
                     Options

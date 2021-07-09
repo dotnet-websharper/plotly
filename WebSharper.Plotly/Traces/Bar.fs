@@ -23,3 +23,4 @@ namespace WebSharper.Plotly.Extension.Traces
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
+open WebSharper.Plotly.Extension.GenerateEnum

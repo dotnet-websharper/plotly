@@ -1,3 +1,5 @@
+namespace WebSharper.Plotly.Extension.GenerateEnum
+
 module GenerateOptions =
 
     let rec putEverywhereInAList (word:string) (words:string list) (result:string list list) (index:int) =

@@ -32,9 +32,9 @@ module TracesModule =
 
     let NullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
 
-    let Color = T<string> + T<Number> + (!| (!? (NullValue.Type + T<string> + T<Number>))) + (!| (!| ((!? (NullValue.Type + T<string> + T<Number>))))) 
+    let Color = T<string> + (T<float> + T<int>) + (!| (!? (NullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (NullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
-    let ColorScale = T<string> + (!| T<string>) + (!| (T<Number> * T<string>))
+    let ColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
 
     let VisibleString = Pattern.EnumStrings "VisibleString" ["legendonly"]
 
@@ -43,7 +43,7 @@ module TracesModule =
             Required = []
             Optional = [
                 "family", T<string>
-                "size", T<Number>
+                "size", (T<float> + T<int>)
                 "color", Color
             ]
         }
@@ -114,12 +114,12 @@ module TracesModule =
         Pattern.Config "MarkerLine" {
             Required = []
             Optional = [
-                "width", T<Number> + !| T<Number>
+                "width", (T<float> + T<int>) + !| T<float> + !| T<int>
                 "color", Color
                 "cauto", T<bool>
-                "cmin", T<Number>
-                "cmax", T<Number>
-                "cmid", T<Number>
+                "cmin", (T<float> + T<int>)
+                "cmax", (T<float> + T<int>)
+                "cmid", (T<float> + T<int>)
                 "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
@@ -195,7 +195,7 @@ module TracesModule =
             "insideBottom", "'inside bottom'"
         ]
 
-    let DTickValue = T<Number> + T<string>
+    let DTickValue = (T<float> + T<int>) + T<string>
 
     let TickFormatStops =
         Pattern.Config "TickFormatStops" {
@@ -251,35 +251,35 @@ module TracesModule =
             Required = []
             Optional = [
                 "thicknessmode", ColorBarMode.Type
-                "thickness", T<Number>
+                "thickness", (T<float> + T<int>)
                 "lenmode", ColorBarMode.Type
-                "len", T<Number>
+                "len", (T<float> + T<int>)
                 "x", T<float>
                 "xanchor", XAnchor.Type
-                "xpad", T<Number>
+                "xpad", (T<float> + T<int>)
                 "y", T<float>
                 "yanchor", YAnchor.Type
-                "ypad", T<Number>
+                "ypad", (T<float> + T<int>)
                 "outlinecolor", Color
-                "outlinewidth", T<Number>
+                "outlinewidth", (T<float> + T<int>)
                 "bordercolor", Color
-                "borderwidth", T<Number>
+                "borderwidth", (T<float> + T<int>)
                 "bgcolor", Color
                 "tickmode", TickMode.Type
                 "nticks", T<int>
-                "tick0", T<Number> + T<string>
-                "dtick", T<Number> + T<string>
+                "tick0", (T<float> + T<int>) + T<string>
+                "dtick", (T<float> + T<int>) + T<string>
                 "tickvals", !| T<obj>
                 "ticktext", !| T<string> 
                 "ticks", Ticks.Type
                 "ticklabeloverflow", TickLabelOverflow.Type
                 "ticklabelposition", TickLabelPosition.Type
-                "ticklen", T<Number>
-                "tickwidth", T<Number>
+                "ticklen", (T<float> + T<int>)
+                "tickwidth", (T<float> + T<int>)
                 "tickcolor", Color
                 "showticklabels", T<bool>
                 "tickfont", FontConfig.Type
-                "tickangle", T<Number> //type: Angle
+                "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
                 "tickformatstops", TickFormatStops.Type
                 "tickprefix", T<string>
@@ -288,7 +288,7 @@ module TracesModule =
                 "showticksuffix", ShowTickFix.Type
                 "separatethousands", T<bool>
                 "exponentformat", ExponentFormat.Type
-                "minexponent", T<Number>
+                "minexponent", (T<float> + T<int>)
                 "showexponent", ShowExponent.Type // change type name to fit
                 "title", Title.Type
             ]
@@ -620,18 +620,18 @@ module TracesModule =
             Optional = [
                 "symbol", Symbol.Type
                 "opacity", T<float> + !| T<float>
-                "size", T<Number> + !| T<Number>
-                "maxdisplayed", T<Number>
-                "sizeref", T<Number>
-                "sizemin", T<Number>
+                "size", (T<float> + T<int>) + !| T<float> + !| T<int>
+                "maxdisplayed", (T<float> + T<int>)
+                "sizeref", (T<float> + T<int>)
+                "sizemin", (T<float> + T<int>)
                 "sizemode", SizeMode.Type
                 "line", MarkerLine.Type
                 "gradient", Gradient.Type
                 "color", Color + !| Color
                 "cauto", T<bool>
-                "cmin", T<Number>
-                "cmax", T<Number>
-                "cmid", T<Number>
+                "cmin", (T<float> + T<int>)
+                "cmax", (T<float> + T<int>)
+                "cmid", (T<float> + T<int>)
                 "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
@@ -656,9 +656,9 @@ module TracesModule =
             Required = []
             Optional = [
                 "color", Color
-                "width", T<Number>
+                "width", (T<float> + T<int>)
                 "shape", Shape.Type
-                "smoothing", T<Number>
+                "smoothing", (T<float> + T<int>)
                 "dash", T<string>
                 "simplify", T<bool>
             ]
@@ -681,14 +681,14 @@ module TracesModule =
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
-                "value", T<Number>
-                "valueminus", T<Number>
+                "value", (T<float> + T<int>)
+                "valueminus", (T<float> + T<int>)
                 "traceref", T<int>
                 "tracerefminus", T<int>
                 "copy_ystyle", T<bool>
                 "color", Color
-                "thickness", T<Number>
-                "width", T<Number>
+                "thickness", (T<float> + T<int>)
+                "width", (T<float> + T<int>)
             ]
         }
 
@@ -701,13 +701,13 @@ module TracesModule =
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
-                "value", T<Number>
-                "valueminus", T<Number>
+                "value", (T<float> + T<int>)
+                "valueminus", (T<float> + T<int>)
                 "traceref", T<int>
                 "tracerefminus", T<int>
                 "color", Color
-                "thickness", T<Number>
-                "width", T<Number>
+                "thickness", (T<float> + T<int>)
+                "width", (T<float> + T<int>)
             ]
         }
 
@@ -715,9 +715,9 @@ module TracesModule =
         Pattern.Config "SelectedMarker" {
             Required = []
             Optional = [
-                "opacity", T<Number>
+                "opacity", (T<float> + T<int>)
                 "color", Color
-                "size", T<Number>
+                "size", (T<float> + T<int>)
             ]
         }
 
@@ -806,18 +806,18 @@ module TracesModule =
             "name", T<string>
             "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
-            "legendrank", T<Number>
+            "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
             "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "mode", Modes.Type
             "ids", !| T<string>
-            "x", !| T<Number>
-            "x0", T<Number> + T<string>
-            "dx", T<Number>
-            "y", !| T<Number>
-            "y0", T<Number> + T<string>
-            "dy", T<Number>
+            "x", !| T<int> + !| T<float>
+            "x0", (T<float> + T<int>) + T<string>
+            "dx", (T<float> + T<int>)
+            "y", !| T<int> + !| T<float>
+            "y0", (T<float> + T<int>) + T<string>
+            "dy", (T<float> + T<int>)
             "text", T<string> + !| T<string>
             "textposition", TextPosition.Type
             "texttemplate", T<string> + !| T<string>
@@ -826,24 +826,24 @@ module TracesModule =
             "hovertemplate", T<string> + !| T<string>
             "xhoverformat", T<string>
             "yhoverformat", T<string>
-            "meta", T<Number> + T<string>
+            "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "yaxis", T<string> //type is 'subplotid'
             "orientation", Orientation.Type
             "groupnorm", GroupNorm.Type
             "stackgroup", T<string>
-            "xperiod", T<Number> + T<string>
+            "xperiod", (T<float> + T<int>) + T<string>
             "xperiodalignment", PeriodAlignment.Type
-            "xperiod0", T<Number> + T<string>
-            "yperiod", T<Number> + T<string>
+            "xperiod0", (T<float> + T<int>) + T<string>
+            "yperiod", (T<float> + T<int>) + T<string>
             "yperiodalignment", PeriodAlignment.Type
-            "yperiod0", T<Number> + T<string>
+            "yperiod0", (T<float> + T<int>) + T<string>
             "marker", Marker.Type
             "line", Line.Type
             "textfont", FontConfig.Type
             "error_x", ErrorX.Type
             "error_y", ErrorY.Type
-            "selectedpoints", T<Number> + T<string>
+            "selectedpoints", (T<float> + T<int>) + T<string>
             "selected", SelectedOption.Type
             "unselected", SelectedOption.Type // change name later
             "cliponaxis", T<bool>
@@ -855,7 +855,7 @@ module TracesModule =
             "stackgaps", StackGaps.Type
             "xcalendar", Calendar.Type
             "ycalendar", Calendar.Type
-            "uirevision", T<Number> + T<string>
+            "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let ScatterTraceNamespaces : CodeModel.NamespaceEntity list = [

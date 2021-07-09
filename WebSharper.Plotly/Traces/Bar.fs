@@ -26,121 +26,121 @@ open WebSharper.InterfaceGenerator
 
 module BarModule =
 
-    let VisibleString = Pattern.EnumStrings "VisibleString" ["legendonly"]
+    let BarVisibleString = Pattern.EnumStrings "BarVisibleString" ["legendonly"]
 
-    let NullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
+    let BarNullValue = Pattern.EnumInlines "BarNullValue" ["null", "null"]
 
-    let Color = T<string> + T<Number> + (!| (!? (NullValue.Type + T<string> + T<Number>))) + (!| (!| ((!? (NullValue.Type + T<string> + T<Number>))))) 
+    let BarColor = T<string> + T<Number> + (!| (!? (BarNullValue.Type + T<string> + T<Number>))) + (!| (!| ((!? (BarNullValue.Type + T<string> + T<Number>))))) 
 
-    let ColorScale = T<string> + (!| T<string>) + (!| (T<Number> * T<string>))
+    let BarColorScale = T<string> + (!| T<string>) + (!| (T<Number> * T<string>))
 
-    let Font =
-        Pattern.Config "Font" {
+    let BarFont =
+        Pattern.Config "BarFont" {
             Required = []
             Optional = [
                 "family", T<string>
                 "size", T<Number>
-                "color", Color
+                "BarColor", BarColor
             ]
         }
 
-    let LegendGroupTitle =
-        Pattern.Config "LegendGroupTitle" {
+    let BarLegendGroupTitle =
+        Pattern.Config "BarLegendGroupTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", Font.Type
+                "BarFont", BarFont.Type
             ]
         }
 
-    let TextPosition =
-        Pattern.EnumStrings "TextPosition" [
+    let BarTextPosition =
+        Pattern.EnumStrings "BarTextPosition" [
             "inside"
             "outside"
             "auto"
             "none"
         ]    
             
-    let HoverInfo =
+    let BarHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "HoverInfo" generatedEnum
+        Pattern.EnumStrings "BarHoverInfo" generatedEnum
     
-    let Orientation =
-        Pattern.EnumStrings "Orientation" [
+    let BarOrientation =
+        Pattern.EnumStrings "BarOrientation" [
             "v"
             "h"
         ]
 
-    let PeriodAlignment =
-        Pattern.EnumStrings "PeriodAlignment" [
+    let BarPeriodAlignment =
+        Pattern.EnumStrings "BarPeriodAlignment" [
             "start"
             "middle"
             "end"
         ]
 
-    let MarkerLine =
-        Pattern.Config "MarkerLine" {
+    let BarMarkerLine =
+        Pattern.Config "BarMarkerLine" {
             Required = []
             Optional = [
                 "width", T<Number> + !| T<Number>
-                "color", Color
+                "BarColor", BarColor
                 "cauto", T<bool>
                 "cmin", T<Number>
                 "cmax", T<Number>
                 "cmid", T<Number>
-                "colorscale", ColorScale
-                "autocolorscale", T<bool>
+                "BarColorscale", BarColorScale
+                "autoBarColorscale", T<bool>
                 "reversescale", T<bool>
-                "coloraxis", T<string> // type: subplotid
+                "BarColoraxis", T<string> // type: subplotid
             ]
         }
 
-    let ColorBarMode =
+    let BarColorMode =
         Pattern.EnumStrings "ThicknessMode" [
             "fraction"
             "pixels"
         ]
 
-    let XAnchor =
-        Pattern.EnumStrings "XAnchor" [
+    let BarXAnchor =
+        Pattern.EnumStrings "BarXAnchor" [
             "left"
             "center"
             "right"
         ]
 
-    let YAnchor =
-        Pattern.EnumStrings "YAnchor" [
+    let BarYAnchor =
+        Pattern.EnumStrings "BarYAnchor" [
             "top"
             "middle"
             "bottom"
         ]
 
-    let TickMode =
-        Pattern.EnumStrings "Tickmode" [
+    let BarTickMode =
+        Pattern.EnumStrings "BarTickMode" [
             "auto"
             "linear"
             "array"
         ]
 
-    let Ticks =
-        Pattern.EnumInlines "Ticks" [
+    let BarTicks =
+        Pattern.EnumInlines "BarTicks" [
             "outside", "'outside'"
             "inside", "'inside'"
             "empty", "''"
         ]
 
-    let TickLabelOverflow =
-        Pattern.EnumInlines "TickLabelOverflow" [
+    let BarTickLabelOverflow =
+        Pattern.EnumInlines "BarTickLabelOverflow" [
             "allow", "'allow'"
             "hidePastDiv", "'hide past div'"
             "hidePastDomain", "'hide Past Domain'"
         ]
 
-    let TickLabelPosition =
-        Pattern.EnumInlines "TickLabelPosition" [
+    let BarTickLabelPosition =
+        Pattern.EnumInlines "BarTickLabelPosition" [
             "outside", "'outside'"
             "inside", "'inside'"
             "outsideTop", "'outside top'"
@@ -149,30 +149,30 @@ module BarModule =
             "insideBottom", "'inside bottom'"
         ]
 
-    let TickFormatStops =
-        Pattern.Config "TickFormatStops" {
+    let BarTickFormatStops =
+        Pattern.Config "BarTickFormatStops" {
             Required = []
             Optional = [
                 "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + NullValue.Type) * (DTickValue + NullValue.Type))
+                "dtickrange", !| ((DTickValue + BarNullValue.Type) * (DTickValue + BarNullValue.Type))
                 "value", T<string>
                 "name", T<string>
                 "templateitemname", T<string>
             ]
         }
 
-    let ShowTickFix =
-        Pattern.EnumStrings "ShowTickFix" [
+    let BarShowTickFix =
+        Pattern.EnumStrings "BarShowTickFix" [
             "all"
             "first"
             "last"
             "none"
         ]
 
-    let ShowExponent = ShowTickFix
+    let BarShowExponent = BarShowTickFix
 
-    let ExponentFormat =
-        Pattern.EnumInlines "ExponentFormat" [
+    let BarExponentFormat =
+        Pattern.EnumInlines "BarExponentFormat" [
             "none", "'none'"
             "Lowercase_E", "'e'"
             "Uppercase_E", "'E'"
@@ -181,66 +181,66 @@ module BarModule =
             "B", "'B'"
         ]
 
-    let Title =
-        Pattern.Config "Title" {
+    let BarTitle =
+        Pattern.Config "BarTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", FontConfig.Type
+                "BarFont", BarFontConfig.Type
                 "side", Side.Type
             ]
         }
 
-    let ColorBar =
-        Pattern.Config "ColorBar" {
+    let BarColorBar =
+        Pattern.Config "BarColorBar" {
             Required = []
             Optional = [
-                "thicknessmode", ColorBarMode.Type
+                "thicknessmode", BarColorMode.Type
                 "thickness", T<Number>
-                "lenmode", ColorBarMode.Type
+                "lenmode", BarColorMode.Type
                 "len", T<Number>
                 "x", T<float>
-                "xanchor", XAnchor.Type
+                "BarXAnchor", BarXAnchor.Type
                 "xpad", T<Number>
                 "y", T<float>
-                "yanchor", YAnchor.Type
+                "BarYAnchor", BarYAnchor.Type
                 "ypad", T<Number>
-                "outlinecolor", Color
+                "outlineBarColor", BarColor
                 "outlinewidth", T<Number>
-                "bordercolor", Color
+                "borderBarColor", BarColor
                 "borderwidth", T<Number>
-                "bgcolor", Color
-                "tickmode", TickMode.Type
-                "nticks", T<int>
+                "bgBarColor", BarColor
+                "BarTickMode", BarTickMode.Type
+                "nBarTicks", T<int>
                 "tick0", T<Number> + T<string>
                 "dtick", T<Number> + T<string>
                 "tickvals", !| T<obj>
                 "ticktext", !| T<string> 
-                "ticks", Ticks.Type
-                "ticklabeloverflow", TickLabelOverflow.Type
-                "ticklabelposition", TickLabelPosition.Type
+                "BarTicks", BarTicks.Type
+                "BarTickLabelOverflow", BarTickLabelOverflow.Type
+                "BarTickLabelPosition", BarTickLabelPosition.Type
                 "ticklen", T<Number>
                 "tickwidth", T<Number>
-                "tickcolor", Color
+                "tickBarColor", BarColor
                 "showticklabels", T<bool>
-                "tickfont", Font.Type
+                "tickBarFont", BarFont.Type
                 "tickangle", T<Number> //type: Angle
                 "tickformat", T<string>
-                "tickformatstops", TickFormatStops.Type
+                "BarTickFormatStops", BarTickFormatStops.Type
                 "tickprefix", T<string>
-                "showtickprefix", ShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", ShowTickFix.Type
+                "showtickprefix", BarShowTickFix.Type
+                "BarTicksuffix", T<string>
+                "showBarTicksuffix", BarShowTickFix.Type
                 "separatethousands", T<bool>
-                "exponentformat", ExponentFormat.Type
+                "BarExponentFormat", BarExponentFormat.Type
                 "minexponent", T<Number>
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", Title.Type
+                "BarShowExponent", BarShowExponent.Type // change type name to fit
+                "BarTitle", BarTitle.Type
             ]
         }
 
-    let MarkerPatternShape =
-        Pattern.EnumInlines "MarkerPatternShape" [
+    let BarMarkerPatternShape =
+        Pattern.EnumInlines "BarMarkerPatternShape" [
             "empty", "''"
             "/", "'/'"
             "backslash", "'\'" //TODO
@@ -251,61 +251,61 @@ module BarModule =
             ".", "'.'"
         ]
 
-    let FillMode =
-        Pattern.EnumStrings "FillMode" [
+    let BarFillMode =
+        Pattern.EnumStrings "BarFillMode" [
             "replace"
             "overlay"
         ]
 
-    let MarkerPattern =
-        Pattern.Config "MarkerPattern" {
+    let BarMarkerPattern =
+        Pattern.Config "BarMarkerPattern" {
             Required = []
             Optional = [
-                "shape", MarkerPatternShape.Type
-                "fillmode", FillMode.Type
-                "bgcolor", Color + !| Color
-                "fgcolor", Color + !| Color
+                "shape", BarMarkerPatternShape.Type
+                "BarFillMode", BarFillMode.Type
+                "bgBarColor", BarColor + !| BarColor
+                "fgBarColor", BarColor + !| BarColor
                 "fgopacity", T<Number>
                 "size", T<Number> + !| T<Number>
                 "solidity", T<Number> + !| T<Number>               
             ]
         }
 
-    let Marker =
-        Pattern.Config "Marker" {
+    let BarMarker =
+        Pattern.Config "BarMarker" {
             Required = []
             Optional = [
-                "line", MarkerLine.Type
-                "color", Color + !| Color
+                "line", BarMarkerLine.Type
+                "BarColor", BarColor + !| BarColor
                 "cauto", T<bool>
                 "cmin", T<Number>
                 "cmax", T<Number>
                 "cmid", T<Number>
-                "colorscale", ColorScale
-                "autocolorscale", T<bool>
+                "BarColorscale", BarColorScale
+                "autoBarColorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", ColorBar.Type
-                "coloraxis", T<string> // type: subplotid
+                "BarColorbar", BarColorBar.Type
+                "BarColoraxis", T<string> // type: subplotid
                 "opacity", T<Number>
-                "pattern", MarkerPattern.Type
+                "pattern", BarMarkerPattern.Type
             ]
         }
 
-    let ErrorType =
-        Pattern.EnumStrings "ErrorXType" [
+    let BarErrorType =
+        Pattern.EnumStrings "BarErrorXType" [
             "percent"
             "constant"
             "sqrt"
             "data"
         ]
 
-    let ErrorX = 
-        Pattern.Config "ErrorX" {
+    let BarErrorX = 
+        Pattern.Config "BarErrorX" {
             Required = []
             Optional = [
                 "visible", T<bool>
-                "type", ErrorType.Type
+                "type", BarErrorType.Type
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
@@ -314,18 +314,18 @@ module BarModule =
                 "traceref", T<int>
                 "tracerefminus", T<int>
                 "copy_ystyle", T<bool>
-                "color", Color
+                "BarColor", BarColor
                 "thickness", T<Number>
                 "width", T<Number>
             ]
         }
 
-    let ErrorY = 
-        Pattern.Config "ErrorY" {
+    let BarErrorY = 
+        Pattern.Config "BarErrorY" {
             Required = []
             Optional = [
                 "visible", T<bool>
-                "type", ErrorType.Type
+                "type", BarErrorType.Type
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
@@ -333,66 +333,66 @@ module BarModule =
                 "valueminus", T<Number>
                 "traceref", T<int>
                 "tracerefminus", T<int>
-                "color", Color
+                "BarColor", BarColor
                 "thickness", T<Number>
                 "width", T<Number>
             ]
         }
 
-    let SelectedMarker =
-        Pattern.Config "SelectedMarker" {
+    let BarSelectedMarker =
+        Pattern.Config "BarSelectedMarker" {
             Required = []
             Optional = [
                 "opacity", T<Number>
-                "color", Color
+                "BarColor", BarColor
                 "size", T<Number>
             ]
         }
 
-    let SelectedTextFont =
-        Pattern.Config "SelectedTextFont" {
+    let BarSelectedTextFont =
+        Pattern.Config "BarSelectedTextFont" {
             Required = []
-            Optional = ["color", Color]
+            Optional = ["BarColor", BarColor]
         }
 
-    let SelectedOption =
+    let BarSelectedOption =
         Pattern.Config "Selected" {
             Required = []
             Optional = [
-                "marker", SelectedMarker.Type
-                "textfont", SelectedTextFont.Type
+                "BarMarker",  BarSelectedMarker.Type
+                "textBarFont",  BarSelectedTextFont.Type
             ]
         }
 
-    let ConstrainText = 
-        Pattern.EnumStrings "ConstrainText" [
+    let BarConstrainText = 
+        Pattern.EnumStrings "BarConstrainText" [
             "inside"
             "outside"
             "both"
             "none"
         ]
 
-    let HoverLabel =
-        Pattern.Config "HoverLabel" {
+    let BarHoverLabel =
+        Pattern.Config "BarHoverLabel" {
             Required = []
             Optional = [
-                "bgcolor", Color + !| Color
-                "bordercolor", Color + !| Color
-                "fonts", Font.Type
+                "bgBarColor", BarColor + !| BarColor
+                "borderBarColor", BarColor + !| BarColor
+                "BarFonts", BarFont.Type
                 "line", Align.Type
                 "namelength", T<int>
             ]
         }
 
-    let TextAnchor =
-        Pattern.EnumStrings "textAnchor" [
+    let BarTextAnchor =
+        Pattern.EnumStrings "BarTextAnchor" [
             "end"
             "middle"
             "start"
         ]
 
-    let Calendar =
-        Pattern.EnumStrings "Calendar" [
+    let BarCalendar =
+        Pattern.EnumStrings "BarCalendar" [
             "gregorian"
             "chinese"
             "coptic"
@@ -419,11 +419,11 @@ module BarModule =
         ]
         |+> Pattern.OptionFields [
             "name", T<string>
-            "visible", T<bool> + VisibleString.Type
+            "visible", T<bool> BarVisibleString.Type
             "showlegend", T<bool>
             "legendrank", T<Number>
             "legendgroup", T<string>
-            "legendgrouptitle", LegendGroupTitle.Type
+            "BarLegendGroupTitle", BarLegendGroupTitle.Type
             "opacity", T<number>
             "ids", !| T<string> //data array
             "x", !| T<Number> //data array
@@ -436,10 +436,10 @@ module BarModule =
             "width", T<Number> + !| T<Number>
             "offset", T<Number> + T<Number>
             "text", T<string> + !| T<string>
-            "textposition", TextPosition.Type
+            "BarTextPosition", BarTextPosition.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", HoverInfo.Type
+            "BarHoverInfo", BarHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "xhoverformat", T<string>
             "yhoverformat", T<string>
@@ -447,72 +447,72 @@ module BarModule =
             "customdata", !| T<string> //data array
             "xaxis", T<string> //subplotid
             "yaxis", T<string> //subplotid
-            "orientation", Orientation.Type
+            "BarOrientation", BarOrientation.Type
             "alignmentgroup", T<string>
             "offsetgroup", T<string>
             "xperiod", T<Number> + T<string>
-            "xperiodalignment", PeriodAlignment.Type
+            "xBarPeriodAlignment", BarPeriodAlignment.Type
             "xperiod0", T<Number> + T<string>
             "yperiod", T<Number> + T<string>
-            "yperiodalignment", PeriodAlignment.Type
+            "yBarPeriodAlignment", BarPeriodAlignment.Type
             "yperiod0", T<Number> + T<string>
-            "marker", Marker.Type
+            "BarMarker", BarMarker.Type
             "textangle", T<Number> //angle
-            "textfont", Font.Type
-            "error_x", ErrorX.Type
-            "error_y", ErrorY.Type
+            "textBarFont", BarFont.Type
+            "error_x",  BarErrorX.Type
+            "error_y",  BarErrorY.Type
             "selectedpoints", T<Number> + T<string>
             "selected", Selected.Type
             "unselected", Selected.Type
             "cliponaxis", T<bool>
-            "constraintext", ConstrainText.Type
-            "hoverlabel", HoverLabel.Type
-            "insidetextanchor", TextAnchor.Type
-            "insidetextfont", Font.Type
-            "outsidetextfont", Font.Type
-            "xcalendar", Calendar.Type
-            "ycalendar", Calendar.Type
+            "BarConstrainText",  BarConstrainText.Type
+            "BarHoverLabel",  BarHoverLabel.Type
+            "inside BarTextAnchor",  BarTextAnchor.Type
+            "insidetextBarFont", BarFont.Type
+            "outsidetextBarFont", BarFont.Type
+            "x BarCalendar",  BarCalendar.Type
+            "y BarCalendar",  BarCalendar.Type
             "uirevision", T<Number> + T<string>
         ]
 
     let BarTraceNamespaces : CodeModel.NamespaceEntity list = [
-        VisibleString
-        NullValue
-        Color
-        ColorScale
-        Font
-        LegendGroupTitle
-        TextPosition
-        HoverInfo
-        Orientation
-        PeriodAlignment
-        MarkerLine
-        ColorBarMode
-        XAnchor
-        YAnchor
-        TickMode
-        Ticks
-        TickLabelOverflow
-        TickLabelPosition
-        TickFormatStops
-        ShowTickFix
-        ShowExponent
-        ExponentFormat
-        Title
-        ColorBar
-        MarkerPatternShape
-        FillMode
-        MarkerPattern
-        Marker
-        ErrorType
-        ErrorX
-        ErrorY
-        SelectedMarker
-        SelectedTextFont
-        SelectedOption
-        ConstrainText
-        HoverLabel
-        TextAnchor
-        Calendar
+        BarVisibleString
+        BarNullValue
+        BarColor
+        BarColorScale
+        BarFont
+        BarLegendGroupTitle
+        BarTextPosition
+        BarHoverInfo
+        BarOrientation
+        BarPeriodAlignment
+        BarMarkerLine
+        BarColorMode
+        BarXAnchor
+        BarYAnchor
+        BarTickMode
+        BarTicks
+        BarTickLabelOverflow
+        BarTickLabelPosition
+        BarTickFormatStops
+        BarShowTickFix
+        BarShowExponent
+        BarExponentFormat
+        BarTitle
+        BarColorBar
+        BarMarkerPatternShape
+        BarFillMode
+        BarMarkerPattern
+        BarMarker
+        BarErrorType
+        BarErrorX
+        BarErrorY
+        BarSelectedMarker
+        BarSelectedTextFont
+        BarSelectedOption
+        BarConstrainText
+        BarHoverLabel
+        BarTextAnchor
+        BarCalendar
         BarOptions
     ]

@@ -42,11 +42,57 @@ module Client =
     heatmap.Y <- [|"Morning"; "Afternoon"; "Evening"|]
     heatmap.Hoverongaps <- false
 
+
+
+    let table = TableOptions()
+    table.Columnwidth <- [|150; 200; 200; 150|]
+    table.Columnorder <- [|0; 1; 2; 3|]
+    table.Header <- TableHeader(
+        Values = [|[|"<b>EXPENSES</b>"|]; [|"<b>Q1</b>"|]; [|"<b>Q2</b>"|]; [|"<b>Q3</b>"|]; [|"<b>Q4</b>"|]|],
+        Align = TableAlign.Center,
+        Line = TableLine(
+            Width = 1,
+            Color = "black"
+        ),
+        Fill = TableFill(
+            Color = "grey"
+        ),
+        Font = TableFont(
+            Family = "Arial",
+            Size = 12,
+            Color = "white"
+        )
+    )
+    table.Cells <- TableCells(
+        Values = [|
+            [|"Salaries"; "Office"; "Merchandise"; "Legal"; "<b>TOTAL</b>"|]
+            [|1200000; 20000; 80000; 2000; 12120000|]
+            [|1300000; 20000; 70000; 2000; 130902000|]
+            [|1300000; 20000; 120000; 2000; 131222000|]
+            [|1400000; 20000; 90000; 2000; 14102000|]
+        |],
+        Align = TableAlign.Center,
+        Line = TableLine(
+            Color = "black",
+            Width = 1
+        ),
+        Font = TableFont(
+            Family = "Arial",
+            Size = 11,
+            Color = [|"black"|]
+        )
+    )
+
+    (*let imagetrace = ImageOptions()
+    imagetrace.Source <- "./icon.png"*)
+
     let chart1 = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|])
     let chart2 = Plotly.Plotly.NewPlot("scatterglchartDiv", [|scatterGLTrace|])
     let chart3 = Plotly.Plotly.NewPlot("piechartDiv", [|pieTrace|])
     let chart4 = Plotly.Plotly.NewPlot("barchartDiv", [|barTrace|])
     let chart5 = Plotly.Plotly.NewPlot("heatmapchartDiv", [|heatmap|])
+    let chart6 = Plotly.Plotly.NewPlot("tablechartDiv", [|table|])
+    //let chart7 = Plotly.Plotly.NewPlot("imagechartDiv", [|imagetrace|])
 
     //Console.Log(Tests)
 
@@ -65,6 +111,12 @@ module Client =
             div [attr.id "barchartDiv"] []
             h2 [] [text "Heatmap chart"]
             div [attr.id "heatmapchartDiv"] []
+            h2 [] [text "Table chart"]
+            div [attr.id "tablechartDiv"] []
+            h2 [] [text "HeatmapGL chart"]
+            div [attr.id "heatmapglchartDiv"] []
+            h2 [] [text "Image chart"]
+            div [attr.id "imagechartDiv"] []
         ]
         |> Doc.RunById "main"
         chart1 |> ignore
@@ -72,3 +124,4 @@ module Client =
         chart3 |> ignore
         chart4 |> ignore
         chart5 |> ignore
+        chart6 |> ignore

@@ -25,9 +25,9 @@ open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
 
-module HeatMapModule =
+module TableModule =
 
-    let TableNullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
+    let TableNullValue = Pattern.EnumInlines "TableNullValue" ["null", "null"]
 
     let TableColor = T<string> + (T<float> + T<int>) + (!| (!? (TableNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (TableNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
@@ -61,6 +61,13 @@ module HeatMapModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "TableHoverInfo" generatedEnum
 
+    let TableAlign =
+        Pattern.EnumStrings "TableAlign" [
+            "left"
+            "center"
+            "right"
+        ]
+
     let TableHoverLabel =
         Pattern.Config "TableHoverLabel" {
             Required = []
@@ -77,25 +84,18 @@ module HeatMapModule =
         Pattern.Config "TableDomain" {
             Required = []
             Optional = [
-                "x", !| T<Number> + !| T<string>
+                "x", !| T<float> + !| T<int> + !| T<string>
                 "y", !| T<int> + !| T<float> + !| T<string>
                 "row", T<int>
                 "column", T<int>
             ]
         }
 
-    let TableAlign =
-        Pattern.EnumStrings "TableAlign" [
-            "left"
-            "center"
-            "right"
-        ]
-
     let TableLine =
         Pattern.Config "tableLine" {
             Required = []
             Optional = [
-                "width", T<Number> + !| T <Number>
+                "width", (T<float> + T<int>) + !| T<float> + !| T<int>
                 "color", TableColor + !| TableColor
             ]
         }
@@ -112,11 +112,11 @@ module HeatMapModule =
         Pattern.Config "TableCells" {
             Required = []
             Optional = [
-                "values",  !| T<Number> + !| T<string>
-                "format",  !| T<Number> + !| T<string>
+                "values",  !| (!| T<float> + !| T<int> + !| T<string>)
+                "format",  !| T<float> + !| T<int> + !| T<string>
                 "prefix", T<string> + !| T<string>
                 "suffix", T<string> + !| T<string>
-                "height", T<Number>
+                "height", (T<float> + T<int>)
                 "align", TableAlign.Type
                 "line", TableLine.Type
                 "fill", TableFill.Type
@@ -128,11 +128,11 @@ module HeatMapModule =
         Pattern.Config "TableHeader" {
             Required = []
             Optional = [
-                "values",  !| T<Number> + !| T<string>
-                "format",  !| T<Number> + !| T<string>
+                "values",  !| (!| T<float> + !| T<int> + !| T<string>)
+                "format",  !| T<float> + !| T<int> + !| T<string>
                 "prefix", T<string> + !| T<string>
                 "suffix", T<string> + !| T<string>
-                "height", T<Number>
+                "height", (T<float> + T<int>)
                 "align", TableAlign.Type
                 "line", TableLine.Type
                 "fill", TableFill.Type
@@ -153,8 +153,8 @@ module HeatMapModule =
             "legendgrouptitle", TableLegendGroupTitle.Type
             "opacity", (T<float> + T<int>)
             "ids", !| T<string> //data array
-            "columnorder", !| T<string> + !| T<Number>
-            "columnwidth", T<number> + !| T<Number>
+            "columnorder", !| T<string> + !| T<float> + !| T<int>
+            "columnwidth", (T<float> + T<int>) + !| T<float> + !| T<int>
             "hoverinfo", TableHoverInfo.Type
             "meta", (T<float> + T<int>) + T<string>
             "customdata", !| T<string> //data array
@@ -174,7 +174,6 @@ module HeatMapModule =
         TableHoverLabel
         TableDomain
         TableAlign
-        TableFill
         TableLine
         TableFill
         TableCells

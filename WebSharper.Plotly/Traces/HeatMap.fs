@@ -27,7 +27,7 @@ open WebSharper.Plotly.Extension.GenerateEnum
 
 module HeatMapModule =
 
-    let HMNullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
+    let HMNullValue = Pattern.EnumInlines "HMNullValue" ["null", "null"]
 
     let HMColor = T<string> + (T<float> + T<int>) + (!| (!? (HMNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (HMNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 

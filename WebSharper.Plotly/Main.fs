@@ -33,16 +33,24 @@ module ConcatNamespaceEntities =
 
 module Definition =
 
-    let Data = !| ScatterModule.ScatterOptions.Type + !| ScatterGLModule.ScatterGLOptions.Type + !| PieModule.PieOptions.Type + !| BarModule.BarOptions.Type + !| HeatMapModule.HeatMapOptions.Type
+    let Data =
+        !| ScatterModule.ScatterOptions.Type +
+        !| ScatterGLModule.ScatterGLOptions.Type +
+        !| PieModule.PieOptions.Type +
+        !| BarModule.BarOptions.Type +
+        !| HeatMapModule.HeatMapOptions.Type +
+        !| HeatMapGLModule.HeatMapGLOptions +
+        !| ImageModule.ImageOptions +
+        !| TableModule.TableOptions
 
-    let Layout = LayoutModule.Layout
+    //let Layout = LayoutModule.Layout
 
     let Options = OptionsModule.Options
 
     let Plotly =
         Class "Plotly"
         |+> Static [
-            "newPlot" => (T<string> + T<HTMLElement>) * Data * !? Layout.Type * !? Options.Type ^-> T<HTMLElement> //TODO
+            "newPlot" => (T<string> + T<HTMLElement>) * Data * !? Options.Type ^-> T<HTMLElement> //TODO
             "react" => T<unit> //TODO
             "restyle" => T<unit> //TODO
             "relayout" => T<unit> //TODO
@@ -74,8 +82,10 @@ module Definition =
                 PieModule.PieTraceNamespaces
                 BarModule.BarTraceNamespaces
                 HeatMapModule.HeatMapTraceNamespaces
+                HeatMapGLModule.HeatMapGLTraceNamespaces
+                ImageModule.ImageTraceNamespaces
+                TableModule.TableTraceNamespaces
                 [
-                    Layout
                     Options
                     Plotly
                 ]

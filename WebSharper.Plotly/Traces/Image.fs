@@ -23,10 +23,11 @@ namespace WebSharper.Plotly.Extension.Traces
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
+open WebSharper.Plotly.Extension.GenerateEnum
 
 module ImageModule =
 
-    let ImgNullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
+    let ImgNullValue = Pattern.EnumInlines "ImgNullValue" ["null", "null"]
 
     let ImgColor = T<string> + (T<int> + T<float>) + (!| (!? (ImgNullValue.Type + T<string> + (T<int> + T<float>)))) + (!| (!| ((!? (ImgNullValue.Type + T<string> + (T<int> + T<float>)))))) 
 
@@ -139,8 +140,8 @@ module ImageModule =
             "xaxis", T<string> // type: subplotid
             "yaxis", T<string> // type: subplotid
             "colormodel", ImgColorModel.Type
-            "zmax", !| T<int> + !| T<string> + !| T<string> //array
-            "min", !| T<int> + !| T<string> + !| T<string> //array
+            "zmax", !| T<int> + !| T<float> + !| T<string> //array
+            "min", !| T<int> + !| T<float> + !| T<string> //array
             "zsmooth", ImgZSmooth.Type + T<bool>
             "hoverlabel", ImgHoverLabel.Type
             "uirevision", (T<int> + T<float>) + T<string>

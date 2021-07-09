@@ -7,6 +7,9 @@
     <Compile Include="Options/Options.fs" />
     <Compile Include="Layout/Layout.fs" />
     <Compile Include="Traces/HeatMap.fs" />
+    <Compile Include="Traces/HeatMapGL.fs" />
+    <Compile Include="Traces/Image.fs" />
+    <Compile Include="Traces/Table.fs" />
     <Compile Include="Traces/Bar.fs" />
     <Compile Include="Traces/PieTrace.fs" />
     <Compile Include="Traces/ScatterGLTrace.fs" />

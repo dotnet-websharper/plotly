@@ -25,9 +25,9 @@ open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
 
-module HeatMapModule =
+module HeatMapGLModule =
 
-    let HMGLNullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
+    let HMGLNullValue = Pattern.EnumInlines "HMGNullValue" ["null", "null"]
 
     let HMGLColor = T<string> + (T<float> + T<int>) + (!| (!? (HMGLNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (HMGLNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
@@ -317,5 +317,5 @@ module HeatMapModule =
         HMGLZSmooth
         HMGLAlign
         HMGLHoverLabel
-        HeatMapOptions
+        HeatMapGLOptions
     ]

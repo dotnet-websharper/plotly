@@ -27,9 +27,9 @@ open WebSharper.Plotly.Extension.GenerateEnum
 
 module PieModule =
 
-    let NullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
+    let PieNullValue = Pattern.EnumInlines "PieNullValue" ["null", "null"]
 
-    let Color = T<string> + (T<float> + T<int>) + (!| (!? (NullValue.Type + T<string> + (T<float> + T<int>)))) + (!| (!| ((!? (NullValue.Type + T<string> + (T<float> + T<int>)))))) 
+    let PieColor = T<string> + (T<float> + T<int>) + (!| (!? (PieNullValue.Type + T<string> + (T<float> + T<int>)))) + (!| (!| ((!? (PieNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
 
     let PieFont =
@@ -38,7 +38,7 @@ module PieModule =
             Optional = [
                 "family", T<string> + !| T<string>
                 "size", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", Color + !| Color
+                "PieColor", PieColor + !| PieColor
             ]
         }
 
@@ -93,8 +93,8 @@ module PieModule =
         Pattern.Config "PieDomain" {
             Required = []
             Optional = [
-                "x", !| (((T<float> + T<int>) + NullValue.Type) * ((T<float> + T<int>) + NullValue.Type)) //array
-                "y", !| (((T<float> + T<int>) + NullValue.Type) * ((T<float> + T<int>) + NullValue.Type)) //array
+                "x", !| (((T<float> + T<int>) + PieNullValue.Type) * ((T<float> + T<int>) + PieNullValue.Type)) //array
+                "y", !| (((T<float> + T<int>) + PieNullValue.Type) * ((T<float> + T<int>) + PieNullValue.Type)) //array
                 "row", T<int>
                 "column", T<int>
             ]
@@ -104,7 +104,7 @@ module PieModule =
         Pattern.Config "PieMarkerLine" {
             Required = []
             Optional = [
-                "color", Color
+                "PieColor", PieColor
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
             ]
         }
@@ -113,7 +113,7 @@ module PieModule =
         Pattern.Config "PieMarker" {
             Required = []
             Optional = [
-                "colors", !| Color //data array
+                "PieColors", !| PieColor //data array
                 "line", PieMarkerLine.Type
 
             ]
@@ -143,8 +143,8 @@ module PieModule =
         Pattern.Config "PieHoverLabel"  {
             Required = []
             Optional = [
-                "bgcolor", Color + !| Color
-                "bordercolor", Color + !| Color
+                "bgPieColor", PieColor + !| PieColor
+                "borderPieColor", PieColor + !| PieColor
                 "font", PieFont.Type
                 "align", PieAlign.Type
                 "namelength", T<int> + !| T<int>

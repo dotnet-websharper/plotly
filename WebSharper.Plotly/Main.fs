@@ -33,7 +33,7 @@ module ConcatNamespaceEntities =
 
 module Definition =
 
-    let Data = !| TracesModule.ScatterOptions.Type
+    let Data = !| ScatterModule.ScatterOptions.Type + !| ScatterGLModule.ScatterGLOptions.Type + !| PieModule.PieOptions.Type + !| BarModule.BarOptions.Type
 
     let Layout = LayoutModule.Layout
 
@@ -69,7 +69,10 @@ module Definition =
                 |> AssemblyWide
             ]
             Namespace "WebSharper.Plotly" (ConcatNamespaceEntities.concatNamespaceEntities [
-                TracesModule.ScatterTraceNamespaces
+                ScatterModule.ScatterTraceNamespaces
+                ScatterGLModule.ScatterGLTraceNamespaces
+                PieModule.PieTraceNamespaces
+                BarModule.BarTraceNamespaces
                 [
                     Layout
                     Options

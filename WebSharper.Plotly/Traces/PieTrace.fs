@@ -23,24 +23,27 @@ namespace WebSharper.Plotly.Extension.Traces
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
+open WebSharper.Plotly.Extension.GenerateEnum
 
 module PieModule =
 
-    let Color = T<string> + T<Number> + (!| (!? (NullValue.Type + T<string> + T<Number>))) + (!| (!| ((!? (NullValue.Type + T<string> + T<Number>))))) 
+    let NullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
+
+    let Color = T<string> + (T<float> + T<int>) + (!| (!? (NullValue.Type + T<string> + (T<float> + T<int>)))) + (!| (!| ((!? (NullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
 
-    let Font =
-        Pattern.Config "Font" {
+    let PieFont =
+        Pattern.Config "PieFont" {
             Required = []
             Optional = [
                 "family", T<string> + !| T<string>
-                "size", T<Number> + !| T<Number>
+                "size", (T<float> + T<int>) + !| T<float> + !| T<int>
                 "color", Color + !| Color
             ]
         }
 
-    let TitlePosition =
-        Pattern.EnumInlines "TitlePosition" [
+    let PieTitlePosition =
+        Pattern.EnumInlines "PieTitlePosition" [
             "topLeft", "'top left'"
             "topCenter", "'top center'"
             "topRight", "'top right'"
@@ -50,106 +53,106 @@ module PieModule =
             "bottomRight", "'bottom right'"
         ]
 
-    let Title =
-        Pattern.Config "Title" {
+    let PieTitle =
+        Pattern.Config "PieTitle" {
             Required= []
             Optional = [
                 "text", T<string>
-                "font", Font.Type
-                "position", TitlePosition.Type
+                "font", PieFont.Type
+                "position", PieTitlePosition.Type
             ]
         }
 
-    let VisibleString = Pattern.EnumStrings "VisibleString" ["legendonly"]
+    let PieVisibleString = Pattern.EnumStrings "PieVisibleString" ["legendonly"]
 
-    let LegendGroupTitle =
-        Pattern.Config "LegendGroupTitle" {
+    let PieLegendGroupTitle =
+        Pattern.Config "PieLegendGroupTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", Font.Type
+                "font", PieFont.Type
             ]
         }
 
-    let TextPosition =
-        Pattern.EnumInline "TextPosition" [
+    let PieTextPosition =
+        Pattern.EnumStrings "PieTextPosition" [
             "inside"
             "outside"
             "auto"
             "none"
         ]
 
-    let HoverInfo =
+    let PieHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["label"; "text"; "value"; "percent"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "HoverInfo" generatedEnum
+        Pattern.EnumStrings "PieHoverInfo" generatedEnum
 
-    let Domain = 
-        Pattern.Config "Domain" {
+    let PieDomain = 
+        Pattern.Config "PieDomain" {
             Required = []
             Optional = [
-                "x", !| ((T<Number> + NullValue.Type) * (T<Number> + NullValue.Type)) //array
-                "y", !| ((T<Number> + NullValue.Type) * (T<Number> + NullValue.Type)) //array
+                "x", !| (((T<float> + T<int>) + NullValue.Type) * ((T<float> + T<int>) + NullValue.Type)) //array
+                "y", !| (((T<float> + T<int>) + NullValue.Type) * ((T<float> + T<int>) + NullValue.Type)) //array
                 "row", T<int>
                 "column", T<int>
             ]
         }
 
-    let MarkerLine =
-        Pattern.Config "MarkerLine" {
+    let PieMarkerLine =
+        Pattern.Config "PieMarkerLine" {
             Required = []
             Optional = [
                 "color", Color
-                "width", T<Number> + !| T<Number>
+                "width", (T<float> + T<int>) + !| T<float> + !| T<int>
             ]
         }
 
-    let Marker =
-        Pattern.Config "Marker" {
+    let PieMarker =
+        Pattern.Config "PieMarker" {
             Required = []
             Optional = [
                 "colors", !| Color //data array
-                "line", MarkerLine.Type
+                "line", PieMarkerLine.Type
 
             ]
         }
 
-    let TextInfo = 
+    let PieTextInfo = 
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["label"; "text"; "value"; "percent"; "name"] '+')
             let seq2 = seq{"none"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "HoverInfo" generatedEnum    
+        Pattern.EnumStrings "PieTextInfo" generatedEnum    
 
-    let Direction = 
-        Pattern.EnumStrings "Direction" [
+    let PieDirection = 
+        Pattern.EnumStrings "PieDirection" [
             "clockwise"
             "counterclockwise"
         ]
 
-    let Align = 
-        Pattern.EnumStrings "Align" [
+    let PieAlign = 
+        Pattern.EnumStrings "PieAlign" [
             "left"
             "right"
             "auto"
         ]
 
-    let HoverLabel =
-        Pattern.Config "HoverLabel"  {
+    let PieHoverLabel =
+        Pattern.Config "PieHoverLabel"  {
             Required = []
             Optional = [
                 "bgcolor", Color + !| Color
                 "bordercolor", Color + !| Color
-                "font", Font.Type
-                "align", Align.Type
+                "font", PieFont.Type
+                "align", PieAlign.Type
                 "namelength", T<int> + !| T<int>
             ]
         }  
 
-    let TextOrientation = 
-        Pattern.EnumStrings "TextOrientation" [
+    let PieTextOrientation = 
+        Pattern.EnumStrings "PieTextOrientation" [
             "horizontal"
             "radial"
             "tangential"
@@ -159,65 +162,64 @@ module PieModule =
     let PieOptions = 
         Class "PieOptions"
         |+> Static [
-            Constructor T <unit>
-            |> WithInline "{type:"pie"}"
+            Constructor T<unit>
+            |> WithInline "{type:'pie'}"
         ]
-        Pattern.OptionalFields [
+        |+> Pattern.OptionalFields [
             "name", T<string>
-            "title", Title.Type
-            "visible", T<bool> + VisibleString.Type
+            "title", PieTitle.Type
+            "visible", T<bool> + PieVisibleString.Type
             "showlegend", T<bool>
-            "legendrank", T<Number>
+            "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", LegendGroupTitle.Type
-            "opacity", T<Number>
+            "legendgrouptitle", PieLegendGroupTitle.Type
+            "opacity", (T<float> + T<int>)
             "ids", T<string>
-            "values", T<string> //data array
-            "labels", T<string> //data array
-            "dlabel", T<Number>
-            "label0", T<Number>
-            "pull", T<Number> + !| T<Number>
+            "values", !| T<float> + !| T<int>
+            "labels", !| T<string>
+            "dlabel", (T<float> + T<int>)
+            "label0", (T<float> + T<int>)
+            "pull", (T<float> + T<int>) + !| T<float> + !| T<int>
             "text", T<string>
-            "textposition", TextPosition.Type
+            "textposition", PieTextPosition.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", HoverInfo.Type
+            "hoverinfo", PieHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
-            "meta", T<Number> + T<string>
+            "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> //data
-            "domain", Domain.Type
+            "domain", PieDomain.Type
             "automargin", T<bool>
-            "marker", Marker.Type
-            "textFont", Font.Type
-            "textinfo", TextInfo.Type
-            "direction", Direction.Type
-            "hole", T<Number>
-            "hoverlabel", HoverLabel.Type
-            "insidetextfont", Font.Type
-            "insidetextorientation", TextOrientation.Type
-            "outsidetextfont", Font.Type
-            "rotation", T<Number>
+            "marker", PieMarker.Type
+            "textPieFont", PieFont.Type
+            "textinfo", PieTextInfo.Type
+            "direction", PieDirection.Type
+            "hole", (T<float> + T<int>)
+            "hoverlabel", PieHoverLabel.Type
+            "insidetextfont", PieFont.Type
+            "insidetextorientation", PieTextOrientation.Type
+            "outsidetextfont", PieFont.Type
+            "rotation", (T<float> + T<int>)
             "scalegroup", T<string>
             "sort", T<bool>
-            "uirevision", T<Number> + T<string>
+            "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let PieTraceNamespaces : CodeModel.NamespaceEntity list = [
-        Color
-        Font
-        TitlePosition
-        Title
-        VisibleString
-        LegendGroupTitle
-        TextPosition
-        HoverInfo
-        Domain
-        MarkerLine
-        Marker
-        TextInfo
-        Direction
-        Align
-        HoverLabel
-        TextOrientation
+        PieFont
+        PieTitlePosition
+        PieTitle
+        PieVisibleString
+        PieLegendGroupTitle
+        PieTextPosition
+        PieHoverInfo
+        PieDomain
+        PieMarkerLine
+        PieMarker
+        PieTextInfo
+        PieDirection
+        PieAlign
+        PieHoverLabel
+        PieTextOrientation
         PieOptions
     ]

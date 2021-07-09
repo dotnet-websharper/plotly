@@ -25,47 +25,44 @@ open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
 
-module TracesModule =
+module ScatterModule =
 
-    //let generateEnum words isolator =
-    //    result =? T<seq<string>> |> (GenerateOptions.allPermutations words isolator)
+    let ScatterNullValue = Pattern.EnumInlines "ScatterNullValue" ["null", "null"]
 
-    let NullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
+    let ScatterColor = T<string> + (T<float> + T<int>) + (!| (!? (ScatterNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ScatterNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
-    let Color = T<string> + (T<float> + T<int>) + (!| (!? (NullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (NullValue.Type + T<string> + (T<float> + T<int>)))))) 
+    let ScatterColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
 
-    let ColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
+    let ScatterVisibleString = Pattern.EnumStrings "ScatterVisibleString" ["legendonly"]
 
-    let VisibleString = Pattern.EnumStrings "VisibleString" ["legendonly"]
-
-    let FontConfig =
-        Pattern.Config "FontConfig" {
+    let ScatterFontConfig =
+        Pattern.Config "ScatterFontConfig" {
             Required = []
             Optional = [
                 "family", T<string>
                 "size", (T<float> + T<int>)
-                "color", Color
+                "color", ScatterColor
             ]
         }
 
-    let LegendGroupTitle =
-        Pattern.Config "LegendGroupTitle" {
+    let ScatterLegendGroupScatterTitle =
+        Pattern.Config "ScatterLegendGroupScatterTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", FontConfig.Type
+                "font", ScatterFontConfig.Type
             ]
         }
 
-    let Modes =
+    let ScatterModes =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["lines"; "markers"; "text"] '+')
             let seq2 = seq{"none"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "Modes" generatedEnum
+        Pattern.EnumStrings "ScatterModes" generatedEnum
 
-    let TextPosition =
-        Pattern.EnumInlines "TextPosition" [
+    let ScatterTextPosition =
+        Pattern.EnumInlines "ScatterTextPosition" [
             "TopLeft", "'top left'"
             "TopCenter", "'top center'"
             "TopRight", "'top right'"
@@ -77,116 +74,116 @@ module TracesModule =
             "BottomRight", "'bottom right'"
         ]
 
-    let HoverInfo =
+    let ScatterHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "HoverInfo" generatedEnum
+        Pattern.EnumStrings "ScatterHoverInfo" generatedEnum
 
-    let Orientation =
-        Pattern.EnumStrings "Orientation" [
+    let ScatterOrientation =
+        Pattern.EnumStrings "ScatterOrientation" [
             "v"
             "h"
         ]
 
-    let GroupNorm =
-        Pattern.EnumInlines "GroupNorm" [
+    let ScatterGroupNorm =
+        Pattern.EnumInlines "ScatterGroupNorm" [
             "empty", "''"
             "fraction", "'fraction'"
             "percent", "'percent'"
         ]
 
-    let PeriodAlignment =
-        Pattern.EnumStrings "XPeriodAlignment" [
+    let ScatterPeriodScatterAlignment =
+        Pattern.EnumStrings "XScatterPeriodScatterAlignment" [
             "start"
             "middle"
             "end"
         ]
 
-    let SizeMode =
-        Pattern.EnumStrings "SizeMode" [
+    let ScatterSizeMode =
+        Pattern.EnumStrings "ScatterSizeMode" [
             "diameter"
             "area"
         ]
 
-    let MarkerLine =
-        Pattern.Config "MarkerLine" {
+    let ScatterMarkerScatterLine =
+        Pattern.Config "ScatterMarkerScatterLine" {
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", Color
+                "color", ScatterColor
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ColorScale
+                "colorscale", ScatterColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
             ]
         }
 
-    let GradientType =
-        Pattern.EnumStrings "GradientType" [
+    let ScatterGradientType =
+        Pattern.EnumStrings "ScatterGradientType" [
             "radial"
             "horizontal"
             "vertical"
             "none"
         ]
 
-    let Gradient =
-        Pattern.Config "Gradient" {
+    let ScatterGradient =
+        Pattern.Config "ScatterGradient" {
             Required = []
             Optional = [
-                "type", GradientType.Type
-                "color", Color + !| Color
+                "type", ScatterGradientType.Type
+                "color", ScatterColor + !| ScatterColor
             ]
         }
 
-    let ColorBarMode =
-        Pattern.EnumStrings "ThicknessMode" [
+    let ScatterColorBarMode =
+        Pattern.EnumStrings "ScatterThicknessMode" [
             "fraction"
             "pixels"
         ]
 
-    let XAnchor =
-        Pattern.EnumStrings "XAnchor" [
+    let ScatterXAnchor =
+        Pattern.EnumStrings "ScatterXAnchor" [
             "left"
             "center"
             "right"
         ]
 
-    let YAnchor =
-        Pattern.EnumStrings "YAnchor" [
+    let ScatterYAnchor =
+        Pattern.EnumStrings "ScatterYAnchor" [
             "top"
             "middle"
             "bottom"
         ]
 
-    let TickMode =
-        Pattern.EnumStrings "Tickmode" [
+    let ScatterTickMode =
+        Pattern.EnumStrings "ScatterTickMode" [
             "auto"
             "linear"
             "array"
         ]
 
-    let Ticks =
-        Pattern.EnumInlines "Ticks" [
+    let ScatterTicks =
+        Pattern.EnumInlines "ScatterTicks" [
             "outside", "'outside'"
             "inside", "'inside'"
             "empty", "''"
         ]
 
-    let TickLabelOverflow =
-        Pattern.EnumInlines "TickLabelOverflow" [
+    let ScatterTickLabelOverflow =
+        Pattern.EnumInlines "ScatterTickLabelOverflow" [
             "allow", "'allow'"
             "hidePastDiv", "'hide past div'"
             "hidePastDomain", "'hide Past Domain'"
         ]
 
-    let TickLabelPosition =
-        Pattern.EnumInlines "TickLabelPosition" [
+    let ScatterTickLabelPosition =
+        Pattern.EnumInlines "ScatterTickLabelPosition" [
             "outside", "'outside'"
             "inside", "'inside'"
             "outsideTop", "'outside top'"
@@ -197,30 +194,30 @@ module TracesModule =
 
     let DTickValue = (T<float> + T<int>) + T<string>
 
-    let TickFormatStops =
-        Pattern.Config "TickFormatStops" {
+    let ScatterTickFormatStops =
+        Pattern.Config "ScatterTickFormatStops" {
             Required = []
             Optional = [
                 "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + NullValue.Type) * (DTickValue + NullValue.Type))
+                "dtickrange", !| ((DTickValue + ScatterNullValue.Type) * (DTickValue + ScatterNullValue.Type))
                 "value", T<string>
                 "name", T<string>
                 "templateitemname", T<string>
             ]
         }
 
-    let ShowTickFix =
-        Pattern.EnumStrings "ShowTickFix" [
+    let ScatterShowTickFix =
+        Pattern.EnumStrings "ScatterShowTickFix" [
             "all"
             "first"
             "last"
             "none"
         ]
 
-    let ShowExponent = ShowTickFix
+    let ShowExponent = ScatterShowTickFix
 
-    let ExponentFormat =
-        Pattern.EnumInlines "ExponentFormat" [
+    let ScatterExponentFormat =
+        Pattern.EnumInlines "ScatterExponentFormat" [
             "none", "'none'"
             "Lowercase_E", "'e'"
             "Uppercase_E", "'E'"
@@ -229,73 +226,73 @@ module TracesModule =
             "B", "'B'"
         ]
 
-    let Side =
-        Pattern.EnumStrings "Side" [
+    let ScatterSide =
+        Pattern.EnumStrings "ScatterSide" [
             "right"
             "top"
             "bottom"
         ]
 
-    let Title =
-        Pattern.Config "Title" {
+    let ScatterTitle =
+        Pattern.Config "ScatterTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", FontConfig.Type
-                "side", Side.Type
+                "font", ScatterFontConfig.Type
+                "side", ScatterSide.Type
             ]
         }
 
-    let ColorBar =
-        Pattern.Config "ColorBar" {
+    let ScatterColorBar =
+        Pattern.Config "ScatterColorBar" {
             Required = []
             Optional = [
-                "thicknessmode", ColorBarMode.Type
+                "thicknessmode", ScatterColorBarMode.Type
                 "thickness", (T<float> + T<int>)
-                "lenmode", ColorBarMode.Type
+                "lenmode", ScatterColorBarMode.Type
                 "len", (T<float> + T<int>)
                 "x", T<float>
-                "xanchor", XAnchor.Type
+                "xanchor", ScatterXAnchor.Type
                 "xpad", (T<float> + T<int>)
                 "y", T<float>
-                "yanchor", YAnchor.Type
+                "yanchor", ScatterYAnchor.Type
                 "ypad", (T<float> + T<int>)
-                "outlinecolor", Color
+                "outlinecolor", ScatterColor
                 "outlinewidth", (T<float> + T<int>)
-                "bordercolor", Color
+                "bordercolor", ScatterColor
                 "borderwidth", (T<float> + T<int>)
-                "bgcolor", Color
-                "tickmode", TickMode.Type
+                "bgcolor", ScatterColor
+                "tickmode", ScatterTickMode.Type
                 "nticks", T<int>
                 "tick0", (T<float> + T<int>) + T<string>
                 "dtick", (T<float> + T<int>) + T<string>
                 "tickvals", !| T<obj>
                 "ticktext", !| T<string> 
-                "ticks", Ticks.Type
-                "ticklabeloverflow", TickLabelOverflow.Type
-                "ticklabelposition", TickLabelPosition.Type
+                "ticks", ScatterTicks.Type
+                "ticklabeloverflow", ScatterTickLabelOverflow.Type
+                "ticklabelposition", ScatterTickLabelPosition.Type
                 "ticklen", (T<float> + T<int>)
                 "tickwidth", (T<float> + T<int>)
-                "tickcolor", Color
+                "tickcolor", ScatterColor
                 "showticklabels", T<bool>
-                "tickfont", FontConfig.Type
+                "tickfont", ScatterFontConfig.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
-                "tickformatstops", TickFormatStops.Type
+                "tickformatstops", ScatterTickFormatStops.Type
                 "tickprefix", T<string>
-                "showtickprefix", ShowTickFix.Type
+                "showtickprefix", ScatterShowTickFix.Type
                 "ticksuffix", T<string>
-                "showticksuffix", ShowTickFix.Type
+                "showticksuffix", ScatterShowTickFix.Type
                 "separatethousands", T<bool>
-                "exponentformat", ExponentFormat.Type
+                "exponentformat", ScatterExponentFormat.Type
                 "minexponent", (T<float> + T<int>)
                 "showexponent", ShowExponent.Type // change type name to fit
-                "title", Title.Type
+                "title", ScatterTitle.Type
             ]
         }
 
-    let Symbol =
-        Pattern.EnumStrings "Symbol" [
+    let ScatterSymbol =
+        Pattern.EnumStrings "ScatterSymbol" [
             "0"
             "circle"
             "100"
@@ -618,31 +615,31 @@ module TracesModule =
         Pattern.Config "Marker" {
             Required = []
             Optional = [
-                "symbol", Symbol.Type
+                "symbol", ScatterSymbol.Type
                 "opacity", T<float> + !| T<float>
                 "size", (T<float> + T<int>) + !| T<float> + !| T<int>
                 "maxdisplayed", (T<float> + T<int>)
                 "sizeref", (T<float> + T<int>)
                 "sizemin", (T<float> + T<int>)
-                "sizemode", SizeMode.Type
-                "line", MarkerLine.Type
-                "gradient", Gradient.Type
-                "color", Color + !| Color
+                "sizemode", ScatterSizeMode.Type
+                "line", ScatterMarkerScatterLine.Type
+                "ScatterGradient", ScatterGradient.Type
+                "color", ScatterColor + !| ScatterColor
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ColorScale
+                "colorscale", ScatterColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", ColorBar.Type
+                "colorbar", ScatterColorBar.Type
                 "coloraxis", T<string> // type: subplotid
             ]
         }
 
-    let Shape =
-        Pattern.EnumStrings "Shape" [
+    let ScatterShape =
+        Pattern.EnumStrings "ScatterShape" [
             "linear"
             "spline"
             "hv"
@@ -651,33 +648,33 @@ module TracesModule =
             "vhv"
         ]
 
-    let Line =
-        Pattern.Config "Line" {
+    let ScatterLine =
+        Pattern.Config "ScatterLine" {
             Required = []
             Optional = [
-                "color", Color
+                "color", ScatterColor
                 "width", (T<float> + T<int>)
-                "shape", Shape.Type
+                "shape", ScatterShape.Type
                 "smoothing", (T<float> + T<int>)
                 "dash", T<string>
                 "simplify", T<bool>
             ]
         }
 
-    let ErrorType =
-        Pattern.EnumStrings "ErrorXType" [
+    let ScatterErrorType =
+        Pattern.EnumStrings "ScatterErrorXType" [
             "percent"
             "constant"
             "sqrt"
             "data"
         ]
 
-    let ErrorX = 
-        Pattern.Config "ErrorX" {
+    let ScatterErrorX = 
+        Pattern.Config "ScatterErrorX" {
             Required = []
             Optional = [
                 "visible", T<bool>
-                "type", ErrorType.Type
+                "type", ScatterErrorType.Type
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
@@ -686,18 +683,18 @@ module TracesModule =
                 "traceref", T<int>
                 "tracerefminus", T<int>
                 "copy_ystyle", T<bool>
-                "color", Color
+                "color", ScatterColor
                 "thickness", (T<float> + T<int>)
                 "width", (T<float> + T<int>)
             ]
         }
 
-    let ErrorY = 
-        Pattern.Config "ErrorY" {
+    let ScatterErrorY = 
+        Pattern.Config "ScatterErrorY" {
             Required = []
             Optional = [
                 "visible", T<bool>
-                "type", ErrorType.Type
+                "type", ScatterErrorType.Type
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
@@ -705,39 +702,39 @@ module TracesModule =
                 "valueminus", (T<float> + T<int>)
                 "traceref", T<int>
                 "tracerefminus", T<int>
-                "color", Color
+                "color", ScatterColor
                 "thickness", (T<float> + T<int>)
                 "width", (T<float> + T<int>)
             ]
         }
 
-    let SelectedMarker =
-        Pattern.Config "SelectedMarker" {
+    let ScatterSelectedMarker =
+        Pattern.Config "ScatterSelectedMarker" {
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", Color
+                "color", ScatterColor
                 "size", (T<float> + T<int>)
             ]
         }
 
-    let SelectedTextFont =
-        Pattern.Config "SelectedTextFont" {
+    let ScatterSelectedTextFont =
+        Pattern.Config "ScatterSelectedTextFont" {
             Required = []
-            Optional = ["color", Color]
+            Optional = ["color", ScatterColor]
         }
 
-    let SelectedOption =
-        Pattern.Config "Selected" {
+    let ScatterSelectedOption =
+        Pattern.Config "ScatterSelectedOption" {
             Required = []
             Optional = [
-                "marker", SelectedMarker.Type
-                "textfont", SelectedTextFont.Type
+                "marker", ScatterSelectedMarker.Type
+                "textfont", ScatterSelectedTextFont.Type
             ]
         }
 
-    let Fill =
-        Pattern.EnumStrings "Fill" [
+    let ScatterFill =
+        Pattern.EnumStrings "ScatterFill" [
             "none"
             "tozeroy"
             "tozerox"
@@ -747,37 +744,37 @@ module TracesModule =
             "tonext"
         ]
 
-    let Align =
-        Pattern.EnumStrings "Align" [
+    let ScatterAlign =
+        Pattern.EnumStrings "ScatterAlign" [
             "left"
             "right"
             "auto"
         ]
 
-    let HoverLabel =
-        Pattern.Config "HoverLabel" {
+    let ScatterHoverLabel =
+        Pattern.Config "ScatterHoverLabel" {
             Required = []
             Optional = [
-                "bgcolor", Color + !| Color
-                "bordercolor", Color + !| Color
-                "fonts", FontConfig.Type
-                "line", Align.Type
+                "bgcolor", ScatterColor + !| ScatterColor
+                "bordercolor", ScatterColor + !| ScatterColor
+                "fonts", ScatterFontConfig.Type
+                "align", ScatterAlign.Type
                 "namelength", T<int>
             ]
         }
 
-    let HoverOn =
+    let ScatterHoverOn =
         let generatedEnum = GenerateOptions.allPermutations ["points"; "fills"] '+'
-        Pattern.EnumStrings "HoverOn" generatedEnum
+        Pattern.EnumStrings "ScatterHoverOn" generatedEnum
 
-    let StackGaps =
-        Pattern.EnumInlines "StackGaps" [
+    let ScatterStackGaps =
+        Pattern.EnumInlines "ScatterStackGaps" [
             "inferZero", "'infer zero'"
             "interpolate", "'interpolate'"
         ]
 
-    let Calendar =
-        Pattern.EnumStrings "Calendar" [
+    let ScatterCalendar =
+        Pattern.EnumStrings "ScatterCalendar" [
             "gregorian"
             "chinese"
             "coptic"
@@ -804,13 +801,13 @@ module TracesModule =
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + VisibleString.Type
+            "visible", T<bool> + ScatterVisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", LegendGroupTitle.Type
+            "legendgrouptitle", ScatterLegendGroupScatterTitle.Type
             "opacity", T<float>
-            "mode", Modes.Type
+            "mode", ScatterModes.Type
             "ids", !| T<string>
             "x", !| T<int> + !| T<float>
             "x0", (T<float> + T<int>) + T<string>
@@ -819,87 +816,87 @@ module TracesModule =
             "y0", (T<float> + T<int>) + T<string>
             "dy", (T<float> + T<int>)
             "text", T<string> + !| T<string>
-            "textposition", TextPosition.Type
+            "textposition", ScatterTextPosition.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", HoverInfo.Type
+            "hoverinfo", ScatterHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "xhoverformat", T<string>
             "yhoverformat", T<string>
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "yaxis", T<string> //type is 'subplotid'
-            "orientation", Orientation.Type
-            "groupnorm", GroupNorm.Type
+            "orientation", ScatterOrientation.Type
+            "groupnorm", ScatterGroupNorm.Type
             "stackgroup", T<string>
             "xperiod", (T<float> + T<int>) + T<string>
-            "xperiodalignment", PeriodAlignment.Type
+            "xperiodalignment", ScatterPeriodScatterAlignment.Type
             "xperiod0", (T<float> + T<int>) + T<string>
             "yperiod", (T<float> + T<int>) + T<string>
-            "yperiodalignment", PeriodAlignment.Type
+            "yperiodalignment", ScatterPeriodScatterAlignment.Type
             "yperiod0", (T<float> + T<int>) + T<string>
             "marker", Marker.Type
-            "line", Line.Type
-            "textfont", FontConfig.Type
-            "error_x", ErrorX.Type
-            "error_y", ErrorY.Type
+            "line", ScatterLine.Type
+            "textfont", ScatterFontConfig.Type
+            "error_x", ScatterErrorX.Type
+            "error_y", ScatterErrorY.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
-            "selected", SelectedOption.Type
-            "unselected", SelectedOption.Type // change name later
+            "selected", ScatterSelectedOption.Type
+            "unselected", ScatterSelectedOption.Type // change name later
             "cliponaxis", T<bool>
             "connectgaps", T<bool>
-            "fill", Fill.Type
-            "fillcolor", Color
-            "hoverlabel", HoverLabel.Type
-            "hoveron", HoverOn.Type
-            "stackgaps", StackGaps.Type
-            "xcalendar", Calendar.Type
-            "ycalendar", Calendar.Type
+            "fill", ScatterFill.Type
+            "fillcolor", ScatterColor
+            "hoverlabel", ScatterHoverLabel.Type
+            "hoveron", ScatterHoverOn.Type
+            "stackgaps", ScatterStackGaps.Type
+            "xcalendar", ScatterCalendar.Type
+            "ycalendar", ScatterCalendar.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let ScatterTraceNamespaces : CodeModel.NamespaceEntity list = [
-        VisibleString
-        FontConfig
-        LegendGroupTitle
-        Modes
-        TextPosition
-        HoverInfo
-        Orientation
-        GroupNorm
-        PeriodAlignment
-        SizeMode
-        MarkerLine
-        GradientType
-        Gradient
-        ColorBarMode
-        XAnchor
-        YAnchor
-        TickMode
-        Ticks
-        TickLabelOverflow
-        TickLabelPosition
-        TickFormatStops
-        ShowTickFix
-        ExponentFormat
-        Side
-        Title
-        ColorBar
-        Symbol
+        ScatterVisibleString
+        ScatterFontConfig
+        ScatterLegendGroupScatterTitle
+        ScatterModes
+        ScatterTextPosition
+        ScatterHoverInfo
+        ScatterOrientation
+        ScatterGroupNorm
+        ScatterPeriodScatterAlignment
+        ScatterSizeMode
+        ScatterMarkerScatterLine
+        ScatterGradientType
+        ScatterGradient
+        ScatterColorBarMode
+        ScatterXAnchor
+        ScatterYAnchor
+        ScatterTickMode
+        ScatterTicks
+        ScatterTickLabelOverflow
+        ScatterTickLabelPosition
+        ScatterTickFormatStops
+        ScatterShowTickFix
+        ScatterExponentFormat
+        ScatterSide
+        ScatterTitle
+        ScatterColorBar
+        ScatterSymbol
         Marker
-        Shape
-        Line
-        ErrorType
-        ErrorX
-        ErrorY
-        SelectedMarker
-        SelectedTextFont
-        SelectedOption
-        Fill
-        Align
-        HoverLabel
-        HoverOn
-        StackGaps
-        Calendar
+        ScatterShape
+        ScatterLine
+        ScatterErrorType
+        ScatterErrorX
+        ScatterErrorY
+        ScatterSelectedMarker
+        ScatterSelectedTextFont
+        ScatterSelectedOption
+        ScatterFill
+        ScatterAlign
+        ScatterHoverLabel
+        ScatterHoverOn
+        ScatterStackGaps
+        ScatterCalendar
         ScatterOptions
     ]

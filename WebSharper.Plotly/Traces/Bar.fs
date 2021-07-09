@@ -23,6 +23,7 @@ namespace WebSharper.Plotly.Extension.Traces
 open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
+open WebSharper.Plotly.Extension.GenerateEnum
 
 module BarModule =
 
@@ -30,16 +31,16 @@ module BarModule =
 
     let BarNullValue = Pattern.EnumInlines "BarNullValue" ["null", "null"]
 
-    let BarColor = T<string> + T<Number> + (!| (!? (BarNullValue.Type + T<string> + T<Number>))) + (!| (!| ((!? (BarNullValue.Type + T<string> + T<Number>))))) 
+    let BarColor = T<string> + (T<float> + T<int>) + (!| (!? (BarNullValue.Type + T<string> + (T<float> + T<int>)))) + (!| (!| ((!? (BarNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
-    let BarColorScale = T<string> + (!| T<string>) + (!| (T<Number> * T<string>))
+    let BarColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
 
-    let BarFont =
-        Pattern.Config "BarFont" {
+    let BarFontConfig =
+        Pattern.Config "BarFontConfig" {
             Required = []
             Optional = [
                 "family", T<string>
-                "size", T<Number>
+                "size", (T<float> + T<int>)
                 "BarColor", BarColor
             ]
         }
@@ -49,7 +50,7 @@ module BarModule =
             Required = []
             Optional = [
                 "text", T<string>
-                "BarFont", BarFont.Type
+                "BarFont", BarFontConfig.Type
             ]
         }
 
@@ -85,12 +86,12 @@ module BarModule =
         Pattern.Config "BarMarkerLine" {
             Required = []
             Optional = [
-                "width", T<Number> + !| T<Number>
+                "width", (T<float> + T<int>) + !| T<float> + !| T<int>
                 "BarColor", BarColor
                 "cauto", T<bool>
-                "cmin", T<Number>
-                "cmax", T<Number>
-                "cmid", T<Number>
+                "cmin", (T<float> + T<int>)
+                "cmax", (T<float> + T<int>)
+                "cmid", (T<float> + T<int>)
                 "BarColorscale", BarColorScale
                 "autoBarColorscale", T<bool>
                 "reversescale", T<bool>
@@ -149,6 +150,8 @@ module BarModule =
             "insideBottom", "'inside bottom'"
         ]
 
+    let DTickValue = (T<float> + T<int>) + T<string>
+
     let BarTickFormatStops =
         Pattern.Config "BarTickFormatStops" {
             Required = []
@@ -181,13 +184,20 @@ module BarModule =
             "B", "'B'"
         ]
 
+    let BarSide =
+        Pattern.EnumStrings "BarSide" [
+            "right"
+            "top"
+            "bottom"
+        ]
+
     let BarTitle =
         Pattern.Config "BarTitle" {
             Required = []
             Optional = [
                 "text", T<string>
                 "BarFont", BarFontConfig.Type
-                "side", Side.Type
+                "side", BarSide.Type
             ]
         }
 
@@ -196,35 +206,35 @@ module BarModule =
             Required = []
             Optional = [
                 "thicknessmode", BarColorMode.Type
-                "thickness", T<Number>
+                "thickness", (T<float> + T<int>)
                 "lenmode", BarColorMode.Type
-                "len", T<Number>
+                "len", (T<float> + T<int>)
                 "x", T<float>
                 "BarXAnchor", BarXAnchor.Type
-                "xpad", T<Number>
+                "xpad", (T<float> + T<int>)
                 "y", T<float>
                 "BarYAnchor", BarYAnchor.Type
-                "ypad", T<Number>
+                "ypad", (T<float> + T<int>)
                 "outlineBarColor", BarColor
-                "outlinewidth", T<Number>
+                "outlinewidth", (T<float> + T<int>)
                 "borderBarColor", BarColor
-                "borderwidth", T<Number>
+                "borderwidth", (T<float> + T<int>)
                 "bgBarColor", BarColor
                 "BarTickMode", BarTickMode.Type
                 "nBarTicks", T<int>
-                "tick0", T<Number> + T<string>
-                "dtick", T<Number> + T<string>
+                "tick0", (T<float> + T<int>) + T<string>
+                "dtick", (T<float> + T<int>) + T<string>
                 "tickvals", !| T<obj>
                 "ticktext", !| T<string> 
                 "BarTicks", BarTicks.Type
                 "BarTickLabelOverflow", BarTickLabelOverflow.Type
                 "BarTickLabelPosition", BarTickLabelPosition.Type
-                "ticklen", T<Number>
-                "tickwidth", T<Number>
+                "ticklen", (T<float> + T<int>)
+                "tickwidth", (T<float> + T<int>)
                 "tickBarColor", BarColor
                 "showticklabels", T<bool>
-                "tickBarFont", BarFont.Type
-                "tickangle", T<Number> //type: Angle
+                "tickBarFont", BarFontConfig.Type
+                "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
                 "BarTickFormatStops", BarTickFormatStops.Type
                 "tickprefix", T<string>
@@ -233,7 +243,7 @@ module BarModule =
                 "showBarTicksuffix", BarShowTickFix.Type
                 "separatethousands", T<bool>
                 "BarExponentFormat", BarExponentFormat.Type
-                "minexponent", T<Number>
+                "minexponent", (T<float> + T<int>)
                 "BarShowExponent", BarShowExponent.Type // change type name to fit
                 "BarTitle", BarTitle.Type
             ]
@@ -242,13 +252,13 @@ module BarModule =
     let BarMarkerPatternShape =
         Pattern.EnumInlines "BarMarkerPatternShape" [
             "empty", "''"
-            "/", "'/'"
-            "backslash", "'\'" //TODO
+            "slash", "'/'"
+            "backslash", "'asd'"
             "x", "'x'"
-            "-", "'-'"
-            "|", "'|'"
-            "+", "'+'"
-            ".", "'.'"
+            "minus", "'-'"
+            "pipeline", "'|'"
+            "plus", "'+'"
+            "dot", "'.'"
         ]
 
     let BarFillMode =
@@ -265,9 +275,9 @@ module BarModule =
                 "BarFillMode", BarFillMode.Type
                 "bgBarColor", BarColor + !| BarColor
                 "fgBarColor", BarColor + !| BarColor
-                "fgopacity", T<Number>
-                "size", T<Number> + !| T<Number>
-                "solidity", T<Number> + !| T<Number>               
+                "fgopacity", (T<float> + T<int>)
+                "size", (T<float> + T<int>) + !| T<float> + !| T<int>
+                "solidity", (T<float> + T<int>) + !| T<float> + !| T<int>               
             ]
         }
 
@@ -278,16 +288,16 @@ module BarModule =
                 "line", BarMarkerLine.Type
                 "BarColor", BarColor + !| BarColor
                 "cauto", T<bool>
-                "cmin", T<Number>
-                "cmax", T<Number>
-                "cmid", T<Number>
+                "cmin", (T<float> + T<int>)
+                "cmax", (T<float> + T<int>)
+                "cmid", (T<float> + T<int>)
                 "BarColorscale", BarColorScale
                 "autoBarColorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
                 "BarColorbar", BarColorBar.Type
                 "BarColoraxis", T<string> // type: subplotid
-                "opacity", T<Number>
+                "opacity", (T<float> + T<int>)
                 "pattern", BarMarkerPattern.Type
             ]
         }
@@ -309,14 +319,14 @@ module BarModule =
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
-                "value", T<Number>
-                "valueminus", T<Number>
+                "value", (T<float> + T<int>)
+                "valueminus", (T<float> + T<int>)
                 "traceref", T<int>
                 "tracerefminus", T<int>
                 "copy_ystyle", T<bool>
                 "BarColor", BarColor
-                "thickness", T<Number>
-                "width", T<Number>
+                "thickness", (T<float> + T<int>)
+                "width", (T<float> + T<int>)
             ]
         }
 
@@ -329,13 +339,13 @@ module BarModule =
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
-                "value", T<Number>
-                "valueminus", T<Number>
+                "value", (T<float> + T<int>)
+                "valueminus", (T<float> + T<int>)
                 "traceref", T<int>
                 "tracerefminus", T<int>
                 "BarColor", BarColor
-                "thickness", T<Number>
-                "width", T<Number>
+                "thickness", (T<float> + T<int>)
+                "width", (T<float> + T<int>)
             ]
         }
 
@@ -343,9 +353,9 @@ module BarModule =
         Pattern.Config "BarSelectedMarker" {
             Required = []
             Optional = [
-                "opacity", T<Number>
+                "opacity", (T<float> + T<int>)
                 "BarColor", BarColor
-                "size", T<Number>
+                "size", (T<float> + T<int>)
             ]
         }
 
@@ -372,14 +382,21 @@ module BarModule =
             "none"
         ]
 
+    let BarAlign =
+        Pattern.EnumStrings "BarAlign" [
+            "left"
+            "right"
+            "auto"
+        ]
+
     let BarHoverLabel =
         Pattern.Config "BarHoverLabel" {
             Required = []
             Optional = [
                 "bgBarColor", BarColor + !| BarColor
                 "borderBarColor", BarColor + !| BarColor
-                "BarFonts", BarFont.Type
-                "line", Align.Type
+                "BarFonts", BarFontConfig.Type
+                "align", BarAlign.Type
                 "namelength", T<int>
             ]
         }
@@ -417,24 +434,24 @@ module BarModule =
             Constructor T<unit>
             |> WithInline "{type: 'bar'}"
         ]
-        |+> Pattern.OptionFields [
+        |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> BarVisibleString.Type
+            "visible", T<bool> + BarVisibleString.Type
             "showlegend", T<bool>
-            "legendrank", T<Number>
+            "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
             "BarLegendGroupTitle", BarLegendGroupTitle.Type
-            "opacity", T<number>
+            "opacity", (T<float> + T<int>)
             "ids", !| T<string> //data array
-            "x", !| T<Number> //data array
-            "x0", T<Number> + T<string>
-            "dx", T<Number>
-            "y", !| T<Number> //data array
-            "y0", T<Number> + T<string>
-            "dy", T<Number>
-            "base", T<Number> + T<string>
-            "width", T<Number> + !| T<Number>
-            "offset", T<Number> + T<Number>
+            "x", !| T<float> + !| T<int> + !| T<string> //data array
+            "x0", (T<float> + T<int>) + T<string>
+            "dx", (T<float> + T<int>)
+            "y", !| T<float> + !| T<int> //data array
+            "y0", (T<float> + T<int>) + T<string>
+            "dy", (T<float> + T<int>)
+            "base", (T<float> + T<int>) + T<string>
+            "width", (T<float> + T<int>) + !| T<float> + !| T<int>
+            "offset", (T<float> + T<int>) + (T<float> + T<int>)
             "text", T<string> + !| T<string>
             "BarTextPosition", BarTextPosition.Type
             "texttemplate", T<string> + !| T<string>
@@ -443,44 +460,41 @@ module BarModule =
             "hovertemplate", T<string> + !| T<string>
             "xhoverformat", T<string>
             "yhoverformat", T<string>
-            "meta", T<Number> + T<string>
+            "meta", (T<float> + T<int>) + T<string>
             "customdata", !| T<string> //data array
             "xaxis", T<string> //subplotid
             "yaxis", T<string> //subplotid
             "BarOrientation", BarOrientation.Type
             "alignmentgroup", T<string>
             "offsetgroup", T<string>
-            "xperiod", T<Number> + T<string>
+            "xperiod", (T<float> + T<int>) + T<string>
             "xBarPeriodAlignment", BarPeriodAlignment.Type
-            "xperiod0", T<Number> + T<string>
-            "yperiod", T<Number> + T<string>
+            "xperiod0", (T<float> + T<int>) + T<string>
+            "yperiod", (T<float> + T<int>) + T<string>
             "yBarPeriodAlignment", BarPeriodAlignment.Type
-            "yperiod0", T<Number> + T<string>
+            "yperiod0", (T<float> + T<int>) + T<string>
             "BarMarker", BarMarker.Type
-            "textangle", T<Number> //angle
-            "textBarFont", BarFont.Type
+            "textangle", (T<float> + T<int>) //angle
+            "textBarFont", BarFontConfig.Type
             "error_x",  BarErrorX.Type
             "error_y",  BarErrorY.Type
-            "selectedpoints", T<Number> + T<string>
-            "selected", Selected.Type
-            "unselected", Selected.Type
+            "selectedpoints", (T<float> + T<int>) + T<string>
+            "selected", BarSelectedOption.Type
+            "unselected", BarSelectedOption.Type
             "cliponaxis", T<bool>
             "BarConstrainText",  BarConstrainText.Type
             "BarHoverLabel",  BarHoverLabel.Type
             "inside BarTextAnchor",  BarTextAnchor.Type
-            "insidetextBarFont", BarFont.Type
-            "outsidetextBarFont", BarFont.Type
+            "insidetextBarFont", BarFontConfig.Type
+            "outsidetextBarFont", BarFontConfig.Type
             "x BarCalendar",  BarCalendar.Type
             "y BarCalendar",  BarCalendar.Type
-            "uirevision", T<Number> + T<string>
+            "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let BarTraceNamespaces : CodeModel.NamespaceEntity list = [
         BarVisibleString
-        BarNullValue
-        BarColor
-        BarColorScale
-        BarFont
+        BarFontConfig
         BarLegendGroupTitle
         BarTextPosition
         BarHoverInfo
@@ -496,8 +510,8 @@ module BarModule =
         BarTickLabelPosition
         BarTickFormatStops
         BarShowTickFix
-        BarShowExponent
         BarExponentFormat
+        BarSide
         BarTitle
         BarColorBar
         BarMarkerPatternShape
@@ -511,6 +525,7 @@ module BarModule =
         BarSelectedTextFont
         BarSelectedOption
         BarConstrainText
+        BarAlign
         BarHoverLabel
         BarTextAnchor
         BarCalendar

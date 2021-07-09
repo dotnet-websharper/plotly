@@ -25,49 +25,44 @@ open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
 
-module ScattleGLModule =
+module ScatterGLModule =
 
-    (*let ASD =
-        Pattern.Config "ASD" {
-            Required = []
-            Optional = []
-        }*)
     let NullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
 
-    let Color = T<string> + T<Number> + (!| (!? (NullValue.Type + T<string> + T<Number>))) + (!| (!| ((!? (NullValue.Type + T<string> + T<Number>))))) 
+    let Color = T<string> + (T<float> + T<int>) + (!| (!? (NullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (NullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
-    let ColorScale = T<string> + (!| T<string>) + (!| (T<Number> * T<string>))
+    let ColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
 
-    let VisibleString = Pattern.EnumStrings "VisibleString" ["legendonly"]
+    let ScatterGLVisibleString = Pattern.EnumStrings "ScatterGLVisibleString" ["legendonly"]
 
-    let FontConfig =
-        Pattern.Config "FontConfig" {
+    let ScatterGLFontConfig =
+        Pattern.Config "ScatterGLFontConfig" {
             Required = []
             Optional = [
                 "family", T<string>
-                "size", T<Number>
+                "size", (T<float> + T<int>)
                 "color", Color
             ]
         }
 
-    let LegendGroupTitle =
-        Pattern.Config "LegendGroupTitle" {
+    let ScatterGLLegendGroupTitle =
+        Pattern.Config "ScatterGLLegendGroupTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", FontConfig.Type
+                "font", ScatterGLFontConfig.Type
             ]
         }
 
-    let Modes =
+    let ScatterGLModes =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["lines"; "markers"; "text"] '+')
             let seq2 = seq{"none"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "Modes" generatedEnum
+        Pattern.EnumStrings "ScatterGLModes" generatedEnum
 
-    let TextPosition =
-        Pattern.EnumInlines "TextPosition" [
+    let ScatterGLTextPosition =
+        Pattern.EnumInlines "ScatterGLTextPosition" [
             "TopLeft", "'top left'"
             "TopCenter", "'top center'"
             "TopRight", "'top right'"
@@ -79,49 +74,49 @@ module ScattleGLModule =
             "BottomRight", "'bottom right'"
         ]
 
-    let HoverInfo =
+    let ScatterGLHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "HoverInfo" generatedEnum
+        Pattern.EnumStrings "ScatterGLHoverInfo" generatedEnum
 
-    let Orientation =
-        Pattern.EnumStrings "Orientation" [
+    let ScatterGLOrientation =
+        Pattern.EnumStrings "ScatterGLOrientation" [
             "v"
             "h"
         ]
 
-    let GroupNorm =
-        Pattern.EnumInlines "GroupNorm" [
+    let ScatterGLGroupNorm =
+        Pattern.EnumInlines "ScatterGLGroupNorm" [
             "empty", "''"
             "fraction", "'fraction'"
             "percent", "'percent'"
         ]
 
-    let PeriodAlignment =
-        Pattern.EnumStrings "XPeriodAlignment" [
+    let ScatterGLPeriodAlignment =
+        Pattern.EnumStrings "XScatterGLPeriodAlignment" [
             "start"
             "middle"
             "end"
         ]
 
-    let SizeMode =
-        Pattern.EnumStrings "SizeMode" [
+    let ScatterGLSizeMode =
+        Pattern.EnumStrings "ScatterGLSizeMode" [
             "diameter"
             "area"
         ]
 
-    let MarkerLine =
-        Pattern.Config "MarkerLine" {
+    let ScatterGLMarkerLine =
+        Pattern.Config "ScatterGLMarkerLine" {
             Required = []
             Optional = [
-                "width", T<Number> + !| T<Number>
+                "width", (T<float> + T<int>) + !| T<float> + !| T<int>
                 "color", Color
                 "cauto", T<bool>
-                "cmin", T<Number>
-                "cmax", T<Number>
-                "cmid", T<Number>
+                "cmin", (T<float> + T<int>)
+                "cmax", (T<float> + T<int>)
+                "cmid", (T<float> + T<int>)
                 "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
@@ -129,66 +124,66 @@ module ScattleGLModule =
             ]
         }
 
-    let GradientType =
-        Pattern.EnumStrings "GradientType" [
+    let ScatterGLGradientType =
+        Pattern.EnumStrings "ScatterGLGradientType" [
             "radial"
             "horizontal"
             "vertical"
             "none"
         ]
 
-    let Gradient =
-        Pattern.Config "Gradient" {
+    let ScatterGLGradient =
+        Pattern.Config "ScatterGLGradient" {
             Required = []
             Optional = [
-                "type", GradientType.Type
+                "type", ScatterGLGradientType.Type
                 "color", Color + !| Color
             ]
         }
 
-    let ColorBarMode =
-        Pattern.EnumStrings "ThicknessMode" [
+    let ScatterGLColorBarMode =
+        Pattern.EnumStrings "ScatterGLThicknessMode" [
             "fraction"
             "pixels"
         ]
 
-    let XAnchor =
-        Pattern.EnumStrings "XAnchor" [
+    let ScatterGLXAnchor =
+        Pattern.EnumStrings "ScatterGLXAnchor" [
             "left"
             "center"
             "right"
         ]
 
-    let YAnchor =
-        Pattern.EnumStrings "YAnchor" [
+    let ScatterGLYAnchor =
+        Pattern.EnumStrings "ScatterGLYAnchor" [
             "top"
             "middle"
             "bottom"
         ]
 
-    let TickMode =
-        Pattern.EnumStrings "Tickmode" [
+    let ScatterGLTickMode =
+        Pattern.EnumStrings "ScatterGLTickMode" [
             "auto"
             "linear"
             "array"
         ]
 
-    let Ticks =
-        Pattern.EnumInlines "Ticks" [
+    let ScatterGLTicks =
+        Pattern.EnumInlines "ScatterGLTicks" [
             "outside", "'outside'"
             "inside", "'inside'"
             "empty", "''"
         ]
 
-    let TickLabelOverflow =
-        Pattern.EnumInlines "TickLabelOverflow" [
+    let ScatterGLTickLabelOverflow =
+        Pattern.EnumInlines "ScatterGLTickLabelOverflow" [
             "allow", "'allow'"
             "hidePastDiv", "'hide past div'"
             "hidePastDomain", "'hide Past Domain'"
         ]
 
-    let TickLabelPosition =
-        Pattern.EnumInlines "TickLabelPosition" [
+    let ScatterGLTickLabelPosition =
+        Pattern.EnumInlines "ScatterGLTickLabelPosition" [
             "outside", "'outside'"
             "inside", "'inside'"
             "outsideTop", "'outside top'"
@@ -197,10 +192,10 @@ module ScattleGLModule =
             "insideBottom", "'inside bottom'"
         ]
 
-    let DTickValue = T<Number> + T<string>
+    let DTickValue = (T<float> + T<int>) + T<string>
 
-    let TickFormatStops =
-        Pattern.Config "TickFormatStops" {
+    let ScatterGLTickFormatStops =
+        Pattern.Config "ScatterGLTickFormatStops" {
             Required = []
             Optional = [
                 "enabled", T<bool>
@@ -211,18 +206,18 @@ module ScattleGLModule =
             ]
         }
 
-    let ShowTickFix =
-        Pattern.EnumStrings "ShowTickFix" [
+    let ScatterGLShowTickFix =
+        Pattern.EnumStrings "ScatterGLShowTickFix" [
             "all"
             "first"
             "last"
             "none"
         ]
 
-    let ShowExponent = ShowTickFix
+    let ScatterGLShowExponent = ScatterGLShowTickFix
 
-    let ExponentFormat =
-        Pattern.EnumInlines "ExponentFormat" [
+    let ScatterGLExponentFormat =
+        Pattern.EnumInlines "ScatterGLExponentFormat" [
             "none", "'none'"
             "Lowercase_E", "'e'"
             "Uppercase_E", "'E'"
@@ -231,73 +226,73 @@ module ScattleGLModule =
             "B", "'B'"
         ]
 
-    let Side =
-        Pattern.EnumStrings "Side" [
+    let ScatterGLSide =
+        Pattern.EnumStrings "ScatterGLSide" [
             "right"
             "top"
             "bottom"
         ]
 
-    let Title =
-        Pattern.Config "Title" {
+    let ScatterGLTitle =
+        Pattern.Config "ScatterGLTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", FontConfig.Type
-                "side", Side.Type
+                "font", ScatterGLFontConfig.Type
+                "side", ScatterGLSide.Type
             ]
         }
 
-    let ColorBar =
-        Pattern.Config "ColorBar" {
+    let ScatterGLColorBar =
+        Pattern.Config "ScatterGLColorBar" {
             Required = []
             Optional = [
-                "thicknessmode", ColorBarMode.Type
-                "thickness", T<Number>
-                "lenmode", ColorBarMode.Type
-                "len", T<Number>
+                "thicknessmode", ScatterGLColorBarMode.Type
+                "thickness", (T<float> + T<int>)
+                "lenmode", ScatterGLColorBarMode.Type
+                "len", (T<float> + T<int>)
                 "x", T<float>
-                "xanchor", XAnchor.Type
-                "xpad", T<Number>
+                "xanchor", ScatterGLXAnchor.Type
+                "xpad", (T<float> + T<int>)
                 "y", T<float>
-                "yanchor", YAnchor.Type
-                "ypad", T<Number>
+                "yanchor", ScatterGLYAnchor.Type
+                "ypad", (T<float> + T<int>)
                 "outlinecolor", Color
-                "outlinewidth", T<Number>
+                "outlinewidth", (T<float> + T<int>)
                 "bordercolor", Color
-                "borderwidth", T<Number>
+                "borderwidth", (T<float> + T<int>)
                 "bgcolor", Color
-                "tickmode", TickMode.Type
+                "tickmode", ScatterGLTickMode.Type
                 "nticks", T<int>
-                "tick0", T<Number> + T<string>
-                "dtick", T<Number> + T<string>
+                "tick0", (T<float> + T<int>) + T<string>
+                "dtick", (T<float> + T<int>) + T<string>
                 "tickvals", !| T<obj>
                 "ticktext", !| T<string> 
-                "ticks", Ticks.Type
-                "ticklabeloverflow", TickLabelOverflow.Type
-                "ticklabelposition", TickLabelPosition.Type
-                "ticklen", T<Number>
-                "tickwidth", T<Number>
+                "ticks", ScatterGLTicks.Type
+                "ticklabeloverflow", ScatterGLTickLabelOverflow.Type
+                "ticklabelposition", ScatterGLTickLabelPosition.Type
+                "ticklen", (T<float> + T<int>)
+                "tickwidth", (T<float> + T<int>)
                 "tickcolor", Color
                 "showticklabels", T<bool>
-                "tickfont", FontConfig.Type
-                "tickangle", T<Number> //type: Angle
+                "tickfont", ScatterGLFontConfig.Type
+                "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
-                "tickformatstops", TickFormatStops.Type
+                "tickformatstops", ScatterGLTickFormatStops.Type
                 "tickprefix", T<string>
-                "showtickprefix", ShowTickFix.Type
+                "showtickprefix", ScatterGLShowTickFix.Type
                 "ticksuffix", T<string>
-                "showticksuffix", ShowTickFix.Type
+                "showticksuffix", ScatterGLShowTickFix.Type
                 "separatethousands", T<bool>
-                "exponentformat", ExponentFormat.Type
-                "minexponent", T<Number>
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", Title.Type
+                "exponentformat", ScatterGLExponentFormat.Type
+                "minexponent", (T<float> + T<int>)
+                "showexponent", ScatterGLShowExponent.Type // change type name to fit
+                "title", ScatterGLTitle.Type
             ]
         }
 
-    let Symbol =
-        Pattern.EnumStrings "Symbol" [
+    let ScatterGLSymbol =
+        Pattern.EnumStrings "ScatterGLSymbol" [
             "0"
             "circle"
             "100"
@@ -616,33 +611,33 @@ module ScattleGLModule =
             "arrow-bar-right-open"
         ]
 
-    let Marker =
-        Pattern.Config "Marker" {
+    let ScatterGLMarker =
+        Pattern.Config "ScatterGLMarker" {
             Required = []
             Optional = [
-                "symbol", Symbol.Type
+                "symbol", ScatterGLSymbol.Type
                 "opacity", T<float> + !| T<float>
-                "size", T<Number> + !| T<Number>
-                "sizeref", T<Number>
-                "sizemin", T<Number>
-                "sizemode", SizeMode.Type
-                "line", MarkerLine.Type
+                "size", (T<float> + T<int>) + !| T<float> + !| T<int>
+                "sizeref", (T<float> + T<int>)
+                "sizemin", (T<float> + T<int>)
+                "sizemode", ScatterGLSizeMode.Type
+                "line", ScatterGLMarkerLine.Type
                 "color", Color + !| Color
                 "cauto", T<bool>
-                "cmin", T<Number>
-                "cmax", T<Number>
-                "cmid", T<Number>
+                "cmin", (T<float> + T<int>)
+                "cmax", (T<float> + T<int>)
+                "cmid", (T<float> + T<int>)
                 "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", ColorBar.Type
+                "colorbar", ScatterGLColorBar.Type
                 "coloraxis", T<string> // type: subplotid
             ]
         }
 
-    let Shape =
-        Pattern.EnumStrings "Shape" [
+    let ScatterGLShape =
+        Pattern.EnumStrings "ScatterGLShape" [
             "linear"
             "spline"
             "hv"
@@ -651,93 +646,93 @@ module ScattleGLModule =
             "vhv"
         ]
 
-    let Line =
-        Pattern.Config "Line" {
+    let ScatterGLLine =
+        Pattern.Config "ScatterGLLine" {
             Required = []
             Optional = [
                 "color", Color
-                "width", T<Number>
-                "shape", Shape.Type
-                "smoothing", T<Number>
+                "width", (T<float> + T<int>)
+                "shape", ScatterGLShape.Type
+                "smoothing", (T<float> + T<int>)
                 "dash", T<string>
                 "simplify", T<bool>
             ]
         }
 
-    let ErrorType =
-        Pattern.EnumStrings "ErrorXType" [
+    let ScatterGLErrorType =
+        Pattern.EnumStrings "ScatterGLErrorXType" [
             "percent"
             "constant"
             "sqrt"
             "data"
         ]
 
-    let ErrorX = 
-        Pattern.Config "ErrorX" {
+    let ScatterGLErrorX = 
+        Pattern.Config "ScatterGLErrorX" {
             Required = []
             Optional = [
                 "visible", T<bool>
-                "type", ErrorType.Type
+                "type", ScatterGLErrorType.Type
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
-                "value", T<Number>
-                "valueminus", T<Number>
+                "value", (T<float> + T<int>)
+                "valueminus", (T<float> + T<int>)
                 "traceref", T<int>
                 "tracerefminus", T<int>
                 "copy_ystyle", T<bool>
                 "color", Color
-                "thickness", T<Number>
-                "width", T<Number>
+                "thickness", (T<float> + T<int>)
+                "width", (T<float> + T<int>)
             ]
         }
 
-    let ErrorY = 
-        Pattern.Config "ErrorY" {
+    let ScatterGLErrorY = 
+        Pattern.Config "ScatterGLErrorY" {
             Required = []
             Optional = [
                 "visible", T<bool>
-                "type", ErrorType.Type
+                "type", ScatterGLErrorType.Type
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
-                "value", T<Number>
-                "valueminus", T<Number>
+                "value", (T<float> + T<int>)
+                "valueminus", (T<float> + T<int>)
                 "traceref", T<int>
                 "tracerefminus", T<int>
                 "color", Color
-                "thickness", T<Number>
-                "width", T<Number>
+                "thickness", (T<float> + T<int>)
+                "width", (T<float> + T<int>)
             ]
         }
 
-    let SelectedMarker =
-        Pattern.Config "SelectedMarker" {
+    let ScatterGLSelectedMarker =
+        Pattern.Config "ScatterGLSelectedMarker" {
             Required = []
             Optional = [
-                "opacity", T<Number>
+                "opacity", (T<float> + T<int>)
                 "color", Color
-                "size", T<Number>
+                "size", (T<float> + T<int>)
             ]
         }
 
-    let SelectedTextFont =
-        Pattern.Config "SelectedTextFont" {
+    let ScatterGLSelectedTextFont =
+        Pattern.Config "ScatterGLSelectedTextFont" {
             Required = []
             Optional = ["color", Color]
         }
 
-    let SelectedOption =
-        Pattern.Config "Selected" {
+    let ScatterGLSelectedOption =
+        Pattern.Config "ScatterGLSelectedOption" {
             Required = []
             Optional = [
-                "marker", SelectedMarker.Type
-                "textfont", SelectedTextFont.Type
+                "marker", ScatterGLSelectedMarker.Type
+                "textfont", ScatterGLSelectedTextFont.Type
             ]
         }
 
-    let Fill =
-        Pattern.EnumStrings "Fill" [
+    let ScatterGLFill =
+        Pattern.EnumStrings "ScatterGLFill" [
             "none"
             "tozeroy"
             "tozerox"
@@ -747,37 +742,37 @@ module ScattleGLModule =
             "tonext"
         ]
 
-    let Align =
-        Pattern.EnumStrings "Align" [
+    let ScatterGLAlign =
+        Pattern.EnumStrings "ScatterGLAlign" [
             "left"
             "right"
             "auto"
         ]
 
-    let HoverLabel =
-        Pattern.Config "HoverLabel" {
+    let ScatterGLHoverLabel =
+        Pattern.Config "ScatterGLHoverLabel" {
             Required = []
             Optional = [
                 "bgcolor", Color + !| Color
                 "bordercolor", Color + !| Color
-                "fonts", FontConfig.Type
-                "line", Align.Type
+                "fonts", ScatterGLFontConfig.Type
+                "line", ScatterGLAlign.Type
                 "namelength", T<int>
             ]
         }
 
-    let HoverOn =
+    let ScatterGLHoverOn =
         let generatedEnum = GenerateOptions.allPermutations ["points"; "fills"] '+'
-        Pattern.EnumStrings "HoverOn" generatedEnum
+        Pattern.EnumStrings "ScatterGLHoverOn" generatedEnum
 
-    let StackGaps =
-        Pattern.EnumInlines "StackGaps" [
+    let ScatterGLStackGaps =
+        Pattern.EnumInlines "ScatterGLStackGaps" [
             "inferZero", "'infer zero'"
             "interpolate", "'interpolate'"
         ]
 
-    let Calendar =
-        Pattern.EnumStrings "Calendar" [
+    let ScatterGLCalendar =
+        Pattern.EnumStrings "ScatterGLCalendar" [
             "gregorian"
             "chinese"
             "coptic"
@@ -804,99 +799,99 @@ module ScattleGLModule =
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + VisibleString.Type
+            "visible", T<bool> + ScatterGLVisibleString.Type
             "showlegend", T<bool>
-            "legendrank", T<Number>
+            "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", LegendGroupTitle.Type
+            "legendgrouptitle", ScatterGLLegendGroupTitle.Type
             "opacity", T<float>
-            "mode", Modes.Type
+            "mode", ScatterGLModes.Type
             "ids", !| T<string>
-            "x", !| T<Number>
-            "x0", T<Number> + T<string>
-            "dx", T<Number>
-            "y", !| T<Number>
-            "y0", T<Number> + T<string>
-            "dy", T<Number>
+            "x", !| T<float> + !| T<int>
+            "x0", (T<float> + T<int>) + T<string>
+            "dx", (T<float> + T<int>)
+            "y", !| T<float> + !| T<int>
+            "y0", (T<float> + T<int>) + T<string>
+            "dy", (T<float> + T<int>)
             "text", T<string> + !| T<string>
-            "textposition", TextPosition.Type
+            "textposition", ScatterGLTextPosition.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", HoverInfo.Type
+            "hoverinfo", ScatterGLHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "xhoverformat", T<string>
             "yhoverformat", T<string>
-            "meta", T<Number> + T<string>
+            "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "xaxis", T<string> //type is 'subplotid'
             "yaxis", T<string> //type is 'subplotid'
-            "orientation", Orientation.Type
-            "groupnorm", GroupNorm.Type
+            "orientation", ScatterGLOrientation.Type
+            "groupnorm", ScatterGLGroupNorm.Type
             "stackgroup", T<string>
-            "xperiod", T<Number> + T<string>
-            "xperiodalignment", PeriodAlignment.Type
-            "xperiod0", T<Number> + T<string>
-            "yperiod", T<Number> + T<string>
-            "yperiodalignment", PeriodAlignment.Type
-            "yperiod0", T<Number> + T<string>
-            "marker", Marker.Type
-            "line", Line.Type
-            "textfont", FontConfig.Type
-            "error_x", ErrorX.Type
-            "error_y", ErrorY.Type
-            "selectedpoints", T<Number> + T<string>
-            "selected", SelectedOption.Type
-            "unselected", SelectedOption.Type // change name later
+            "xperiod", (T<float> + T<int>) + T<string>
+            "xperiodalignment", ScatterGLPeriodAlignment.Type
+            "xperiod0", (T<float> + T<int>) + T<string>
+            "yperiod", (T<float> + T<int>) + T<string>
+            "yperiodalignment", ScatterGLPeriodAlignment.Type
+            "yperiod0", (T<float> + T<int>) + T<string>
+            "marker", ScatterGLMarker.Type
+            "line", ScatterGLLine.Type
+            "textfont", ScatterGLFontConfig.Type
+            "error_x", ScatterGLErrorX.Type
+            "error_y", ScatterGLErrorY.Type
+            "selectedpoints", (T<float> + T<int>) + T<string>
+            "selected", ScatterGLSelectedOption.Type
+            "unselected", ScatterGLSelectedOption.Type // change name later
             "cliponaxis", T<bool>
             "connectgaps", T<bool>
-            "fill", Fill.Type
+            "fill", ScatterGLFill.Type
             "fillcolor", Color
-            "hoverlabel", HoverLabel.Type
-            "xcalendar", Calendar.Type
-            "ycalendar", Calendar.Type
-            "uirevision", T<Number> + T<string>
+            "hoverlabel", ScatterGLHoverLabel.Type
+            "xcalendar", ScatterGLCalendar.Type
+            "ycalendar", ScatterGLCalendar.Type
+            "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let ScatterGLTraceNamespaces : CodeModel.NamespaceEntity list = [
-        VisibleString
-        FontConfig
-        LegendGroupTitle
-        Modes
-        TextPosition
-        HoverInfo
-        Orientation
-        GroupNorm
-        PeriodAlignment
-        SizeMode
-        MarkerLine
-        GradientType
-        Gradient
-        ColorBarMode
-        XAnchor
-        YAnchor
-        TickMode
-        Ticks
-        TickLabelOverflow
-        TickLabelPosition
-        TickFormatStops
-        ShowTickFix
-        ExponentFormat
-        Side
-        Title
-        ColorBar
-        Symbol
-        Marker
-        Shape
-        Line
-        ErrorType
-        ErrorX
-        ErrorY
-        SelectedMarker
-        SelectedTextFont
-        SelectedOption
-        Fill
-        Align
-        HoverLabel
-        Calendar
+        ScatterGLVisibleString
+        ScatterGLFontConfig
+        ScatterGLLegendGroupTitle
+        ScatterGLModes
+        ScatterGLTextPosition
+        ScatterGLHoverInfo
+        ScatterGLOrientation
+        ScatterGLGroupNorm
+        ScatterGLPeriodAlignment
+        ScatterGLSizeMode
+        ScatterGLMarkerLine
+        ScatterGLGradientType
+        ScatterGLGradient
+        ScatterGLColorBarMode
+        ScatterGLXAnchor
+        ScatterGLYAnchor
+        ScatterGLTickMode
+        ScatterGLTicks
+        ScatterGLTickLabelOverflow
+        ScatterGLTickLabelPosition
+        ScatterGLTickFormatStops
+        ScatterGLShowTickFix
+        ScatterGLExponentFormat
+        ScatterGLSide
+        ScatterGLTitle
+        ScatterGLColorBar
+        ScatterGLSymbol
+        ScatterGLMarker
+        ScatterGLShape
+        ScatterGLLine
+        ScatterGLErrorType
+        ScatterGLErrorX
+        ScatterGLErrorY
+        ScatterGLSelectedMarker
+        ScatterGLSelectedTextFont
+        ScatterGLSelectedOption
+        ScatterGLFill
+        ScatterGLAlign
+        ScatterGLHoverLabel
+        ScatterGLCalendar
         ScatterGLOptions
     ]

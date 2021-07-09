@@ -27,96 +27,96 @@ open WebSharper.Plotly.Extension.GenerateEnum
 
 module HeatMapModule =
 
-    let HMNullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
+    let HMGLNullValue = Pattern.EnumInlines "NullValue" ["null", "null"]
 
-    let HMColor = T<string> + (T<float> + T<int>) + (!| (!? (HMNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (HMNullValue.Type + T<string> + (T<float> + T<int>)))))) 
+    let HMGLColor = T<string> + (T<float> + T<int>) + (!| (!? (HMGLNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (HMGLNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
-    let HMColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
+    let HMGLColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
 
-    let HMVisibleString = Pattern.EnumStrings "HMVisibleString" ["legendonly"]
+    let HMGLVisibleString = Pattern.EnumStrings "HMGLVisibleString" ["legendonly"]
 
-    let HMFont =
-        Pattern.Config "HMFont" {
+    let HMGLFont =
+        Pattern.Config "HMGLFont" {
             Required = []
             Optional = [
                 "family", T<string>
                 "size", (T<float> + T<int>)
-                "color", HMColor
+                "color", HMGLColor
             ]
         }
 
-    let HMLegendGroupTitle =
-        Pattern.Config "HMLegendGroupTitle" {
+    let HMGLLegendGroupTitle =
+        Pattern.Config "HMGLLegendGroupTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", HMFont.Type
+                "font", HMGLFont.Type
             ]
         }
 
-    let HMXYType =
-        Pattern.EnumStrings "HMXYType" [
+    let HMGLXYType =
+        Pattern.EnumStrings "HMGLXYType" [
             "array"
             "scaled"
         ]
 
-    let HMHoverInfo =
+    let HMGLHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "HMHoverInfo" generatedEnum
+        Pattern.EnumStrings "HMGLHoverInfo" generatedEnum
 
-    let HMPeriodAlignment =
-        Pattern.EnumStrings "HMPeriodAlignment" [
+    let HMGLPeriodAlignment =
+        Pattern.EnumStrings "HMGLPeriodAlignment" [
             "start"
             "middle"
             "end"
         ]
 
-    let HMColorBarMode =
-        Pattern.EnumStrings "HMColorBarMode" [
+    let HMGLColorBarMode =
+        Pattern.EnumStrings "HMGLColorBarMode" [
             "fraction"
             "pixels"
         ]
 
-    let HMXAnchor =
-        Pattern.EnumStrings "HMXAnchor" [
+    let HMGLXAnchor =
+        Pattern.EnumStrings "HMGLXAnchor" [
             "left"
             "center"
             "right"
         ]
 
-    let HMYAnchor =
-        Pattern.EnumStrings "HMYAnchor" [
+    let HMGLYAnchor =
+        Pattern.EnumStrings "HMGLYAnchor" [
             "top"
             "middle"
             "bottom"
         ]
 
-    let HMTickMode =
-        Pattern.EnumStrings "HMTickMode" [
+    let HMGLTickMode =
+        Pattern.EnumStrings "HMGLTickMode" [
             "auto"
             "linear"
             "array"
         ]
 
-    let HMTicks =
-        Pattern.EnumInlines "HMTicks" [
+    let HMGLTicks =
+        Pattern.EnumInlines "HMGLTicks" [
             "outside", "'outside'"
             "inside", "'inside'"
             "empty", "''"
         ]
 
-    let HMTickLabelOverflow =
-        Pattern.EnumInlines "HMTickLabelOverflow" [
+    let HMGLTickLabelOverflow =
+        Pattern.EnumInlines "HMGLTickLabelOverflow" [
             "allow", "'allow'"
             "hidePastDiv", "'hide past div'"
             "hidePastDomain", "'hide Past Domain'"
         ]
 
-    let HMTickLabelPosition =
-        Pattern.EnumInlines "HMTickLabelPosition" [
+    let HMGLTickLabelPosition =
+        Pattern.EnumInlines "HMGLTickLabelPosition" [
             "outside", "'outside'"
             "inside", "'inside'"
             "outsideTop", "'outside top'"
@@ -125,32 +125,32 @@ module HeatMapModule =
             "insideBottom", "'inside bottom'"
         ]
 
-    let HMDTickValue = (T<float> + T<int>) + T<string>
+    let HMGLDTickValue = (T<float> + T<int>) + T<string>
 
-    let HMTickFormatStops =
-        Pattern.Config "HMTickFormatStops" {
+    let HMGLTickFormatStops =
+        Pattern.Config "HMGLTickFormatStops" {
             Required = []
             Optional = [
                 "enabled", T<bool>
-                "dtickrange", !| ((HMDTickValue + HMNullValue.Type) * (HMDTickValue + HMNullValue.Type))
+                "dtickrange", !| ((HMGLDTickValue + HMGLNullValue.Type) * (HMGLDTickValue + HMGLNullValue.Type))
                 "value", T<string>
                 "name", T<string>
                 "templateitemname", T<string>
             ]
         }
 
-    let HMShowTickFix =
-        Pattern.EnumStrings "HMShowTickFix" [
+    let HMGLShowTickFix =
+        Pattern.EnumStrings "HMGLShowTickFix" [
             "all"
             "first"
             "last"
             "none"
         ]
 
-    let HMShowExponent = HMShowTickFix
+    let HMGLShowExponent = HMGLShowTickFix
 
-    let HMExponentFormat =
-        Pattern.EnumInlines "HMExponentFormat" [
+    let HMGLExponentFormat =
+        Pattern.EnumInlines "HMGLExponentFormat" [
             "none", "'none'"
             "Lowercase_E", "'e'"
             "Uppercase_E", "'E'"
@@ -159,203 +159,163 @@ module HeatMapModule =
             "B", "'B'"
         ]
 
-    let HMSide =
-        Pattern.EnumStrings "HMSide" [
+    let HMGLSide =
+        Pattern.EnumStrings "HMGLSide" [
             "right"
             "top"
             "bottom"
         ]
 
-    let HMTitle =
-        Pattern.Config "HMTitle" {
+    let HMGLTitle =
+        Pattern.Config "HMGLTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", HMFont.Type
-                "side", HMSide.Type
+                "font", HMGLFont.Type
+                "side", HMGLSide.Type
             ]
         }
 
-    let HMColorBar =
-        Pattern.Config "HMColorBar" {
+    let HMGLColorBar =
+        Pattern.Config "HMGLColorBar" {
             Required = []
             Optional = [
-                "thicknessmode", HMColorBarMode.Type
+                "thicknessmode", HMGLColorBarMode.Type
                 "thickness", (T<float> + T<int>)
-                "lenmode", HMColorBarMode.Type
+                "lenmode", HMGLColorBarMode.Type
                 "len", (T<float> + T<int>)
                 "x", T<float>
-                "xanchor", HMXAnchor.Type
+                "xanchor", HMGLXAnchor.Type
                 "xpad", (T<float> + T<int>)
                 "y", T<float>
-                "yanchor", HMYAnchor.Type
+                "yanchor", HMGLYAnchor.Type
                 "ypad", (T<float> + T<int>)
-                "outlinecolor", HMColor
+                "outlinecolor", HMGLColor
                 "outlinewidth", (T<float> + T<int>)
-                "bordercolor", HMColor
+                "bordercolor", HMGLColor
                 "borderwidth", (T<float> + T<int>)
-                "bgcolor", HMColor
-                "tickmode", HMTickMode.Type
+                "bgcolor", HMGLColor
+                "tickmode", HMGLTickMode.Type
                 "nticks", T<int>
                 "tick0", (T<float> + T<int>) + T<string>
                 "dtick", (T<float> + T<int>) + T<string>
                 "tickvals", !| T<obj>
                 "ticktext", !| T<string> 
-                "ticks", HMTicks.Type
-                "ticklabeloverflow", HMTickLabelOverflow.Type
-                "ticklabelposition", HMTickLabelPosition.Type
+                "ticks", HMGLTicks.Type
+                "ticklabeloverflow", HMGLTickLabelOverflow.Type
+                "ticklabelposition", HMGLTickLabelPosition.Type
                 "ticklen", (T<float> + T<int>)
                 "tickwidth", (T<float> + T<int>)
-                "tickcolor", HMColor
+                "tickcolor", HMGLColor
                 "showticklabels", T<bool>
-                "tickfont", HMFont.Type
+                "tickfont", HMGLFont.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
-                "tickformatstops", HMTickFormatStops.Type
+                "tickformatstops", HMGLTickFormatStops.Type
                 "tickprefix", T<string>
-                "showtickprefix", HMShowTickFix.Type
+                "showtickprefix", HMGLShowTickFix.Type
                 "ticksuffix", T<string>
-                "showticksuffix", HMShowTickFix.Type
+                "showticksuffix", HMGLShowTickFix.Type
                 "separatethousands", T<bool>
-                "exponentformat", HMExponentFormat.Type
+                "exponentformat", HMGLExponentFormat.Type
                 "minexponent", (T<float> + T<int>)
-                "showexponent", HMShowExponent.Type // change type name to fit
-                "title", HMTitle.Type
+                "showexponent", HMGLShowExponent.Type // change type name to fit
+                "title", HMGLTitle.Type
             ]
         }
 
-    let HMZSmooth =
-        Pattern.EnumStrings "HMZSmooth" [
+    let HMGLZSmooth =
+        Pattern.EnumStrings "HMGLZSmooth" [
             "fast"
             "best"
         ]
 
-    let HMAlign =
-        Pattern.EnumStrings "HMAlign" [
+    let HMGLAlign =
+        Pattern.EnumStrings "HMGLAlign" [
             "left"
             "right"
             "auto"
         ]
 
-    let HMHoverLabel =
-        Pattern.Config "HMHoverLabel" {
+    let HMGLHoverLabel =
+        Pattern.Config "HMGLHoverLabel" {
             Required = []
             Optional = [
-                "bgcolor", HMColor + !| HMColor
-                "bordercolor", HMColor + !| HMColor
-                "fonts", HMFont.Type
-                "align", HMAlign.Type
+                "bgcolor", HMGLColor + !| HMGLColor
+                "bordercolor", HMGLColor + !| HMGLColor
+                "fonts", HMGLFont.Type
+                "align", HMGLAlign.Type
                 "namelength", T<int>
             ]
         }
 
-    let HMCalendar =
-        Pattern.EnumStrings "HMCalendar" [
-            "gregorian"
-            "chinese"
-            "coptic"
-            "discworld"
-            "ethiopian"
-            "hebrew"
-            "islamic"
-            "julian"
-            "mayan"
-            "nanakshahi"
-            "nepali"
-            "persian"
-            "jalali"
-            "taiwan"
-            "thai"
-            "ummalqura"
-        ]
-
-    let HeatMapOptions = 
-        Class "HeatMapOptions"
+    let HeatMapGLOptions = 
+        Class "HeatMapGLOptions"
         |+> Static [
             Constructor T<unit>
-            |> WithInline "{type:'heatmap'}"
+            |> WithInline "{type:'heatmapgl'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + HMVisibleString.Type
-            "showlegend", T<bool>
+            "visible", T<bool> + HMGLVisibleString.Type
             "legendrank", T<float> + T<int>
-            "legendgroup", T<string>
-            "legendgrouptitle", HMLegendGroupTitle.Type
+            "legendgrouptitle", HMGLLegendGroupTitle.Type
             "opacity", (T<float> + T<int>)
             "ids", !| T<string> //data array
             "x", !| T<float> + !| T<int> + !| T<string> //data array
             "x0", (T<float> + T<int>) + !| T<string>
             "dx", (T<float> + T<int>)
-            "xtype", HMXYType.Type
-            "xgap", (T<float> + T<int>)
+            "xtype", HMGLXYType.Type
             "y", !| T<float> + !| T<int> + !| T<string> + !| (!| T<float> + !| T<int> + !| T<string>) + !| (!| (!| T<float> + !| T<int> + !| T<string>))    //data array
             "y0", (T<float> + T<int>) + !| T<string>
             "dy", (T<float> + T<int>)
-            "ytype", HMXYType.Type
-            "ygap", (T<float> + T<int>)
+            "ytype", HMGLXYType.Type
             "z", !| T<float> + !| T<int> + !| T<string> //data array
             "text", !| T<string> //data array
-            "hovertext", !| T<string> //data array
-            "hoverinfo", HMHoverInfo.Type
-            "hovertemplate", T<string>
-            "xhoverformat", T<string>
-            "yhoverformat", T<string>
+            "hoverinfo", HMGLHoverInfo.Type
             "meta", (T<float> + T<int>) + T<string>
             "customdata", !| T<string> //data array
             "xaxis", T<string> //subplotid
             "yaxis", T<string> //subplotid
             "coloraxis", T<string> //subplotid
-            "xperiod", (T<float> + T<int>) + T<string>
-            "xperiodalignment", HMPeriodAlignment.Type
-            "xperiod0", (T<float> + T<int>) + T<string>
-            "yperiod", (T<float> + T<int>) + T<string>
-            "yperiodalignment", HMPeriodAlignment.Type
-            "yperiod0", (T<float> + T<int>) + T<string>
-            "colorbar", HMColorBar.Type
+            "colorbar", HMGLColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", HMColorScale
+            "colorscale", HMGLColorScale
             "showscale", T<bool>
             "reversescale", T<bool>
             "zauto", T<bool>
-            "zhoverformat", T<string>
             "zmax", (T<float> + T<int>)
             "mid", (T<float> + T<int>)
             "min", (T<float> + T<int>)
-            "zsmooth", HMZSmooth.Type + T<bool>
-            "connectgaps", T<bool>
-            "hoverlabel", HMHoverLabel.Type
-            "hoverongaps", T<bool>
+            "zsmooth", HMGLZSmooth.Type + T<bool>
+            "hoverlabel", HMGLHoverLabel.Type
             "transpose", T<bool>
-            "xcalendar", HMCalendar.Type
-            "ycalendar", HMCalendar.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
-    let HeatMapTraceNamespaces : CodeModel.NamespaceEntity list = [
-        HMFont
-        HMNullValue
-        HMVisibleString
-        HMLegendGroupTitle
-        HMXYType
-        HMHoverInfo
-        HMPeriodAlignment
-        HMColorBarMode
-        HMXAnchor
-        HMYAnchor
-        HMTickMode
-        HMTicks
-        HMTickFormatStops
-        HMTickLabelOverflow
-        HMTickLabelPosition
-        HMShowTickFix
-        HMExponentFormat
-        HMSide
-        HMTitle
-        HMColorBar
-        HMZSmooth
-        HMAlign
-        HMHoverLabel
-        HMCalendar
+    let HeatMapGLTraceNamespaces : CodeModel.NamespaceEntity list = [
+        HMGLFont
+        HMGLNullValue
+        HMGLVisibleString
+        HMGLLegendGroupTitle
+        HMGLXYType
+        HMGLHoverInfo
+        HMGLPeriodAlignment
+        HMGLColorBarMode
+        HMGLXAnchor
+        HMGLYAnchor
+        HMGLTickMode
+        HMGLTicks
+        HMGLTickFormatStops
+        HMGLTickLabelOverflow
+        HMGLTickLabelPosition
+        HMGLShowTickFix
+        HMGLExponentFormat
+        HMGLSide
+        HMGLTitle
+        HMGLColorBar
+        HMGLZSmooth
+        HMGLAlign
+        HMGLHoverLabel
         HeatMapOptions
     ]

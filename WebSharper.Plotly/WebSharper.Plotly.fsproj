@@ -6,14 +6,14 @@
     <Compile Include="Permutation.fs" />
     <Compile Include="Options/Options.fs" />
     <Compile Include="Layout/Layout.fs" />
-    <Compile Include="Traces/HeatMap.fs" />
-    <Compile Include="Traces/HeatMapGL.fs" />
-    <Compile Include="Traces/Image.fs" />
-    <Compile Include="Traces/Table.fs" />
-    <Compile Include="Traces/Bar.fs" />
-    <Compile Include="Traces/PieTrace.fs" />
-    <Compile Include="Traces/ScatterGLTrace.fs" />
-    <Compile Include="Traces/ScatterTrace.fs" />
+    <Compile Include="Traces/Simple/HeatMap.fs" />
+    <Compile Include="Traces/Simple/HeatMapGL.fs" />
+    <Compile Include="Traces/Simple/Image.fs" />
+    <Compile Include="Traces/Simple/Table.fs" />
+    <Compile Include="Traces/Simple/Bar.fs" />
+    <Compile Include="Traces/Simple/PieTrace.fs" />
+    <Compile Include="Traces/Simple/ScatterGLTrace.fs" />
+    <Compile Include="Traces/Simple/ScatterTrace.fs" />
     <Compile Include="Main.fs" />
     <None Include="wsconfig.json" />
   </ItemGroup>

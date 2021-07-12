@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebSharper.Plotly", "WebSharper.Plotly\WebSharper.Plotly.fsproj", "{6DD64CA8-C5C5-4519-B43D-29F16EDEA5AB}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "WebSharper.Plotly.Tests", "WebSharper.Plotly.Tests\WebSharper.Plotly.Tests.fsproj", "{D9E8ABE9-F3E6-4C27-9250-EF007B975F11}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6DD64CA8-C5C5-4519-B43D-29F16EDEA5AB} = {6DD64CA8-C5C5-4519-B43D-29F16EDEA5AB}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -41,8 +41,8 @@ module LayoutModule =
             ]
         }
 
-    let Ref =
-        Pattern.EnumStrings "Ref" [
+    let LayoutRef =
+        Pattern.EnumStrings "LayoutRef" [
             "container"
             "paper"
         ]
@@ -80,8 +80,8 @@ module LayoutModule =
             Optional = [
                 "text", T<string>
                 "font", LayoutFontConfig.Type
-                "xref", Ref.Type
-                "yref", Ref.Type
+                "xref", LayoutRef.Type
+                "yref", LayoutRef.Type
                 "x", T<float>
                 "y", T<float>
                 "xanchor", LayoutXAnchor.Type
@@ -90,7 +90,7 @@ module LayoutModule =
             ]
         }
 
-    let LAyoutOrientation =
+    let LayoutOrientation =
         Pattern.EnumStrings "LayoutOrientation" [
             "v"
             "h"
@@ -147,7 +147,7 @@ module LayoutModule =
                 "bordercolor", LayoutColor
                 "borderwidth", T<int>
                 "font", LayoutFontConfig.Type
-                "orientation", LAyoutOrientation.Type
+                "orientation", LayoutOrientation.Type
                 "traceorder", LayoutTraceOrder.Type
                 "tracegroupgap", T<int>
                 "itemsizing", LayoutItemSizing.Type
@@ -165,11 +165,47 @@ module LayoutModule =
             ]
         }
 
+    let LayoutMargin =
+        Pattern.Config "LayoutMargin" {
+            Required = []
+            Optional = [
+                "l", T<int>
+                "r", T<int>
+                "t", T<int>
+                "b", T<int>
+                "pad", T<int>
+                "autoexpand", T<bool>
+            ]
+        }
+
     let LayoutAutoTypeNumbers =
         Pattern.EnumInlines "LayoutAutoTypeNumbers" [
             "convertTypes", "'convert types'"
             "strict", "'strict'"
         ]
+
+    let LayoutColorscale =
+        Pattern.Config "LayoutColorscale" {
+            Required = []
+            Optional = [
+                "sequential", T<obj> // colorscale
+                "sequentialminus", T<obj> // colorscale
+                "diverging", T<obj> // colorscale
+            ]
+        }
+
+    let LayoutModebar =
+        Pattern.Config "LayoutModebar" {
+            Required = []
+            Optional = [
+                "orientation", LayoutOrientation.Type
+                "bgcolor", LayoutColor
+                "color", LayoutColor
+                "uirevision", T<Number> + T<string>
+                "add", T<string> + !| T<string>
+                "remove", T<string> + !| T<string>
+            ]
+        }
 
     let LayoutHoverMode =
         Pattern.EnumInlines "LayoutHoverMode" [
@@ -287,6 +323,62 @@ module LayoutModule =
             ]
         }
 
+    let LayoutRoworder =
+        Pattern.EnumInlines "LayoutRoworder" [
+            "topToBottom", "'top to bottom'"
+            "bottomToTop", "'bottom to top'"
+        ]
+
+    let LayoutGridPattern =
+        Pattern.EnumStrings "LayoutGridPattern" [
+            "independent"
+            "coupled"
+        ]
+
+    let LayoutDomain =
+        Pattern.Config "LayoutDomain" {
+            Required = []
+            Optional = [
+                "x", !| (T<Number> + T<string>)
+                "y", !| (T<Number> + T<string>)
+            ]
+        }
+
+    let LayoutXSide =
+        Pattern.EnumInlines "LayoutXSide" [
+            "bottom", "'bottom'"
+            "bottomPlot", "'bottom plot'"
+            "topPlot", "'top plot'"
+            "top", "'top'"
+        ]
+
+    let LayoutYSide =
+        Pattern.EnumInlines "LayoutYSide" [
+            "left", "'left'"
+            "leftPlot", "'left plot'"
+            "rightPlot", "'right plot'"
+            "right", "'right'"
+        ]
+
+    let LayoutGrid =
+        Pattern.Config "LayoutGrid" {
+            Required = []
+            Optional = [
+                "rows", T<int>
+                "roworder", LayoutRoworder.Type
+                "columns", T<int>
+                "subplots", !| T<obj>
+                "xaxes", !| T<obj>
+                "yaxes", !| T<obj>
+                "pattern", LayoutGridPattern.Type
+                "xgap", (T<float> + T<int>)
+                "ygap", (T<float> + T<int>)
+                "domain", LayoutDomain.Type
+                "xside", LayoutXSide.Type
+                "yside", LayoutYSide.Type
+            ]
+        }
+
     let LayoutCalendar =
         Pattern.EnumStrings "LayoutCalendar" [
             "gregorian"
@@ -306,6 +398,58 @@ module LayoutModule =
             "thai"
             "ummalqura"
         ]
+
+    let LayoutNewShapeLine =
+        Pattern.Config "LayoutNewShapeLine" {
+            Required = []
+            Optional = [
+                "color", LayoutColor
+                "width", T<int>
+                "dash", T<string>
+            ]
+        }
+
+    let LayoutFillRule =
+        Pattern.EnumStrings "LayoutFillRule" [
+            "evenodd"
+            "nonzero"
+        ]
+
+    let LayoutNewShapeLayer =
+        Pattern.EnumStrings "LayoutNewShapeLayer" [
+            "below"
+            "above"
+        ]
+
+    let LayoutDrawDirection =
+        Pattern.EnumStrings "LayoutDrawDirection" [
+            "ortho"
+            "horizontal"
+            "vertical"
+            "diagonal"
+        ]
+
+    let LayoutNewShape =
+        Pattern.Config "LayoutNewShape" {
+            Required = []
+            Optional = [
+                "line", LayoutNewShapeLine.Type
+                "fillcolor", LayoutColor
+                "fillrule", LayoutFillRule.Type
+                "opacity", T<float> + T<int>
+                "layer", LayoutNewShapeLayer.Type
+                "drawdirection", LayoutDrawDirection.Type
+            ]
+        }
+
+    let LayoutActiveShape =
+        Pattern.Config "LayoutActiveShape" {
+            Required = []
+            Optional = [
+                "fillcolor", LayoutColor
+                "opacity", T<float> + T<int>
+            ]
+        }
 
     let LayoutBarMode =
         Pattern.EnumStrings "LayoutBarMode" [
@@ -344,7 +488,7 @@ module LayoutModule =
             "title", LayoutTitle.Type
             "showlegend", T<bool>
             "legend", LayoutLegend.Type
-            "margin", T<unit>
+            "margin", LayoutMargin.Type
             "autosize", T<bool>
             "width", T<int>
             "height", T<int>
@@ -354,9 +498,9 @@ module LayoutModule =
             "paper_bgcolor", LayoutColor
             "plot_bgcolor", LayoutColor
             "autotypenumbers", LayoutAutoTypeNumbers.Type
-            "colorscale", T<unit>
-            "colorway", T<obj> //colorlist
-            "modebar", T<unit>
+            "colorscale", LayoutColorscale.Type
+            "colorway", !| T<string> //colorlist
+            "modebar", LayoutModebar.Type
             "hovermode", LayoutHoverMode.Type
             "clickmode", LayoutClickMode.Type
             "dragmode", LayoutDragMode.Type
@@ -372,17 +516,17 @@ module LayoutModule =
             "template", T<Number> + T<string>
             "meta", T<Number> + T<string>
             "computed", T<Number> + T<string>
-            "grid", T<unit>
+            "grid", LayoutGrid.Type
             "calendar", LayoutCalendar.Type
-            "newshape", T<unit>
-            "activeshape", T<unit>
+            "newshape", LayoutNewShape.Type
+            "activeshape", LayoutActiveShape.Type
             "hidesources", T<bool>
             "barmode", LayoutBarMode.Type
             "barnorm", LayoutBarNorm.Type
             "bargap", T<float> + T<int>
             "bargroupgap", T<float> + T<int>
             "hiddenlabels", T<string> //data array
-            "piecolorway", T<obj> //colorlist
+            "piecolorway", !| T<string> //colorlist
             "extendpiecolors", T<bool>
             "boxmode", LayoutBoxMode.Type
             "boxgap", T<float> + T<int>
@@ -396,12 +540,60 @@ module LayoutModule =
             "funnelmode", LayoutFunnelMode.Type
             "funnelgap", T<float> + T<int>
             "funnelgroupgap", T<float> + T<int>
-            "funnelareacolorway", T<obj> //colorlist
+            "funnelareacolorway", !| T<string> //colorlist
             "extendfunnelareacolors", T<bool>
-            "sunburstcolorway", T<obj> //colorlist
+            "sunburstcolorway", !| T<string> //colorlist
             "extendsunburstcolors", T<bool>
-            "treemapcolorway", T<obj> //colorlist
+            "treemapcolorway", !| T<string> //colorlist
             "extendtreemapcolors", T<bool>
-            "iciclecolorway", T<obj> //colorlist
+            "iciclecolorway", !| T<string> //colorlist
             "extendiciclecolors", T<bool>
         ]
+    
+    let LayoutNameSpaces : CodeModel.NamespaceEntity list = [
+        LayoutTitle
+        LayoutLegend
+        LayoutMargin
+        LayoutFontConfig
+        LayoutAutoTypeNumbers
+        LayoutColorscale
+        LayoutModebar
+        LayoutHoverMode
+        LayoutClickMode
+        LayoutDragMode
+        LayoutSelectDirection
+        LayoutHoverLabel
+        LayoutTransition
+        LayoutGrid
+        LayoutCalendar
+        LayoutNewShape
+        LayoutActiveShape
+        LayoutBarMode
+        LayoutBarNorm
+        LayoutBoxMode
+        LayoutFunnelMode
+        LayoutRef
+        LayoutXAnchor
+        LayoutYAnchor
+        LayoutPadding
+        LayoutOrientation
+        LayoutTraceOrder
+        LayoutItemSizing
+        LayoutItemClick
+        LayoutVAlign
+        LayoutLegendTitle
+        LayoutLegendSide
+        LayoutAlign
+        LayoutEasing
+        LayoutOrdering
+        LayoutRoworder
+        LayoutGridPattern
+        LayoutDomain
+        LayoutXSide
+        LayoutYSide
+        LayoutNewShapeLine
+        LayoutFillRule
+        LayoutNewShapeLayer
+        LayoutDrawDirection
+        Layout
+    ]

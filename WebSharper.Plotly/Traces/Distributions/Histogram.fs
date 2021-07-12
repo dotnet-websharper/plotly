@@ -337,8 +337,8 @@ module HGModule =
             ]
         }
 
-    let Marker =
-        Pattern.Config "Marker" {
+    let HGMarker =
+        Pattern.Config "HGMarker" {
             Required = []
             Optional = [
                 "line", HGMarkerLine.Type
@@ -512,7 +512,7 @@ module HGModule =
             "bingroup", T<string>
             "xbins", HGXYBins.Type
             "ybins", HGXYBins.Type
-            "marker", Marker.Type
+            "marker", HGMarker.Type
             "error_x", HGErrorX.Type
             "error_y", HGErrorY.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
@@ -550,7 +550,7 @@ module HGModule =
         HGTitle
         HGGradient
         HGFillMode
-        Marker
+        HGMarker
         HGSelectedMarker
         HGSelectedTextFont
         HGSelectedOption

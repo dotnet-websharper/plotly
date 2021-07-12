@@ -662,7 +662,7 @@ module ScatterModule =
         }
 
     let ScatterErrorType =
-        Pattern.EnumStrings "ScatterErrorXType" [
+        Pattern.EnumStrings "ScatterErrorType" [
             "percent"
             "constant"
             "sqrt"

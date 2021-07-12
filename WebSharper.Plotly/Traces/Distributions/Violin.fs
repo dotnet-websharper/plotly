@@ -25,57 +25,56 @@ open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
 
-module BoxModule =
+module ViolinModule =
 
-    let BoxNullValue = Pattern.EnumInlines "BoxNullValue" ["null", "null"]
+    let ViolinNullValue = Pattern.EnumInlines "ViolinNullValue" ["null", "null"]
 
-    let BoxColor = T<string> + (T<float> + T<int>) + (!| (!? (BoxNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (BoxNullValue.Type + T<string> + (T<float> + T<int>)))))) 
+    let ViolinColor = T<string> + (T<float> + T<int>) + (!| (!? (ViolinNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ViolinNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
-    let BoxColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
+    let ViolinColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
 
-    let BoxVisibleString = Pattern.EnumStrings "BoxVisibleString" ["legendonly"]
+    let ViolinVisibleString = Pattern.EnumStrings "ViolinVisibleString" ["legendonly"]
 
-    let BoxFont =
-        Pattern.Config "BoxFont" {
+    let ViolinFont =
+        Pattern.Config "ViolinFont" {
             Required = []
             Optional = [
                 "family", T<string>
                 "size", (T<float> + T<int>)
-                "color", BoxColor
+                "color", ViolinColor
             ]
         }
 
-    let BoxLegendGroupTitle =
-        Pattern.Config "BoxLegendGroupTitle" {
+    let ViolinLegendGroupTitle =
+        Pattern.Config "ViolinLegendGroupTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", BoxFont.Type
+                "font", ViolinFont.Type
             ]
         }
 
-    let BoxHoverInfo =
+    let ViolinHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "BoxHoverInfo" generatedEnum
+        Pattern.EnumStrings "ViolinHoverInfo" generatedEnum
 
-    let BoxOrientation =
-        Pattern.EnumStrings "BoxOrientation" [
+    let ViolinOrientation =
+        Pattern.EnumStrings "ViolinOrientation" [
             "v"
             "h"
         ]
 
-    let BoxPeriodAlignment =
-        Pattern.EnumStrings "XBoxPeriodAlignment" [
-            "start"
-            "middle"
-            "end"
+    let ViolinSizeMode =
+        Pattern.EnumStrings "ViolinSizeMode" [
+            "diameter"
+            "area"
         ]
 
-    let BoxMarkerLine =
-        Pattern.Config "BoxMarkerLine" {
+    let ViolinMarkerLine =
+        Pattern.Config "ViolinMarkerLine" {
             Required = []
             Optional = [
                 "color", BoxColor
@@ -85,25 +84,25 @@ module BoxModule =
             ]
         }
 
-    let BoxGradientType =
-        Pattern.EnumStrings "BoxGradientType" [
+    let ViolinGradientType =
+        Pattern.EnumStrings "ViolinGradientType" [
             "radial"
             "horizontal"
             "vertical"
             "none"
         ]
 
-    let BoxGradient =
-        Pattern.Config "BoxGradient" {
+    let ViolinGradient =
+        Pattern.Config "ViolinGradient" {
             Required = []
             Optional = [
-                "type", BoxGradientType.Type
-                "color", BoxColor + !| BoxColor
+                "type", ViolinGradientType.Type
+                "color", ViolinColor + !| ViolinColor
             ]
         }
 
-    let BoxSymbol =
-        Pattern.EnumStrings "BoxSymbol" [
+    let ViolinSymbol =
+        Pattern.EnumStrings "ViolinSymbol" [
             "0"
             "circle"
             "100"
@@ -422,101 +421,130 @@ module BoxModule =
             "arrow-bar-right-open"
         ]
 
-    let Marker =
-        Pattern.Config "Marker" {
+    let ViolinMarker =
+        Pattern.Config "ViolinMarker" {
             Required = []
             Optional = [
-                "outliercolor", BoxColor
-                "symbol", BoxSymbol.Type
+                "outliercolor", ViolinColor
+                "symbol", ViolinSymbol.Type
                 "opacity", T<float> + !| T<float>
                 "size", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", BoxColor
-                "line", BoxMarkerLine.Type
+                "color", ViolinColor
+                "line", ViolinMarkerLine.Type
             ]
         }
 
-    let BoxSelectedMarker =
-        Pattern.Config "BoxSelectedMarker" {
+    let ViolinShape =
+        Pattern.EnumStrings "ViolinShape" [
+            "linear"
+            "spline"
+            "hv"
+            "vh"
+            "hvh"
+            "vhv"
+        ]
+
+    let ViolinSelectedMarker =
+        Pattern.Config "ViolinSelectedMarker" {
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", BoxColor
+                "color", ViolinColor
                 "size", (T<float> + T<int>)
             ]
         }
 
-    let BoxSelectedTextFont =
-        Pattern.Config "BoxSelectedTextFont" {
+    let ViolinSelectedTextFont =
+        Pattern.Config "ViolinSelectedTextFont" {
             Required = []
-            Optional = ["color", BoxColor]
+            Optional = ["color", ViolinColor]
         }
 
-    let BoxSelectedOption =
-        Pattern.Config "BoxSelectedOption" {
+    let ViolinSelectedOption =
+        Pattern.Config "ViolinSelectedOption" {
             Required = []
             Optional = [
-                "marker", BoxSelectedMarker.Type
-                "textfont", BoxSelectedTextFont.Type
+                "marker", ViolinSelectedMarker.Type
+                "textfont", ViolinSelectedTextFont.Type
             ]
         }
 
-    let BoxAlign =
-        Pattern.EnumStrings "BoxAlign" [
+    let ViolinAlign =
+        Pattern.EnumStrings "ViolinAlign" [
             "left"
             "right"
             "auto"
         ]
 
-    let BoxHoverLabel =
-        Pattern.Config "BoxHoverLabel" {
+    let ViolinHoverLabel =
+        Pattern.Config "ViolinHoverLabel" {
             Required = []
             Optional = [
-                "bgcolor", BoxColor + !| BoxColor
-                "bordercolor", BoxColor + !| BoxColor
-                "fonts", BoxFont.Type
-                "align", BoxAlign.Type
+                "bgcolor", ViolinColor + !| ViolinColor
+                "bordercolor", ViolinColor + !| ViolinColor
+                "fonts", ViolinFont.Type
+                "align", ViolinAlign.Type
                 "namelength", T<int>
             ]
         }
 
-    let BoxHoverOn =
-        let generatedEnum = GenerateOptions.allPermutations ["boxes"; "points"] '+'
-        Pattern.EnumStrings "BoxHoverOn" generatedEnum
+    let ViolinHoverOn =
+        let generatedEnum = 
+            let seq1 = GenerateOptions.allPermutations ["violins"; "points"; "kde"] '+'
+            let seq2 = seq{"all"}
+            Seq.append seq1 seq2
+        Pattern.EnumStrings "ViolinHoverOn" generatedEnum
 
-    let BoxCalendar =
-        Pattern.EnumStrings "BoxCalendar" [
-            "gregorian"
-            "chinese"
-            "coptic"
-            "discworld"
-            "ethiopian"
-            "hebrew"
-            "islamic"
-            "julian"
-            "mayan"
-            "nanakshahi"
-            "nepali"
-            "persian"
-            "jalali"
-            "taiwan"
-            "thai"
-            "ummalqura"
-        ]
+    let ViolinBox =
+        Pattern.Config "ViolinBox" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "width", T<float>
+                "fillcolor", ViolinColor
+                "line", ViolinLine.Type
+            ]
+        }
 
-    let BoxMean =
-        Pattern.EnumStrings "BoxMean" [
-            "sd"
-        ]
+    let ViolinMeanLine =
+        Pattern.Config "ViolinMeanLine" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "color", ViolinColor
+                "width", T<int> + T<float>
+            ]
+        }
 
-    let BoxPoints =
-        Pattern.EnumStrings "BoxPoints" [
+    let ViolinPoints =
+        Pattern.EnumStrings "ViolinPoints" [
             "all"
             "outliers"
             "suspectedoutliers"
         ]
 
-    let BoxLine =
-        Pattern.Config "BoxLine" {
+    let ViolinScaleMode =
+        Pattern.EnumStrings "ViolinScaleMode" [
+            "width"
+            "count"
+        ]
+
+    let ViolinSide =
+        Pattern.EnumStrings "ViolinSide" [
+            "both"
+            "positive"
+            "negative"
+        ]
+
+    let ViolinSpanMode =
+        Pattern.EnumStrings "ViolinSpanMode" [
+            "soft"
+            "hard"
+            "manual"
+        ]
+ 
+    let ViolinLine =
+        Pattern.Config "ViolinLine" {
             Required = []
             Optional = [
                 "color", BoxColor
@@ -524,38 +552,29 @@ module BoxModule =
             ]
         }
 
-    let BoxQuartileMethod =
-        Pattern.EnumString "BoxQuartileMethod" [
-            "linear"
-            "exclusive"
-            "inclusive"
-        ]
-
-    let BoxOptions =
-        Class "BoxOptions"
+    let ViolinOptions =
+        Class "ViolinOptions"
         |+> Static [
             Constructor T<unit>
-            |> WithInline "{type:'box'}"
+            |> WithInline "{type:'violin'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + BoxVisibleString.Type
+            "visible", T<bool> + ViolinVisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", BoxLegendGroupTitle.Type
+            "legendgrouptitle", ViolinLegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float>
             "x0", (T<float> + T<int>) + T<string>
-            "dx", (T<float> + T<int>)
             "y", !| T<int> + !| T<float>
             "y0", (T<float> + T<int>) + T<string>
-            "dy", (T<float> + T<int>)
-            "width", T<int> + T<float>
+            "width", T<float> + T<int>
             "text", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", BoxHoverInfo.Type
+            "hoverinfo", ViolinHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "xhoverformat", T<string>
             "yhoverformat", T<string>
@@ -563,66 +582,57 @@ module BoxModule =
             "customdata", T<string> // undefined type, string is placeholder
             "xaxis", T<string> //type is 'subplotid'
             "yaxis", T<string> //type is 'subplotid'
-            "orientation", BoxOrientation.Type
+            "orientation", ViolinOrientation.Type
             "alignmentgroup", T<string>
             "offsetgroup", T<string>
-            "xperiod", (T<float> + T<int>) + T<string>
-            "xperiodalignment", BoxPeriodAlignment.Type
-            "xperiod0", (T<float> + T<int>) + T<string>
-            "yperiod", (T<float> + T<int>) + T<string>
-            "yperiodalignment", BoxPeriodAlignment.Type
-            "yperiod0", (T<float> + T<int>) + T<string>
-            "marker", Marker.Type
-            "line", BoxLine.Type
-            "boxmean", BoxMean.Type + T<bool>
-            "boxpoints", BoxPoints.Type + T<bool>
-            "notched", T<bool>
-            "notchwidth", T <float>
-            "whiskerwidth", T <float>
-            "q1", !| T<float> + !| T<int> + !| T<string>
-            "median", !| T<float> + !| T<int> + !| T<string>
-            "q3", !| T<float> + !| T<int> + !| T<string>
-            "lowerfence", !| T<float> + !| T<int> + !| T<string>
-            "upperfence", !| T<float> + !| T<int> + !| T<string>
-            "notchspan", !| T<float> + !| T<int> + !| T<string>
-            "mean", !| T<float> + !| T<int> + !| T<string>
-            "sd", !| T<float> + !| T<int> + !| T<string>
-            "quartilemethod", BoxQuartileMethod.Type
+            "marker", ViolinMarker.Type
+            "line", ViolinLine.Type
+            "textfont", ViolinFont.Type
+            "box", ViolinBox.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
-            "selected", BoxSelectedOption.Type
-            "unselected", BoxSelectedOption.Type // change name later
-            "fillcolor", BoxColor
-            "hoverlabel", BoxHoverLabel.Type
-            "hoveron", BoxHoverOn.Type
-            "pointspos", T<float> + T<int>
-            "jitter", T<float> + T<int>
-            "xcalendar", BoxCalendar.Type
-            "ycalendar", BoxCalendar.Type
+            "selected", ViolinSelectedOption.Type
+            "unselected", ViolinSelectedOption.Type // change name later
+            "bandwidth", T<int> + T<float>
+            "fillcolor", ViolinColor
+            "hoverlabel", ViolinHoverLabel.Type
+            "hoveron", ViolinHoverOn.Type
+            "pointpos", T<int> + t<float>
+            "jitter", T<float>
+            "meanline", ViolinMeanLine.Type
+            "points", ViolinPoints.Type + T<bool>
+            "scalegroup", T<string>
+            "scalemode", ViolinScaleMode.Type
+            "side", ViolinSide.Type
+            "span", !| T<float> + !| T<int> + !| T<string>
+            "spanmode", ViolinSpanMode.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
-    let BoxTraceNamespaces : CodeModel.NamespaceEntity list = [
-        BoxVisibleString
-        BoxFont
-        BoxLine
-        BoxLegendGroupTitle
-        BoxHoverInfo
-        BoxOrientation
-        BoxPeriodAlignment
-        BoxMarkerLine
-        BoxGradientType
-        BoxGradient
-        BoxSymbol
-        Marker
-        BoxSelectedMarker
-        BoxSelectedTextFont
-        BoxSelectedOption
-        BoxAlign
-        BoxHoverLabel
-        BoxHoverOn
-        BoxCalendar
-        BoxMean
-        BoxPoints
-        BoxQuartileMethod
-        BoxOptions
+    let ViolinTraceNamespaces : CodeModel.NamespaceEntity list = [
+        ViolinVisibleString
+        ViolinFont
+        ViolinLegendGroupTitle
+        ViolinHoverInfo
+        ViolinOrientation
+        ViolinSizeMode
+        ViolinMarkerLine
+        ViolinGradientType
+        ViolinGradient
+        ViolinSymbol
+        ViolinMarker
+        ViolinShape
+        ViolinLine
+        ViolinSelectedMarker
+        ViolinSelectedTextFont
+        ViolinSelectedOption
+        ViolinAlign
+        ViolinHoverLabel
+        ViolinHoverOn
+        ViolinOptions
+        ViolinBox
+        ViolinMeanLine
+        ViolinPoints
+        ViolinScaleMode
+        ViolinSide
+        ViolinSpanMode
     ]

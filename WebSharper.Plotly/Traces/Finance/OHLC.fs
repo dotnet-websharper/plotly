@@ -442,9 +442,10 @@ module OHLCModule =
             Optional = [
                 "bgcolor", OHLCColor + !| OHLCColor
                 "bordercolor", OHLCColor + !| OHLCColor
-                "fonts", OHLCFont.Type
+                "font", OHLCFont.Type
                 "align", OHLCAlign.Type
                 "namelength", T<int>
+                "split", T<bool>
             ]
         }
 
@@ -472,7 +473,7 @@ module OHLCModule =
         Pattern.Config "OHLCLine" {
             Required = []
             Optional = [
-                "color", OHLCColor
+                "dash", T<string>
                 "width", T<int> + T<float>
             ]
         }

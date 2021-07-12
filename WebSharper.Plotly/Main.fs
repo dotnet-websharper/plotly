@@ -43,7 +43,7 @@ module Definition =
         !| ImageModule.ImageOptions +
         !| TableModule.TableOptions
 
-    //let Layout = LayoutModule.Layout
+    let Layout = LayoutModule.Layout
 
     let Options = OptionsModule.Options
 

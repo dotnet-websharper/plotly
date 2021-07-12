@@ -321,7 +321,7 @@ module FunnelModule =
             Required = []
             Optional = [
                 "text", T<string>
-                "font", FunnelFontConfig.Type
+                "font", FunnelFont.Type
                 "side", FunnelSide.Type
             ]
         }

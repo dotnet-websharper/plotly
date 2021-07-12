@@ -205,7 +205,7 @@ module HGModule =
             Required = []
             Optional = [
                 "text", T<string>
-                "font", HGFontConfig.Type
+                "font", HGFont.Type
                 "side", HGSide.Type
             ]
         }
@@ -242,7 +242,7 @@ module HGModule =
                 "tickwidth", (T<float> + T<int>)
                 "tickcolor", HGColor
                 "showticklabels", T<bool>
-                "tickfont", HGFontConfig.Type
+                "tickfont", HGFont.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
                 "tickformatstops", HGTickFormatStops.Type

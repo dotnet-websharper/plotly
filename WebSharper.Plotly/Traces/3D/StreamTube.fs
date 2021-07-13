@@ -234,6 +234,8 @@ module StreamTubeModule =
         Pattern.Config "StreamTubeLighting" {
             Required = []
             Optional = [
+                "vertexnormalsepsilon", T<float>
+                "facenormalsepsilon", T<float>
                 "ambient", T<float>
                 "diffuse", T<float>
                 "specular", T<float>

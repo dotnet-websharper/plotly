@@ -25,85 +25,85 @@ open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
 
-module VolumeModule =
+module ISOSurfaceModule =
 
-    let VolumeNullValue = Pattern.EnumInlines "VolumeNullValue" ["null", "null"]
+    let ISOSurfaceNullValue = Pattern.EnumInlines "ISOSurfaceNullValue" ["null", "null"]
 
-    let VolumeColor = T<string> + (T<float> + T<int>) + (!| (!? (VolumeNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (VolumeNullValue.Type + T<string> + (T<float> + T<int>)))))) 
+    let ISOSurfaceColor = T<string> + (T<float> + T<int>) + (!| (!? (ISOSurfaceNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ISOSurfaceNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
-    let VolumeColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
+    let ISOSurfaceColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
 
-    let VolumeVisibleString = Pattern.EnumStrings "VolumeVisibleString" ["legendonly"]
+    let ISOSurfaceVisibleString = Pattern.EnumStrings "ISOSurfaceVisibleString" ["legendonly"]
 
-    let VolumeFont =
-        Pattern.Config "VolumeFont" {
+    let ISOSurfaceFont =
+        Pattern.Config "ISOSurfaceFont" {
             Required = []
             Optional = [
                 "family", T<string>
                 "size", (T<float> + T<int>)
-                "color", VolumeColor
+                "color", ISOSurfaceColor
             ]
         }
 
-    let VolumeLegendGroupTitle =
-        Pattern.Config "VolumeLegendGroupTitle" {
+    let ISOSurfaceLegendGroupTitle =
+        Pattern.Config "ISOSurfaceLegendGroupTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", VolumeFont.Type
+                "font", ISOSurfaceFont.Type
             ]
         }
 
-    let VolumeHoverInfo =
+    let ISOSurfaceHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "VolumeHoverInfo" generatedEnum
+        Pattern.EnumStrings "ISOSurfaceHoverInfo" generatedEnum
 
-    let VolumeColorBarMode =
-        Pattern.EnumStrings "VolumeThicknessMode" [
+    let ISOSurfaceColorBarMode =
+        Pattern.EnumStrings "ISOSurfaceThicknessMode" [
             "fraction"
             "pixels"
         ]
 
-    let VolumeXAnchor =
-        Pattern.EnumStrings "VolumeXAnchor" [
+    let ISOSurfaceXAnchor =
+        Pattern.EnumStrings "ISOSurfaceXAnchor" [
             "left"
             "center"
             "right"
         ]
 
-    let VolumeYAnchor =
-        Pattern.EnumStrings "VolumeYAnchor" [
+    let ISOSurfaceYAnchor =
+        Pattern.EnumStrings "ISOSurfaceYAnchor" [
             "top"
             "middle"
             "bottom"
         ]
 
-    let VolumeTickMode =
-        Pattern.EnumStrings "VolumeTickMode" [
+    let ISOSurfaceTickMode =
+        Pattern.EnumStrings "ISOSurfaceTickMode" [
             "auto"
             "linear"
             "array"
         ]
 
-    let VolumeTicks =
-        Pattern.EnumInlines "VolumeTicks" [
+    let ISOSurfaceTicks =
+        Pattern.EnumInlines "ISOSurfaceTicks" [
             "outside", "'outside'"
             "inside", "'inside'"
             "empty", "''"
         ]
 
-    let VolumeTickLabelOverflow =
-        Pattern.EnumInlines "VolumeTickLabelOverflow" [
+    let ISOSurfaceTickLabelOverflow =
+        Pattern.EnumInlines "ISOSurfaceTickLabelOverflow" [
             "allow", "'allow'"
             "hidePastDiv", "'hide past div'"
             "hidePastDomain", "'hide Past Domain'"
         ]
 
-    let VolumeTickLabelPosition =
-        Pattern.EnumInlines "VolumeTickLabelPosition" [
+    let ISOSurfaceTickLabelPosition =
+        Pattern.EnumInlines "ISOSurfaceTickLabelPosition" [
             "outside", "'outside'"
             "inside", "'inside'"
             "outsideTop", "'outside top'"
@@ -114,30 +114,30 @@ module VolumeModule =
 
     let DTickValue = (T<float> + T<int>) + T<string>
 
-    let VolumeTickFormatStops =
-        Pattern.Config "VolumeTickFormatStops" {
+    let ISOSurfaceTickFormatStops =
+        Pattern.Config "ISOSurfaceTickFormatStops" {
             Required = []
             Optional = [
                 "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + VolumeNullValue.Type) * (DTickValue + VolumeNullValue.Type))
+                "dtickrange", !| ((DTickValue + ISOSurfaceNullValue.Type) * (DTickValue + ISOSurfaceNullValue.Type))
                 "value", T<string>
                 "name", T<string>
                 "templateitemname", T<string>
             ]
         }
 
-    let VolumeShowTickFix =
-        Pattern.EnumStrings "VolumeShowTickFix" [
+    let ISOSurfaceShowTickFix =
+        Pattern.EnumStrings "ISOSurfaceShowTickFix" [
             "all"
             "first"
             "last"
             "none"
         ]
 
-    let ShowExponent = VolumeShowTickFix
+    let ShowExponent = ISOSurfaceShowTickFix
 
-    let VolumeExponentFormat =
-        Pattern.EnumInlines "VolumeExponentFormat" [
+    let ISOSurfaceExponentFormat =
+        Pattern.EnumInlines "ISOSurfaceExponentFormat" [
             "none", "'none'"
             "Lowercase_E", "'e'"
             "Uppercase_E", "'E'"
@@ -146,92 +146,92 @@ module VolumeModule =
             "B", "'B'"
         ]
 
-    let VolumeSide =
-        Pattern.EnumStrings "VolumeSide" [
+    let ISOSurfaceSide =
+        Pattern.EnumStrings "ISOSurfaceSide" [
             "right"
             "top"
             "bottom"
         ]
 
-    let VolumeTitle =
-        Pattern.Config "VolumeTitle" {
+    let ISOSurfaceTitle =
+        Pattern.Config "ISOSurfaceTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", VolumeFont.Type
-                "side", VolumeSide.Type
+                "font", ISOSurfaceFont.Type
+                "side", ISOSurfaceSide.Type
             ]
         }
 
-    let VolumeColorBar =
-        Pattern.Config "VolumeColorBar" {
+    let ISOSurfaceColorBar =
+        Pattern.Config "ISOSurfaceColorBar" {
             Required = []
             Optional = [
-                "thicknessmode", VolumeColorBarMode.Type
+                "thicknessmode", ISOSurfaceColorBarMode.Type
                 "thickness", (T<float> + T<int>)
-                "lenmode", VolumeColorBarMode.Type
+                "lenmode", ISOSurfaceColorBarMode.Type
                 "len", (T<float> + T<int>)
                 "x", T<float>
-                "xanchor", VolumeXAnchor.Type
+                "xanchor", ISOSurfaceXAnchor.Type
                 "xpad", (T<float> + T<int>)
                 "y", T<float>
-                "yanchor", VolumeYAnchor.Type
+                "yanchor", ISOSurfaceYAnchor.Type
                 "ypad", (T<float> + T<int>)
-                "outlinecolor", VolumeColor
+                "outlinecolor", ISOSurfaceColor
                 "outlinewidth", (T<float> + T<int>)
-                "bordercolor", VolumeColor
+                "bordercolor", ISOSurfaceColor
                 "borderwidth", (T<float> + T<int>)
-                "bgcolor", VolumeColor
-                "tickmode", VolumeTickMode.Type
+                "bgcolor", ISOSurfaceColor
+                "tickmode", ISOSurfaceTickMode.Type
                 "nticks", T<int>
                 "tick0", (T<float> + T<int>) + T<string>
                 "dtick", (T<float> + T<int>) + T<string>
                 "tickvals", !| T<obj>
                 "ticktext", !| T<string> 
-                "ticks", VolumeTicks.Type
-                "ticklabeloverflow", VolumeTickLabelOverflow.Type
-                "ticklabelposition", VolumeTickLabelPosition.Type
+                "ticks", ISOSurfaceTicks.Type
+                "ticklabeloverflow", ISOSurfaceTickLabelOverflow.Type
+                "ticklabelposition", ISOSurfaceTickLabelPosition.Type
                 "ticklen", (T<float> + T<int>)
                 "tickwidth", (T<float> + T<int>)
-                "tickcolor", VolumeColor
+                "tickcolor", ISOSurfaceColor
                 "showticklabels", T<bool>
-                "tickfont", VolumeFont.Type
+                "tickfont", ISOSurfaceFont.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
-                "tickformatstops", VolumeTickFormatStops.Type
+                "tickformatstops", ISOSurfaceTickFormatStops.Type
                 "tickprefix", T<string>
-                "showtickprefix", VolumeShowTickFix.Type
+                "showtickprefix", ISOSurfaceShowTickFix.Type
                 "ticksuffix", T<string>
-                "showticksuffix", VolumeShowTickFix.Type
+                "showticksuffix", ISOSurfaceShowTickFix.Type
                 "separatethousands", T<bool>
-                "exponentformat", VolumeExponentFormat.Type
+                "exponentformat", ISOSurfaceExponentFormat.Type
                 "minexponent", (T<float> + T<int>)
                 "showexponent", ShowExponent.Type // change type name to fit
-                "title", VolumeTitle.Type
+                "title", ISOSurfaceTitle.Type
             ]
         }
 
-    let VolumeAlign =
-        Pattern.EnumStrings "VolumeAlign" [
+    let ISOSurfaceAlign =
+        Pattern.EnumStrings "ISOSurfaceAlign" [
             "left"
             "right"
             "auto"
         ]
 
-    let VolumeHoverLabel =
-        Pattern.Config "VolumeHoverLabel" {
+    let ISOSurfaceHoverLabel =
+        Pattern.Config "ISOSurfaceHoverLabel" {
             Required = []
             Optional = [
-                "bgcolor", VolumeColor + !| VolumeColor
-                "bordercolor", VolumeColor + !| VolumeColor
-                "fonts", VolumeFont.Type
-                "align", VolumeAlign.Type
+                "bgcolor", ISOSurfaceColor + !| ISOSurfaceColor
+                "bordercolor", ISOSurfaceColor + !| ISOSurfaceColor
+                "fonts", ISOSurfaceFont.Type
+                "align", ISOSurfaceAlign.Type
                 "namelength", T<int>
             ]
         }
 ,
-    let VolumeLighting =
-        Pattern.Config "VolumeLighting" {
+    let ISOSurfaceLighting =
+        Pattern.Config "ISOSurfaceLighting" {
             Required = []
             Optional = [
                 "vertexnormalsepsilon", T<float>
@@ -244,8 +244,8 @@ module VolumeModule =
             ]        
         }
 
-    let VolumeLightPosition =
-        Pattern.Config "VolumeLightPosition" {
+    let ISOSurfaceLightPosition =
+        Pattern.Config "ISOSurfaceLightPosition" {
             Required = []
             Optional = [
                 "x", T<int> + T<float>
@@ -254,8 +254,8 @@ module VolumeModule =
             ]
         }
 
-    let VolumeCapsXYZ =
-        Pattern.Config "VolumeCapsXYZ" {
+    let ISOSurfaceCapsXYZ =
+        Pattern.Config "ISOSurfaceCapsXYZ" {
             Required = []
             Optional = [
                 "show", T<bool>
@@ -263,28 +263,28 @@ module VolumeModule =
             ]
         }
 
-    let VolumeCaps =
-        Pattern.Config "VolumeCaps" {
+    let ISOSurfaceCaps =
+        Pattern.Config "ISOSurfaceCaps" {
             Required = []
             Optional = [
-                "x", VolumeCapsXYZ.Type
-                "y", VolumeCapsXYZ.Type
-                "z", VolumeCapsXYZ.Type
+                "x", ISOSurfaceCapsXYZ.Type
+                "y", ISOSurfaceCapsXYZ.Type
+                "z", ISOSurfaceCapsXYZ.Type
             ]
         }
 
-    let VolumeContour =
-        Pattern.Config "VolumeContour" {
+    let ISOSurfaceContour =
+        Pattern.Config "ISOSurfaceContour" {
             Required = []
             Optional = [
                 "show", T<bool>
-                "color", VolumeColor
+                "color", ISOSurfaceColor
                 "width", T<int> + T<float>
             ]
         }
 
-    let VolumeSlicesXYZ =
-        Pattern.Config "VolumeSlicesXYZ" {
+    let ISOSurfaceSlicesXYZ =
+        Pattern.Config "ISOSurfaceSlicesXYZ" {
             Required = []
             Optional = [
                 "show", T<bool>
@@ -293,18 +293,18 @@ module VolumeModule =
             ]
         }
 
-    let VolumeSlices =
-        Pattern.Config "VolumeSlices" {
+    let ISOSurfaceSlices =
+        Pattern.Config "ISOSurfaceSlices" {
             Required = []
             Optional = [
-                "x", VolumeSlicesXYZ.Type
-                "y", VolumeSlicesXYZ.Type
-                "z", VolumeSlicesXYZ.Type
+                "x", ISOSurfaceSlicesXYZ.Type
+                "y", ISOSurfaceSlicesXYZ.Type
+                "z", ISOSurfaceSlicesXYZ.Type
             ]
         }
 
-    let VolumeSpaceFrame =
-        Pattern.Config "VolumeSpaceFrame" {
+    let ISOSurfaceSpaceFrame =
+        Pattern.Config "ISOSurfaceSpaceFrame" {
             Required = []
             Optional = [
                 "show", T<bool>
@@ -312,37 +312,37 @@ module VolumeModule =
             ]
         }
 
-    let VolumeSurfacePattern =
+    let ISOSurfaceSurfacePattern =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["A"; "B"; "C"; "D"; "E"] '+')
             let seq2 = seq{"all"; "odd"; "even"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "VolumeSurfacePattern" generatedEnum
+        Pattern.EnumStrings "ISOSurfaceSurfacePattern" generatedEnum
 
-    let VolumeSurface =
-        Pattern.Config "VolumeSurface" {
+    let ISOSurfaceSurface =
+        Pattern.Config "ISOSurfaceSurface" {
             Required = []
             Optional = [
                 "show", T<bool>
                 "count", T<int>
                 "fill", T<float>
-                "pattern", VolumeSurfacePattern.Type
+                "pattern", ISOSurfaceSurfacePattern.Type
             ]
         }
 
-    let VolumeOptions =
-        Class "VolumeOptions"
+    let ISOSurfaceOptions =
+        Class "ISOSurfaceOptions"
         |+> Static [
             Constructor T<unit>
-            |> WithInline "{type:'volume'}"
+            |> WithInline "{type:'isosurface'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + VolumeVisibleString.Type
+            "visible", T<bool> + ISOSurfaceVisibleString.Type
             "showlegend", T<bool>
             "legendrank", T<float> + T<int>
             "legendgroup", T<string>
-            "legendgrouptitle", VolumeLegendGroupTitle.Type
+            "legendgrouptitle", ISOSurfaceLegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float> //data array
@@ -351,7 +351,7 @@ module VolumeModule =
             "value", !| T<int> + !| T<float> + !| T<string>
             "text", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", VolumeHoverInfo.Type
+            "hoverinfo", ISOSurfaceHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "xhoverformat", T<string>
             "yhoverformat", T<string>
@@ -360,9 +360,9 @@ module VolumeModule =
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
             "coloraxis", T<string> // type: subplotid
-            "colorbar", VolumeColorBar.Type
+            "colorbar", ISOSurfaceColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", VolumeColorScale
+            "colorscale", ISOSurfaceColorScale
             "showscale", T<bool>
             "reverscale", T<bool>
             "zhoverformat", T<string>
@@ -370,52 +370,52 @@ module VolumeModule =
             "cmax", T<int> + T<float>
             "cmid", T<int> + T<float>
             "cmin", T<int> + T<float>
-            "caps", VolumeCaps.Type
-            "contour", VolumeContour.Type
+            "caps", ISOSurfaceCaps.Type
+            "contour", ISOSurfaceContour.Type
             "flatshading", T<bool>
-            "hoverlabel", VolumeHoverLabel.Type
+            "hoverlabel", ISOSurfaceHoverLabel.Type
             "isomax", T<int> + T<float>
             "isomin", T<int> + T<float>
-            "lighting", VolumeLighting.Type
-            "lightposition", VolumeLightPosition.Type
+            "lighting", ISOSurfaceLighting.Type
+            "lightposition", ISOSurfaceLightPosition.Type
             "opacityscale", T<int> + T<float> + T<string>
-            "slices", VolumeSlices.Type
-            "spaceframe", VolumeSpaceFrame.Type
-            "surface", VolumeSurface.Type
+            "slices", ISOSurfaceSlices.Type
+            "spaceframe", ISOSurfaceSpaceFrame.Type
+            "surface", ISOSurfaceSurface.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
-    let VolumeTraceNamespaces : CodeModel.NamespaceEntity list = [
-        VolumeNullValue
-        VolumeVisibleString
-        VolumeFont
-        VolumeLegendGroupTitle
-        VolumeHoverInfo
-        VolumeColorBarMode
-        VolumeXAnchor
-        VolumeYAnchor
-        VolumeTickMode
-        VolumeTicks
-        VolumeTickLabelOverflow
-        VolumeTickLabelPosition
-        VolumeTickFormatStops
-        VolumeShowTickFix
+    let ISOSurfaceTraceNamespaces : CodeModel.NamespaceEntity list = [
+        ISOSurfaceNullValue
+        ISOSurfaceVisibleString
+        ISOSurfaceFont
+        ISOSurfaceLegendGroupTitle
+        ISOSurfaceHoverInfo
+        ISOSurfaceColorBarMode
+        ISOSurfaceXAnchor
+        ISOSurfaceYAnchor
+        ISOSurfaceTickMode
+        ISOSurfaceTicks
+        ISOSurfaceTickLabelOverflow
+        ISOSurfaceTickLabelPosition
+        ISOSurfaceTickFormatStops
+        ISOSurfaceShowTickFix
         ShowExponent
-        VolumeExponentFormat
-        VolumeSide
-        VolumeTitle
-        VolumeColorBar
-        VolumeAlign
-        VolumeHoverLabel
-        VolumeLighting
-        VolumeLightPosition
-        VolumeCapsXYZ
-        VolumeCaps
-        VolumeContour
-        VolumeSlicesXYZ
-        VolumeSlices
-        VolumeSpaceFrame
-        VolumeSurfacePattern
-        VolumeSurface
-        VolumeOptions
+        ISOSurfaceExponentFormat
+        ISOSurfaceSide
+        ISOSurfaceTitle
+        ISOSurfaceColorBar
+        ISOSurfaceAlign
+        ISOSurfaceHoverLabel
+        ISOSurfaceLighting
+        ISOSurfaceLightPosition
+        ISOSurfaceCapsXYZ
+        ISOSurfaceCaps
+        ISOSurfaceContour
+        ISOSurfaceSlicesXYZ
+        ISOSurfaceSlices
+        ISOSurfaceSpaceFrame
+        ISOSurfaceSurfacePattern
+        ISOSurfaceSurface
+        ISOSurfaceOptions
     ]

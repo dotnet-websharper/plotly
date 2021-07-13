@@ -323,8 +323,8 @@ let ChoroplethMarkerLine =
             "reversescale", T<bool>
             "zauto", T<bool>
             "zmax", T<int> + T<float>
-            "mid", T<int> + T<float>
-            "min", T<int> + T<float>
+            "zmid", T<int> + T<float>
+            "zmin", T<int> + T<float>
             "selectedpoints", (T<float> + T<int>) + T<string>
             "selected", ChoroplethSelectedOption.Type
             "unselected", ChoroplethSelectedOption.Type // change name later

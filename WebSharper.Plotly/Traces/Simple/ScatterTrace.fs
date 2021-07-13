@@ -35,8 +35,8 @@ module ScatterModule =
 
     let ScatterVisibleString = Pattern.EnumStrings "ScatterVisibleString" ["legendonly"]
 
-    let ScatterFontConfig =
-        Pattern.Config "ScatterFontConfig" {
+    let ScatterFont =
+        Pattern.Config "ScatterFont" {
             Required = []
             Optional = [
                 "family", T<string>
@@ -45,12 +45,12 @@ module ScatterModule =
             ]
         }
 
-    let ScatterLegendGroupScatterTitle =
-        Pattern.Config "ScatterLegendGroupScatterTitle" {
+    let ScatterLegendGroupTitle =
+        Pattern.Config "ScatterLegendGroupTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", ScatterFontConfig.Type
+                "font", ScatterFont.Type
             ]
         }
 
@@ -94,8 +94,8 @@ module ScatterModule =
             "percent", "'percent'"
         ]
 
-    let ScatterPeriodScatterAlignment =
-        Pattern.EnumStrings "XScatterPeriodScatterAlignment" [
+    let ScatterPeriodAlignment =
+        Pattern.EnumStrings "XScatterPeriodAlignment" [
             "start"
             "middle"
             "end"
@@ -107,8 +107,8 @@ module ScatterModule =
             "area"
         ]
 
-    let ScatterMarkerScatterLine =
-        Pattern.Config "ScatterMarkerScatterLine" {
+    let ScatterMarkerLine =
+        Pattern.Config "ScatterMarkerLine" {
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
@@ -238,7 +238,7 @@ module ScatterModule =
             Required = []
             Optional = [
                 "text", T<string>
-                "font", ScatterFontConfig.Type
+                "font", ScatterFont.Type
                 "side", ScatterSide.Type
             ]
         }
@@ -275,7 +275,7 @@ module ScatterModule =
                 "tickwidth", (T<float> + T<int>)
                 "tickcolor", ScatterColor
                 "showticklabels", T<bool>
-                "tickfont", ScatterFontConfig.Type
+                "tickfont", ScatterFont.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
                 "tickformatstops", ScatterTickFormatStops.Type
@@ -611,8 +611,8 @@ module ScatterModule =
             "arrow-bar-right-open"
         ]
 
-    let Marker =
-        Pattern.Config "Marker" {
+    let ScatterMarker =
+        Pattern.Config "ScatterMarker" {
             Required = []
             Optional = [
                 "symbol", ScatterSymbol.Type
@@ -622,7 +622,7 @@ module ScatterModule =
                 "sizeref", (T<float> + T<int>)
                 "sizemin", (T<float> + T<int>)
                 "sizemode", ScatterSizeMode.Type
-                "line", ScatterMarkerScatterLine.Type
+                "line", ScatterMarkerLine.Type
                 "ScatterGradient", ScatterGradient.Type
                 "color", ScatterColor + !| ScatterColor
                 "cauto", T<bool>
@@ -757,7 +757,7 @@ module ScatterModule =
             Optional = [
                 "bgcolor", ScatterColor + !| ScatterColor
                 "bordercolor", ScatterColor + !| ScatterColor
-                "fonts", ScatterFontConfig.Type
+                "fonts", ScatterFont.Type
                 "align", ScatterAlign.Type
                 "namelength", T<int>
             ]
@@ -805,7 +805,7 @@ module ScatterModule =
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", ScatterLegendGroupScatterTitle.Type
+            "legendgrouptitle", ScatterLegendGroupTitle.Type
             "opacity", T<float>
             "mode", ScatterModes.Type
             "ids", !| T<string>
@@ -830,14 +830,14 @@ module ScatterModule =
             "groupnorm", ScatterGroupNorm.Type
             "stackgroup", T<string>
             "xperiod", (T<float> + T<int>) + T<string>
-            "xperiodalignment", ScatterPeriodScatterAlignment.Type
+            "xperiodalignment", ScatterPeriodAlignment.Type
             "xperiod0", (T<float> + T<int>) + T<string>
             "yperiod", (T<float> + T<int>) + T<string>
-            "yperiodalignment", ScatterPeriodScatterAlignment.Type
+            "yperiodalignment", ScatterPeriodAlignment.Type
             "yperiod0", (T<float> + T<int>) + T<string>
-            "marker", Marker.Type
+            "marker", ScatterMarker.Type
             "line", ScatterLine.Type
-            "textfont", ScatterFontConfig.Type
+            "textfont", ScatterFont.Type
             "error_x", ScatterErrorX.Type
             "error_y", ScatterErrorY.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
@@ -857,16 +857,16 @@ module ScatterModule =
 
     let ScatterTraceNamespaces : CodeModel.NamespaceEntity list = [
         ScatterVisibleString
-        ScatterFontConfig
-        ScatterLegendGroupScatterTitle
+        ScatterFont
+        ScatterLegendGroupTitle
         ScatterModes
         ScatterTextPosition
         ScatterHoverInfo
         ScatterOrientation
         ScatterGroupNorm
-        ScatterPeriodScatterAlignment
+        ScatterPeriodAlignment
         ScatterSizeMode
-        ScatterMarkerScatterLine
+        ScatterMarkerLine
         ScatterGradientType
         ScatterGradient
         ScatterColorBarMode

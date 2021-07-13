@@ -273,7 +273,7 @@ module MeshModule =
         }
 
     let MeshIntensityMode =
-        Pattern.EnumStrings "MeshIntensityType" [
+        Pattern.EnumStrings "MeshIntensityMode" [
             "vertex"
             "cell"
         ]

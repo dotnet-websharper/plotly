@@ -739,7 +739,7 @@ module ScatterGeoModule =
         ScatterGeoVisibleString
         ScatterGeoFont
         ScatterGeoLegendGroupTitle
-        ScatterGeoModes
+        ScatterGeoModes 
         ScatterGeoTextPosition
         ScatterGeoHoverInfo
         ScatterGeoSizeMode

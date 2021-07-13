@@ -38,3 +38,16 @@ module GenerateOptions =
         |> List.map (fun x -> converter isolator "" x)
         |> List.filter ((<>)"")
         |> Seq.ofList
+
+    let rec inLineConverter (isolator:char) (result:string) (words:string list) =
+        match words with
+        | [] -> if result = "" then "" else result
+        | w::ws -> 
+            if result = ""
+            then inLineConverter isolator w ws
+            else inLineConverter isolator (result + isolator.ToString() + w) ws
+
+    let allInlinePermutations (words:string list) (isolator:char) =
+        permutation words [[]]
+        |> List.map (fun x -> converter isolator "" x)
+        |> Seq.ofList

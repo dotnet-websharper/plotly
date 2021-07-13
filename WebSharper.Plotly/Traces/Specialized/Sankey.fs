@@ -85,12 +85,9 @@ module SankeyModule =
         }
 
     let SankeyHoverInfo =
-        Pattern.EnumInlines "SankeyHoverInfo" [
-            "empty", "''"
-            "plus", "'+'"
-            "all", "'all'"
-            "none", "'none'"
-            "skip", "'skip'"
+        Pattern.EnumStrings "SankeyHoverInfo" [
+            "none"
+            "skip"
         ]
 
     let SankeyOrientation =

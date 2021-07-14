@@ -259,7 +259,7 @@ module DensityMBModule =
             "coloraxis", T<string> //subplotid
             "colorbar", DensityMBColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", DensityMBColorScale.Type
+            "colorscale", DensityMBColorScale
             "showscale", T<bool>
             "reversescale", T<bool>
             "zauto", T<bool>
@@ -286,7 +286,6 @@ module DensityMBModule =
         DensityMBTickLabelPosition
         DensityMBTickFormatStops
         DensityMBShowTickFix
-        ShowExponent
         DensityMBExponentFormat
         DensityMBSide
         DensityMBTitle

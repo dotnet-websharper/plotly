@@ -25,44 +25,44 @@ open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
 
-module ScatterGeoModule =
+module ScatterMBModule =
 
-    let ScatterGeoNullValue = Pattern.EnumInlines "ScatterGeoNullValue" ["null", "null"]
+    let ScatterMBNullValue = Pattern.EnumInlines "ScatterMBNullValue" ["null", "null"]
 
-    let ScatterGeoColor = T<string> + (T<float> + T<int>) + (!| (!? (ScatterGeoNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ScatterGeoNullValue.Type + T<string> + (T<float> + T<int>)))))) 
+    let ScatterMBColor = T<string> + (T<float> + T<int>) + (!| (!? (ScatterMBNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ScatterMBNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
-    let ScatterGeoColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
+    let ScatterMBColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
 
-    let ScatterGeoVisibleString = Pattern.EnumStrings "ScatterGeoVisibleString" ["legendonly"]
+    let ScatterMBVisibleString = Pattern.EnumStrings "ScatterMBVisibleString" ["legendonly"]
 
-    let ScatterGeoFont =
-        Pattern.Config "ScatterGeoFont" {
+    let ScatterMBFont =
+        Pattern.Config "ScatterMBFont" {
             Required = []
             Optional = [
                 "family", T<string>
                 "size", (T<float> + T<int>)
-                "color", ScatterGeoColor
+                "color", ScatterMBColor
             ]
         }
 
-    let ScatterGeoLegendGroupTitle =
-        Pattern.Config "ScatterGeoLegendGroupTitle" {
+    let ScatterMBLegendGroupTitle =
+        Pattern.Config "ScatterMBLegendGroupTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", ScatterGeoFont.Type
+                "font", ScatterMBFont.Type
             ]
         }
 
-    let ScatterGeoModes =
+    let ScatterMBModes =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["lines"; "markers"; "text"] '+')
             let seq2 = seq{"none"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "ScatterGeoModes" generatedEnum
+        Pattern.EnumStrings "ScatterMBModes" generatedEnum
 
-    let ScatterGeoTextPosition =
-        Pattern.EnumInlines "ScatterGeoTextPosition" [
+    let ScatterMBTextPosition =
+        Pattern.EnumInlines "ScatterMBTextPosition" [
             "TopLeft", "'top left'"
             "TopCenter", "'top center'"
             "TopRight", "'top right'"
@@ -74,62 +74,62 @@ module ScatterGeoModule =
             "BottomRight", "'bottom right'"
         ]
 
-    let ScatterGeoHoverInfo =
+    let ScatterMBHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["lon"; "lat"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "ScatterGeoHoverInfo" generatedEnum
+        Pattern.EnumStrings "ScatterMBHoverInfo" generatedEnum
 
-    let ScatterGeoSizeMode =
-        Pattern.EnumStrings "ScatterGeoSizeMode" [
+    let ScatterMBSizeMode =
+        Pattern.EnumStrings "ScatterMBSizeMode" [
             "diameter"
             "area"
         ]
 
-    let ScatterGeoColorBarMode =
-        Pattern.EnumStrings "ScatterGeoThicknessMode" [
+    let ScatterMBColorBarMode =
+        Pattern.EnumStrings "ScatterMBThicknessMode" [
             "fraction"
             "pixels"
         ]
 
-    let ScatterGeoXAnchor =
-        Pattern.EnumStrings "ScatterGeoXAnchor" [
+    let ScatterMBXAnchor =
+        Pattern.EnumStrings "ScatterMBXAnchor" [
             "left"
             "center"
             "right"
         ]
 
-    let ScatterGeoYAnchor =
-        Pattern.EnumStrings "ScatterGeoYAnchor" [
+    let ScatterMBYAnchor =
+        Pattern.EnumStrings "ScatterMBYAnchor" [
             "top"
             "middle"
             "bottom"
         ]
 
-    let ScatterGeoTickMode =
-        Pattern.EnumStrings "ScatterGeoTickMode" [
+    let ScatterMBTickMode =
+        Pattern.EnumStrings "ScatterMBTickMode" [
             "auto"
             "linear"
             "array"
         ]
 
-    let ScatterGeoTicks =
-        Pattern.EnumInlines "ScatterGeoTicks" [
+    let ScatterMBTicks =
+        Pattern.EnumInlines "ScatterMBTicks" [
             "outside", "'outside'"
             "inside", "'inside'"
             "empty", "''"
         ]
 
-    let ScatterGeoTickLabelOverflow =
-        Pattern.EnumInlines "ScatterGeoTickLabelOverflow" [
+    let ScatterMBTickLabelOverflow =
+        Pattern.EnumInlines "ScatterMBTickLabelOverflow" [
             "allow", "'allow'"
             "hidePastDiv", "'hide past div'"
             "hidePastDomain", "'hide Past Domain'"
         ]
 
-    let ScatterGeoTickLabelPosition =
-        Pattern.EnumInlines "ScatterGeoTickLabelPosition" [
+    let ScatterMBTickLabelPosition =
+        Pattern.EnumInlines "ScatterMBTickLabelPosition" [
             "outside", "'outside'"
             "inside", "'inside'"
             "outsideTop", "'outside top'"
@@ -140,30 +140,30 @@ module ScatterGeoModule =
 
     let DTickValue = (T<float> + T<int>) + T<string>
 
-    let ScatterGeoTickFormatStops =
-        Pattern.Config "ScatterGeoTickFormatStops" {
+    let ScatterMBTickFormatStops =
+        Pattern.Config "ScatterMBTickFormatStops" {
             Required = []
             Optional = [
                 "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + ScatterGeoNullValue.Type) * (DTickValue + ScatterGeoNullValue.Type))
+                "dtickrange", !| ((DTickValue + ScatterMBNullValue.Type) * (DTickValue + ScatterMBNullValue.Type))
                 "value", T<string>
                 "name", T<string>
                 "templateitemname", T<string>
             ]
         }
 
-    let ScatterGeoShowTickFix =
-        Pattern.EnumStrings "ScatterGeoShowTickFix" [
+    let ScatterMBShowTickFix =
+        Pattern.EnumStrings "ScatterMBShowTickFix" [
             "all"
             "first"
             "last"
             "none"
         ]
 
-    let ShowExponent = ScatterGeoShowTickFix
+    let ShowExponent = ScatterMBShowTickFix
 
-    let ScatterGeoExponentFormat =
-        Pattern.EnumInlines "ScatterGeoExponentFormat" [
+    let ScatterMBExponentFormat =
+        Pattern.EnumInlines "ScatterMBExponentFormat" [
             "none", "'none'"
             "Lowercase_E", "'e'"
             "Uppercase_E", "'E'"
@@ -172,73 +172,73 @@ module ScatterGeoModule =
             "B", "'B'"
         ]
 
-    let ScatterGeoSide =
-        Pattern.EnumStrings "ScatterGeoSide" [
+    let ScatterMBSide =
+        Pattern.EnumStrings "ScatterMBSide" [
             "right"
             "top"
             "bottom"
         ]
 
-    let ScatterGeoTitle =
-        Pattern.Config "ScatterGeoTitle" {
+    let ScatterMBTitle =
+        Pattern.Config "ScatterMBTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", ScatterGeoFont.Type
-                "side", ScatterGeoSide.Type
+                "font", ScatterMBFont.Type
+                "side", ScatterMBSide.Type
             ]
         }
 
-    let ScatterGeoColorBar =
-        Pattern.Config "ScatterGeoColorBar" {
+    let ScatterMBColorBar =
+        Pattern.Config "ScatterMBColorBar" {
             Required = []
             Optional = [
-                "thicknessmode", ScatterGeoColorBarMode.Type
+                "thicknessmode", ScatterMBColorBarMode.Type
                 "thickness", (T<float> + T<int>)
-                "lenmode", ScatterGeoColorBarMode.Type
+                "lenmode", ScatterMBColorBarMode.Type
                 "len", (T<float> + T<int>)
                 "x", T<float>
-                "xanchor", ScatterGeoXAnchor.Type
+                "xanchor", ScatterMBXAnchor.Type
                 "xpad", (T<float> + T<int>)
                 "y", T<float>
-                "yanchor", ScatterGeoYAnchor.Type
+                "yanchor", ScatterMBYAnchor.Type
                 "ypad", (T<float> + T<int>)
-                "outlinecolor", ScatterGeoColor
+                "outlinecolor", ScatterMBColor
                 "outlinewidth", (T<float> + T<int>)
-                "bordercolor", ScatterGeoColor
+                "bordercolor", ScatterMBColor
                 "borderwidth", (T<float> + T<int>)
-                "bgcolor", ScatterGeoColor
-                "tickmode", ScatterGeoTickMode.Type
+                "bgcolor", ScatterMBColor
+                "tickmode", ScatterMBTickMode.Type
                 "nticks", T<int>
                 "tick0", (T<float> + T<int>) + T<string>
                 "dtick", (T<float> + T<int>) + T<string>
                 "tickvals", !| T<obj>
                 "ticktext", !| T<string> 
-                "ticks", ScatterGeoTicks.Type
-                "ticklabeloverflow", ScatterGeoTickLabelOverflow.Type
-                "ticklabelposition", ScatterGeoTickLabelPosition.Type
+                "ticks", ScatterMBTicks.Type
+                "ticklabeloverflow", ScatterMBTickLabelOverflow.Type
+                "ticklabelposition", ScatterMBTickLabelPosition.Type
                 "ticklen", (T<float> + T<int>)
                 "tickwidth", (T<float> + T<int>)
-                "tickcolor", ScatterGeoColor
+                "tickcolor", ScatterMBColor
                 "showticklabels", T<bool>
-                "tickfont", ScatterGeoFont.Type
+                "tickfont", ScatterMBFont.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
-                "tickformatstops", ScatterGeoTickFormatStops.Type
+                "tickformatstops", ScatterMBTickFormatStops.Type
                 "tickprefix", T<string>
-                "showtickprefix", ScatterGeoShowTickFix.Type
+                "showtickprefix", ScatterMBShowTickFix.Type
                 "ticksuffix", T<string>
-                "showticksuffix", ScatterGeoShowTickFix.Type
+                "showticksuffix", ScatterMBShowTickFix.Type
                 "separatethousands", T<bool>
-                "exponentformat", ScatterGeoExponentFormat.Type
+                "exponentformat", ScatterMBExponentFormat.Type
                 "minexponent", (T<float> + T<int>)
                 "showexponent", ShowExponent.Type // change type name to fit
-                "title", ScatterGeoTitle.Type
+                "title", ScatterMBTitle.Type
             ]
         }
 
-    let ScatterGeoMarker =
-        Pattern.Config "ScatterGeoMarker" {
+    let ScatterMBMarker =
+        Pattern.Config "ScatterMBMarker" {
             Required = []
             Optional = [
                 "symbol", T<string> + !| T<string>
@@ -248,50 +248,50 @@ module ScatterGeoModule =
                 "size", (T<float> + T<int>) + !| T<float> + !| T<int>
                 "sizeref", (T<float> + T<int>)
                 "sizemin", (T<float> + T<int>)
-                "sizemode", ScatterGeoSizeMode.Type
-                "color", ScatterGeoColor + !| ScatterGeoColor
+                "sizemode", ScatterMBSizeMode.Type
+                "color", ScatterMBColor + !| ScatterMBColor
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterGeoColorScale
+                "colorscale", ScatterMBColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", ScatterGeoColorBar.Type
+                "colorbar", ScatterMBColorBar.Type
                 "coloraxis", T<string> // type: subplotid
             ]
         }
 
-    let ScatterGeoLine =
-        Pattern.Config "ScatterGeoLine" {
+    let ScatterMBLine =
+        Pattern.Config "ScatterMBLine" {
             Required = []
             Optional = [
-                "color", ScatterGeoColor
+                "color", ScatterMBColor
                 "width", (T<float> + T<int>)
             ]
         }
 
-    let ScatterGeoSelectedMarker =
-        Pattern.Config "ScatterGeoSelectedMarker" {
+    let ScatterMBSelectedMarker =
+        Pattern.Config "ScatterMBSelectedMarker" {
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", ScatterGeoColor
+                "color", ScatterMBColor
                 "size", (T<float> + T<int>)
             ]
         }
 
-    let ScatterGeoSelectedOption =
-        Pattern.Config "ScatterGeoSelectedOption" {
+    let ScatterMBSelectedOption =
+        Pattern.Config "ScatterMBSelectedOption" {
             Required = []
             Optional = [
-                "marker", ScatterGeoSelectedMarker.Type
+                "marker", ScatterMBSelectedMarker.Type
             ]
         }
 
-    let ScatterGeoFill =
-        Pattern.EnumStrings "ScatterGeoFill" [
+    let ScatterMBFill =
+        Pattern.EnumStrings "ScatterMBFill" [
             "none"
             "tozeroy"
             "tozerox"
@@ -301,95 +301,94 @@ module ScatterGeoModule =
             "tonext"
         ]
 
-    let ScatterGeoAlign =
-        Pattern.EnumStrings "ScatterGeoAlign" [
+    let ScatterMBAlign =
+        Pattern.EnumStrings "ScatterMBAlign" [
             "left"
             "right"
             "auto"
         ]
 
-    let ScatterGeoHoverLabel =
-        Pattern.Config "ScatterGeoHoverLabel" {
+    let ScatterMBHoverLabel =
+        Pattern.Config "ScatterMBHoverLabel" {
             Required = []
             Optional = [
-                "bgcolor", ScatterGeoColor + !| ScatterGeoColor
-                "bordercolor", ScatterGeoColor + !| ScatterGeoColor
-                "fonts", ScatterGeoFont.Type
-                "align", ScatterGeoAlign.Type
+                "bgcolor", ScatterMBColor + !| ScatterMBColor
+                "bordercolor", ScatterMBColor + !| ScatterMBColor
+                "fonts", ScatterMBFont.Type
+                "align", ScatterMBAlign.Type
                 "namelength", T<int>
             ]
         }
 
-    let ScatterGeoOptions =
-        Class "ScatterGeoOptions"
+    let ScatterMBOptions =
+        Class "ScatterMBOptions"
         |+> Static [
             Constructor T<unit>
-            |> WithInline "{type:'scattergeo'}"
+            |> WithInline "{type:'scattermapbox'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ScatterGeoVisibleString.Type
+            "visible", T<bool> + ScatterMBVisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", ScatterGeoLegendGroupTitle.Type
+            "legendgrouptitle", ScatterMBLegendGroupTitle.Type
             "opacity", T<float>
-            "mode", ScatterGeoModes.Type
+            "mode", ScatterMBModes.Type
             "ids", !| T<string>
             "lat", !| T<int> + !| T<float> + !| T<string>
             "lon", !| T<int> + !| T<float> + !| T<string>
             "text", T<string> + !| T<string>
-            "textposition", ScatterGeoTextPosition.Type
+            "textposition", ScatterMBTextPosition.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", ScatterGeoHoverInfo.Type
+            "hoverinfo", ScatterMBHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "subplot", T<string> //subplotid
-            "marker", ScatterGeoMarker.Type
-            "line", ScatterGeoLine.Type
-            "textfont", ScatterGeoFont.Type
+            "marker", ScatterMBMarker.Type
+            "line", ScatterMBLine.Type
+            "textfont", ScatterMBFont.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
-            "selected", ScatterGeoSelectedOption.Type
-            "unselected", ScatterGeoSelectedOption.Type // change name later
+            "selected", ScatterMBSelectedOption.Type
+            "unselected", ScatterMBSelectedOption.Type // change name later
             "below", T<string>
             "connectgaps", T<bool>
-            "fill", ScatterGeoFill.Type
-            "fillcolor", ScatterGeoColor
-            "hoverlabel", ScatterGeoHoverLabel.Type
+            "fill", ScatterMBFill.Type
+            "fillcolor", ScatterMBColor
+            "hoverlabel", ScatterMBHoverLabel.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
-    let ScatterGeoTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ScatterGeoNullValue
-        ScatterGeoVisibleString
-        ScatterGeoFont
-        ScatterGeoLegendGroupTitle
-        ScatterGeoModes
-        ScatterGeoTextPosition
-        ScatterGeoHoverInfo
-        ScatterGeoSizeMode
-        ScatterGeoColorBarMode
-        ScatterGeoXAnchor
-        ScatterGeoYAnchor
-        ScatterGeoTickMode
-        ScatterGeoTicks
-        ScatterGeoTickLabelOverflow
-        ScatterGeoTickLabelPosition
-        ScatterGeoTickFormatStops
-        ScatterGeoShowTickFix
-        ShowExponent
-        ScatterGeoExponentFormat
-        ScatterGeoSide
-        ScatterGeoTitle
-        ScatterGeoColorBar
-        ScatterGeoMarker
-        ScatterGeoLine
-        ScatterGeoSelectedMarker
-        ScatterGeoSelectedOption
-        ScatterGeoFill
-        ScatterGeoAlign
-        ScatterGeoHoverLabel
-        ScatterGeoOptions
+    let ScatterMBTraceNamespaces : CodeModel.NamespaceEntity list = [
+        ScatterMBNullValue
+        ScatterMBVisibleString
+        ScatterMBFont
+        ScatterMBLegendGroupTitle
+        ScatterMBModes
+        ScatterMBTextPosition
+        ScatterMBHoverInfo
+        ScatterMBSizeMode
+        ScatterMBColorBarMode
+        ScatterMBXAnchor
+        ScatterMBYAnchor
+        ScatterMBTickMode
+        ScatterMBTicks
+        ScatterMBTickLabelOverflow
+        ScatterMBTickLabelPosition
+        ScatterMBTickFormatStops
+        ScatterMBShowTickFix
+        ScatterMBExponentFormat
+        ScatterMBSide
+        ScatterMBTitle
+        ScatterMBColorBar
+        ScatterMBMarker
+        ScatterMBLine
+        ScatterMBSelectedMarker
+        ScatterMBSelectedOption
+        ScatterMBFill
+        ScatterMBAlign
+        ScatterMBHoverLabel
+        ScatterMBOptions
     ]

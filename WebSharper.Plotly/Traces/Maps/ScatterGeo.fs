@@ -755,7 +755,6 @@ module ScatterGeoModule =
         ScatterGeoTickLabelPosition
         ScatterGeoTickFormatStops
         ScatterGeoShowTickFix
-        ShowExponent
         ScatterGeoExponentFormat
         ScatterGeoSide
         ScatterGeoTitle

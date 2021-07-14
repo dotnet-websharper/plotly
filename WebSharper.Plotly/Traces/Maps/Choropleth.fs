@@ -61,23 +61,6 @@ module ChoroplethModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "ChoroplethHoverInfo" generatedEnum
 
-    let ChoroplethMarkerLine =
-        Pattern.Config "ChoroplethMarkerLine" {
-            Required = []
-            Optional = [
-                "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", ChoroplethColor
-                "cauto", T<bool>
-                "cmin", (T<float> + T<int>)
-                "cmax", (T<float> + T<int>)
-                "cmid", (T<float> + T<int>)
-                "colorscale", ChoroplethColorScale
-                "autocolorscale", T<bool>
-                "reversescale", T<bool>
-                "coloraxis", T<string> // type: subplotid
-            ]
-        }
-
     let ChoroplethColorBarMode =
         Pattern.EnumStrings "ChoroplethThicknessMode" [
             "fraction"
@@ -228,14 +211,14 @@ module ChoroplethModule =
             ]
         }
 
-let ChoroplethMarkerLine =
-    Pattern.Config "ChoroplethMarkerLine" {
-        Required = []
-        Optional = [
-            "color", ChoroplethColor
-            "width", T<int> + T<float>
-        ]
-    }
+    let ChoroplethMarkerLine =
+        Pattern.Config "ChoroplethMarkerLine" {
+            Required = []
+            Optional = [
+                "color", ChoroplethColor
+                "width", T<int> + T<float>
+            ]
+        }
 
     let ChoroplethMarker =
         Pattern.Config "ChoroplethMarker" {
@@ -318,7 +301,7 @@ let ChoroplethMarkerLine =
             "marker", ChoroplethMarker.Type
             "colorbar", ChoroplethColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", ChoroplethColorScale.Type
+            "colorscale", ChoroplethColorScale
             "showscale", T<bool>
             "reversescale", T<bool>
             "zauto", T<bool>
@@ -349,12 +332,10 @@ let ChoroplethMarkerLine =
         ChoroplethTickLabelPosition
         ChoroplethTickFormatStops
         ChoroplethShowTickFix
-        ShowExponent
         ChoroplethExponentFormat
         ChoroplethSide
         ChoroplethTitle
         ChoroplethColorBar
-        ChoroplethMarkerLine
         ChoroplethMarker
         ChoroplethSelectedMarker
         ChoroplethSelectedOption

@@ -33,6 +33,11 @@
     <Compile Include="Traces/3D/StreamTube.fs"/>
     <Compile Include="Traces/3D/Surface.fs"/>
     <Compile Include="Traces/3D/Volume.fs"/>
+    <Compile Include="Traces/Maps/Choropleth.fs"/>
+    <Compile Include="Traces/Maps/ChoroplethMapBox.fs"/>
+    <Compile Include="Traces/Maps/DensityMapBox.fs"/>
+    <Compile Include="Traces/Maps/ScatterGeo.fs"/>
+    <Compile Include="Traces/Maps/ScatterMapBox.fs"/>
     <Compile Include="Main.fs" />
     <None Include="wsconfig.json" />
   </ItemGroup>

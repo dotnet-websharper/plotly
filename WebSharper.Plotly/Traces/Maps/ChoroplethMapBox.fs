@@ -61,23 +61,6 @@ module ChoroplethMBModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "ChoroplethMBHoverInfo" generatedEnum
 
-    let ChoroplethMBMarkerLine =
-        Pattern.Config "ChoroplethMBMarkerLine" {
-            Required = []
-            Optional = [
-                "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", ChoroplethMBColor
-                "cauto", T<bool>
-                "cmin", (T<float> + T<int>)
-                "cmax", (T<float> + T<int>)
-                "cmid", (T<float> + T<int>)
-                "colorscale", ChoroplethMBColorScale
-                "autocolorscale", T<bool>
-                "reversescale", T<bool>
-                "coloraxis", T<string> // type: subplotid
-            ]
-        }
-
     let ChoroplethMBColorBarMode =
         Pattern.EnumStrings "ChoroplethMBThicknessMode" [
             "fraction"
@@ -228,14 +211,14 @@ module ChoroplethMBModule =
             ]
         }
 
-let ChoroplethMBMarkerLine =
-    Pattern.Config "ChoroplethMBMarkerLine" {
-        Required = []
-        Optional = [
-            "color", ChoroplethMBColor
-            "width", T<int> + T<float>
-        ]
-    }
+    let ChoroplethMBMarkerLine =
+        Pattern.Config "ChoroplethMBMarkerLine" {
+            Required = []
+            Optional = [
+                "color", ChoroplethMBColor
+                "width", T<int> + T<float>
+            ]
+        }
 
     let ChoroplethMBMarker =
         Pattern.Config "ChoroplethMBMarker" {
@@ -318,7 +301,7 @@ let ChoroplethMBMarkerLine =
             "marker", ChoroplethMBMarker.Type
             "colorbar", ChoroplethMBColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", ChoroplethMBColorScale.Type
+            "colorscale", ChoroplethMBColorScale
             "showscale", T<bool>
             "reversescale", T<bool>
             "zauto", T<bool>
@@ -339,7 +322,6 @@ let ChoroplethMBMarkerLine =
         ChoroplethMBFont
         ChoroplethMBLegendGroupTitle
         ChoroplethMBHoverInfo
-        ChoroplethMBMarkerLine
         ChoroplethMBColorBarMode
         ChoroplethMBXAnchor
         ChoroplethMBYAnchor
@@ -349,7 +331,6 @@ let ChoroplethMBMarkerLine =
         ChoroplethMBTickLabelPosition
         ChoroplethMBTickFormatStops
         ChoroplethMBShowTickFix
-        ShowExponent
         ChoroplethMBExponentFormat
         ChoroplethMBSide
         ChoroplethMBTitle

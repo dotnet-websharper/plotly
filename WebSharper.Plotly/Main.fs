@@ -60,7 +60,12 @@ module Definition =
         !| Scatter3DModule.Scatter3DOptions +
         //!| StreamTubeModule.StreamTubeOptions
         !| SurfaceModule.SurfaceOptions +
-        !| VolumeModule.VolumeOptions
+        !| VolumeModule.VolumeOptions +
+        !| ChoroplethModule.ChoroplethOptions +
+        !| ChoroplethMBModule.ChoroplethMBOptions +
+        !| DensityMBModule.DensityMBOptions +
+        !| ScatterGeoModule.ScatterGeoOptions +
+        !| ScatterMBModule.ScatterMBOptions
 
     let Layout = LayoutModule.Layout
 
@@ -123,6 +128,11 @@ module Definition =
                 //StreamTubeModule.StreamTubeTraceNamespaces
                 SurfaceModule.SurfaceTraceNamespaces
                 VolumeModule.VolumeTraceNamespaces
+                ChoroplethModule.ChoroplethTraceNamespaces
+                ChoroplethMBModule.ChoroplethMBTraceNamespaces
+                DensityMBModule.DensityMBTraceNamespaces
+                ScatterGeoModule.ScatterGeoTraceNamespaces
+                ScatterMBModule.ScatterMBTraceNamespaces
                 LayoutModule.LayoutNameSpaces
                 OptionsModule.OptionsNamespaces
                 [Plotly]

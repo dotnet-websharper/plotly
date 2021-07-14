@@ -26,9 +26,97 @@ open WebSharper.JavaScript
 
 module OptionsModule =
 
+    let FormatOptions =
+        Pattern.EnumStrings "FormatOptions" [
+            "png"
+            "svg"
+            "jpeg"
+            "webp"
+        ]
+
+    let ToImageButtonOptions =
+        Pattern.Config "ToImageButtonOptions" {
+            Required = []
+            Optional = [
+                "format", FormatOptions.Type
+                "filename", T<string>
+                "height", T<int>
+                "width", T<int>
+                "scale", T<int>
+            ]
+        }
+
+    let ModeBarButtonTypes =
+        Pattern.EnumStrings "ModeBarButtons" [
+            "zoom2d"
+            "pan2d"
+            "select2d"
+            "lasso2d"
+            "zoomIn2d"
+            "zoomOut2d"
+            "autoScale2d"
+            "resetScale2d"
+            "zoom3d"
+            "pan3d"
+            "orbitRotation"
+            "tableRotation"
+            "handleDrag3d"
+            "resetCameraDefault3d"
+            "resetCameraLastSave3d"
+            "hoverClosest3d"
+            "hoverClosestCartesian"
+            "hoverCompareCartesian"
+            "zoomInGeo"
+            "zoomOutGeo"
+            "resetGeo"
+            "hoverClosestGeo"
+            "hoverClosestGl2d"
+            "hoverClosestPie"
+            "toggleHover"
+            "resetViews"
+            "toImage"
+            "sendDataToCloud"
+            "toggleSpikelines"
+            "resetViewMapbox"
+        ]
+
+    let ModeBarButtonsToAdd =
+        Pattern.Config "ModeBarButtonsToAdd" {
+            Required = []
+            Optional = [
+                "name", T<string>
+                "icon", T<obj> // TODO
+                "click", T<JavaScript.Function>
+            ]
+        }
+
     let Options =
         Class "Options"
+        |+> Static [
+            Constructor T<unit>
+        ]
+        |+> Pattern.OptionalFields [
+            "scrollZoom", T<bool>
+            "editable", T<bool>
+            "staticPlot", T<bool>
+            "toImageButtonOptions", ToImageButtonOptions.Type
+            "displayModeBar", T<bool>
+            "modeBarButtonsToRemove", ModeBarButtonTypes.Type
+            "modeBarButtonsToAdd", ModeBarButtonsToAdd.Type
+            "showLink", T<bool>
+            "plotlyServerURL", T<string> // investigate
+            "linkText", T<string>
+            "showEditInChartStudio", T<bool>
+            "locale", T<string>
+            "displayLogo", T<bool>
+            "responsive", T<bool>
+            "doubleClickDelay", T<int>
+        ]
 
     let OptionsNamespaces : CodeModel.NamespaceEntity list = [
+        FormatOptions
+        ToImageButtonOptions
+        ModeBarButtonTypes
+        ModeBarButtonsToAdd
         Options
     ]

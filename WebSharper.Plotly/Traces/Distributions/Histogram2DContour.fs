@@ -186,7 +186,7 @@ module HG2DContModule =
             Optional = [
                 "thicknessmode", HG2DContThicknessMode.Type
                 "thickness", (T<float> + T<int>)
-                "lenmode", HG2DContColorBarMode.Type
+                "lenmode", HG2DContThicknessMode.Type
                 "len", (T<float> + T<int>)
                 "x", T<float>
                 "xanchor", HG2DContXAnchor.Type
@@ -361,20 +361,20 @@ module HG2DContModule =
         ]
 
     let HG2DContOperation =
-        Pattern.EnumStrings "HG2DContOperation" [
-            "="
-            "<"
-            ">"
-            ">="
-            "<="
-            "[]"
-            "()"
-            "[)"
-            "(]"
-            "]["
-            ")("
-            "]("
-            ")["
+        Pattern.EnumInlines "HG2DContOperation" [
+            "equal", "'='"
+            "less", "'<'"
+            "greater", "'>'"
+            "greaterEqual", "'>='"
+            "lessEqual", "'<='"
+            "square", "'[]'"
+            "bracket", "'()'"
+            "squareBracket", "'[)'"
+            "bracketSquare", "'(]'"
+            "reverseSquare", "']['"
+            "reverseBracket", "')('"
+            "reverseSquareBracket", "']('"
+            "reverseBracketSquare", "')['"
         ]
 
     let HG2DContContours =
@@ -382,9 +382,9 @@ module HG2DContModule =
             Required = []
             Optional = [
                 "type", HG2DContContoursType.Type
-                "start", T<int> + t<float>
-                "end", T<int> + t<float>
-                "size", T<int> + t<float>
+                "start", T<int> + T<float>
+                "end", T<int> + T<float>
+                "size", T<int> + T<float>
                 "coloring", HG2DContContoursColoring.Type
                 "showlines", T<bool>
                 "showlabels", T<bool>
@@ -437,7 +437,7 @@ module HG2DContModule =
             "line", HG2DContLine.Type
             "colorbar", HG2DContColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", HG2DContColorScale.Type
+            "colorscale", HG2DContColorScale
             "showscale", T<bool>
             "reversescale", T<bool>
             "zauto", T<bool>
@@ -471,7 +471,6 @@ module HG2DContModule =
         HG2DContTickLabelPosition
         HG2DContTickFormatStops
         HG2DContShowTickFix
-        ShowExponent
         HG2DContExponentFormat
         HG2DContSide
         HG2DContTitle

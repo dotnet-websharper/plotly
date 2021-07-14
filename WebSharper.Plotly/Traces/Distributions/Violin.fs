@@ -77,9 +77,9 @@ module ViolinModule =
         Pattern.Config "ViolinMarkerLine" {
             Required = []
             Optional = [
-                "color", BoxColor
+                "color", ViolinColor
                 "width", T<float> + T<int>
-                "outliercolor", BoxColor
+                "outliercolor", ViolinColor
                 "outlierwidth", T<float> + T<int>
             ]
         }
@@ -495,6 +495,15 @@ module ViolinModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "ViolinHoverOn" generatedEnum
 
+    let ViolinBoxLine =
+        Pattern.Config "ViolinBoxLine" {
+            Required = []
+            Optional = [
+                "color", ViolinColor
+                "width", T<int> + T<float>
+            ]
+        }
+
     let ViolinBox =
         Pattern.Config "ViolinBox" {
             Required = []
@@ -502,7 +511,7 @@ module ViolinModule =
                 "visible", T<bool>
                 "width", T<float>
                 "fillcolor", ViolinColor
-                "line", ViolinLine.Type
+                "line", ViolinBoxLine.Type
             ]
         }
 
@@ -547,7 +556,7 @@ module ViolinModule =
         Pattern.Config "ViolinLine" {
             Required = []
             Optional = [
-                "color", BoxColor
+                "color", ViolinColor
                 "width", T<int> + T<float>
             ]
         }
@@ -596,7 +605,7 @@ module ViolinModule =
             "fillcolor", ViolinColor
             "hoverlabel", ViolinHoverLabel.Type
             "hoveron", ViolinHoverOn.Type
-            "pointpos", T<int> + t<float>
+            "pointpos", T<int> + T<float>
             "jitter", T<float>
             "meanline", ViolinMeanLine.Type
             "points", ViolinPoints.Type + T<bool>
@@ -621,7 +630,7 @@ module ViolinModule =
         ViolinSymbol
         ViolinMarker
         ViolinShape
-        ViolinLine
+        ViolinBoxLine
         ViolinSelectedMarker
         ViolinSelectedTextFont
         ViolinSelectedOption
@@ -635,4 +644,5 @@ module ViolinModule =
         ViolinScaleMode
         ViolinSide
         ViolinSpanMode
+        ViolinLine
     ]

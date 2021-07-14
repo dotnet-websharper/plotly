@@ -4,3 +4,5 @@
 *.user
 **/wwwroot
 **/Properties
+.fake
+.ionide

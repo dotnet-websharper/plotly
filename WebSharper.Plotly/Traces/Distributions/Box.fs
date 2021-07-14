@@ -525,7 +525,7 @@ module BoxModule =
         }
 
     let BoxQuartileMethod =
-        Pattern.EnumString "BoxQuartileMethod" [
+        Pattern.EnumStrings "BoxQuartileMethod" [
             "linear"
             "exclusive"
             "inclusive"
@@ -577,8 +577,8 @@ module BoxModule =
             "boxmean", BoxMean.Type + T<bool>
             "boxpoints", BoxPoints.Type + T<bool>
             "notched", T<bool>
-            "notchwidth", T <float>
-            "whiskerwidth", T <float>
+            "notchwidth", T<float>
+            "whiskerwidth", T<float>
             "q1", !| T<float> + !| T<int> + !| T<string>
             "median", !| T<float> + !| T<int> + !| T<string>
             "q3", !| T<float> + !| T<int> + !| T<string>

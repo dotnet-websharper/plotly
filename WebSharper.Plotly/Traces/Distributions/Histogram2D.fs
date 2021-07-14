@@ -186,7 +186,7 @@ module HG2DModule =
             Optional = [
                 "thicknessmode", HG2DThicknessMode.Type
                 "thickness", (T<float> + T<int>)
-                "lenmode", HG2DColorBarMode.Type
+                "lenmode", HG2DThicknessMode.Type
                 "len", (T<float> + T<int>)
                 "x", T<float>
                 "xanchor", HG2DXAnchor.Type
@@ -384,7 +384,7 @@ module HG2DModule =
             "marker", HG2DMarker.Type
             "colorbar", HG2DColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", HG2DColorScale.Type
+            "colorscale", HG2DColorScale
             "showscale", T<bool>
             "reversescale", T<bool>
             "zauto", T<bool>
@@ -416,7 +416,6 @@ module HG2DModule =
         HG2DTickLabelPosition
         HG2DTickFormatStops
         HG2DShowTickFix
-        ShowExponent
         HG2DExponentFormat
         HG2DSide
         HG2DTitle

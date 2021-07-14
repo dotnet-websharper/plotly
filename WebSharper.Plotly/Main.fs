@@ -42,7 +42,12 @@ module Definition =
         !| HeatMapGLModule.HeatMapGLOptions +
         !| ImageModule.ImageOptions +
         !| TableModule.TableOptions +
-        !| ContourModule.ContourOptions
+        !| ContourModule.ContourOptions +
+        !| BoxModule.BoxOptions +
+        !| HGModule.HGOptions +
+        !| HG2DModule.HG2DOptions +
+        !| HG2DContModule.HG2DContOptions +
+        !| ViolinModule.ViolinOptions
 
     let Layout = LayoutModule.Layout
 
@@ -87,6 +92,11 @@ module Definition =
                 ImageModule.ImageTraceNamespaces
                 TableModule.TableTraceNamespaces
                 ContourModule.ContourTraceNamespaces
+                BoxModule.BoxTraceNamespaces
+                HGModule.HGTraceNamespaces
+                HG2DModule.HG2DTraceNamespaces
+                HG2DContModule.HG2DContTraceNamespaces
+                ViolinModule.ViolinTraceNamespaces
                 LayoutModule.LayoutNameSpaces
                 OptionsModule.OptionsNamespaces
                 [Plotly]

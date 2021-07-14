@@ -324,20 +324,20 @@ module ContourModule =
         ]
 
     let ContourOperation =
-        Pattern.EnumStrings "ContourOperation" [
-            "="
-            "<"
-            ">"
-            ">="
-            "<="
-            "[]"
-            "()"
-            "[)"
-            "(]"
-            "]["
-            ")("
-            "]("
-            ")["
+        Pattern.EnumInlines "ContourOperation" [
+            "equal", "'='"
+            "less", "'<'"
+            "greater", "'>'"
+            "greaterEqual", "'>='"
+            "lessEqual", "'<='"
+            "square", "'[]'"
+            "bracket", "'()'"
+            "squareBracket", "'[)'"
+            "bracketSquare", "'(]'"
+            "reverseSquare", "']['"
+            "reverseBracket", "')('"
+            "reverseSquareBracket", "']('"
+            "reverseBracketSquare", "')['"
         ]
 
     let ContourContours =

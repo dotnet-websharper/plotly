@@ -216,7 +216,7 @@ module HGModule =
             Optional = [
                 "thicknessmode", HGThicknessMode.Type
                 "thickness", (T<float> + T<int>)
-                "lenmode", HGColorBarMode.Type
+                "lenmode", HGThicknessMode.Type
                 "len", (T<float> + T<int>)
                 "x", T<float>
                 "xanchor", HGXAnchor.Type
@@ -526,7 +526,6 @@ module HGModule =
         ]
 
     let HGTraceNamespaces : CodeModel.NamespaceEntity list = [       
-        DTickValue
         HGTickLabelPosition
         HGTickLabelOverflow
         HGTicks
@@ -534,7 +533,7 @@ module HGModule =
         HGYAnchor
         HGXAnchor
         HGThicknessMode
-        HGFontHGSide
+        HGSide
         HGExponentFormat
         HGShowTickFix
         HGTickFormatStops
@@ -547,6 +546,7 @@ module HGModule =
         HGMarkerLine
         HGGradientType
         HGMarkerPatternShape
+        HGMarkerPattern
         HGTitle
         HGGradient
         HGFillMode
@@ -564,6 +564,7 @@ module HGModule =
         HGDirection
         HGCurrentBin
         HGCumulative
+        HGErrorType
         HGErrorX
         HGErrorY
         HGOptions

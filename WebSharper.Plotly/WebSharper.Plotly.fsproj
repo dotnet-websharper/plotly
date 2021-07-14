@@ -15,6 +15,11 @@
     <Compile Include="Traces/Simple/PieTrace.fs" />
     <Compile Include="Traces/Simple/ScatterGLTrace.fs" />
     <Compile Include="Traces/Simple/ScatterTrace.fs" />
+    <Compile Include="Traces/Distributions/Box.fs"/>
+    <Compile Include="Traces/Distributions/Histogram.fs"/>
+    <Compile Include="Traces/Distributions/Histogram2D.fs"/>
+    <Compile Include="Traces/Distributions/Histogram2DContour.fs"/>
+    <Compile Include="Traces/Distributions/Violin.fs"/>
     <Compile Include="Main.fs" />
     <None Include="wsconfig.json" />
   </ItemGroup>

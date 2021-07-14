@@ -107,7 +107,8 @@ module FunnelAreaModule =
             Required = []
             Optional = [
                 "color", FunnelAreaColor + !| FunnelAreaColor
-                "line", FunnelAreaMarkerLine.Type //
+                "line", FunnelAreaMarkerLine.Type
+            ]
         }
 
     let FunnelAreaTitlePosition =
@@ -146,7 +147,7 @@ module FunnelAreaModule =
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "title" FunnelAreaTitle.Type
+            "title", FunnelAreaTitle.Type
             "visible", T<bool> + FunnelAreaVisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)

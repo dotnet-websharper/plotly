@@ -47,7 +47,13 @@ module Definition =
         !| HGModule.HGOptions +
         !| HG2DModule.HG2DOptions +
         !| HG2DContModule.HG2DContOptions +
-        !| ViolinModule.ViolinOptions
+        !| ViolinModule.ViolinOptions +
+        !| CandleStickModule.CandleStickOptions +
+        !| FunnelModule.FunnelOptions +
+        //!| FunnelAreaModule.FunnelAreaOptions
+        //!| IndicatorModule.IndicatorOptions
+        !| OHLCModule.OHLCOptions +
+        !| WaterfallModule.WaterfallOptions
 
     let Layout = LayoutModule.Layout
 
@@ -97,6 +103,13 @@ module Definition =
                 HG2DModule.HG2DTraceNamespaces
                 HG2DContModule.HG2DContTraceNamespaces
                 ViolinModule.ViolinTraceNamespaces
+                CandleStickModule.CandleStickTraceNamespaces
+                FunnelModule.FunnelTraceNamespaces
+                //FunnelAreaModule.FunnelAreaTraceNamespaces
+                //IndicatorModule.IndicatorTraceNamespaces
+                OHLCModule.OHLCTraceNamespaces
+                WaterfallModule.WaterfallTraceNamespaces
+                
                 LayoutModule.LayoutNameSpaces
                 OptionsModule.OptionsNamespaces
                 [Plotly]

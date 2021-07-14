@@ -88,8 +88,7 @@ module IndicatorModule =
         }
 
     let IndicatorMode =
-        let generatedEnum =
-            let seq1 = (GenerateOptions.allPermutations ["number"; "delta"; "gauge"] '+')
+        let generatedEnum = (GenerateOptions.allPermutations ["number"; "delta"; "gauge"] '+')
         Pattern.EnumStrings "IndicatorMode" generatedEnum
 
     let IndicatorDeltaPosition =
@@ -192,13 +191,22 @@ module IndicatorModule =
         ]
 
     let IndicatorGaugeAxisEF =
-        Pattern.EnumInlines "BarExponentFormat" [
+        Pattern.EnumInlines "IndicatorGaugeAxisEF" [
             "none", "'none'"
             "Lowercase_E", "'e'"
             "Uppercase_E", "'E'"
             "power", "'power'"
             "SI", "'SI'"
             "B", "'B'"
+        ]
+
+    let IndicatorGaugeAxisSE =
+        Pattern.EnumStrings "IndicatorGaugeAxisSE" [
+            "all"
+            "first"
+            "last"
+            "none"
+        ]
 
     let IndicatorGaugeAxis =
         Pattern.Config "IndicatorGaugeAxis" {
@@ -228,7 +236,7 @@ module IndicatorModule =
                 "separatethousands", T<bool>
                 "exponentformat", IndicatorGaugeAxisEF.Type
                 "minexponent", T<int> + T<float>
-                "showexponent", IndicatorGaugeAxisEF.Type
+                "showexponent", IndicatorGaugeAxisSE.Type
             ]
         }
 
@@ -278,7 +286,7 @@ module IndicatorModule =
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "title" IndicatorTitle.Type
+            "title", IndicatorTitle.Type
             "visible", T<bool> + IndicatorVisibleString.Type
             "legendrank", (T<float> + T<int>)
             "legendgrouptitle", IndicatorLegendGroupTitle.Type
@@ -317,6 +325,7 @@ module IndicatorModule =
         IndicatorGaugeAxisTFS
         IndicatorGaugeAxisSTF
         IndicatorGaugeAxisEF
+        IndicatorGaugeAxisSE
         IndicatorGaugeAxis
         IndicatorGaugeSteps
         IndicatorGaugeTreshold

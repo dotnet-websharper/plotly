@@ -119,10 +119,13 @@ module FunnelModule =
             ]
         }
 
-    let FunnelMarkerLine =
-        Pattern.Config "FunnelMarkerLine" {
+    let FunnelTotalsMarkerLine =
+        Pattern.Config "FunnelTotalsMarkerLine" {
+            Required = []
+            Optional = [
                 "color", FunnelColor
-                "width", T<int> + T<float>            
+                "width", T<int> + T<float> 
+            ]           
         }
 
     let FunnelCreasingLine =
@@ -167,7 +170,7 @@ module FunnelModule =
         Pattern.Config "FunnelConnector" {
             Required = []
             Optional = [
-                "line". FunnelLine.Type
+                "line", FunnelLine.Type
                 "mode", FunnelConnectorMode.Type
                 "visible", T<bool>
             ]
@@ -193,7 +196,7 @@ module FunnelModule =
             Required = []
             Optional = [
                 "color", FunnelColor
-                "line", FunnelMarkerLine.Type
+                "line", FunnelTotalsMarkerLine.Type
             ]
         }
 
@@ -466,7 +469,7 @@ module FunnelModule =
         FunnelAlign
         FunnelHoverLabel
         FunnelLine
-        FunnelMarkerLine
+        FunnelTotalsMarkerLine
         FunnelCreasingLine
         FunnelCreasing
         FunnelTextPosition
@@ -487,7 +490,6 @@ module FunnelModule =
         FunnelTickLabelPosition
         FunnelTickFormatStops
         FunnelShowTickFix
-        ShowExponent
         FunnelExponentFormat
         FunnelSide
         FunnelTitle

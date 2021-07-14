@@ -121,8 +121,11 @@ module WaterfallModule =
 
     let WaterfallMarkerLine =
         Pattern.Config "WaterfallMarkerLine" {
+            Required = []
+            Optional = [
                 "color", WaterfallColor
-                "width", T<int> + T<float>            
+                "width", T<int> + T<float>  
+            ]          
         }
 
     let WaterfallCreasingLine =
@@ -167,7 +170,7 @@ module WaterfallModule =
         Pattern.Config "WaterfallConnector" {
             Required = []
             Optional = [
-                "line". WaterfallLine.Type
+                "line", WaterfallLine.Type
                 "mode", WaterfallConnectorMode.Type
                 "visible", T<bool>
             ]

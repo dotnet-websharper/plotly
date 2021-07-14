@@ -20,6 +20,12 @@
     <Compile Include="Traces/Distributions/Histogram2D.fs"/>
     <Compile Include="Traces/Distributions/Histogram2DContour.fs"/>
     <Compile Include="Traces/Distributions/Violin.fs"/>
+    <Compile Include="Traces/Finance/CandleStick.fs"/>
+    <Compile Include="Traces/Finance/Funnel.fs"/>
+    <Compile Include="Traces/Finance/FunnelArea.fs"/>
+    <Compile Include="Traces/Finance/Indicator.fs"/>
+    <Compile Include="Traces/Finance/OHLC.fs"/>
+    <Compile Include="Traces/Finance/Waterfall.fs"/>
     <Compile Include="Main.fs" />
     <None Include="wsconfig.json" />
   </ItemGroup>

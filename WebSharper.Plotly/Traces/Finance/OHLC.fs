@@ -68,17 +68,6 @@ module OHLCModule =
             "end"
         ]
 
-    let OHLCMarkerLine =
-        Pattern.Config "OHLCMarkerLine" {
-            Required = []
-            Optional = [
-                "color", OHLCColor
-                "width", T<float> + T<int>
-                "outliercolor", OHLCColor
-                "outlierwidth", T<float> + T<int>
-            ]
-        }
-
     let OHLCGradientType =
         Pattern.EnumStrings "OHLCGradientType" [
             "radial"
@@ -416,19 +405,6 @@ module OHLCModule =
             "arrow-bar-right-open"
         ]
 
-    let Marker =
-        Pattern.Config "Marker" {
-            Required = []
-            Optional = [
-                "outliercolor", OHLCColor
-                "symbol", OHLCSymbol.Type
-                "opacity", T<float> + !| T<float>
-                "size", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", OHLCColor
-                "line", OHLCMarkerLine.Type
-            ]
-        }
-
     let OHLCAlign =
         Pattern.EnumStrings "OHLCAlign" [
             "left"
@@ -545,11 +521,9 @@ module OHLCModule =
         OHLCLegendGroupTitle
         OHLCHoverInfo
         OHLCPeriodAlignment
-        OHLCMarkerLine
         OHLCGradientType
         OHLCGradient
         OHLCSymbol
-        Marker
         OHLCAlign
         OHLCHoverLabel
         OHLCCalendar

@@ -41,7 +41,8 @@ module Definition =
         !| HeatMapModule.HeatMapOptions.Type +
         !| HeatMapGLModule.HeatMapGLOptions +
         !| ImageModule.ImageOptions +
-        !| TableModule.TableOptions
+        !| TableModule.TableOptions +
+        !| ContourModule.ContourOptions
 
     let Layout = LayoutModule.Layout
 
@@ -85,10 +86,10 @@ module Definition =
                 HeatMapGLModule.HeatMapGLTraceNamespaces
                 ImageModule.ImageTraceNamespaces
                 TableModule.TableTraceNamespaces
-                [
-                    Options
-                    Plotly
-                ]
+                ContourModule.ContourTraceNamespaces
+                LayoutModule.LayoutNameSpaces
+                OptionsModule.OptionsNamespaces
+                [Plotly]
             ])
         ]
 

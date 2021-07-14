@@ -6,6 +6,7 @@
     <Compile Include="Permutation.fs" />
     <Compile Include="Options/Options.fs" />
     <Compile Include="Layout/Layout.fs" />
+    <Compile Include="Traces/Simple/Contour.fs" />
     <Compile Include="Traces/Simple/HeatMap.fs" />
     <Compile Include="Traces/Simple/HeatMapGL.fs" />
     <Compile Include="Traces/Simple/Image.fs" />

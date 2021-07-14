@@ -310,7 +310,7 @@ module ContourModule =
         ]
 
     let ContoursType =
-        PAttern.EnumStrings "ContoursType" [
+        Pattern.EnumStrings "ContoursType" [
             "levels"
             "constraint"
         ]
@@ -402,7 +402,7 @@ module ContourModule =
             "line", ContourLine.Type
             "colorbar", ContourColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", ContourColorScale.Type
+            "colorscale", ContourColorScale
             "showscale", T<bool>
             "reversescale", T<bool>
             "zauto", T<bool>
@@ -454,7 +454,7 @@ module ContourModule =
         ContourXYType
         ContoursType
         ContourColoring
-        ContourOperations
+        ContourOperation
         ContourContours
         ContourOptions
     ]

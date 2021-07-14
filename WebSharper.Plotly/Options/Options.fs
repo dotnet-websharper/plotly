@@ -28,3 +28,7 @@ module OptionsModule =
 
     let Options =
         Class "Options"
+
+    let OptionsNamespaces : CodeModel.NamespaceEntity list = [
+        Options
+    ]

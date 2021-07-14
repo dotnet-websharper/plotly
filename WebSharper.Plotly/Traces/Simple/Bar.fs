@@ -501,7 +501,7 @@ module BarModule =
         BarOrientation
         BarPeriodAlignment
         BarMarkerLine
-        BarColorMode
+        BarThicknessMode
         BarXAnchor
         BarYAnchor
         BarTickMode

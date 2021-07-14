@@ -883,7 +883,7 @@ module ScatterModule =
         ScatterTitle
         ScatterColorBar
         ScatterSymbol
-        Marker
+        ScatterMarker
         ScatterShape
         ScatterLine
         ScatterErrorType

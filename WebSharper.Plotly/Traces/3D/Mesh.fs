@@ -371,7 +371,6 @@ module MeshModule =
         MeshTickLabelPosition
         MeshTickFormatStops
         MeshShowTickFix
-        ShowExponent
         MeshExponentFormat
         MeshSide
         MeshTitle

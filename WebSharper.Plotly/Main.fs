@@ -53,7 +53,14 @@ module Definition =
         //!| FunnelAreaModule.FunnelAreaOptions
         //!| IndicatorModule.IndicatorOptions
         !| OHLCModule.OHLCOptions +
-        !| WaterfallModule.WaterfallOptions
+        !| WaterfallModule.WaterfallOptions +
+        //!| ConeModule.ConeOptions
+        !| ISOSurfaceModule.ISOSurfaceOptions +
+        !| MeshModule.MeshOptions +
+        !| Scatter3DModule.Scatter3DOptions +
+        //!| StreamTubeModule.StreamTubeOptions
+        !| SurfaceModule.SurfaceOptions +
+        !| VolumeModule.VolumeOptions
 
     let Layout = LayoutModule.Layout
 
@@ -109,7 +116,13 @@ module Definition =
                 //IndicatorModule.IndicatorTraceNamespaces
                 OHLCModule.OHLCTraceNamespaces
                 WaterfallModule.WaterfallTraceNamespaces
-                
+                //ConeModule.ConeTraceNamespaces
+                ISOSurfaceModule.ISOSurfaceTraceNamespaces
+                MeshModule.MeshTraceNamespaces
+                Scatter3DModule.Scatter3DTraceNamespaces
+                //StreamTubeModule.StreamTubeTraceNamespaces
+                SurfaceModule.SurfaceTraceNamespaces
+                VolumeModule.VolumeTraceNamespaces
                 LayoutModule.LayoutNameSpaces
                 OptionsModule.OptionsNamespaces
                 [Plotly]

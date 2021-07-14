@@ -229,7 +229,7 @@ module VolumeModule =
                 "namelength", T<int>
             ]
         }
-,
+
     let VolumeLighting =
         Pattern.Config "VolumeLighting" {
             Required = []
@@ -400,7 +400,6 @@ module VolumeModule =
         VolumeTickLabelPosition
         VolumeTickFormatStops
         VolumeShowTickFix
-        ShowExponent
         VolumeExponentFormat
         VolumeSide
         VolumeTitle

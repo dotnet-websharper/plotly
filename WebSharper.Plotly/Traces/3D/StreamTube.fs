@@ -229,7 +229,7 @@ module StreamTubeModule =
                 "namelength", T<int>
             ]
         }
-,
+
     let StreamTubeLighting =
         Pattern.Config "StreamTubeLighting" {
             Required = []
@@ -332,7 +332,6 @@ module StreamTubeModule =
         StreamTubeTickLabelPosition
         StreamTubeTickFormatStops
         StreamTubeShowTickFix
-        ShowExponent
         StreamTubeExponentFormat
         StreamTubeSide
         StreamTubeTitle

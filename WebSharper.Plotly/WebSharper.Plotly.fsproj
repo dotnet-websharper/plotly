@@ -26,6 +26,13 @@
     <Compile Include="Traces/Finance/Indicator.fs"/>
     <Compile Include="Traces/Finance/OHLC.fs"/>
     <Compile Include="Traces/Finance/Waterfall.fs"/>
+    <Compile Include="Traces/3D/Cone.fs"/>
+    <Compile Include="Traces/3D/ISOSurface.fs"/>
+    <Compile Include="Traces/3D/Mesh.fs"/>
+    <Compile Include="Traces/3D/Scatter3D.fs"/>
+    <Compile Include="Traces/3D/StreamTube.fs"/>
+    <Compile Include="Traces/3D/Surface.fs"/>
+    <Compile Include="Traces/3D/Volume.fs"/>
     <Compile Include="Main.fs" />
     <None Include="wsconfig.json" />
   </ItemGroup>

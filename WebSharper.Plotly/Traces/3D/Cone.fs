@@ -229,7 +229,7 @@ module ConeModule =
                 "namelength", T<int>
             ]
         }
-,
+
     let ConeLighting =
         Pattern.Config "ConeLighting" {
             Required = []
@@ -336,7 +336,6 @@ module ConeModule =
         ConeTickLabelPosition
         ConeTickFormatStops
         ConeShowTickFix
-        ShowExponent
         ConeExponentFormat
         ConeSide
         ConeTitle

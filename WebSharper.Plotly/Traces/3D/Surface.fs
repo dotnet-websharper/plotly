@@ -377,7 +377,6 @@ module SurfaceModule =
         SurfaceTickLabelPosition
         SurfaceTickFormatStops
         SurfaceShowTickFix
-        ShowExponent
         SurfaceExponentFormat
         SurfaceSide
         SurfaceTitle

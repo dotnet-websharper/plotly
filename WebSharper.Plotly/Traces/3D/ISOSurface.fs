@@ -229,7 +229,7 @@ module ISOSurfaceModule =
                 "namelength", T<int>
             ]
         }
-,
+
     let ISOSurfaceLighting =
         Pattern.Config "ISOSurfaceLighting" {
             Required = []
@@ -400,7 +400,6 @@ module ISOSurfaceModule =
         ISOSurfaceTickLabelPosition
         ISOSurfaceTickFormatStops
         ISOSurfaceShowTickFix
-        ShowExponent
         ISOSurfaceExponentFormat
         ISOSurfaceSide
         ISOSurfaceTitle

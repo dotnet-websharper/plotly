@@ -512,7 +512,6 @@ module Scatter3DModule =
         Scatter3DTickLabelPosition
         Scatter3DTickFormatStops
         Scatter3DShowTickFix
-        ShowExponent
         Scatter3DExponentFormat
         Scatter3DSide
         Scatter3DTitle

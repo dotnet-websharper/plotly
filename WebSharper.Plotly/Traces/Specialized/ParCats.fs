@@ -307,7 +307,7 @@ module ParCatsModule =
             "counts", T<int> + T<float> + !| T<int> + !| T<float>
             "dimensions", ParCatsDimensions.Type
             "hoverinfo", ParCatsHoverInfo.Type
-            "hovertemplate"
+            "hovertemplate", T<string>
             "meta", (T<float> + T<int>) + T<string>
             "domain", ParCatsDomain.Type
             "line", ParCatsLine.Type

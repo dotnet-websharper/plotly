@@ -50,22 +50,36 @@ module Definition =
         !| ViolinModule.ViolinOptions +
         !| CandleStickModule.CandleStickOptions +
         !| FunnelModule.FunnelOptions +
-        //!| FunnelAreaModule.FunnelAreaOptions
-        //!| IndicatorModule.IndicatorOptions
+        //!| FunnelAreaModule.FunnelAreaOptions +
+        //!| IndicatorModule.IndicatorOptions +
         !| OHLCModule.OHLCOptions +
         !| WaterfallModule.WaterfallOptions +
-        //!| ConeModule.ConeOptions
+        //!| ConeModule.ConeOptions +
         !| ISOSurfaceModule.ISOSurfaceOptions +
         !| MeshModule.MeshOptions +
         !| Scatter3DModule.Scatter3DOptions +
-        //!| StreamTubeModule.StreamTubeOptions
+        //!| StreamTubeModule.StreamTubeOptions +
         !| SurfaceModule.SurfaceOptions +
         !| VolumeModule.VolumeOptions +
         !| ChoroplethModule.ChoroplethOptions +
         !| ChoroplethMBModule.ChoroplethMBOptions +
         !| DensityMBModule.DensityMBOptions +
         !| ScatterGeoModule.ScatterGeoOptions +
-        !| ScatterMBModule.ScatterMBOptions
+        !| ScatterMBModule.ScatterMBOptions +
+        !| BarPolarModule.BarPolarOptions +
+        !| CarpetModule.CarpetOptions +
+        !| ContourCarpetModule.ContourCarpetOptions +
+        !| IcicleModule.IcicleOptions +
+        !| ParCatsModule.ParCatsOptions +
+        !| ParCoordsModule.ParCoordsOptions +
+        !| SankeyModule.SankeyOptions +
+        !| ScatterCarpetModule.ScatterCarpetOptions +
+        !| ScatterPolarModule.ScatterPolarOptions +
+        !| ScatterPolarGLModule.ScatterPolarGLOptions +
+        !| ScatterTernaryModule.ScatterTernaryOptions +
+        !| SplomModule.SplomOptions +
+        !| SunBurstModule.SunBurstOptions +
+        !| TreeMapModule.TreeMapOptions
 
     let Layout = LayoutModule.Layout
 
@@ -133,6 +147,20 @@ module Definition =
                 DensityMBModule.DensityMBTraceNamespaces
                 ScatterGeoModule.ScatterGeoTraceNamespaces
                 ScatterMBModule.ScatterMBTraceNamespaces
+                BarPolarModule.BarPolarTraceNamespaces
+                CarpetModule.CarpetTraceNamespaces
+                ContourCarpetModule.ContourCarpetTraceNamespaces
+                IcicleModule.IcicleTraceNamespaces
+                ParCatsModule.ParCatsTraceNamespaces
+                ParCoordsModule.ParCoordsTraceNamespaces
+                SankeyModule.SankeyTraceNamespaces
+                ScatterCarpetModule.ScatterCarpetTraceNamespaces
+                ScatterPolarModule.ScatterPolarTraceNamespaces
+                ScatterPolarGLModule.ScatterPolarGLTraceNamespaces
+                ScatterTernaryModule.ScatterTernaryTraceNamespaces
+                SplomModule.SplomTraceNamespaces
+                SunBurstModule.SunBurstTraceNamespaces
+                TreeMapModule.TreeMapTraceNamespaces
                 LayoutModule.LayoutNameSpaces
                 OptionsModule.OptionsNamespaces
                 [Plotly]

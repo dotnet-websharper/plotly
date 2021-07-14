@@ -756,7 +756,6 @@ module ScatterTernaryModule =
         ScatterTernaryTickLabelPosition
         ScatterTernaryTickFormatStops
         ScatterTernaryShowTickFix
-        ShowExponent
         ScatterTernaryExponentFormat
         ScatterTernarySide
         ScatterTernaryTitle

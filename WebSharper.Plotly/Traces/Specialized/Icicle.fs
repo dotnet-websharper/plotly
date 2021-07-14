@@ -293,7 +293,7 @@ module IcicleModule =
         }
 
     let IcicleTilingFlip =
-        PatternEnumStrings "IcicleTilingFlip" [
+        Pattern.EnumStrings "IcicleTilingFlip" [
             "x"
             "y"
             "x+y"
@@ -301,7 +301,7 @@ module IcicleModule =
         ]
 
     let IcicleTilingOrientation =
-        PatternEnumStrings "IcicleTilingOrientation" [
+        Pattern.EnumStrings "IcicleTilingOrientation" [
             "v"
             "h"
         ]
@@ -337,7 +337,7 @@ module IcicleModule =
             Optional = [
                 "visible", T<bool>
                 "side", IciclePathBarSide.Type
-                "edgeshape", IciclePathBarES.type
+                "edgeshape", IciclePathBarES.Type
                 "thickness", T<int> + T<float>
                 "textfont", IcicleFont.Type
             ]
@@ -373,7 +373,7 @@ module IcicleModule =
             "branchvalues", IcicleBranchValues.Type
             "count", IcicleCount.Type
             "tiling", IcicleTiling.Type
-            "pathbar", IciclepathBar.Type
+            "pathbar", IciclePathBar.Type
             "hoverlabel", IcicleHoverLabel.Type
             "insidetextfont", IcicleFont.Type
             "outsidetextfont", IcicleFont.Type
@@ -400,7 +400,6 @@ module IcicleModule =
         IcicleTickLabelPosition
         IcicleTickFormatStops
         IcicleShowTickFix
-        ShowExponent
         IcicleExponentFormat
         IcicleSide
         IcicleTitle

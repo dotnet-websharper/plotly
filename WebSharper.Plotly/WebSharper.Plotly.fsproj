@@ -38,6 +38,20 @@
     <Compile Include="Traces/Maps/DensityMapBox.fs"/>
     <Compile Include="Traces/Maps/ScatterGeo.fs"/>
     <Compile Include="Traces/Maps/ScatterMapBox.fs"/>
+    <Compile Include="Traces/Specialized/BarPolar.fs"/>
+    <Compile Include="Traces/Specialized/Carpet.fs"/>
+    <Compile Include="Traces/Specialized/ContourCarpet.fs"/>
+    <Compile Include="Traces/Specialized/Icicle.fs"/>
+    <Compile Include="Traces/Specialized/ParCats.fs"/>
+    <Compile Include="Traces/Specialized/ParCoords.fs"/>
+    <Compile Include="Traces/Specialized/Sankey.fs"/>
+    <Compile Include="Traces/Specialized/ScatterCarpet.fs"/>
+    <Compile Include="Traces/Specialized/ScatterPolar.fs"/>
+    <Compile Include="Traces/Specialized/ScatterPolarGL.fs"/>
+    <Compile Include="Traces/Specialized/ScatterTernary.fs"/>
+    <Compile Include="Traces/Specialized/Splom.fs"/>
+    <Compile Include="Traces/Specialized/SunBurst.fs"/>
+    <Compile Include="Traces/Specialized/TreeMap.fs"/>
     <Compile Include="Main.fs" />
     <None Include="wsconfig.json" />
   </ItemGroup>

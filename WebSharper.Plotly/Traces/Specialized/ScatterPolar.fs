@@ -774,7 +774,6 @@ module ScatterPolarModule =
         ScatterPolarTickLabelPosition
         ScatterPolarTickFormatStops
         ScatterPolarShowTickFix
-        ShowExponent
         ScatterPolarExponentFormat
         ScatterPolarSide
         ScatterPolarTitle

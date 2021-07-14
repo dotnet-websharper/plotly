@@ -357,7 +357,6 @@ module SunBurstModule =
         SunBurstTickLabelPosition
         SunBurstTickFormatStops
         SunBurstShowTickFix
-        ShowExponent
         SunBurstExponentFormat
         SunBurstSide
         SunBurstTitle

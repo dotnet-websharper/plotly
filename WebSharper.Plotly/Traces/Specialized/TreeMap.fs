@@ -326,7 +326,7 @@ module TreeMapModule =
         ]
 
     let TreeMapTilingFlip =
-        PatternEnumStrings "TreeMapTilingFlip" [
+        Pattern.EnumStrings "TreeMapTilingFlip" [
             "x"
             "y"
             "x+y"
@@ -365,7 +365,7 @@ module TreeMapModule =
             Optional = [
                 "visible", T<bool>
                 "side", TreeMapPathBarSide.Type
-                "edgeshape", TreeMapPathBarES.type
+                "edgeshape", TreeMapPathBarES.Type
                 "thickness", T<int> + T<float>
                 "textfont", TreeMapFont.Type
             ]
@@ -429,7 +429,6 @@ module TreeMapModule =
         TreeMapTickLabelPosition
         TreeMapTickFormatStops
         TreeMapShowTickFix
-        ShowExponent
         TreeMapExponentFormat
         TreeMapSide
         TreeMapTitle

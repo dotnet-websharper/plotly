@@ -115,15 +115,15 @@ module SplomModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", SplomColor + !| SplomColor //data array//
-                "cauto", T<bool>//
-                "cmin", (T<float> + T<int>)//
-                "cmax", (T<float> + T<int>)//
-                "cmid", (T<float> + T<int>)//
-                "colorscale", SplomColorScale//
-                "autocolorscale", T<bool>//
-                "reverscale", T<bool>//
-                "coloraxis", T<string> // type: subplotid//
+                "color", SplomColor + !| SplomColor //data array
+                "cauto", T<bool>
+                "cmin", (T<float> + T<int>)
+                "cmax", (T<float> + T<int>)
+                "cmid", (T<float> + T<int>)
+                "colorscale", SplomColorScale
+                "autocolorscale", T<bool>
+                "reverscale", T<bool>
+                "coloraxis", T<string> // type: subplotid
             ]
         }
 
@@ -608,17 +608,17 @@ module SplomModule =
             Required = []
             Optional = [
                 "line", SplomMarkerLine.Type
-                "color", SplomColor + !| SplomColor //data array//
-                "cauto", T<bool>//
-                "cmin", (T<float> + T<int>)//
-                "cmax", (T<float> + T<int>)//
-                "cmid", (T<float> + T<int>)//
-                "colorscale", SplomColorScale//
-                "autocolorscale", T<bool>//
-                "reverscale", T<bool>//
-                "showscale", T<bool>//
-                "colorbar", SplomColorBar.Type//
-                "coloraxis", T<string> // type: subplotid//
+                "color", SplomColor + !| SplomColor //data array
+                "cauto", T<bool>
+                "cmin", (T<float> + T<int>)
+                "cmax", (T<float> + T<int>)
+                "cmid", (T<float> + T<int>)
+                "colorscale", SplomColorScale
+                "autocolorscale", T<bool>
+                "reverscale", T<bool>
+                "showscale", T<bool>
+                "colorbar", SplomColorBar.Type
+                "coloraxis", T<string> // type: subplotid
                 "symbol", SplomMarkerSymbol.Type
                 "size", T<int> + T<float> + !| T<int> + !| T<float>
                 "sizeref", T<int> + T<float>
@@ -630,7 +630,7 @@ module SplomModule =
 
 
     let SplomDiagonal =
-        Patten.Config "SplomDiagonal" {
+        Pattern.Config "SplomDiagonal" {
             Required = []
             Optional = [
                 "visible", T<bool>
@@ -681,7 +681,7 @@ module SplomModule =
             "marker", SplomMarker.Type
             "diagonal", SplomDiagonal.Type
             "xaxes", !| T<string> + !| T<int> + !| T<float>
-            "yaxex"!| T<string> + !| T<int> + !| T<float>
+            "yaxes", !| T<string> + !| T<int> + !| T<float>
             "showlowerhalf", T<bool>
             "showupperhalf", T<bool>
             "selectedpoints", T<int> + T<float> + T<string>
@@ -712,7 +712,6 @@ module SplomModule =
         SplomTickLabelPosition
         SplomTickFormatStops
         SplomShowTickFix
-        ShowExponent
         SplomExponentFormat
         SplomSide
         SplomTitle

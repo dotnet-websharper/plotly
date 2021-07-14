@@ -761,7 +761,6 @@ module ScatterCarpetModule =
         ScatterCarpetTickLabelPosition
         ScatterCarpetTickFormatStops
         ScatterCarpetShowTickFix
-        ShowExponent
         ScatterCarpetExponentFormat
         ScatterCarpetSide
         ScatterCarpetTitle
@@ -778,4 +777,6 @@ module ScatterCarpetModule =
         ScatterCarpetHoverLabel
         ScatterCarpetHoverOn
         ScatterCarpetOptions
+        ScatterCarpetGradient
+        ScatterCarpetGradientType
     ]

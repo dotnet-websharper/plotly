@@ -132,19 +132,19 @@ module CarpetModule =
             "nonnegative"
         ]
 
-    let ParAxisCT =
-        Pattern.EnumStrings "ParAxisCT" [
+    let CarpetAxisCT =
+        Pattern.EnumStrings "CarpetAxisCT" [
             "index"
             "value"
         ]
 
-let CarpetAxisCO =
-    Pattern.EnumInlines "CarpetAxisCO" [
-        "trace", "'trace'"
-        "categoryAscending", "'category ascending'"
-        "categoryDescending", "'category descending'"
-        "array", "'array'"
-    ]
+    let CarpetAxisCO =
+        Pattern.EnumInlines "CarpetAxisCO" [
+            "trace", "'trace'"
+            "categoryAscending", "'category ascending'"
+            "categoryDescending", "'category descending'"
+            "array", "'array'"
+        ]
 
     let CarpetAxis =
         Pattern.Config "CarpetAxis" {
@@ -156,32 +156,32 @@ let CarpetAxisCO =
                 "type", CarpetAxisType.Type
                 "autotypenumbers", CarpetAxisATN.Type
                 "autorange", T<bool> + CarpetAxisAR.Type
-                "rangemode", CarpetAxisRM.type
+                "rangemode", CarpetAxisRM.Type
                 "range", !| T<int> + !| T<float> + !| T<string>
                 "fixedrange", T<bool>
-                "cheatertype", ParAxisCT.Type
-                "tickmode", CarpetTickMode.Type//
-                "nticks", T<int>//
-                "tick0", (T<float> + T<int>)//
-                "dtick", (T<float> + T<int>)//
-                "arraytick0", T<int>//
-                "arraydtick", T<int>//
-                "tickvals", !| T<obj>//
-                "ticktext", !| T<string> //
-                "showticklabels", T<bool>//
-                "tickfont", CarpetFont.Type//
-                "tickangle", (T<float> + T<int>) //type: Angle//
-                "tickformat", T<string>//
-                "tickformatstops", CarpetTickFormatStops.Type//
-                "tickprefix", T<string>//
-                "showtickprefix", CarpetShowTickFix.Type//
-                "ticksuffix", T<string>//
-                "showticksuffix", CarpetShowTickFix.Type//
-                "separatethousands", T<bool>//
-                "exponentformat", CarpetExponentFormat.Type//
-                "minexponent", (T<float> + T<int>)//
-                "showexponent", ShowExponent.Type//
-                "categoryorder", CarpetAxisCO.type
+                "cheatertype", CarpetAxisCT.Type
+                "tickmode", CarpetTickMode.Type
+                "nticks", T<int>
+                "tick0", (T<float> + T<int>)
+                "dtick", (T<float> + T<int>)
+                "arraytick0", T<int>
+                "arraydtick", T<int>
+                "tickvals", !| T<obj>
+                "ticktext", !| T<string> 
+                "showticklabels", T<bool>
+                "tickfont", CarpetFont.Type
+                "tickangle", (T<float> + T<int>) //type: Angle
+                "tickformat", T<string>
+                "tickformatstops", CarpetTickFormatStops.Type
+                "tickprefix", T<string>
+                "showtickprefix", CarpetShowTickFix.Type
+                "ticksuffix", T<string>
+                "showticksuffix", CarpetShowTickFix.Type
+                "separatethousands", T<bool>
+                "exponentformat", CarpetExponentFormat.Type
+                "minexponent", (T<float> + T<int>)
+                "showexponent", ShowExponent.Type
+                "categoryorder", CarpetAxisCO.Type
                 "categoryarray", !| T<int> + !| T<float> + !| T<string>
                 "labelpadding", T<int>
                 "labelprefix", T<string>
@@ -234,7 +234,7 @@ let CarpetAxisCO =
             "color", CarpetColor
             "carpet", T<string>
             "cheaterslope", T<int> + T<float>
-            "font", CarpetFont
+            "font", CarpetFont.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
@@ -246,14 +246,14 @@ let CarpetAxisCO =
         CarpetTickMode
         CarpetTickFormatStops
         CarpetShowTickFix
-        ShowExponent
         CarpetExponentFormat
         CarpetAxisTitle
         CarpetAxisType
         CarpetAxisATN
         CarpetAxisAR
         CarpetAxisRM
-        voidptrv
+        CarpetAxisCO
         CarpetAxis
         CarpetOptions
+        CarpetAxisCT
     ]

@@ -55,7 +55,7 @@ module ParCatsModule =
         }
 
     let ParCatsDimensionCatOrd =
-        Pattern.Enuminlines "ParCatsDimensionCatOrd" [
+        Pattern.EnumInlines "ParCatsDimensionCatOrd" [
             "trace", "'trace'"
             "categoryAscending", "'category ascending'"
             "categoryDescending", "'category descending'"
@@ -68,11 +68,11 @@ module ParCatsModule =
             Optional = [
                 "displayindex", T<int>
                 "categoryorder", ParCatsDimensionCatOrd.Type
-                "categoryarray", !| T<string> + !| T<int> + !| T<float>///
-                "ticktext", !| T<string> + !| T<int> + !| T<float>//
-                "visible", T<bool>//
-                "label", T<string>//
-                "values", !| T<string> + !| T<int> + !| T<float>//
+                "categoryarray", !| T<string> + !| T<int> + !| T<float>
+                "ticktext", !| T<string> + !| T<int> + !| T<float>
+                "visible", T<bool>
+                "label", T<string>
+                "values", !| T<string> + !| T<int> + !| T<float>
             ]
         }
 
@@ -236,17 +236,17 @@ module ParCatsModule =
         Pattern.Config "ParCatsLine" {
             Required = []
             Optional = [
-                "color", ParCatsColor + !| ParCatsColor //data array//
-                "cauto", T<bool>//
-                "cmin", (T<float> + T<int>)//
-                "cmax", (T<float> + T<int>)//
-                "cmid", (T<float> + T<int>)//
-                "colorscale", ParCatsColorScale//
-                "autocolorscale", T<bool>//
-                "reverscale", T<bool>//
-                "showscale", T<bool>//
-                "colorbar", ParCatsColorBar.Type//
-                "coloraxis", T<string> // type: subplotid//
+                "color", ParCatsColor + !| ParCatsColor //data array
+                "cauto", T<bool>
+                "cmin", (T<float> + T<int>)
+                "cmax", (T<float> + T<int>)
+                "cmid", (T<float> + T<int>)
+                "colorscale", ParCatsColorScale
+                "autocolorscale", T<bool>
+                "reverscale", T<bool>
+                "showscale", T<bool>
+                "colorbar", ParCatsColorBar.Type
+                "coloraxis", T<string> // type: subplotid
                 "shape", ParCatsLineShape.Type
                 "hovertemplate", T<string>
             ]
@@ -336,7 +336,6 @@ module ParCatsModule =
         ParCatsTickLabelPosition
         ParCatsTickFormatStops
         ParCatsShowTickFix
-        ShowExponent
         ParCatsExponentFormat
         ParCatsSide
         ParCatsTitle

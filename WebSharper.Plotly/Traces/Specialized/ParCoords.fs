@@ -226,17 +226,17 @@ module ParCoordsModule =
         Pattern.Config "ParCoordsLine" {
             Required = []
             Optional = [
-                "color", ParCoordsColor + !| ParCoordsColor //data array//
-                "cauto", T<bool>//
-                "cmin", (T<float> + T<int>)//
-                "cmax", (T<float> + T<int>)//
-                "cmid", (T<float> + T<int>)//
-                "colorscale", ParCoordsColorScale//
-                "autocolorscale", T<bool>//
-                "reverscale", T<bool>//
-                "showscale", T<bool>//
-                "colorbar", ParCoordsColorBar.Type//
-                "coloraxis", T<string> // type: subplotid//
+                "color", ParCoordsColor + !| ParCoordsColor //data array
+                "cauto", T<bool>
+                "cmin", (T<float> + T<int>)
+                "cmax", (T<float> + T<int>)
+                "cmid", (T<float> + T<int>)
+                "colorscale", ParCoordsColorScale
+                "autocolorscale", T<bool>
+                "reverscale", T<bool>
+                "showscale", T<bool>
+                "colorbar", ParCoordsColorBar.Type
+                "coloraxis", T<string> // type: subplotid
             ]
         }
 
@@ -251,11 +251,11 @@ module ParCoordsModule =
             ]
         }
 
-let ParCoordsLabelSide =
-    Pattern.EnumStrings "ParCoordsLabelSide" [
-        "top"
-        "bottom"
-    ]
+    let ParCoordsLabelSide =
+        Pattern.EnumStrings "ParCoordsLabelSide" [
+            "top"
+            "bottom"
+        ]
 
     let ParCoordsOptions =
         Class "ParCoordsOptions"
@@ -297,7 +297,6 @@ let ParCoordsLabelSide =
         ParCoordsTickLabelPosition
         ParCoordsTickFormatStops
         ParCoordsShowTickFix
-        ShowExponent
         ParCoordsExponentFormat
         ParCoordsSide
         ParCoordsTitle

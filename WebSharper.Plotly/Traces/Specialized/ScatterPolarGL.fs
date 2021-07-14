@@ -755,7 +755,6 @@ module ScatterPolarGLModule =
         ScatterPolarGLTickLabelPosition
         ScatterPolarGLTickFormatStops
         ScatterPolarGLShowTickFix
-        ShowExponent
         ScatterPolarGLExponentFormat
         ScatterPolarGLSide
         ScatterPolarGLTitle

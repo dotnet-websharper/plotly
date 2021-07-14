@@ -408,7 +408,6 @@ module BarPolarModule =
         BarPolarTickLabelPosition
         BarPolarTickFormatStops
         BarPolarShowTickFix
-        ShowExponent
         BarPolarExponentFormat
         BarPolarSide
         BarPolarTitle

@@ -119,7 +119,7 @@ module SankeyModule =
                 "label", T<string>
                 "cmax", T<int> + T<float>
                 "cmin", T<int> + T<float>
-                "colorscale", SankeyColorScale.Type
+                "colorscale", SankeyColorScale
                 "name", T<string>
                 "templateitemname", T<string>
             ]

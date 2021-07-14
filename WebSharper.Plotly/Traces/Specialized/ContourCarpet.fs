@@ -227,7 +227,7 @@ module ContourCarpetModule =
         }
 
     let ContourCarpetsType =
-        PAttern.EnumStrings "ContourCarpetsType" [
+        Pattern.EnumStrings "ContourCarpetsType" [
             "levels"
             "constraint"
         ]
@@ -241,20 +241,20 @@ module ContourCarpetModule =
         ]
 
     let ContourCarpetOperation =
-        Pattern.EnumStrings "ContourCarpetOperation" [
-            "="
-            "<"
-            ">"
-            ">="
-            "<="
-            "[]"
-            "()"
-            "[)"
-            "(]"
-            "]["
-            ")("
-            "]("
-            ")["
+        Pattern.EnumInlines "ContourCarpetOperation" [
+            "equal", "'='"
+            "less", "'<'"
+            "greater", "'>'"
+            "greaterEqual", "'>='"
+            "lessEqual", "'<='"
+            "square", "'[]'"
+            "bracket", "'()'"
+            "squareBracket", "'[)'"
+            "bracketSquare", "'(]'"
+            "reverseSquare", "']['"
+            "reverseBracket", "')('"
+            "reverseSquareBracket", "']('"
+            "reverseBracketSquare", "')['"
         ]
 
     let ContourCarpetContourCarpets =
@@ -314,7 +314,7 @@ module ContourCarpetModule =
             "line", ContourCarpetLine.Type
             "colorbar", ContourCarpetColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", ContourCarpetColorScale.Type
+            "colorscale", ContourCarpetColorScale
             "showscale", T<bool>
             "reversescale", T<bool>
             "zauto", T<bool>
@@ -344,7 +344,6 @@ module ContourCarpetModule =
         ContourCarpetTickLabelPosition
         ContourCarpetTickFormatStops
         ContourCarpetShowTickFix
-        ShowExponent
         ContourCarpetExponentFormat
         ContourCarpetSide
         ContourCarpetTitle

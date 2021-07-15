@@ -479,6 +479,400 @@ module LayoutModule =
             "overlay"
         ]
 
+    let LayoutDomain =
+        Pattern.Config "LayoutGeoDomain" {
+            Required = []
+            Optional = [
+                "x", !| T<string> + !| T<int> + !| T<float>
+                "y", !| T<string> + !| T<int> + !| T<float>
+                "row", T<int>
+                "column", T<int>
+            ]
+        }
+
+    let LayoutGeoFitBounds =
+        Pattern.EnumInlines "LayoutGeoFitBounds" [
+            "false", "false"
+            "locations", "'locations'"
+            "geojson", "'geojson'"
+        ]
+
+    let LayoutGeoResolution =
+        Pattern.EnumStrings "LayoutGeoResolution" [
+            "110"
+            "50"
+        ]
+
+    let LayoutGeoScope =
+        Pattern.EnumStrings "LayoutGeoScope" [
+            "world"
+            "usa"
+            "europe"
+            "asia"
+            "africa"
+            "north america"
+            "south america"
+        ]
+
+    let LayoutGeoProjectionType =
+        Pattern.EnumStrings "LayoutGeoProjectionType" [
+            "equirectangular"
+            "mercator"
+            "orthographic"
+            "natural earth"
+            "kavrayskiy7"
+            "miller"
+            "robinson"
+            "eckert4"
+            "azimuthal equal area"
+            "azimuthal equidistant"
+            "conic equal area"
+            "conic conformal"
+            "conic equidistant"
+            "gnomonic"
+            "stereographic"
+            "mollweide"
+            "hammer"
+            "transverse mercator"
+            "albers usa"
+            "winkel tripel"
+            "aitoff"
+            "sinusoidal"
+        ]
+
+    let LayoutGeoProjectionRotation =
+        Pattern.Config "LayoutGeoProjectionRotation" {
+            Required = []
+            Optional = [
+                "lon", T<Number>
+                "lat", T<Number>
+                "roll", T<Number>
+            ]
+        }
+
+    let LayoutGeoProjection =
+        Pattern.Config "LayoutGeoProjection" {
+            Required = []
+            Optional = [
+                "type", LayoutGeoProjectionType.Type
+                "rotation", LayoutGeoProjectionRotation.Type
+                "parallels", !| T<obj> // array
+                "scale", T<Number>
+            ]
+        }
+
+    let LayoutCenter =
+        Pattern.Config "LayoutGeoCenter" {
+            Required = []
+            Optional = [
+                "lon", T<Number>
+                "lat", T<Number>
+            ]
+        }
+
+    let LayoutGeoAxis =
+        Pattern.Config "LayoutGeoAxis" {
+            Required = []
+            Optional = [
+                "range", !| T<obj> //array
+                "showgrid", T<bool>
+                "tick0", T<Number>
+                "dtick", T<Number>
+                "gridcolor", LayoutColor
+                "gridwidth", T<int>
+            ]
+        }
+
+    let LayoutGeo =
+        Pattern.Config "LayoutGeo" {
+            Required = []
+            Optional = [
+                "domain", LayoutDomain.Type
+                "fitbounds", LayoutGeoFitBounds.Type
+                "resolution", LayoutGeoResolution.Type
+                "scope", LayoutGeoScope.Type
+                "projection", LayoutGeoProjection.Type
+                "center", LayoutCenter.Type
+                "visible", T<bool>
+                "showcoastlines", T<bool>
+                "coastlinecolor", LayoutColor
+                "coastlinewidth", T<int>
+                "showland", T<bool>
+                "landcolor", LayoutColor
+                "showocean", T<bool>
+                "oceancolor", LayoutColor
+                "showlakes", T<bool>
+                "lakecolor", LayoutColor
+                "showrivers", T<bool>
+                "rivercolor", LayoutColor
+                "riverwidth", T<int>
+                "showcountries", T<bool>
+                "countrycolor", LayoutColor
+                "countrywidth", T<int>
+                "showsubunits", T<bool>
+                "subunitcolor", LayoutColor
+                "subunitwidth", T<int>
+                "showframe", T<bool>
+                "framecolor", LayoutColor
+                "framewidth", T<int>
+                "bgcolor", LayoutColor
+                "lonaxis", LayoutGeoAxis.Type
+                "lataxis", LayoutGeoAxis.Type
+                "uirevision", T<Number> + T<string>
+            ]
+        }
+
+    let LayoutSourceType =
+        Pattern.EnumStrings "LayoutSourceType" [
+            "geojson"
+            "vector"
+            "raster"
+            "image"
+        ]
+
+    let LayoutMapboxLayerType =
+        Pattern.EnumStrings "LayoutMapboxLayerType" [
+            "circle"
+            "line"
+            "fill"
+            "symbol"
+        ]
+
+    let LayoutMapboxLayerCircle =
+        Pattern.Config "LayoutMapboxLayerCircle" {
+            Required = []
+            Optional = [
+                "radius", T<Number>
+            ]
+        }
+
+    let LayoutMapboxLayerLine =
+        Pattern.Config "LayoutMapboxLayerLine" {
+            Required = []
+            Optional = [
+                "color", LayoutColor
+                "width", T<int> + T<float>
+                "dash", T<string>
+            ]
+        }
+
+    let LayoutMapboxLayerFill =
+        Pattern.Config "LayoutMapboxLayerFill" {
+            Required = []
+            Optional = [
+                "outlinecolor", LayoutColor
+            ]
+        }
+
+    let LayoutSymbolPlacement =
+        Pattern.EnumStrings "LayoutSymbolPlacement" [
+            "point"
+            "line"
+            "line-center"
+        ]
+
+    let LayoutSymbolTextPosition =
+        Pattern.EnumInlines "LayoutSymbolTextPosition" [
+            "TopLeft", "'top left'"
+            "TopCenter", "'top center'"
+            "TopRight", "'top right'"
+            "MiddleLeft", "'middle left'"
+            "MiddleCenter", "'middle center'"
+            "MiddleRight", "'middle right'"
+            "BottomLeft", "'bottom left'"
+            "BottomCenter", "'bottom center'"
+            "BottomRight", "'bottom right'"
+        ]
+
+    let LayoutMapboxLayerSymbol =
+        Pattern.Config "LayoutMapboxLayerSymbol" {
+            Required = []
+            Optional = [
+                "icon", T<string>
+                "iconsize", T<Number>
+                "text", T<string>
+                "placement", LayoutSymbolPlacement.Type
+                "textfont", LayoutFontConfig.Type
+                "textposition", LayoutSymbolTextPosition.Type
+            ]
+        }
+
+    let LayoutMapboxLayer =
+        Pattern.Config "LayoutMapboxLayer" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "sourcetype", LayoutSourceType.Type
+                "source", T<Number> + T<string>
+                "sourcelayer", T<string>
+                "sourceattribution", T<string>
+                "type", LayoutMapboxLayerType.Type
+                "coordinates", T<Number> + T<string>
+                "below", T<string>
+                "color", LayoutColor
+                "opacity", T<float> + T<int>
+                "minzoom", T<float> + T<int>
+                "maxzoom", T<float> + T<int>
+                "circle", LayoutMapboxLayerCircle.Type
+                "line", LayoutMapboxLayerLine.Type
+                "fill", LayoutMapboxLayerFill.Type
+                "symbol", LayoutMapboxLayerSymbol.Type
+                "name", T<string>
+                "templateitemname", T<string>
+            ]
+        }
+
+    let LayoutMapbox =
+        Pattern.Config "LayoutMapbox" {
+            Required = []
+            Optional = [
+                "domain", LayoutDomain.Type
+                "accesstoken", T<string>
+                "style", T<Number> + T<string>
+                "center", LayoutCenter.Type
+                "zoom", T<Number>
+                "bearing", T<Number>
+                "pitch", T<Number>
+                "layers", LayoutMapboxLayer.Type
+                "uirevision", T<Number> + T<string>
+            ]
+        }
+
+    let LayoutColorBarMode =
+        Pattern.EnumStrings "LayoutColorBarMode" [
+            "fraction"
+            "pixels"
+        ]
+
+    let LayoutTickMode =
+        Pattern.EnumStrings "LayoutTickMode" [
+            "auto"
+            "linear"
+            "array"
+        ]
+
+    let LayoutTicks =
+        Pattern.EnumInlines "LayoutTicks" [
+            "outside", "'outside'"
+            "inside", "'inside'"
+            "empty", "''"
+        ]
+
+    let LayoutTickLabelOverflow =
+        Pattern.EnumInlines "LayoutTickLabelOverflow" [
+            "allow", "'allow'"
+            "hidePastDiv", "'hide past div'"
+            "hidePastDomain", "'hide Past Domain'"
+        ]
+
+    let LayoutTickLabelPosition =
+        Pattern.EnumInlines "LayoutTickLabelPosition" [
+            "outside", "'outside'"
+            "inside", "'inside'"
+            "outsideTop", "'outside top'"
+            "insideTop", "'inside top'"
+            "outsideBottom", "'outside bottom'"
+            "insideBottom", "'inside bottom'"
+        ]
+
+    let LayoutDTickValue = (T<float> + T<int>) + T<string>
+
+    let LayoutTickFormatStops =
+        Pattern.Config "LayoutTickFormatStops" {
+            Required = []
+            Optional = [
+                "enabled", T<bool>
+                "dtickrange", !| ((LayoutDTickValue + LayoutNullValue.Type) * (LayoutDTickValue + LayoutNullValue.Type))
+                "value", T<string>
+                "name", T<string>
+                "templateitemname", T<string>
+            ]
+        }
+
+    let LayoutShowTickFix =
+        Pattern.EnumStrings "LayoutShowTickFix" [
+            "all"
+            "first"
+            "last"
+            "none"
+        ]
+
+    let LayoutShowExponent = LayoutShowTickFix
+
+    let LayoutExponentFormat =
+        Pattern.EnumInlines "LayoutExponentFormat" [
+            "none", "'none'"
+            "Lowercase_E", "'e'"
+            "Uppercase_E", "'E'"
+            "power", "'power'"
+            "SI", "'SI'"
+            "B", "'B'"
+        ]
+
+    let LayoutColorBar =
+        Pattern.Config "LayoutColorBar" {
+            Required = []
+            Optional = [
+                "thicknessmode", LayoutColorBarMode.Type
+                "thickness", (T<float> + T<int>)
+                "lenmode", LayoutColorBarMode.Type
+                "len", (T<float> + T<int>)
+                "x", T<float>
+                "xanchor", LayoutXAnchor.Type
+                "xpad", (T<float> + T<int>)
+                "y", T<float>
+                "yanchor", LayoutYAnchor.Type
+                "ypad", (T<float> + T<int>)
+                "outlinecolor", LayoutColor
+                "outlinewidth", (T<float> + T<int>)
+                "bordercolor", LayoutColor
+                "borderwidth", (T<float> + T<int>)
+                "bgcolor", LayoutColor
+                "tickmode", LayoutTickMode.Type
+                "nticks", T<int>
+                "tick0", (T<float> + T<int>) + T<string>
+                "dtick", (T<float> + T<int>) + T<string>
+                "tickvals", !| T<obj>
+                "ticktext", !| T<string> 
+                "ticks", LayoutTicks.Type
+                "ticklabeloverflow", LayoutTickLabelOverflow.Type
+                "ticklabelposition", LayoutTickLabelPosition.Type
+                "ticklen", (T<float> + T<int>)
+                "tickwidth", (T<float> + T<int>)
+                "tickcolor", LayoutColor
+                "showticklabels", T<bool>
+                "tickfont", LayoutFontConfig.Type
+                "tickangle", (T<float> + T<int>) //type: Angle
+                "tickformat", T<string>
+                "tickformatstops", LayoutTickFormatStops.Type
+                "tickprefix", T<string>
+                "showtickprefix", LayoutShowTickFix.Type
+                "ticksuffix", T<string>
+                "showticksuffix", LayoutShowTickFix.Type
+                "separatethousands", T<bool>
+                "exponentformat", LayoutExponentFormat.Type
+                "minexponent", (T<float> + T<int>)
+                "showexponent", LayoutShowExponent.Type // change type name to fit
+                "title", LayoutTitle.Type
+            ]
+        }
+
+    let LayoutColorAxis =
+        Pattern.Config "LayoutColorAxis" {
+            Required = []
+            Optional = [
+                "cauto", T<bool>
+                "cmin", T<Number>
+                "cmin", T<Number>
+                "cmid", T<Number>
+                "colorscale", LayoutColorScaleType
+                "autocolorscale", T<bool>
+                "reversescale", T<bool>
+                "showscale", T<bool>
+                "colorbar", LayoutColorBar.Type
+            ]
+        }
+
     let LayoutAxisTitle =
         Pattern.Config "LayoutAxisTitle" {
             Required = []

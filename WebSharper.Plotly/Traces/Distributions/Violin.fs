@@ -530,6 +530,7 @@ module ViolinModule =
             "all"
             "outliers"
             "suspectedoutliers"
+            "none"
         ]
 
     let ViolinScaleMode =

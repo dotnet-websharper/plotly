@@ -110,6 +110,30 @@ module Client =
     histogram2d.X <- [|1;1;2;3;4;6;4;3;7;9;6;4;3;4;5;7;5|]
     histogram2d.Y <- [|1;1;2;3;4;6;4;3;7;9;6;4;3;4;5;7;5|]
 
+    let hg2dcontour = HG2DContOptions()
+    hg2dcontour.X <- [|2;3;4;2;1;3;5;7;98;7;6;54;4;5;6;7;8;9;4;5;3;32;2;4;5;7;45;3;3;3;4|]
+    hg2dcontour.Y <- [|8;9;4;5;3;32;2;4;2;3;4;2;1;3;5;7;98;7;6;54;4;5;6;7;5;7;45;3;3;3;4|]    
+
+    let violin = ViolinOptions()
+    //violin.Y <- violin.
+    violin.Points <- Union2Of2(ViolinPoints.None)
+    violin.Box <- ViolinBox(
+        Visible = true
+    )
+    violin.Points <- Union1Of2(false)
+    violin.Line <- ViolinLine(
+        Color = "black"
+    )
+    violin.Fillcolor <- "black"
+    violin.Opacity <- 0.6
+    violin.Meanline <- ViolinMeanLine(
+        Visible = true
+    )
+    violin.X0 <- "Total Bill"
+
+
+
+
     let scatterChart = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|])
     let scatterGLChart = Plotly.Plotly.NewPlot("scatterglchartDiv", [|scatterGLTrace|])
     let pieChart = Plotly.Plotly.NewPlot("piechartDiv", [|pieTrace|])
@@ -122,6 +146,8 @@ module Client =
     let boxChart = Plotly.Plotly.NewPlot("boxchartDiv", [|box|])
     let hgChart = Plotly.Plotly.NewPlot("hgchartDiv", [|histogram|])
     let hg2dChart = Plotly.Plotly.NewPlot("hg2dchartDiv", [|histogram2d|])
+    let hg2dContChart = Plotly.Plotly.NewPlot("hg2dcontchartDiv", [|hg2dcontour|])
+    //let violinChart = Plotly.Plotly.NewPlot("violinchartDiv", [|violin|])
 
 
     //Console.Log(Tests)
@@ -155,6 +181,10 @@ module Client =
             div [attr.id "hgchartDiv"] []
             h2 [] [text "Histogram2D chart"]
             div [attr.id "hg2dchartDiv"] []
+            h2 [] [text "Histogram2DContour chart"]
+            div [attr.id "hg2dcontchartDiv"] []
+            //h2 [] [text "Violin chart"]
+            //div [attr.id "violinchartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -169,4 +199,6 @@ module Client =
         boxChart |> ignore
         hgChart |> ignore
         hg2dChart |> ignore
+        hg2dContChart |> ignore
+        //violinChart |> ignore
 

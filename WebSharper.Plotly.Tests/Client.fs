@@ -302,6 +302,64 @@ module Client =
         )
     )
 
+    let choropleth = ChoroplethOptions()
+    choropleth.Locationmode <- ChoroplethLocationMode.CountryNames
+    //choropleth.Locations <- 
+    //choropleth.Z <- 
+    //choropleth.Text <-
+    choropleth.Autocolorscale <- true
+
+    let choroplethmb = ChoroplethMBOptions()
+    choroplethmb.Locations <- [|"NY";"MA";"VT"|]
+    choroplethmb.Z <- [|-50;-10;-20|]
+    choroplethmb.Geojson <- "https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json"
+
+    let densitymb = DensityMBOptions()
+    densitymb.Lon <- [|10;20;30|]
+    densitymb.Lat <- [|15;25;35|]
+    densitymb.Z <- [|1;3;2|]
+
+    let scattergeo = ScatterGeoOptions()
+    scattergeo.Mode <- ScatterGeoModes.Markers_text
+    scattergeo.Text <- Union2Of2([|
+        "Montreal";"Toronto";"Vancouver";"Calgary";
+        "Edmonton";"Ottawa";"Halifax";"Victoria";
+        "Winnepeg";"Regina"
+    |])
+    scattergeo.Lon <- [|
+        -73.57; -79.24; -123.06; -114.1; -113.28;
+        -75.43; -63.57; -123.21; -97.13; -104.6    
+    |]
+    scattergeo.Lat <- [|
+        45.5; 43.4; 49.13; 51.1; 53.34; 45.24;
+        44.64; 48.25; 49.89; 50.45
+    |]
+    scattergeo.Marker <- ScatterGeoMarker(
+        Size = 7,
+        Color = [|
+            "#bebada"; "#fdb462"; "#fb8072"; "#d9d9d9"; "#bc80bd";
+            "#b3de69"; "#8dd3c7"; "#80b1d3"; "#fccde5"; "#ffffb3"
+        |],
+        Line = ScatterGeoMarkerLine(
+            Width = 1
+        )
+    )
+    scattergeo.Name <- "Canadian cities"
+    scattergeo.Textposition <- [|
+        ScatterGeoTextPosition.TopRight;
+        ScatterGeoTextPosition.TopLeft;
+        ScatterGeoTextPosition.TopCenter;
+        ScatterGeoTextPosition.BottomRight;
+        ScatterGeoTextPosition.TopRight;
+        ScatterGeoTextPosition.TopLeft;
+        ScatterGeoTextPosition.BottomRight;
+        ScatterGeoTextPosition.BottomLeft;
+        ScatterGeoTextPosition.TopRight;
+        ScatterGeoTextPosition.TopRight;
+    |]
+
+
+
 
 
 
@@ -327,6 +385,10 @@ module Client =
     let indicatorChart = Plotly.Plotly.NewPlot("indicatorchartDiv", [|indicator|])
     let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|])
     let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|])
+    let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|])
+    let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|])
+    let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|])
+    let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|])
 
     //Console.Log(Tests)
 
@@ -374,7 +436,15 @@ module Client =
             h2 [] [text "OHLC chart"]
             div [attr.id "ohlcchartDiv"] []  
             h2 [] [text "Waterfall chart"]
-            div [attr.id "waterfallchartDiv"] []            
+            div [attr.id "waterfallchartDiv"] []
+            h2 [] [text "Choropleth chart"]
+            div [attr.id "choroplethchartDiv"] []
+            h2 [] [text "ChoroplethMB chart"]
+            div [attr.id "choroplethmbchartDiv"] [] 
+            h2 [] [text "DensityMB chart"]
+            div [attr.id "densitymbchartDiv"] []
+            h2 [] [text "ScatterGeo chart"]
+            div [attr.id "scattergeochartDiv"] []          
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -397,3 +467,7 @@ module Client =
         indicatorChart |> ignore
         ohlcChart |> ignore
         waterfallChart |> ignore
+        choroplethChart |> ignore
+        choroplethMBChart |> ignore
+        densityMBChart |> ignore
+        scatterGeoChart |> ignore

@@ -712,7 +712,7 @@ module ScatterGeoModule =
             "locations", !| T<int> + !| T<float> + !| T<string>
             "lon", !| T<int> + !| T<float> + !| T<string>
             "text", T<string> + !| T<string>
-            "textposition", ScatterGeoTextPosition.Type
+            "textposition", !| ScatterGeoTextPosition.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
             "hoverinfo", ScatterGeoHoverInfo.Type

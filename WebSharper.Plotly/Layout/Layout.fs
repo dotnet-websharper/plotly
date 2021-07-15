@@ -31,6 +31,8 @@ module LayoutModule =
 
     let LayoutColor = T<string> + (T<float> + T<int>) + (!| (!? (LayoutNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (LayoutNullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
+    let LayoutColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
+
     let LayoutFontConfig =
         Pattern.Config "LayoutFontConfig" {
             Required = []
@@ -188,9 +190,9 @@ module LayoutModule =
         Pattern.Config "LayoutColorscale" {
             Required = []
             Optional = [
-                "sequential", T<obj> // colorscale
-                "sequentialminus", T<obj> // colorscale
-                "diverging", T<obj> // colorscale
+                "sequential", LayoutColorScale
+                "sequentialminus", LayoutColorScale
+                "diverging", LayoutColorScale
             ]
         }
 
@@ -479,7 +481,411 @@ module LayoutModule =
             "overlay"
         ]
 
-    let LayoutDomain =
+    let LayoutAxisTitle =
+        Pattern.Config "LayoutAxisTitle" {
+            Required = []
+            Optional = [
+                "text", T<string>
+                "font", LayoutFontConfig.Type
+                "stadoff", T<int>
+            ]
+        }
+
+    let LayoutAxisType =
+        Pattern.EnumInlines "LayoutAxisType" [
+            "minus", "'-'"
+            "linear", "'linear'"
+            "log", "'log'"
+            "date", "'date'"
+            "category", "'category'"
+            "multicategory", "'multicategory'"
+        ]
+
+    let LayoutAutoRange =
+        Pattern.EnumInlines "LayoutAutoRange" [
+            "true", "true"
+            "false", "false"
+            "reversed", "'reversed'"
+        ]
+
+    let LayoutRangeMode =
+        Pattern.EnumStrings "LayoutRangeMode" [
+            "normal"
+            "tozero"
+            "nonnegative"
+        ]
+
+    let LayoutScaleAnchor =
+        Pattern.EnumInlines "LayoutScaleAnchor" [
+            "x", "'/^x([2-9]|[1-9][0-9]+)?( domain)?$/'"
+            "y", "'/^y([2-9]|[1-9][0-9]+)?( domain)?$/'"
+        ]
+
+    let LayoutAxisConstrain =
+        Pattern.EnumStrings "LayoutAxisConstrain" [
+            "range"
+            "domain"
+        ]
+
+    let LayoutConstrainToward =
+        Pattern.EnumStrings "LayoutConstrainToward" [
+            "left"
+            "center"
+            "right"
+            "top"
+            "middle"
+            "bottom"
+        ]
+
+    let LayoutRangeBreaksPattern =
+        Pattern.EnumInlines "LayoutRangeBreaksPattern" [
+            "dayOfWeek", "'day of week'"
+            "hour", "'hour'"
+            "empty", "''"
+        ]
+
+    let LayoutRangeBreaks =
+        Pattern.Config "LayoutRangeBreaks" {
+            Required = []
+            Optional = [
+                "enabled", T<bool>
+                "bounds", !| T<string> // array, seems to be string arr
+                "pattern", LayoutRangeBreaksPattern.Type
+                "values", !| T<Number> // array
+                "dvalue", T<int>
+                "name", T<string>
+                "templateitemname", T<string>
+            ]
+        }
+
+    let LayoutTickMode =
+        Pattern.EnumStrings "LayoutTickMode" [
+            "auto"
+            "linear"
+            "array"
+        ]
+
+    let LayoutTicks =
+        Pattern.EnumInlines "LayoutTicks" [
+            "outside", "'outside'"
+            "inside", "'inside'"
+            "empty", "''"
+        ]
+
+    let LayoutTicksOn =
+        Pattern.EnumStrings "LayoutTicksOn" [
+            "labels"
+            "boundaries"
+        ]
+
+    let LayoutTickLabelMode =
+        Pattern.EnumStrings "LayoutTickLabelMode" [
+            "instant"
+            "period"
+        ]
+
+    let LayoutTickLabelPosition =
+        Pattern.EnumInlines "LayoutTickLabelPosition" [
+            "outside", "'outside'"
+            "inside", "'inside'"
+            "outsideTop", "'outside top'"
+            "insideTop", "'inside top'"
+            "outsideLeft", "'outside left'"
+            "insideLeft", "'inside left'"
+            "outsideRight", "'outside right'"
+            "insideRight", "'inside right'"
+            "outsideBottom", "'outside bottom'"
+            "insideBottom", "'inside bottom'"
+        ]
+
+    let LayoutTickLabelOverflow =
+        Pattern.EnumInlines "LayoutTickLabelOverflow" [
+            "allow", "'allow'"
+            "hidePastDiv", "'hide past div'"
+            "hidePastDomain", "'hide Past Domain'"
+        ]
+
+    let LayoutAxisMirror =
+        Pattern.EnumStrings "LayoutAxisMirror" [
+            "ticks"
+            "all"
+            "allticks"
+        ]
+
+    let LayoutSpikeMode =
+        let generatedEnum = GenerateOptions.allPermutations ["toaxis"; "across"; "marker"] '+'
+        Pattern.EnumStrings "LayoutSpikeMode" generatedEnum
+
+    let LayoutSpikeSnap =
+        Pattern.EnumInlines "LayoutSpikeSnap" [
+            "data", "'data'"
+            "cursor", "'cursor'"
+            "hoveredData", "'hovered data'"
+        ]
+
+    let LayoutShowTickFix =
+        Pattern.EnumStrings "LayoutShowTickFix" [
+            "all"
+            "first"
+            "last"
+            "none"
+        ]
+
+    let LayoutShowExponent = LayoutShowTickFix
+
+    let LayoutExponentFormat =
+        Pattern.EnumInlines "LayoutExponentFormat" [
+            "none", "'none'"
+            "Lowercase_E", "'e'"
+            "Uppercase_E", "'E'"
+            "power", "'power'"
+            "SI", "'SI'"
+            "B", "'B'"
+        ]
+
+    let LayoutDTickValue = (T<float> + T<int>) + T<string>
+
+    let LayoutTickFormatStops =
+        Pattern.Config "LayoutTickFormatStops" {
+            Required = []
+            Optional = [
+                "enabled", T<bool>
+                "dtickrange", !| ((LayoutDTickValue + LayoutNullValue.Type) * (LayoutDTickValue + LayoutNullValue.Type))
+                "value", T<string>
+                "name", T<string>
+                "templateitemname", T<string>
+            ]
+        }
+
+    let LayoutAxisAnchor =
+        Pattern.EnumInlines "LayoutAxisAnchor" [
+            "free", "'free'"
+            "x", "'/^x([2-9]|[1-9][0-9]+)?( domain)?$/'"
+            "y", "'/^y([2-9]|[1-9][0-9]+)?( domain)?$/'"
+        ]
+
+    let LayoutAxisSide =
+        Pattern.EnumStrings "LayoutAxisSide" [
+            "left"
+            "right"
+            "top"
+            "bottom"
+        ]
+
+    let LayoutAxisOverlaying = LayoutAxisAnchor
+
+    let LayoutAxisLayer =
+        Pattern.EnumInlines "LayoutAxisLayer" [
+            "aboveTraces", "'above traces'"
+            "belowTraces", "'below traces'"
+        ]
+
+    let LayoutCO =
+        Pattern.EnumInlines "LayoutCO" [
+            "trace", "'trace'"
+            "categoryAscending", "'category ascending'"
+            "categoryDescending", "'category descending'"
+            "array", "'array'"
+            "totalAscending", "'total ascending'"
+            "totalDescending", "'total descending'"
+            "minAscending", "'min ascending'"
+            "minDescending", "'min descending'"
+            "maxAscending", "'max ascending'"
+            "maxDescending", "'max descending'"
+            "sumAscending", "'sum ascending'"
+            "sumDescending", "'sum descending'"
+            "meanAscending", "'mean ascending'"
+            "meanDescending", "'mean descending'"
+            "medianAscending", "'median ascending'"
+            "medianDescending", "'median descending'"
+        ]
+
+    let LayoutSliderAxisRangemode =
+        Pattern.EnumStrings "LayoutSliderAxisRangemode" [
+            "auto"
+            "fixed"
+            "match"
+        ]
+
+    let LayoutAxisRangeSliderAxis =
+        Pattern.Config "LayoutAxisRangeSliderAxis" {
+            Required = []
+            Optional = [
+                "rangemode", LayoutSliderAxisRangemode.Type
+                "range", !| T<obj> // array
+            ]
+        }
+
+    let LayoutAxisRangeSlider =
+        Pattern.Config "LayoutAxisRangeSlider" {
+            Required = []
+            Optional = [
+                "bgcolor", LayoutColor
+                "bordercolor", LayoutColor
+                "borderwidth", T<int>
+                "autorange", T<bool>
+                "range", T<obj> // array
+                "thickness", (T<float> + T<int>)
+                "visible", T<bool>
+                "yaxis", LayoutAxisRangeSliderAxis.Type
+            ]
+        }
+
+    let LayoutTimeStep =
+        Pattern.EnumStrings "LayoutTimeStep" [
+            "month"
+            "year"
+            "day"
+            "hour"
+            "minute"
+            "second"
+            "all"
+        ]
+
+    let LayoutTimeStepMode =
+        Pattern.EnumStrings "LayoutTimeStepMode" [
+            "backward"
+            "todate"
+        ]
+
+    let LayoutRangeSelectorButtons =
+        Pattern.Config "LayoutRangeSelectorButtons" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "step", LayoutTimeStep.Type
+                "stepmode", LayoutTimeStepMode.Type
+                "count", T<int>
+                "name", T<string>
+                "templateitemname", T<string>
+            ]
+        }
+
+    let LayoutAxisRangeSelector =
+        Pattern.Config "LayoutAxisRangeSelector" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "buttons", LayoutRangeSelectorButtons.Type
+                "x", T<Number>
+                "xanchor", LayoutXAnchor.Type
+                "y", T<Number>
+                "yanchor", LayoutYAnchor.Type
+                "font", LayoutFontConfig.Type
+                "bgcolor", LayoutColor
+                "activecolor", LayoutColor
+                "bordercolor", LayoutColor
+                "borderwidth", T<int>
+            ]
+        }
+
+    let LayoutXAxis =
+        Pattern.Config "LayoutXAxis" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "color", LayoutColor
+                "title", LayoutAxisTitle.Type
+                "type", LayoutAxisType.Type
+                "autotypenumbers", LayoutAutoTypeNumbers.Type
+                "autorange", LayoutAutoRange.Type
+                "rangemode", LayoutRangeMode.Type
+                "range", !| (T<Number> + T<string>)
+                "fixedrange", T<bool>
+                "scaleanchor", LayoutScaleAnchor.Type
+                "scaleratio", T<float> + T<int>
+                "constrain", LayoutAxisConstrain.Type
+                "constraintoward", LayoutConstrainToward.Type
+                "matches", LayoutScaleAnchor.Type
+                "rangebreaks", LayoutRangeBreaks.Type
+                "tickmode", LayoutTickMode.Type
+                "nticks", T<int>
+                "tick0", (T<float> + T<int>) + T<string>
+                "dtick", (T<float> + T<int>) + T<string>
+                "tickvals", !| T<obj>
+                "ticktext", !| T<string>
+                "ticks", LayoutTicks.Type
+                "tickson", LayoutTicksOn.Type
+                "ticklabelmode", LayoutTickLabelMode.Type
+                "ticklabelposition", LayoutTickLabelPosition.Type
+                "ticklabeloverflow", LayoutTickLabelOverflow.Type
+                "mirror", T<bool> + LayoutAxisMirror.Type
+                "ticklen", T<int>
+                "tickwidth", T<int>
+                "tickcolor", LayoutColor
+                "showticklabels", T<bool>
+                "automargin", T<bool>
+                "showspikes", T<bool>
+                "spikecolor",LayoutColor
+                "spikethickness", T<int>
+                "spikedash", T<string>
+                "spikemode", LayoutSpikeMode.Type
+                "spikesnap", LayoutSpikeSnap.Type
+                "tickfont", LayoutFontConfig.Type
+                "tickangle", (T<float> + T<int>) + T<string> //type: Angle
+                "tickprefix", T<string>
+                "showtickprefix", LayoutShowTickFix.Type
+                "ticksuffix", T<string>
+                "showticksuffix", LayoutShowTickFix.Type
+                "showexponent", LayoutShowExponent.Type
+                "exponentformat", LayoutExponentFormat.Type
+                "minexponent", (T<float> + T<int>)
+                "separatethousands", T<bool>
+                "tickformat", T<string>
+                "tickformatstops", LayoutTickFormatStops.Type
+                "hoverformat", T<string>
+                "showline", T<bool>
+                "linecolor", LayoutColor
+                "linewidth", T<int>
+                "showgrid", T<bool>
+                "gridcolor", LayoutColor
+                "gridwidth", T<int>
+                "zeroline", T<bool>
+                "zerolinecolor", LayoutColor
+                "zerolinewidth", T<int>
+                "showdividers", T<bool>
+                "dividercolor", LayoutColor
+                "dividerwidth", T<int>
+                "anchor", LayoutAxisAnchor.Type
+                "side", LayoutAxisSide.Type
+                "overlaying", LayoutAxisOverlaying.Type
+                "layer", LayoutAxisLayer.Type
+                "domain", !| (T<float> + T<int>)
+                "position", (T<float> + T<int>)
+                "categoryorder", LayoutCO.Type
+                "categoryarray", !| T<obj>
+                "uirevision", T<Number> + T<string>
+                "rangeslider", LayoutAxisRangeSlider.Type
+                "rangeselector", LayoutAxisRangeSelector.Type
+                "calendar", LayoutCalendar.Type
+            ]
+        }
+
+    let LayoutYAxis =
+        Pattern.Config "LayoutYAxis" {
+            Required = []
+            Optional = [
+                
+            ]
+        }
+
+    let LayoutTernary =
+        Pattern.Config "LayoutTernary" {
+            Required = []
+            Optional = [
+                
+            ]
+        }
+
+    let LayoutScene =
+        Pattern.Config "LayoutScene" {
+            Required = []
+            Optional = [
+                
+            ]
+        }
+
+    let LayoutGeoDomain =
         Pattern.Config "LayoutGeoDomain" {
             Required = []
             Optional = [
@@ -738,75 +1144,30 @@ module LayoutModule =
             ]
         }
 
+    let LayoutPolar =
+        Pattern.Config "LayoutPolar" {
+            Required = []
+            Optional = [
+                
+            ]
+        }
+
+    
+
     let LayoutColorBarMode =
         Pattern.EnumStrings "LayoutColorBarMode" [
             "fraction"
             "pixels"
         ]
 
-    let LayoutTickMode =
-        Pattern.EnumStrings "LayoutTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let LayoutTicks =
-        Pattern.EnumInlines "LayoutTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let LayoutTickLabelOverflow =
-        Pattern.EnumInlines "LayoutTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let LayoutTickLabelPosition =
-        Pattern.EnumInlines "LayoutTickLabelPosition" [
+    let LayoutColorBarTickLabelPosition =
+        Pattern.EnumInlines "LayoutColorBarTickLabelPosition" [
             "outside", "'outside'"
             "inside", "'inside'"
             "outsideTop", "'outside top'"
             "insideTop", "'inside top'"
             "outsideBottom", "'outside bottom'"
             "insideBottom", "'inside bottom'"
-        ]
-
-    let LayoutDTickValue = (T<float> + T<int>) + T<string>
-
-    let LayoutTickFormatStops =
-        Pattern.Config "LayoutTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((LayoutDTickValue + LayoutNullValue.Type) * (LayoutDTickValue + LayoutNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let LayoutShowTickFix =
-        Pattern.EnumStrings "LayoutShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let LayoutShowExponent = LayoutShowTickFix
-
-    let LayoutExponentFormat =
-        Pattern.EnumInlines "LayoutExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
         ]
 
     let LayoutColorBar =
@@ -836,7 +1197,7 @@ module LayoutModule =
                 "ticktext", !| T<string> 
                 "ticks", LayoutTicks.Type
                 "ticklabeloverflow", LayoutTickLabelOverflow.Type
-                "ticklabelposition", LayoutTickLabelPosition.Type
+                "ticklabelposition", LayoutColorBarTickLabelPosition.Type
                 "ticklen", (T<float> + T<int>)
                 "tickwidth", (T<float> + T<int>)
                 "tickcolor", LayoutColor
@@ -863,243 +1224,13 @@ module LayoutModule =
             Optional = [
                 "cauto", T<bool>
                 "cmin", T<Number>
-                "cmin", T<Number>
+                "cmax", T<Number>
                 "cmid", T<Number>
-                "colorscale", LayoutColorScaleType
+                "colorscale", LayoutColorscale.Type
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "showscale", T<bool>
                 "colorbar", LayoutColorBar.Type
-            ]
-        }
-
-    let LayoutAxisTitle =
-        Pattern.Config "LayoutAxisTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", LayoutFontConfig.Type
-                "stadoff", T<int>
-            ]
-        }
-
-    let LayoutAxisType =
-        Pattern.EnumInlines "LayoutAxisType" [
-            "minus", "'-'"
-            "linear", "'linear'"
-            "log", "'log'"
-            "date", "'date'"
-            "category", "'category'"
-            "multicategory", "'multicategory'"
-        ]
-
-    let LayoutAutoRange =
-        Pattern.EnumInlines "LayoutAutoRange" [
-            "true", "true"
-            "false", "false"
-            "reversed", "'reversed'"
-        ]
-
-    let LayoutRangeMode =
-        Pattern.EnumStrings "LayoutRangeMode" [
-            "normal"
-            "tozero"
-            "nonnegative"
-        ]
-
-    let LayoutScaleAnchor =
-        Pattern.EnumInlines "LayoutScaleAnchor" [
-            "x", "'/^x([2-9]|[1-9][0-9]+)?( domain)?$/'"
-            "y", "'/^y([2-9]|[1-9][0-9]+)?( domain)?$/'"
-        ]
-
-    let LayoutAxisConstrain =
-        Pattern.EnumStrings "LayoutAxisConstrain" [
-            "range"
-            "domain"
-        ]
-
-    let LayoutConstrainToward =
-        Pattern.EnumStrings "LayoutConstrainToward" [
-            "left"
-            "center"
-            "right"
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let LayoutRangeBreaksPattern =
-        Pattern.EnumInlines "LayoutRangeBreaksPattern" [
-            "dayOfWeek", "'day of week'"
-            "hour", "'hour'"
-            "empty", "''"
-        ]
-
-    let LayoutRangeBreaks =
-        Pattern.Config "LayoutRangeBreaks" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "bounds", !| T<string> // array, seems to be string arr
-                "pattern", LayoutRangeBreaksPattern.Type
-                "values", !| T<Number> // array
-                "dvalue", T<int>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let LayoutTickMode =
-        Pattern.EnumStrings "LayoutTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let LayoutTicks =
-        Pattern.EnumInlines "LayoutTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let LayoutTicksOn =
-        Pattern.EnumStrings "LayoutTicksOn" [
-            "labels"
-            "boundaries"
-        ]
-
-    let LayoutTickLabelMode =
-        Pattern.EnumStrings "LayoutTickLabelMode" [
-            "instant"
-            "period"
-        ]
-
-    let LayoutTickLabelPosition =
-        Pattern.EnumInlines "LayoutTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideLeft", "'outside left'"
-            "insideLeft", "'inside left'"
-            "outsideRight", "'outside right'"
-            "insideRight", "'inside right'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let LayoutTickLabelOverflow =
-        Pattern.EnumInlines "LayoutTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let LayoutAxisMirror =
-        Pattern.EnumStrings "LayoutAxisMirror" [
-            "ticks"
-            "all"
-            "allticks"
-        ]
-
-    let LayoutXAxis =
-        Pattern.Config "LayoutXAxis" {
-            Required = []
-            Optional = [
-                "visible", T<bool>
-                "color", LayoutColor
-                "title", LayoutAxisTitle.Type
-                "type", LayoutAxisType.Type
-                "autotypenumbers", LayoutAutoTypeNumbers.Type
-                "autorange", LayoutAutoRange.Type
-                "rangemode", LayoutRangeMode.Type
-                "range", !| (T<Number> + T<string>)
-                "fixedrange", T<bool>
-                "scaleanchor", LayoutScaleAnchor.Type
-                "scaleratio", T<float> + T<int>
-                "constrain", LayoutAxisConstrain.Type
-                "constraintoward", LayoutConstrainToward.Type
-                "matches", LayoutScaleAnchor.Type
-                "rangebreaks", LayoutRangeBreaks.Type
-                "tickmode", LayoutTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string>
-                "ticks", LayoutTicks.Type
-                "tickson", LayoutTicksOn.Type
-                "ticklabelmode", LayoutTickLabelMode.Type
-                "ticklabelposition", LayoutTickLabelPosition.Type
-                "ticklabeloverflow", LayoutTickLabelOverflow.Type
-                "mirror", T<bool> + LayoutAxisMirror.Type
-                "ticklen", T<int>
-                "tickwidth", T<int>
-                "tickcolor", LayoutColor
-                "showticklabels", T<bool>
-                "automargin", T<bool>
-                "showspikes", T<bool>
-                "spikecolor",LayoutColor
-                "spikethickness", T<int>
-                "spikedash", T<string>
-            ]
-        }
-
-    let LayoutYAxis =
-        Pattern.Config "LayoutYAxis" {
-            Required = []
-            Optional = [
-                
-            ]
-        }
-
-    let LayoutTernary =
-        Pattern.Config "LayoutTernary" {
-            Required = []
-            Optional = [
-                
-            ]
-        }
-
-    let LayoutScene =
-        Pattern.Config "LayoutScene" {
-            Required = []
-            Optional = [
-                
-            ]
-        }
-
-    let LayoutGeo =
-        Pattern.Config "LayoutGeo" {
-            Required = []
-            Optional = [
-                
-            ]
-        }
-
-    let LayoutMapbox =
-        Pattern.Config "LayoutMapbox" {
-            Required = []
-            Optional = [
-                
-            ]
-        }
-
-    let LayoutPolar =
-        Pattern.Config "LayoutPolar" {
-            Required = []
-            Optional = [
-                
-            ]
-        }
-
-    let LayoutColorAxis =
-        Pattern.Config "LayoutColorAxis" {
-            Required = []
-            Optional = [
-                
             ]
         }
 
@@ -1172,14 +1303,14 @@ module LayoutModule =
             "extendtreemapcolors", T<bool>
             "iciclecolorway", !| T<string> //colorlist
             "extendiciclecolors", T<bool>
-            "xaxis", T<unit>
+            "xaxis", LayoutXAxis.Type
             "yaxis", T<unit>
-            "ternary", T<unit>
+            "ternary", LayoutTernary.Type
             "scene", T<unit>
-            "geo", T<unit>
-            "mapbox", T<unit>
+            "geo", LayoutGeo.Type
+            "mapbox", LayoutMapbox.Type
             "polar", T<unit>
-            "coloraxis", T<unit>
+            "coloraxis", LayoutColorAxis.Type
             "annotations", T<unit>
             "shapes", T<unit>
             "images", T<unit>
@@ -1232,5 +1363,63 @@ module LayoutModule =
         LayoutFillRule
         LayoutNewShapeLayer
         LayoutDrawDirection
+        LayoutAxisRangeSelector
+        LayoutRangeSelectorButtons
+        LayoutTimeStepMode
+        LayoutTimeStep
+        LayoutAxisTitle
+        LayoutAxisType
+        LayoutAutoRange
+        LayoutRangeMode
+        LayoutScaleAnchor
+        LayoutAxisConstrain
+        LayoutConstrainToward
+        LayoutRangeBreaksPattern
+        LayoutRangeBreaks
+        LayoutTickMode
+        LayoutTicks
+        LayoutTicksOn
+        LayoutTickLabelMode
+        LayoutTickLabelPosition
+        LayoutTickLabelOverflow
+        LayoutAxisMirror
+        LayoutSpikeMode
+        LayoutSpikeSnap
+        LayoutShowTickFix
+        LayoutExponentFormat
+        LayoutTickFormatStops
+        LayoutAxisAnchor
+        LayoutAxisSide
+        LayoutAxisLayer
+        LayoutCO
+        LayoutSliderAxisRangemode
+        LayoutAxisRangeSliderAxis
+        LayoutAxisRangeSlider
+        LayoutGeoDomain
+        LayoutGeoFitBounds
+        LayoutGeoResolution
+        LayoutGeoScope
+        LayoutGeoProjectionType
+        LayoutGeoProjectionRotation
+        LayoutGeoProjection
+        LayoutCenter
+        LayoutGeoAxis
+        LayoutSourceType
+        LayoutMapboxLayerType
+        LayoutMapboxLayerLine
+        LayoutMapboxLayerFill
+        LayoutSymbolPlacement
+        LayoutSymbolTextPosition
+        LayoutMapboxLayerSymbol
+        LayoutMapboxLayerCircle
+        LayoutMapboxLayer
+        LayoutColorBarMode
+        LayoutColorBarTickLabelPosition
+        LayoutColorBar
+        LayoutMapbox
+        LayoutGeo
+        LayoutTernary
+        LayoutXAxis
+        LayoutColorAxis
         Layout
     ]

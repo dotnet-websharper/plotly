@@ -24,7 +24,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.Traces
-open WebSharper.Plotly.Extension.Layout
+//open WebSharper.Plotly.Extension.Layout
 open WebSharper.Plotly.Extension.Options
 
 module ConcatNamespaceEntities =
@@ -50,15 +50,15 @@ module Definition =
         !| ViolinModule.ViolinOptions +
         !| CandleStickModule.CandleStickOptions +
         !| FunnelModule.FunnelOptions +
-        //!| FunnelAreaModule.FunnelAreaOptions +
-        //!| IndicatorModule.IndicatorOptions +
+        !| FunnelAreaModule.FunnelAreaOptions +
+        !| IndicatorModule.IndicatorOptions +
         !| OHLCModule.OHLCOptions +
         !| WaterfallModule.WaterfallOptions +
-        //!| ConeModule.ConeOptions +
+        !| ConeModule.ConeOptions + //
         !| ISOSurfaceModule.ISOSurfaceOptions +
         !| MeshModule.MeshOptions +
         !| Scatter3DModule.Scatter3DOptions +
-        //!| StreamTubeModule.StreamTubeOptions +
+        !| StreamTubeModule.StreamTubeOptions + //
         !| SurfaceModule.SurfaceOptions +
         !| VolumeModule.VolumeOptions +
         !| ChoroplethModule.ChoroplethOptions +
@@ -81,7 +81,7 @@ module Definition =
         !| SunBurstModule.SunBurstOptions +
         !| TreeMapModule.TreeMapOptions
 
-    let Layout = LayoutModule.Layout
+    //let Layout = LayoutModule.Layout
 
     let Options = OptionsModule.Options
 
@@ -131,15 +131,15 @@ module Definition =
                 ViolinModule.ViolinTraceNamespaces
                 CandleStickModule.CandleStickTraceNamespaces
                 FunnelModule.FunnelTraceNamespaces
-                //FunnelAreaModule.FunnelAreaTraceNamespaces
-                //IndicatorModule.IndicatorTraceNamespaces
+                FunnelAreaModule.FunnelAreaTraceNamespaces
+                IndicatorModule.IndicatorTraceNamespaces
                 OHLCModule.OHLCTraceNamespaces
                 WaterfallModule.WaterfallTraceNamespaces
-                //ConeModule.ConeTraceNamespaces
+                ConeModule.ConeTraceNamespaces //
                 ISOSurfaceModule.ISOSurfaceTraceNamespaces
                 MeshModule.MeshTraceNamespaces
                 Scatter3DModule.Scatter3DTraceNamespaces
-                //StreamTubeModule.StreamTubeTraceNamespaces
+                StreamTubeModule.StreamTubeTraceNamespaces //
                 SurfaceModule.SurfaceTraceNamespaces
                 VolumeModule.VolumeTraceNamespaces
                 ChoroplethModule.ChoroplethTraceNamespaces
@@ -161,7 +161,7 @@ module Definition =
                 SplomModule.SplomTraceNamespaces
                 SunBurstModule.SunBurstTraceNamespaces
                 TreeMapModule.TreeMapTraceNamespaces
-                LayoutModule.LayoutNameSpaces
+                //LayoutModule.LayoutNameSpaces
                 OptionsModule.OptionsNamespaces
                 [Plotly]
             ])

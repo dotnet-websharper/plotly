@@ -61,9 +61,9 @@ module IndicatorModule =
 
     let IndicatorTitlePosition =
         Pattern.EnumInlines "IndicatorTitlePosition" [
-            "topLeft", "top left"
-            "topCenter", "top center"
-            "topRight", "top right"
+            "topLeft", "'top left'"
+            "topCenter", "'top center'"
+            "topRight", "'top right'"
         ]
 
     let IndicatorTitle =

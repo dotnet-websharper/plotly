@@ -54,12 +54,12 @@ module StreamTubeModule =
             ]
         }
 
-    let StreamTubeHoverInfo =
+    (*let StreamTubeHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "u"; "v"; "w"; "norm"; "divergence"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "StreamTubeHoverInfo" generatedEnum
+        Pattern.EnumStrings "StreamTubeHoverInfo" generatedEnum*)
 
     let StreamTubeColorBarMode =
         Pattern.EnumStrings "StreamTubeThicknessMode" [
@@ -287,7 +287,7 @@ module StreamTubeModule =
             "w", !| T<int> + !| T<float> //data array
             "text", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", StreamTubeHoverInfo.Type
+            "hoverinfo", T<string> //StreamTubeHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "xhoverformat", T<string>
             "yhoverformat", T<string>
@@ -322,7 +322,7 @@ module StreamTubeModule =
         StreamTubeVisibleString
         StreamTubeFont
         StreamTubeLegendGroupTitle
-        StreamTubeHoverInfo
+        //StreamTubeHoverInfo
         StreamTubeColorBarMode
         StreamTubeXAnchor
         StreamTubeYAnchor

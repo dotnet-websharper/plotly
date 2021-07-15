@@ -303,7 +303,7 @@ module BarModule =
         }
 
     let BarErrorType =
-        Pattern.EnumStrings "BarErrorXType" [
+        Pattern.EnumStrings "BarErrorType" [
             "percent"
             "constant"
             "sqrt"

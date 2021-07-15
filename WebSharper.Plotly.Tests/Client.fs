@@ -9,8 +9,6 @@ open WebSharper.UI.Client
 open WebSharper.UI.Templating
 open WebSharper.Plotly
 
-type P = PlotlyJs
-
 [<JavaScript>]
 module Client =
 

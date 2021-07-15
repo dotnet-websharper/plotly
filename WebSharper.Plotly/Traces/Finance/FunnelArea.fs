@@ -54,7 +54,7 @@ module FunnelAreaModule =
 
     let FunnelAreaHoverInfo =
         let generatedEnum =
-            let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "text"; "initial"; "delta";"final"] '+')
+            let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "text"; "initial"; "delta"; "final"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "FunnelAreaHoverInfo" generatedEnum
@@ -113,9 +113,9 @@ module FunnelAreaModule =
 
     let FunnelAreaTitlePosition =
         Pattern.EnumInlines "FunnelAreaTitlePosition" [
-            "topLeft", "top left"
-            "topCenter", "top center"
-            "topRight", "top right"
+            "topLeft", "'top left'"
+            "topCenter", "'top center'"
+            "topRight", "'top right'"
         ]
 
     let FunnelAreaTitle =

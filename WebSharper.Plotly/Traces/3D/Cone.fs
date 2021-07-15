@@ -54,12 +54,12 @@ module ConeModule =
             ]
         }
 
-    let ConeHoverInfo =
+    (*let ConeHoverInfo =
         let generatedEnum =
-            let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "u"; "v"; "w"; "norm"; "text"] '+')
+            let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "u"; "v"; "w"; "norm"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "ConeHoverInfo" generatedEnum
+        Pattern.EnumStrings "ConeHoverInfo" generatedEnum*)
 
     let ConeColorBarMode =
         Pattern.EnumStrings "ConeThicknessMode" [
@@ -99,7 +99,7 @@ module ConeModule =
         Pattern.EnumInlines "ConeTickLabelOverflow" [
             "allow", "'allow'"
             "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
+            "hidePastDomain", "'hide past domain'"
         ]
 
     let ConeTickLabelPosition =
@@ -291,14 +291,14 @@ module ConeModule =
             "w", !| T<int> + !| T<float> //data array
             "text", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", ConeHoverInfo.Type
+            "hoverinfo", T<string> //ConeHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "xhoverformat", T<string>
             "yhoverformat", T<string>
             "uhoverformat", T<string>
             "vhoverformat", T<string>
             "whoverformat", T<string>
-            "meta", (T<float> + T<int>) + T<string>
+            "meta", T<float> + T<int> + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
             "coloraxis", T<string> // type: subplotid
@@ -318,7 +318,7 @@ module ConeModule =
             "lightposition", ConeLightPosition.Type
             "sizemode", ConeSizeMode.Type
             "sizeref", T<int> + T<float>
-            "uirevision", (T<float> + T<int>) + T<string>
+            "uirevision", T<float> + T<int> + T<string>
         ]
 
     let ConeTraceNamespaces : CodeModel.NamespaceEntity list = [
@@ -326,7 +326,7 @@ module ConeModule =
         ConeVisibleString
         ConeFont
         ConeLegendGroupTitle
-        ConeHoverInfo
+        //ConeHoverInfo
         ConeColorBarMode
         ConeXAnchor
         ConeYAnchor

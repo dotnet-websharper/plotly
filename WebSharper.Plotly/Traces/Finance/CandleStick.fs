@@ -130,6 +130,7 @@ module CandleStickModule =
             Required = []
             Optional = [
                 "width", T<int> + T<float>
+                "color", CandleStickColor
             ]
         }
 

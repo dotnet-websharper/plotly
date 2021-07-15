@@ -424,7 +424,7 @@ module FunnelModule =
             "textposition", FunnelTextPosition.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", FunnelHoverInfo.Type //TODO
+            "hoverinfo", T<string> //FunnelHoverInfo.Type //TODO
             "hovertemplate", T<string> + !| T<string>
             "xhoverformat", T<string>
             "yhoverformat", T<string>

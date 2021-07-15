@@ -40,6 +40,7 @@ module FunnelAreaModule =
                 "family", T<string>
                 "size", (T<float> + T<int>)
                 "color", FunnelAreaColor
+                "opacity", T<float>
             ]
         }
 
@@ -97,8 +98,8 @@ module FunnelAreaModule =
         Pattern.Config "FunnelAreaMarkerLine" {
             Required = []
             Optional = [
-                "color", FunnelAreaColor
-                "width", (T<float> + T<int>) + !| T<float> + !| T<int>
+                "color", FunnelAreaColor + !| FunnelAreaColor
+                "width", T<float> + T<int> + !| T<float> + !| T<int>
             ]
         }
 
@@ -106,7 +107,7 @@ module FunnelAreaModule =
         Pattern.Config "FunnelAreaMarker" {
             Required = []
             Optional = [
-                "color", FunnelAreaColor + !| FunnelAreaColor
+                "colors", FunnelAreaColor + !| FunnelAreaColor
                 "line", FunnelAreaMarkerLine.Type
             ]
         }

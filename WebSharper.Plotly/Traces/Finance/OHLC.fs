@@ -451,6 +451,7 @@ module OHLCModule =
             Optional = [
                 "dash", T<string>
                 "width", T<int> + T<float>
+                "color", OHLCColor
             ]
         }
 

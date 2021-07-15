@@ -367,6 +367,14 @@ module Client =
     )
     scattermb.Text <- Union2Of2([|"Montreal"|])
 
+    let cone = ConeOptions()
+    cone.X <- Union1Of2([|1|])
+    cone.Y <- Union1Of2([|1|])
+    cone.Z <- Union1Of2([|1|])
+    cone.U <- Union1Of2([|1|])
+    cone.V <- Union1Of2([|1|])
+    cone.W <- Union1Of2([|0|])
+
 
 
 
@@ -397,6 +405,7 @@ module Client =
     let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|])
     let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|])
     let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|])
+    let coneChart = Plotly.Plotly.NewPlot("conechartDiv", [|cone|])
 
     //Console.Log(Tests)
 
@@ -455,6 +464,8 @@ module Client =
             div [attr.id "scattergeochartDiv"] []
             h2 [] [text "ScatterMB chart"]
             div [attr.id "scattermbchartDiv"] []
+            h2 [] [text "Cone chart"]
+            div [attr.id "conechartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -482,3 +493,4 @@ module Client =
         densityMBChart |> ignore
         scatterGeoChart |> ignore
         scatterMBChart |> ignore
+        coneChart |> ignore

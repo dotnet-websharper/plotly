@@ -24,7 +24,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.Traces
-//open WebSharper.Plotly.Extension.Layout
+open WebSharper.Plotly.Extension.Layout
 open WebSharper.Plotly.Extension.Options
 
 module ConcatNamespaceEntities =
@@ -81,7 +81,7 @@ module Definition =
         !| SunBurstModule.SunBurstOptions +
         !| TreeMapModule.TreeMapOptions
 
-    //let Layout = LayoutModule.Layout
+    let Layout = LayoutModule.Layout
 
     let Options = OptionsModule.Options
 
@@ -161,7 +161,7 @@ module Definition =
                 SplomModule.SplomTraceNamespaces
                 SunBurstModule.SunBurstTraceNamespaces
                 TreeMapModule.TreeMapTraceNamespaces
-                //LayoutModule.LayoutNameSpaces
+                LayoutModule.LayoutNameSpaces
                 OptionsModule.OptionsNamespaces
                 [Plotly]
             ])

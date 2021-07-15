@@ -80,12 +80,25 @@ module OptionsModule =
             "resetViewMapbox"
         ]
 
+    let IconConfig =
+        Pattern.Config "IconConfig" {
+            Required = []
+            Optional = [
+                "width", T<int>
+                "height", T<int>
+                "path", T<string>
+                "transform", T<string>
+                "name", T<string>
+                "svg", T<string>
+            ]
+        }
+
     let ModeBarButtonsToAdd =
         Pattern.Config "ModeBarButtonsToAdd" {
             Required = []
             Optional = [
                 "name", T<string>
-                "icon", T<obj> // TODO
+                "icon", IconConfig.Type
                 "click", T<JavaScript.Function>
             ]
         }
@@ -116,6 +129,7 @@ module OptionsModule =
     let OptionsNamespaces : CodeModel.NamespaceEntity list = [
         FormatOptions
         ToImageButtonOptions
+        IconConfig
         ModeBarButtonTypes
         ModeBarButtonsToAdd
         Options

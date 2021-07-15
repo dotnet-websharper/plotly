@@ -54,11 +54,11 @@ module Definition =
         !| IndicatorModule.IndicatorOptions +
         !| OHLCModule.OHLCOptions +
         !| WaterfallModule.WaterfallOptions +
-        !| ConeModule.ConeOptions + //
+        !| ConeModule.ConeOptions +
         !| ISOSurfaceModule.ISOSurfaceOptions +
         !| MeshModule.MeshOptions +
         !| Scatter3DModule.Scatter3DOptions +
-        !| StreamTubeModule.StreamTubeOptions + //
+        !| StreamTubeModule.StreamTubeOptions +
         !| SurfaceModule.SurfaceOptions +
         !| VolumeModule.VolumeOptions +
         !| ChoroplethModule.ChoroplethOptions +
@@ -88,7 +88,7 @@ module Definition =
     let Plotly =
         Class "Plotly"
         |+> Static [
-            "newPlot" => (T<string> + T<HTMLElement>) * Data * !? Options.Type ^-> T<HTMLElement> //TODO
+            "newPlot" => (T<string> + T<HTMLElement>) * Data * !?Layout * !? Options ^-> T<HTMLElement> //TODO
             "react" => T<unit> //TODO
             "restyle" => T<unit> //TODO
             "relayout" => T<unit> //TODO
@@ -135,11 +135,11 @@ module Definition =
                 IndicatorModule.IndicatorTraceNamespaces
                 OHLCModule.OHLCTraceNamespaces
                 WaterfallModule.WaterfallTraceNamespaces
-                ConeModule.ConeTraceNamespaces //
+                ConeModule.ConeTraceNamespaces
                 ISOSurfaceModule.ISOSurfaceTraceNamespaces
                 MeshModule.MeshTraceNamespaces
                 Scatter3DModule.Scatter3DTraceNamespaces
-                StreamTubeModule.StreamTubeTraceNamespaces //
+                StreamTubeModule.StreamTubeTraceNamespaces
                 SurfaceModule.SurfaceTraceNamespaces
                 VolumeModule.VolumeTraceNamespaces
                 ChoroplethModule.ChoroplethTraceNamespaces

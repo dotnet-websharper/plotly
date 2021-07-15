@@ -28,6 +28,7 @@ module Client =
     scatterTrace.X <- [|1; 2; 3; 4 |]
     scatterTrace.Y <- [|10; 15; 13; 17 |]
     scatterTrace.Mode <- ScatterModes.Lines_markers
+    scatterTrace.Showlegend <- true
 
     let scatterGLTrace = ScatterGLOptions()
     scatterGLTrace.X <- [|1; 2; 3; 4 |]
@@ -399,16 +400,16 @@ module Client =
     mesh.Opacity <- 0.8
     mesh.Color <- "rgb(300,100,200)"
 
+    let option1 = WebSharper.Plotly.Options()
+    option1.Locale <- "fr"
 
 
 
-
-
-    let meshChart = Plotly.Plotly.NewPlot("meshchartDiv", [|mesh|])
-    let isoSurfaceChart = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|])
+    let meshChart = Plotly.Plotly.NewPlot("meshchartDiv", [|mesh|], null, option1)
+    let isoSurfaceChart = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|], null, option1)
     let coneChart = Plotly.Plotly.NewPlot("conechartDiv", [|cone|])
     let carpetChart = Plotly.Plotly.NewPlot("carpetchartDiv", [|carpet|])
-    let scatterChart = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|])
+    let scatterChart = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|], null, option1)
     let scatterGLChart = Plotly.Plotly.NewPlot("scatterglchartDiv", [|scatterGLTrace|])
     let pieChart = Plotly.Plotly.NewPlot("piechartDiv", [|pieTrace|])
     let barChart = Plotly.Plotly.NewPlot("barchartDiv", [|barTrace|])
@@ -426,7 +427,7 @@ module Client =
     let funnelChart = Plotly.Plotly.NewPlot("funnelchartDiv", [|funnel|])
     let funnelAreaChart = Plotly.Plotly.NewPlot("funnelareachartDiv", [|funnelarea|])
     let indicatorChart = Plotly.Plotly.NewPlot("indicatorchartDiv", [|indicator|])
-    let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|])
+    let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|], null, option1)
     let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|])
     let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|])
     let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|])

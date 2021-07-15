@@ -104,27 +104,26 @@ module OptionsModule =
         }
 
     let Options =
-        Class "Options"
-        |+> Static [
-            Constructor T<unit>
-        ]
-        |+> Pattern.OptionalFields [
-            "scrollZoom", T<bool>
-            "editable", T<bool>
-            "staticPlot", T<bool>
-            "toImageButtonOptions", ToImageButtonOptions.Type
-            "displayModeBar", T<bool>
-            "modeBarButtonsToRemove", ModeBarButtonTypes.Type
-            "modeBarButtonsToAdd", ModeBarButtonsToAdd.Type
-            "showLink", T<bool>
-            "plotlyServerURL", T<string> // investigate
-            "linkText", T<string>
-            "showEditInChartStudio", T<bool>
-            "locale", T<string>
-            "displayLogo", T<bool>
-            "responsive", T<bool>
-            "doubleClickDelay", T<int>
-        ]
+        Pattern.Config "Options" {
+            Required = []
+            Optional = [
+                "scrollZoom", T<bool>
+                "editable", T<bool>
+                "staticPlot", T<bool>
+                "toImageButtonOptions", ToImageButtonOptions.Type
+                "displayModeBar", T<bool>
+                "modeBarButtonsToRemove", ModeBarButtonTypes.Type
+                "modeBarButtonsToAdd", ModeBarButtonsToAdd.Type
+                "showLink", T<bool>
+                "plotlyServerURL", T<string> // investigate
+                "linkText", T<string>
+                "showEditInChartStudio", T<bool>
+                "locale", T<string>
+                "displayLogo", T<bool>
+                "responsive", T<bool>
+                "doubleClickDelay", T<int>
+            ]
+        } 
 
     let OptionsNamespaces : CodeModel.NamespaceEntity list = [
         FormatOptions

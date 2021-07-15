@@ -358,7 +358,14 @@ module Client =
         ScatterGeoTextPosition.TopRight;
     |]
 
-
+    let scattermb = ScatterMBOptions()
+    scattermb.Lat <- [|"45.5017"|]
+    scattermb.Lon <- [|"-73.5673"|]
+    scattermb.Mode <- ScatterMBModes.Markers
+    scattermb.Marker <- ScatterMBMarker(
+        Size = 14
+    )
+    scattermb.Text <- Union2Of2([|"Montreal"|])
 
 
 
@@ -389,6 +396,7 @@ module Client =
     let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|])
     let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|])
     let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|])
+    let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|])
 
     //Console.Log(Tests)
 
@@ -428,23 +436,25 @@ module Client =
             h2 [] [text "CandleStick chart"]
             div [attr.id "candlestickchartDiv"] []
             h2 [] [text "Funnel chart"]
-            div [attr.id "funnelchartDiv"] []        
+            div [attr.id "funnelchartDiv"] []
             h2 [] [text "FunnelArea chart"]
             div [attr.id "funnelareachartDiv"] []
             h2 [] [text "Indicator chart"]
             div [attr.id "indicatorchartDiv"] []
             h2 [] [text "OHLC chart"]
-            div [attr.id "ohlcchartDiv"] []  
+            div [attr.id "ohlcchartDiv"] []
             h2 [] [text "Waterfall chart"]
             div [attr.id "waterfallchartDiv"] []
             h2 [] [text "Choropleth chart"]
             div [attr.id "choroplethchartDiv"] []
             h2 [] [text "ChoroplethMB chart"]
-            div [attr.id "choroplethmbchartDiv"] [] 
+            div [attr.id "choroplethmbchartDiv"] []
             h2 [] [text "DensityMB chart"]
             div [attr.id "densitymbchartDiv"] []
             h2 [] [text "ScatterGeo chart"]
-            div [attr.id "scattergeochartDiv"] []          
+            div [attr.id "scattergeochartDiv"] []
+            h2 [] [text "ScatterMB chart"]
+            div [attr.id "scattermbchartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -471,3 +481,4 @@ module Client =
         choroplethMBChart |> ignore
         densityMBChart |> ignore
         scatterGeoChart |> ignore
+        scatterMBChart |> ignore

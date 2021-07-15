@@ -16,6 +16,14 @@ module Client =
     y: [10, 15, 13, 17],
     mode: "markers",*)
 
+    let carpet = CarpetOptions()
+    carpet.A <- [|
+        4.0; 4.0; 4.0; 4.5; 4.5; 4.5;
+        5.0; 5.0; 5.0; 6.0; 6.0; 6.0
+    |]
+    carpet.B <- [|1;2;3;1;2;3;1;2;3;1;2;3|]
+    carpet.Y <- [|2.0;3.5;4.0;3.0;4.5;5.0;5.5;6.5;7.5;8.0;8.5;10.0|]
+
     let scatterTrace = ScatterOptions()
     scatterTrace.X <- [|1; 2; 3; 4 |]
     scatterTrace.Y <- [|10; 15; 13; 17 |]
@@ -375,11 +383,31 @@ module Client =
     cone.V <- Union1Of2([|1|])
     cone.W <- Union1Of2([|0|])
 
+    let isosurface = ISOSurfaceOptions()
+    isosurface.X <- [|0;0;0;0;1;1;1;1|]
+    isosurface.Y <- [|0;1;0;1;0;1;0;1|]
+    isosurface.Z <- [|1;1;0;0;1;1;0;0|]
+    isosurface.Value <- [|1;2;3;4;5;6;7;8|]
+    isosurface.Isomin <- 2
+    isosurface.Isomax <- 6
+    isosurface.Colorscale <- "Reds"
+
+    let mesh = MeshOptions()
+    mesh.X <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
+    mesh.Y <- [|534;345;34;65;865;34;54;764;234;54;34;64;34;345;45|]
+    mesh.Z <- [|56;456;234;54;56;687;34;45;345;56;34;345;456;45;45|]
+    mesh.Opacity <- 0.8
+    mesh.Color <- "rgb(300,100,200)"
 
 
 
 
 
+
+    let meshChart = Plotly.Plotly.NewPlot("meshchartDiv", [|mesh|])
+    let isoSurfaceChart = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|])
+    let coneChart = Plotly.Plotly.NewPlot("conechartDiv", [|cone|])
+    let carpetChart = Plotly.Plotly.NewPlot("carpetchartDiv", [|carpet|])
     let scatterChart = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|])
     let scatterGLChart = Plotly.Plotly.NewPlot("scatterglchartDiv", [|scatterGLTrace|])
     let pieChart = Plotly.Plotly.NewPlot("piechartDiv", [|pieTrace|])
@@ -402,10 +430,9 @@ module Client =
     let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|])
     let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|])
     let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|])
-    let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|])
     let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|])
     let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|])
-    let coneChart = Plotly.Plotly.NewPlot("conechartDiv", [|cone|])
+    let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|])
 
     //Console.Log(Tests)
 
@@ -466,6 +493,12 @@ module Client =
             div [attr.id "scattermbchartDiv"] []
             h2 [] [text "Cone chart"]
             div [attr.id "conechartDiv"] []
+            h2 [] [text "Carpet chart"]
+            div [attr.id "carpetchartDiv"] []
+            h2 [] [text "ISOSurface chart"]
+            div [attr.id "isochartDiv"] []
+            h2 [] [text "Mesh chart"]
+            div [attr.id "meshchartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -494,3 +527,6 @@ module Client =
         scatterGeoChart |> ignore
         scatterMBChart |> ignore
         coneChart |> ignore
+        carpetChart |> ignore
+        isoSurfaceChart |> ignore
+        meshChart |> ignore

@@ -40,6 +40,10 @@ module Client =
     heatmap.Y <- [|"Morning"; "Afternoon"; "Evening"|]
     heatmap.Hoverongaps <- false
 
+    let heatmapgl = HeatMapOptions()
+    heatmapgl.Z <- [|[|1; 5; 30; 50; 1|]; [|20; 1; 60; 80; 30|]; [|30; 60; 1; -10; 20|]|]
+    heatmapgl.X <- [|"Monday"; "Tuesday"; "Wednesday"; "Thursday"; "Friday"|]
+    heatmapgl.Y <- [|"Morning"; "Afternoon"; "Evening"|]
 
 
     let table = TableOptions()
@@ -81,16 +85,44 @@ module Client =
         )
     )
 
-    (*let imagetrace = ImageOptions()
-    imagetrace.Source <- "./icon.png"*)
+    let contour = ContourOptions()
+    contour.Z <- [|
+        [|10.0; 10.625; 12.5; 15.625; 20.0|];
+        [|5.625; 6.25; 8.125; 11.25; 15.625|];
+        [|2.5; 3.125; 5.0; 8.125; 12.5|];
+        [|0.625; 1.25; 3.125; 6.25; 10.625|];
+        [|0.0; 0.625; 2.5; 5.625; 10.0|]
+    |]
 
-    let chart1 = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|])
-    let chart2 = Plotly.Plotly.NewPlot("scatterglchartDiv", [|scatterGLTrace|])
-    let chart3 = Plotly.Plotly.NewPlot("piechartDiv", [|pieTrace|])
-    let chart4 = Plotly.Plotly.NewPlot("barchartDiv", [|barTrace|])
-    let chart5 = Plotly.Plotly.NewPlot("heatmapchartDiv", [|heatmap|])
-    let chart6 = Plotly.Plotly.NewPlot("tablechartDiv", [|table|])
-    //let chart7 = Plotly.Plotly.NewPlot("imagechartDiv", [|imagetrace|])
+    let imagetrace = ImageOptions()
+    imagetrace.Source <- "./icon.png"
+
+    let box = BoxOptions()
+    box.Y <- [|0;1;1;2;3;5;8;13;21|]
+    box.Boxpoints <- Union2Of2(BoxPoints.All)
+    box.Jitter <- 0.3
+    box.Pointpos <- -1.8
+
+    let histogram = HGOptions()
+    histogram.X <- [|1;1;2;3;4;6;4;3;7;9;6;4;3;4;5;7;5|]
+
+    let histogram2d = HG2DOptions()
+    histogram2d.X <- [|1;1;2;3;4;6;4;3;7;9;6;4;3;4;5;7;5|]
+    histogram2d.Y <- [|1;1;2;3;4;6;4;3;7;9;6;4;3;4;5;7;5|]
+
+    let scatterChart = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|])
+    let scatterGLChart = Plotly.Plotly.NewPlot("scatterglchartDiv", [|scatterGLTrace|])
+    let pieChart = Plotly.Plotly.NewPlot("piechartDiv", [|pieTrace|])
+    let barChart = Plotly.Plotly.NewPlot("barchartDiv", [|barTrace|])
+    let heatMapChart = Plotly.Plotly.NewPlot("heatmapchartDiv", [|heatmap|])
+    let tableChart = Plotly.Plotly.NewPlot("tablechartDiv", [|table|])
+    let heatMapGLChart = Plotly.Plotly.NewPlot("heatmapglchartDiv", [|heatmapgl|])
+    let contourChart = Plotly.Plotly.NewPlot("contourchartDiv", [|contour|])
+    //let imageChart = Plotly.Plotly.NewPlot("imagechartDiv", [|imagetrace|])
+    let boxChart = Plotly.Plotly.NewPlot("boxchartDiv", [|box|])
+    let hgChart = Plotly.Plotly.NewPlot("hgchartDiv", [|histogram|])
+    let hg2dChart = Plotly.Plotly.NewPlot("hg2dchartDiv", [|histogram2d|])
+
 
     //Console.Log(Tests)
 
@@ -111,15 +143,30 @@ module Client =
             div [attr.id "heatmapchartDiv"] []
             h2 [] [text "Table chart"]
             div [attr.id "tablechartDiv"] []
-            h2 [] [text "HeatmapGL chart"]
+            h2 [] [text "HeatMapGL chart"]
             div [attr.id "heatmapglchartDiv"] []
-            h2 [] [text "Image chart"]
-            div [attr.id "imagechartDiv"] []
+            h2 [] [text "Contour chart"]
+            div [attr.id "contourchartDiv"] []
+            //h2 [] [text "Image chart"]
+            //div [attr.id "imagechartDiv"] []
+            h2 [] [text "Box chart"]
+            div [attr.id "boxchartDiv"] []
+            h2 [] [text "Histogram chart"]
+            div [attr.id "hgchartDiv"] []
+            h2 [] [text "Histogram2D chart"]
+            div [attr.id "hg2dchartDiv"] []
         ]
         |> Doc.RunById "main"
-        chart1 |> ignore
-        chart2 |> ignore
-        chart3 |> ignore
-        chart4 |> ignore
-        chart5 |> ignore
-        chart6 |> ignore
+        scatterChart |> ignore
+        scatterGLChart |> ignore
+        pieChart |> ignore
+        barChart |> ignore
+        heatMapChart |> ignore
+        tableChart |> ignore
+        heatMapGLChart |> ignore
+        contourChart |> ignore
+        //imageChart |> ignore
+        boxChart |> ignore
+        hgChart |> ignore
+        hg2dChart |> ignore
+

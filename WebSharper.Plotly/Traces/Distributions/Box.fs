@@ -594,7 +594,7 @@ module BoxModule =
             "fillcolor", BoxColor
             "hoverlabel", BoxHoverLabel.Type
             "hoveron", BoxHoverOn.Type
-            "pointspos", T<float> + T<int>
+            "pointpos", T<float> + T<int>
             "jitter", T<float> + T<int>
             "xcalendar", BoxCalendar.Type
             "ycalendar", BoxCalendar.Type

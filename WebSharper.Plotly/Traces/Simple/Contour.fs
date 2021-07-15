@@ -381,7 +381,7 @@ module ContourModule =
             "y0", (T<float> + T<int>) + T<string>
             "dy", (T<float> + T<int>)
             "ytype", ContourXYType.Type
-            "z", !| T<int> + !| T<float>
+            "z", !| (!| T<float> + !| T<int>)
             "text", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
             "hoverinfo", ContourHoverInfo.Type

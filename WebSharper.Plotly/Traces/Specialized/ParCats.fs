@@ -305,7 +305,7 @@ module ParCatsModule =
             "visible", T<bool> + ParCatsVisibleString.Type
             "legendgrouptitle", ParCatsLegendGroupTitle.Type
             "counts", T<int> + T<float> + !| T<int> + !| T<float>
-            "dimensions", ParCatsDimensions.Type
+            "dimensions", !| ParCatsDimensions.Type
             "hoverinfo", ParCatsHoverInfo.Type
             "hovertemplate", T<string>
             "meta", (T<float> + T<int>) + T<string>

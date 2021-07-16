@@ -431,14 +431,157 @@ module Client =
     let surface = SurfaceOptions()
     surface.Z <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
 
+    //VOLUME
+
+    let ccarpet = ContourCarpetOptions()
+    ccarpet.A <- [|0; 1; 2; 3; 0; 1; 2; 3; 0; 1; 2; 3|]
+    ccarpet.B <- [|4; 4; 4; 4; 5; 5; 5; 5; 6; 6; 6; 6|]
+    ccarpet.Z <- [|
+        1.0; 1.96; 2.56; 3.0625; 4.0; 5.0625;
+        1.0; 7.5625; 9.0; 12.25; 15.21; 14.0625
+    |]
+    ccarpet.Autocontour <- false
+    ccarpet.Contours <- ContourCarpetContours(
+        Start = 1,
+        End = 14,
+        Size = 1
+    )
+    ccarpet.Line <- ContourCarpetLine(
+        Width = 0.4,
+        Smoothing = 0
+    )
+    ccarpet.Colorbar <- ContourCarpetColorBar(
+        Len = 0.4,
+        Y = 0.25
+    )
+
+    //Icicle
+
+    let parcats = ParCatsOptions()
+    parcats.Dimensions <- [|
+        ParCatsDimensions(
+            Label = "Hair",
+            Values = [|"Black"; "Black"; "Black"; "Brown";
+              "Brown"; "Brown"; "Red"; "Brown"|]
+        );
+        ParCatsDimensions(
+            Label = "Eye",
+            Values = [|"Brown"; "Brown"; "Brown"; "Brown";
+              "Brown"; "Blue"; "Blue"; "Blue"|]
+        );
+        ParCatsDimensions(
+            Label = "Sex",
+            Values = [|"Female"; "Female"; "Female"; "Male";
+              "Female"; "Male"; "Male"; "Male"|]
+        );
+    |]
+
+    let parcoords = ParCoordsOptions()
+    parcoords.Line <- ParCoordsLine(
+        Color = "blue"
+    )
+    parcoords.Dimensions <- [|
+        ParCoordsDimensions(
+            Range = [|1;5|],
+            Constraintrange = [|1;2|],
+            Label = "A",
+            Values = [|1;4|]
+        );
+        ParCoordsDimensions(
+            Range = [|1;5|],
+            Tickvals = [|1.5;3.0;4.5|],
+            Label = "B",
+            Values = [|3.0;1.5|]
+        );
+        ParCoordsDimensions(
+            Range = [|1;5|],
+            Tickvals = [|1;2;4;5|],
+            Label = "C",
+            Values = [|2;4|],
+            Ticktext = [|"text1";"text2";"text3";"text4";"text5"|]
+        );
+        ParCoordsDimensions(
+            Range = [|1;5|],
+            Label = "D",
+            Values = [|4;2|]
+        )
+    |]
+
+    let sankey = SankeyOptions()
+    sankey.Orientation <- SankeyOrientation.H
+    sankey.Node <- SankeyNode(
+        Pad = 15,
+        Thickness = 30,
+        Line = SankeyNodeLine(
+            Color = "black",
+            Width = 0.5
+        ),
+        Label = [|"A1"; "A2"; "B1"; "B2"; "C1"; "C2"|],
+        Color = ["blue"; "blue"; "blue"; "blue"; "blue"; "blue"]
+    )
+    sankey.Link <- SankeyLink(
+        Source = [|0;1;0;2;3;3|],
+        Target = [|2;3;3;4;4;5|],
+        Value = [|8;4;2;8;4;2|]
+    )
+
+    let scarpet = CarpetOptions()
+    scarpet.A <- Seq.map ((*)1e-6)
+        [|4.0;4.0;4.0;4.5;4.5;4.5;5.0;5.0;5.0;6.0;6.0;6.0|]
+    scarpet.B <- Seq.map ((*)1e6)
+        [|1.0;2.0;3.0;1.0;2.0;3.0;1.0;2.0;3.0;1.0;2.0;3.0|]
+    scarpet.Y <- [|2.0;3.5;4.0;3.0;4.5;5.0;5.5;6.5;7.5;8.0;8.5;10.0|]
+    scarpet.Aaxis <- CarpetAxis(
+        Tickprefix = "a = ",
+        Ticksuffix = "m",
+        Smoothing = 1,
+        Minorgridcount = 9
+    )
+    scarpet.Baxis <- CarpetAxis(
+        Tickprefix = "b = ",
+        Ticksuffix = "Pa",
+        Smoothing = 1,
+        Minorgridcount = 9
+    )
+    let scattercarpet = ScatterCarpetOptions()
+    scattercarpet.A <- Seq.map ((*)1e-6) [|4.0;4.5;5.0;6.0|]
+    scattercarpet.B <- Seq.map ((*)1e6) [|1.5;2.5;1.5;2.5|]
+    scattercarpet.Line <- ScatterCarpetLine(
+        Shape = ScatterCarpetShape.Spline,
+        Smoothing = 1
+    )
+
+    let spolar = ScatterPolarOptions()
+    spolar.R <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
+    spolar.Theta <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
+    spolar.Mode <- ScatterPolarModes.Lines
+    spolar.Name <- "Figure8"
+    spolar.Line <- ScatterPolarLine(
+        Color = "peru"
+    )
+
+    let spolargl1 = ScatterPolarGLOptions()
+    spolargl1.R <- [|1;2;3|]
+    spolargl1.Theta <- [|50;100;200|]
+    spolargl1.Marker <- ScatterPolarGLMarker(
+        Symbol = ScatterPolarGLSymbol.Square
+    )
+    let spolargl2 = ScatterPolarGLOptions()
+    spolargl2.R <- [|1;2;3|]
+    spolargl2.Theta <- [|1;2;3|]
+    spolargl2.Thetaunit <- ScatterPolarGLThetaUnit.Radians
 
 
 
 
 
-
-
-
+    let spolarglChart = Plotly.Plotly.NewPlot("spolarglchartDiv", [|spolargl1;spolargl2|])
+    let spolarChart = Plotly.Plotly.NewPlot("spolarchartDiv", [|spolar|])
+    let scarpetChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|scattercarpet|])
+    let sankeyChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|sankey|])
+    let parcoordsChart = Plotly.Plotly.NewPlot("parcoordschartDiv", [|parcoords|])
+    let parcatsChart = Plotly.Plotly.NewPlot("parcatschartDiv", [|parcats|])
+    let ccarpetChart = Plotly.Plotly.NewPlot("ccarpetchartDiv", [|ccarpet|])
     let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|])
     let meshChart = Plotly.Plotly.NewPlot("meshchartDiv", [|mesh|], null, option1)
     let isoSurfaceChart = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|], null, option1)
@@ -544,6 +687,20 @@ module Client =
             div [attr.id "streamtubechartDiv"] []
             h2 [] [text "Surface chart"]
             div [attr.id "surfacechartDiv"] []
+            h2 [] [text "ContourCarpet chart"]
+            div [attr.id "ccarpetchartDiv"] []
+            h2 [] [text "Parallel Categories chart"]
+            div [attr.id "parcatschartDiv"] []
+            h2 [] [text "Parallel Coordinates chart"]
+            div [attr.id "parcoordschartDiv"] []
+            h2 [] [text "Sankey chart"]
+            div [attr.id "sankeychartDiv"] []
+            h2 [] [text "ScatterCarpet chart"]
+            div [attr.id "scarpetchartDiv"] []
+            h2 [] [text "ScatterPolar chart"]
+            div [attr.id "spolarchartDiv"] []
+            h2 [] [text "ScatterPolarGL chart"]
+            div [attr.id "spolarglchartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -578,3 +735,10 @@ module Client =
         scatter3DChart |> ignore
         streamTubeChart |> ignore
         surfaceChart |> ignore
+        ccarpetChart |> ignore
+        parcatsChart |> ignore
+        parcoordsChart |> ignore
+        sankeyChart |> ignore
+        scarpetChart |> ignore
+        spolarChart |> ignore
+        spolarglChart |> ignore

@@ -126,7 +126,7 @@ module SankeyModule =
         }
 
     let SankeyLink =
-        Pattern.Config "SankeyNodeLink" {
+        Pattern.Config "SankeyLink" {
             Required = []
             Optional = [
                 "label", !| T<string> + !| T<int> + !| T<float>

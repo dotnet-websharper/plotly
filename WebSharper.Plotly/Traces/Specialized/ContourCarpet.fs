@@ -257,8 +257,8 @@ module ContourCarpetModule =
             "reverseBracketSquare", "')['"
         ]
 
-    let ContourCarpetContourCarpets =
-        Pattern.Config "ContourCarpetContourCarpets" {
+    let ContourCarpetContours =
+        Pattern.Config "ContourCarpetContours" {
             Required = []
             Optional = [
                 "type", ContourCarpetsType.Type
@@ -323,7 +323,7 @@ module ContourCarpetModule =
             "zmin", T<int> + T<float>
             "autocontour", T<bool>
             "carpet", T<string>
-            "contours", ContourCarpetContourCarpets.Type
+            "contours", ContourCarpetContours.Type
             "fillcolor", ContourCarpetColor
             "ncontours", T<int>
             "transpose", T<bool>
@@ -353,7 +353,7 @@ module ContourCarpetModule =
         ContourCarpetsType
         ContourCarpetColoring
         ContourCarpetOperation
-        ContourCarpetContourCarpets
+        ContourCarpetContours
         ContourCarpetType
         ContourCarpetOptions
     ]

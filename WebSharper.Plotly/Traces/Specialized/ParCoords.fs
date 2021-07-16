@@ -269,7 +269,7 @@ module ParCoordsModule =
             "legendrank", (T<float> + T<int>)
             "legendgrouptitle", ParCoordsLegendGroupTitle.Type
             "ids", !| T<string>
-            "dimensions", ParCoordsDimensions.Type
+            "dimensions", !| ParCoordsDimensions.Type
             "meta", (T<float> + T<int>) + T<string>
             "customdata", !| T<string> + !| T<int> + !| T<float>
             "domain", ParCoordsDomain.Type

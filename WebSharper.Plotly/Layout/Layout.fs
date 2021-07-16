@@ -865,7 +865,79 @@ module LayoutModule =
         Pattern.Config "LayoutYAxis" {
             Required = []
             Optional = [
-                
+                "visible", T<bool>
+                "color", LayoutColor
+                "title", LayoutAxisTitle.Type
+                "type", LayoutAxisType.Type
+                "autotypenumbers", LayoutAutoTypeNumbers.Type
+                "autorange", LayoutAutoRange.Type
+                "rangemode", LayoutRangeMode.Type
+                "range", !| (T<Number> + T<string>)
+                "fixedrange", T<bool>
+                "scaleanchor", LayoutScaleAnchor.Type
+                "scaleratio", T<float> + T<int>
+                "constrain", LayoutAxisConstrain.Type
+                "constraintoward", LayoutConstrainToward.Type
+                "matches", LayoutScaleAnchor.Type
+                "rangebreaks", LayoutRangeBreaks.Type
+                "tickmode", LayoutTickMode.Type
+                "nticks", T<int>
+                "tick0", (T<float> + T<int>) + T<string>
+                "dtick", (T<float> + T<int>) + T<string>
+                "tickvals", !| T<obj>
+                "ticktext", !| T<string>
+                "ticks", LayoutTicks.Type
+                "tickson", LayoutTicksOn.Type
+                "ticklabelmode", LayoutTickLabelMode.Type
+                "ticklabelposition", LayoutTickLabelPosition.Type
+                "ticklabeloverflow", LayoutTickLabelOverflow.Type
+                "mirror", T<bool> + LayoutAxisMirror.Type
+                "ticklen", T<int>
+                "tickwidth", T<int>
+                "tickcolor", LayoutColor
+                "showticklabels", T<bool>
+                "automargin", T<bool>
+                "showspikes", T<bool>
+                "spikecolor",LayoutColor
+                "spikethickness", T<int>
+                "spikedash", T<string>
+                "spikemode", LayoutSpikeMode.Type
+                "spikesnap", LayoutSpikeSnap.Type
+                "tickfont", LayoutFontConfig.Type
+                "tickangle", (T<float> + T<int>) + T<string> //type: Angle
+                "tickprefix", T<string>
+                "showtickprefix", LayoutShowTickFix.Type
+                "ticksuffix", T<string>
+                "showticksuffix", LayoutShowTickFix.Type
+                "showexponent", LayoutShowExponent.Type
+                "exponentformat", LayoutExponentFormat.Type
+                "minexponent", (T<float> + T<int>)
+                "separatethousands", T<bool>
+                "tickformat", T<string>
+                "tickformatstops", LayoutTickFormatStops.Type
+                "hoverformat", T<string>
+                "showline", T<bool>
+                "linecolor", LayoutColor
+                "linewidth", T<int>
+                "showgrid", T<bool>
+                "gridcolor", LayoutColor
+                "gridwidth", T<int>
+                "zeroline", T<bool>
+                "zerolinecolor", LayoutColor
+                "zerolinewidth", T<int>
+                "showdividers", T<bool>
+                "dividercolor", LayoutColor
+                "dividerwidth", T<int>
+                "anchor", LayoutAxisAnchor.Type
+                "side", LayoutAxisSide.Type
+                "overlaying", LayoutAxisOverlaying.Type
+                "layer", LayoutAxisLayer.Type
+                "domain", !| (T<float> + T<int>)
+                "position", (T<float> + T<int>)
+                "categoryorder", LayoutCO.Type
+                "categoryarray", !| T<obj>
+                "uirevision", T<Number> + T<string>
+                "calendar", LayoutCalendar.Type
             ]
         }
 
@@ -1304,7 +1376,7 @@ module LayoutModule =
             "iciclecolorway", !| T<string> //colorlist
             "extendiciclecolors", T<bool>
             "xaxis", LayoutXAxis.Type
-            "yaxis", T<unit>
+            "yaxis", LayoutYAxis.Type
             "ternary", LayoutTernary.Type
             "scene", T<unit>
             "geo", LayoutGeo.Type
@@ -1420,6 +1492,7 @@ module LayoutModule =
         LayoutGeo
         LayoutTernary
         LayoutXAxis
+        LayoutYAxis
         LayoutColorAxis
         Layout
     ]

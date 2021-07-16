@@ -1757,88 +1757,87 @@ module LayoutModule =
         }
 
     let Layout =
-        Class "Layout"
-        |+> Static [
-            Constructor T<unit>
-        ]
-        |+> Pattern.OptionalFields [
-            "title", LayoutTitle.Type
-            "showlegend", T<bool>
-            "legend", LayoutLegend.Type
-            "margin", LayoutMargin.Type
-            "autosize", T<bool>
-            "width", T<int>
-            "height", T<int>
-            "font", LayoutFontConfig.Type
-            "uniformtext", T<unit>
-            "separators", T<string>
-            "paper_bgcolor", LayoutColor
-            "plot_bgcolor", LayoutColor
-            "autotypenumbers", LayoutAutoTypeNumbers.Type
-            "colorscale", LayoutColorscale.Type
-            "colorway", !| T<string> //colorlist
-            "modebar", LayoutModebar.Type
-            "hovermode", LayoutHoverMode.Type
-            "clickmode", LayoutClickMode.Type
-            "dragmode", LayoutDragMode.Type
-            "selectdirection", LayoutSelectDirection.Type
-            "hoverdistance", T<int>
-            "spikedistance", T<int>
-            "hoverlabel", LayoutHoverLabel.Type
-            "transition", LayoutTransition.Type
-            "datarevision", T<Number> + T<string>
-            "uirevision", T<Number> + T<string>
-            "editrevision", T<Number> + T<string>
-            "selectionrevision", T<Number> + T<string>
-            "template", T<Number> + T<string>
-            "meta", T<Number> + T<string>
-            "computed", T<Number> + T<string>
-            "grid", LayoutGrid.Type
-            "calendar", LayoutCalendar.Type
-            "newshape", LayoutNewShape.Type
-            "activeshape", LayoutActiveShape.Type
-            "hidesources", T<bool>
-            "barmode", LayoutBarMode.Type
-            "barnorm", LayoutBarNorm.Type
-            "bargap", T<float> + T<int>
-            "bargroupgap", T<float> + T<int>
-            "hiddenlabels", T<string> //data array
-            "piecolorway", !| T<string> //colorlist
-            "extendpiecolors", T<bool>
-            "boxmode", LayoutBoxMode.Type
-            "boxgap", T<float> + T<int>
-            "boxgroupgap", T<float> + T<int>
-            "violinmode", LayoutBoxMode.Type
-            "violingap", T<float> + T<int>
-            "violingroupgap", T<float> + T<int>
-            "waterfallmode", LayoutBoxMode.Type
-            "waterfallgap", T<float> + T<int>
-            "waterfallgroupgap", T<float> + T<int>
-            "funnelmode", LayoutFunnelMode.Type
-            "funnelgap", T<float> + T<int>
-            "funnelgroupgap", T<float> + T<int>
-            "funnelareacolorway", !| T<string> //colorlist
-            "extendfunnelareacolors", T<bool>
-            "sunburstcolorway", !| T<string> //colorlist
-            "extendsunburstcolors", T<bool>
-            "treemapcolorway", !| T<string> //colorlist
-            "extendtreemapcolors", T<bool>
-            "iciclecolorway", !| T<string> //colorlist
-            "extendiciclecolors", T<bool>
-            "xaxis", LayoutXAxis.Type
-            "yaxis", LayoutYAxis.Type
-            "ternary", LayoutTernary.Type
-            "scene", LayoutScene.Type
-            "geo", LayoutGeo.Type
-            "mapbox", LayoutMapbox.Type
-            "polar", LayoutPolar.Type
-            "coloraxis", LayoutColorAxis.Type
-            "annotations", !| T<obj>
-            "shapes", !| T<obj>
-            "images", !| T<obj>
-            "updatemenus", !| LayoutUpdateMenus.Type
-            "sliders", !| LayoutSliders.Type
-        ]
+        Pattern.Config "Layout" {
+            Required = []
+            Optional = [
+                "title", LayoutTitle.Type
+                "showlegend", T<bool>
+                "legend", LayoutLegend.Type
+                "margin", LayoutMargin.Type
+                "autosize", T<bool>
+                "width", T<int>
+                "height", T<int>
+                "font", LayoutFontConfig.Type
+                "uniformtext", T<unit>
+                "separators", T<string>
+                "paper_bgcolor", LayoutColor
+                "plot_bgcolor", LayoutColor
+                "autotypenumbers", LayoutAutoTypeNumbers.Type
+                "colorscale", LayoutColorscale.Type
+                "colorway", !| T<string> //colorlist
+                "modebar", LayoutModebar.Type
+                "hovermode", LayoutHoverMode.Type
+                "clickmode", LayoutClickMode.Type
+                "dragmode", LayoutDragMode.Type
+                "selectdirection", LayoutSelectDirection.Type
+                "hoverdistance", T<int>
+                "spikedistance", T<int>
+                "hoverlabel", LayoutHoverLabel.Type
+                "transition", LayoutTransition.Type
+                "datarevision", T<Number> + T<string>
+                "uirevision", T<Number> + T<string>
+                "editrevision", T<Number> + T<string>
+                "selectionrevision", T<Number> + T<string>
+                "template", T<Number> + T<string>
+                "meta", T<Number> + T<string>
+                "computed", T<Number> + T<string>
+                "grid", LayoutGrid.Type
+                "calendar", LayoutCalendar.Type
+                "newshape", LayoutNewShape.Type
+                "activeshape", LayoutActiveShape.Type
+                "hidesources", T<bool>
+                "barmode", LayoutBarMode.Type
+                "barnorm", LayoutBarNorm.Type
+                "bargap", T<float> + T<int>
+                "bargroupgap", T<float> + T<int>
+                "hiddenlabels", T<string> //data array
+                "piecolorway", !| T<string> //colorlist
+                "extendpiecolors", T<bool>
+                "boxmode", LayoutBoxMode.Type
+                "boxgap", T<float> + T<int>
+                "boxgroupgap", T<float> + T<int>
+                "violinmode", LayoutBoxMode.Type
+                "violingap", T<float> + T<int>
+                "violingroupgap", T<float> + T<int>
+                "waterfallmode", LayoutBoxMode.Type
+                "waterfallgap", T<float> + T<int>
+                "waterfallgroupgap", T<float> + T<int>
+                "funnelmode", LayoutFunnelMode.Type
+                "funnelgap", T<float> + T<int>
+                "funnelgroupgap", T<float> + T<int>
+                "funnelareacolorway", !| T<string> //colorlist
+                "extendfunnelareacolors", T<bool>
+                "sunburstcolorway", !| T<string> //colorlist
+                "extendsunburstcolors", T<bool>
+                "treemapcolorway", !| T<string> //colorlist
+                "extendtreemapcolors", T<bool>
+                "iciclecolorway", !| T<string> //colorlist
+                "extendiciclecolors", T<bool>
+                "xaxis", LayoutXAxis.Type
+                "yaxis", LayoutYAxis.Type
+                "ternary", LayoutTernary.Type
+                "scene", LayoutScene.Type
+                "geo", LayoutGeo.Type
+                "mapbox", LayoutMapbox.Type
+                "polar", LayoutPolar.Type
+                "coloraxis", LayoutColorAxis.Type
+                "annotations", !| T<obj>
+                "shapes", !| T<obj>
+                "images", !| T<obj>
+                "updatemenus", !| LayoutUpdateMenus.Type
+                "sliders", !| LayoutSliders.Type
+            ]
+        }
     
     let LayoutNameSpaces : CodeModel.NamespaceEntity list = [
         LayoutTitle

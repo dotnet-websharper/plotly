@@ -337,8 +337,8 @@ module LayoutModule =
             "coupled"
         ]
 
-    let LayoutDomain =
-        Pattern.Config "LayoutDomain" {
+    let LayoutGridDomain =
+        Pattern.Config "LayoutGridDomain" {
             Required = []
             Optional = [
                 "x", !| (T<Number> + T<string>)
@@ -375,7 +375,7 @@ module LayoutModule =
                 "pattern", LayoutGridPattern.Type
                 "xgap", (T<float> + T<int>)
                 "ygap", (T<float> + T<int>)
-                "domain", LayoutDomain.Type
+                "domain", LayoutGridDomain.Type
                 "xside", LayoutXSide.Type
                 "yside", LayoutYSide.Type
             ]
@@ -941,11 +941,70 @@ module LayoutModule =
             ]
         }
 
+    let LayoutDomain =
+        Pattern.Config "LayoutDomain" {
+            Required = []
+            Optional = [
+                "x", !| T<string> + !| T<int> + !| T<float>
+                "y", !| T<string> + !| T<int> + !| T<float>
+                "row", T<int>
+                "column", T<int>
+            ]
+        }
+
+    let LayoutTernaryAxis =
+        Pattern.Config "LayoutTernaryAAxis" {
+            Required = []
+            Optional = [
+                "title", LayoutLegendTitle.Type
+                "color", LayoutColor
+                "tickmode", LayoutTickMode.Type
+                "nticks", T<int>
+                "tick0", (T<float> + T<int>) + T<string>
+                "dtick", (T<float> + T<int>) + T<string>
+                "tickvals", !| T<obj>
+                "ticktext", !| T<string> 
+                "ticks", LayoutTicks.Type
+                "ticklen", (T<float> + T<int>)
+                "tickwidth", (T<float> + T<int>)
+                "tickcolor", LayoutColor
+                "showticklabels", T<bool>
+                "tickprefix", T<string>
+                "showtickprefix", LayoutShowTickFix.Type
+                "ticksuffix", T<string>
+                "showticksuffix", LayoutShowTickFix.Type
+                "separatethousands", T<bool>
+                "exponentformat", LayoutExponentFormat.Type
+                "minexponent", (T<float> + T<int>)
+                "showexponent", LayoutShowExponent.Type // change type name to fit
+                "tickfont", LayoutFontConfig.Type
+                "tickangle", (T<float> + T<int>) //type: Angle
+                "tickformat", T<string>
+                "tickformatstops", LayoutTickFormatStops.Type
+                "hoverformat", T<string>
+                "showline", T<bool>
+                "linecolor", LayoutColor
+                "linewidth", T<int>
+                "showgrid", T<bool>
+                "gridcolor", LayoutColor
+                "gridwidth", T<int>
+                "layer", LayoutAxisLayer.Type
+                "min", T<Number>
+                "uirevision", T<Number> + T<string>
+            ]
+        }
+
     let LayoutTernary =
         Pattern.Config "LayoutTernary" {
             Required = []
             Optional = [
-                
+                "domain", LayoutDomain.Type
+                "bgcolor", LayoutColor
+                "sum", T<Number>
+                "aaxis", LayoutTernaryAxis.Type 
+                "baxis", LayoutTernaryAxis.Type
+                "caxis", LayoutTernaryAxis.Type
+                "uirevision", T<Number> + T<string>
             ]
         }
 
@@ -954,17 +1013,6 @@ module LayoutModule =
             Required = []
             Optional = [
                 
-            ]
-        }
-
-    let LayoutGeoDomain =
-        Pattern.Config "LayoutGeoDomain" {
-            Required = []
-            Optional = [
-                "x", !| T<string> + !| T<int> + !| T<float>
-                "y", !| T<string> + !| T<int> + !| T<float>
-                "row", T<int>
-                "column", T<int>
             ]
         }
 
@@ -1428,7 +1476,7 @@ module LayoutModule =
         LayoutOrdering
         LayoutRoworder
         LayoutGridPattern
-        LayoutDomain
+        LayoutGridDomain
         LayoutXSide
         LayoutYSide
         LayoutNewShapeLine
@@ -1467,7 +1515,7 @@ module LayoutModule =
         LayoutSliderAxisRangemode
         LayoutAxisRangeSliderAxis
         LayoutAxisRangeSlider
-        LayoutGeoDomain
+        LayoutDomain
         LayoutGeoFitBounds
         LayoutGeoResolution
         LayoutGeoScope

@@ -1391,11 +1391,152 @@ module LayoutModule =
             ]
         }
 
+    let LayoutRadialAxisSide =
+        Pattern.EnumStrings "LayoutRadialAxisSide" [
+            "clockwise"
+            "counterclockwise"
+        ]
+
+    let LayoutRadialAxisType =
+        Pattern.EnumInlines "LayoutRadialAxisType" [
+            "minus", "'-'"
+            "linear", "'linear'"
+            "log", "'log'"
+            "date", "'date'"
+            "category", "'category'"
+        ]
+
+    let LayoutPolarRadialAxis =
+        Pattern.Config "LayoutPolarRadialAxis" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "type", LayoutRadialAxisType.Type
+                "autotypenumbers", LayoutAutoTypeNumbers.Type
+                "autorange", LayoutAutoRange.Type
+                "range", !| T<obj>
+                "categoryorder", LayoutCO.Type
+                "categoryarray", !| T<obj>
+                "angle", T<int> + T<float> //angle
+                "side", LayoutRadialAxisSide.Type
+                "title", LayoutLegendTitle.Type
+                "hoverformat", T<string>
+                "uirevision", T<Number> + T<string>
+                "color", LayoutColor
+                "showline", T<bool>
+                "linecolor", LayoutColor
+                "linewidth", T<int>
+                "showgrid", T<bool>
+                "gridcolor", LayoutColor
+                "gridwidth", T<int>
+                "tickmode", LayoutTickMode.Type
+                "nticks", T<int>
+                "tick0", (T<float> + T<int>) + T<string>
+                "dtick", (T<float> + T<int>) + T<string>
+                "tickvals", !| T<obj>
+                "ticktext", !| T<string> 
+                "ticks", LayoutTicks.Type
+                "ticklen", (T<float> + T<int>)
+                "tickwidth", (T<float> + T<int>)
+                "tickcolor", LayoutColor
+                "showticklabels", T<bool>
+                "tickfont", LayoutFontConfig.Type
+                "tickangle", (T<float> + T<int>) //type: Angle
+                "tickformat", T<string>
+                "tickformatstops", LayoutTickFormatStops.Type
+                "tickprefix", T<string>
+                "showtickprefix", LayoutShowTickFix.Type
+                "ticksuffix", T<string>
+                "showticksuffix", LayoutShowTickFix.Type
+                "separatethousands", T<bool>
+                "exponentformat", LayoutExponentFormat.Type
+                "minexponent", (T<float> + T<int>)
+                "showexponent", LayoutShowExponent.Type // change type name to fit
+                "layer", LayoutAxisLayer.Type
+                "calendar", LayoutCalendar.Type
+            ]
+        }
+
+    let LayoutPolarThetaUnit =
+        Pattern.EnumStrings "LayoutPolarThetaUnit" [
+            "radians"
+            "degrees"
+        ]
+
+    let LayoutAngularAxisType =
+        Pattern.EnumInlines "LayoutAngularAxisType" [
+            "minus", "'-'"
+            "linear", "'linear'"
+            "category", "'category'"
+        ]
+
+    let LayoutPolarAngularAxis =
+        Pattern.Config "LayoutPolarAngularAxis" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "type", LayoutAngularAxisType.Type
+                "autotypenumbers", LayoutAutoTypeNumbers.Type
+                "categoryorder", LayoutCO.Type
+                "categoryarray", !| T<obj>
+                "thetaunit", LayoutPolarThetaUnit.Type
+                "period", T<Number>
+                "direction", LayoutRadialAxisSide.Type
+                "rotation", T<Number>
+                "hoverformat", T<string>
+                "uirevision", T<Number> + T<string>
+                "color", LayoutColor
+                "showline", T<bool>
+                "linecolor", LayoutColor
+                "linewidth", T<int>
+                "showgrid", T<bool>
+                "gridcolor", LayoutColor
+                "gridwidth", T<int>
+                "tickmode", LayoutTickMode.Type
+                "nticks", T<int>
+                "tick0", (T<float> + T<int>) + T<string>
+                "dtick", (T<float> + T<int>) + T<string>
+                "tickvals", !| T<obj>
+                "ticktext", !| T<string> 
+                "ticks", LayoutTicks.Type
+                "ticklen", (T<float> + T<int>)
+                "tickwidth", (T<float> + T<int>)
+                "tickcolor", LayoutColor
+                "showticklabels", T<bool>
+                "tickfont", LayoutFontConfig.Type
+                "tickangle", (T<float> + T<int>) //type: Angle
+                "tickformat", T<string>
+                "tickformatstops", LayoutTickFormatStops.Type
+                "tickprefix", T<string>
+                "showtickprefix", LayoutShowTickFix.Type
+                "ticksuffix", T<string>
+                "showticksuffix", LayoutShowTickFix.Type
+                "separatethousands", T<bool>
+                "exponentformat", LayoutExponentFormat.Type
+                "minexponent", (T<float> + T<int>)
+                "showexponent", LayoutShowExponent.Type // change type name to fit
+                "layer", LayoutAxisLayer.Type
+            ]
+        }
+
+    let LayoutGridShape =
+        Pattern.EnumStrings "LayoutGridShape" [
+            "circular"
+            "linear"
+        ]
+
     let LayoutPolar =
         Pattern.Config "LayoutPolar" {
             Required = []
             Optional = [
-                
+                "domain", LayoutDomain.Type
+                "sector", !| T<obj>
+                "hole", (T<float> + T<int>)
+                "bgcolor", LayoutColor
+                "radialaxis", LayoutPolarRadialAxis.Type
+                "angularaxis", LayoutPolarAngularAxis.Type
+                "gridshape", LayoutGridShape.Type
+                "uirevision", T<Number> + T<string>
             ]
         }
 
@@ -1478,6 +1619,7 @@ module LayoutModule =
                 "reversescale", T<bool>
                 "showscale", T<bool>
                 "colorbar", LayoutColorBar.Type
+
             ]
         }
 
@@ -1556,7 +1698,7 @@ module LayoutModule =
             "scene", LayoutScene.Type
             "geo", LayoutGeo.Type
             "mapbox", LayoutMapbox.Type
-            "polar", T<unit>
+            "polar", LayoutPolar.Type
             "coloraxis", LayoutColorAxis.Type
             "annotations", T<unit>
             "shapes", T<unit>
@@ -1673,7 +1815,15 @@ module LayoutModule =
         LayoutSceneAxis
         LayoutSceneDragmode
         LayoutSceneHoverMode
+        LayoutRadialAxisType
+        LayoutRadialAxisSide
+        LayoutPolarRadialAxis
+        LayoutAngularAxisType
+        LayoutPolarThetaUnit
+        LayoutPolarAngularAxis
+        LayoutGridShape
         LayoutMapbox
+        LayoutPolar
         LayoutGeo
         LayoutTernary
         LayoutXAxis

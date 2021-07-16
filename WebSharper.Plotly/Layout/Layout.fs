@@ -1008,11 +1008,138 @@ module LayoutModule =
             ]
         }
 
+    let LayoutCameraAxises =
+        Pattern.Config "LayoutCameraAxises" {
+            Required = []
+            Optional = [
+                "x", T<Number>
+                "y", T<Number>
+                "z", T<Number>
+            ]
+        }
+
+    let LayoutCameraProjType =
+        Pattern.EnumStrings "LayoutCameraProjType" [
+            "perspective"
+            "orthographic"
+        ]
+
+    let LayoutCameraProjection =
+        Pattern.Config "LayoutCameraProjection" {
+            Required = []
+            Optional = [
+                "type", LayoutCameraProjType.Type
+            ]
+        }
+
+    let LayoutSceneCamera =
+        Pattern.Config "LayoutSceneCamera" {
+            Required = []
+            Optional = [
+                "up", LayoutCameraAxises.Type
+                "center", LayoutCameraAxises.Type
+                "eye", LayoutCameraAxises.Type
+                "projection", LayoutCameraProjection.Type
+            ]
+        }
+
+    let LayoutAspectMode =
+        Pattern.EnumStrings "LayoutAspectMode" [
+            "auto"
+            "cube"
+            "data"
+            "manual"
+        ]
+
+    let LayoutSceneAxis =
+        Pattern.Config "LayoutSceneAxis" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "showspikes", T<bool>
+                "spikesides", T<bool>
+                "spikecolor",LayoutColor
+                "spikethickness", T<int>
+                "showbackground", T<bool>
+                "backgroundcolor", LayoutColor
+                "showaxeslabels", T<bool>
+                "color", LayoutColor
+                "categoryorder", LayoutCO.Type
+                "categoryarray", !| T<obj>
+                "title", LayoutLegendTitle.Type
+                "type", LayoutAxisType.Type
+                "autotypenumbers", LayoutAutoTypeNumbers.Type
+                "autorange", LayoutAutoRange.Type
+                "rangemode", LayoutRangeMode.Type
+                "range", T<obj>
+                "tickmode", LayoutTickMode.Type
+                "nticks", T<int>
+                "tick0", (T<float> + T<int>) + T<string>
+                "dtick", (T<float> + T<int>) + T<string>
+                "tickvals", !| T<obj>
+                "ticktext", !| T<string> 
+                "mirror", T<bool> + LayoutAxisMirror.Type
+                "ticklen", T<int>
+                "tickwidth", T<int>
+                "tickcolor", LayoutColor
+                "showticklabels", T<bool>
+                "tickfont", LayoutFontConfig.Type
+                "tickangle", (T<float> + T<int>) //type: Angle
+                "tickformat", T<string>
+                "tickformatstops", LayoutTickFormatStops.Type
+                "tickprefix", T<string>
+                "showtickprefix", LayoutShowTickFix.Type
+                "ticksuffix", T<string>
+                "showticksuffix", LayoutShowTickFix.Type
+                "separatethousands", T<bool>
+                "exponentformat", LayoutExponentFormat.Type
+                "minexponent", (T<float> + T<int>)
+                "showexponent", LayoutShowExponent.Type // change type name to fit
+                "hoverformat", T<string>
+                "showline", T<bool>
+                "linecolor", LayoutColor
+                "linewidth", T<int>
+                "showgrid", T<bool>
+                "gridcolor", LayoutColor
+                "gridwidth", T<int>
+                "zeroline", T<bool>
+                "zerolinecolor", LayoutColor
+                "zerolinewidth", T<int>
+                "calendar", LayoutCalendar.Type
+            ]
+        }
+
+    let LayoutSceneDragmode =
+        Pattern.EnumInlines "LayoutSceneDragmode" [
+            "orbit", "'orbit'"
+            "turntable", "'turntable'"
+            "zoom", "'zoom'"
+            "pan", "'pan'"
+            "false", "false"
+        ]
+
+    let LayoutSceneHoverMode =
+        Pattern.EnumInlines "LayoutSceneHoverMode" [
+            "closest", "'closest'"
+            "false", "false"
+        ]
+
     let LayoutScene =
         Pattern.Config "LayoutScene" {
             Required = []
             Optional = [
-                
+                "bgcolor", LayoutColor
+                "camera", LayoutSceneCamera.Type
+                "domain", LayoutDomain.Type
+                "aspectmode", LayoutAspectMode.Type
+                "aspectratio", LayoutCameraAxises.Type
+                "xaxis", LayoutSceneAxis.Type
+                "yaxis", LayoutSceneAxis.Type
+                "zaxis", LayoutSceneAxis.Type
+                "dragmode", LayoutSceneDragmode.Type
+                "hovermode", LayoutSceneHoverMode.Type
+                "uirevision", T<Number> + T<string>
+                "annotations", !| T<obj>
             ]
         }
 
@@ -1426,7 +1553,7 @@ module LayoutModule =
             "xaxis", LayoutXAxis.Type
             "yaxis", LayoutYAxis.Type
             "ternary", LayoutTernary.Type
-            "scene", T<unit>
+            "scene", LayoutScene.Type
             "geo", LayoutGeo.Type
             "mapbox", LayoutMapbox.Type
             "polar", T<unit>
@@ -1536,6 +1663,16 @@ module LayoutModule =
         LayoutColorBarMode
         LayoutColorBarTickLabelPosition
         LayoutColorBar
+        LayoutScene
+        LayoutTernaryAxis
+        LayoutCameraAxises
+        LayoutCameraProjType
+        LayoutCameraProjection
+        LayoutSceneCamera
+        LayoutAspectMode
+        LayoutSceneAxis
+        LayoutSceneDragmode
+        LayoutSceneHoverMode
         LayoutMapbox
         LayoutGeo
         LayoutTernary

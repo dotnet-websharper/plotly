@@ -1623,6 +1623,68 @@ module LayoutModule =
             ]
         }
 
+    let LayoutUpdateMenusType =
+        Pattern.EnumStrings "LayoutUpdateMenusType" [
+            "dropdown"
+            "buttons"
+        ]
+
+    let LayoutDirection =
+        Pattern.EnumStrings "LayoutDirection" [
+            "left"
+            "right"
+            "up"
+            "down"
+        ]
+
+    let LayoutButtonsMethod =
+        Pattern.EnumStrings "LayoutButtonsMethod" [
+            "restyle"
+            "relayout"
+            "animate"
+            "update"
+            "skip"
+        ]
+
+    let LayoutUpdateMenusButtons =
+        Pattern.Config "LayoutUpdateMenusButtons" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "method", LayoutButtonsMethod.Type
+                "args", T<obj>
+                "args2", T<obj>
+                "label", T<string>
+                "execute", T<bool>
+                "name", T<string>
+                "templateitemname", T<string>
+            ]
+        }
+
+    let LayoutUpdateMenus =
+        Pattern.Config "LayoutUpdateMenus" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "type", LayoutUpdateMenusType.Type
+                "direction", LayoutDirection.Type
+                "active", T<int>
+                "showactive", T<bool>
+                "buttons", LayoutUpdateMenusButtons.Type
+                "x", T<float>
+                "y", T<float>
+                "xanchor", LayoutXAnchor.Type
+                "yanchor", LayoutYAnchor.Type
+                "pad", LayoutPadding.Type
+                "font", LayoutFontConfig.Type
+                "bgcolor", LayoutColor
+                "bordercolor", LayoutColor
+                "borderwidth", T<int>
+                "name", T<string>
+                "templateitemname", T<string>
+            ]
+        }
+
     let Layout =
         Class "Layout"
         |+> Static [
@@ -1700,10 +1762,10 @@ module LayoutModule =
             "mapbox", LayoutMapbox.Type
             "polar", LayoutPolar.Type
             "coloraxis", LayoutColorAxis.Type
-            "annotations", T<unit>
-            "shapes", T<unit>
-            "images", T<unit>
-            "updatemenus", T<unit>
+            "annotations", !| T<obj>
+            "shapes", !| T<obj>
+            "images", !| T<obj>
+            "updatemenus", !| LayoutUpdateMenus.Type
             "sliders", T<unit>
         ]
     

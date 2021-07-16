@@ -124,7 +124,7 @@ module Client =
     hg2dcontour.Y <- [|8;9;4;5;3;32;2;4;2;3;4;2;1;3;5;7;98;7;6;54;4;5;6;7;5;7;45;3;3;3;4|]    
 
     let violin = ViolinOptions()
-    //violin.Y <- violin.
+    violin.Y <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
     violin.Points <- Union2Of2(ViolinPoints.None)
     violin.Box <- ViolinBox(
         Visible = true
@@ -313,9 +313,9 @@ module Client =
 
     let choropleth = ChoroplethOptions()
     choropleth.Locationmode <- ChoroplethLocationMode.CountryNames
-    //choropleth.Locations <- 
-    //choropleth.Z <- 
-    //choropleth.Text <-
+    choropleth.Locations <- [|"Montreal";"Toronto";"Vancouver";"Calgary";"Edmonton";"Ottawa";"Halifax";"Victoria";"Winnepeg";"Regina"|]
+    choropleth.Z <- [|234;234;23;235;45;23;23;5;24;234|]
+    choropleth.Text <- Union2Of2([|"a";"b";"c";"d";"e";"f";"g";"h";"i";"j"|])
     choropleth.Autocolorscale <- true
 
     let choroplethmb = ChoroplethMBOptions()
@@ -403,8 +403,43 @@ module Client =
     let option1 = WebSharper.Plotly.Options()
     option1.Locale <- "fr"
 
+    let scatter3d = Scatter3DOptions()
+    scatter3d.X <- [|234;234;23;235;45;23;23;5;24;234;4;334;234;43;234;543;134;645;345;234;64|]
+    scatter3d.Y <- [|234;234;23;235;45;23;23;5;24;234;4;334;234;43;234;543;134;645;345;234;64|]
+    scatter3d.Z <- [|234;234;23;235;45;23;23;5;24;234;4;334;234;43;234;543;134;645;345;234;64|]
+    scatter3d.Mode <- Scatter3DModes.Markers
+    scatter3d.Marker <- Scatter3DMarker(
+        Size = 12,
+        Line = Scatter3DMarkerLine(
+            Color = "rgba(217, 217, 217, 0.14)",
+            Width = 0.5,
+            Opacity = 0.8
+        )
+    )
+
+    let streamtube = StreamTubeOptions()
+    streamtube.X <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
+    streamtube.Y <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
+    streamtube.Z <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
+    streamtube.U <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
+    streamtube.V <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
+    streamtube.W <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
+    streamtube.Sizeref <- 0.5
+    streamtube.Cmin <- 0
+    streamtube.Cmax <- 3
+
+    let surface = SurfaceOptions()
+    surface.Z <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
 
 
+
+
+
+
+
+
+
+    let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|])
     let meshChart = Plotly.Plotly.NewPlot("meshchartDiv", [|mesh|], null, option1)
     let isoSurfaceChart = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|], null, option1)
     let coneChart = Plotly.Plotly.NewPlot("conechartDiv", [|cone|])
@@ -422,18 +457,21 @@ module Client =
     let hgChart = Plotly.Plotly.NewPlot("hgchartDiv", [|histogram|])
     let hg2dChart = Plotly.Plotly.NewPlot("hg2dchartDiv", [|histogram2d|])
     let hg2dContChart = Plotly.Plotly.NewPlot("hg2dcontchartDiv", [|hg2dcontour|])
-    //let violinChart = Plotly.Plotly.NewPlot("violinchartDiv", [|violin|])
+    let violinChart = Plotly.Plotly.NewPlot("violinchartDiv", [|violin|])
     let candleStickChart = Plotly.Plotly.NewPlot("candlestickchartDiv", [|candlestick|])
     let funnelChart = Plotly.Plotly.NewPlot("funnelchartDiv", [|funnel|])
     let funnelAreaChart = Plotly.Plotly.NewPlot("funnelareachartDiv", [|funnelarea|])
     let indicatorChart = Plotly.Plotly.NewPlot("indicatorchartDiv", [|indicator|])
     let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|], null, option1)
-    let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|])
-    let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|])
-    let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|])
-    let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|])
-    let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|])
-    let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|])
+    let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|], null, null)
+    let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|], null, null)
+    let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], null, null)
+    let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|], null, null)
+    let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], null, null)
+    let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|], null, null)
+    let scatter3DChart = Plotly.Plotly.NewPlot("scatter3dchartDiv", [|scatter3d|], null, null)
+    let surfaceChart = Plotly.Plotly.NewPlot("surfacechartDiv", [|surface|])
+
 
     //Console.Log(Tests)
 
@@ -468,8 +506,8 @@ module Client =
             div [attr.id "hg2dchartDiv"] []
             h2 [] [text "Histogram2DContour chart"]
             div [attr.id "hg2dcontchartDiv"] []
-            //h2 [] [text "Violin chart"]
-            //div [attr.id "violinchartDiv"] []
+            h2 [] [text "Violin chart"]
+            div [attr.id "violinchartDiv"] []
             h2 [] [text "CandleStick chart"]
             div [attr.id "candlestickchartDiv"] []
             h2 [] [text "Funnel chart"]
@@ -500,6 +538,12 @@ module Client =
             div [attr.id "isochartDiv"] []
             h2 [] [text "Mesh chart"]
             div [attr.id "meshchartDiv"] []
+            h2 [] [text "Scatter3D chart"]
+            div [attr.id "scatter3dchartDiv"] []
+            h2 [] [text "StreamTube chart"]
+            div [attr.id "streamtubechartDiv"] []
+            h2 [] [text "Surface chart"]
+            div [attr.id "surfacechartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -515,7 +559,7 @@ module Client =
         hgChart |> ignore
         hg2dChart |> ignore
         hg2dContChart |> ignore
-        //violinChart |> ignore
+        violinChart |> ignore
         candleStickChart |> ignore
         funnelChart |> ignore
         funnelAreaChart |> ignore
@@ -531,3 +575,6 @@ module Client =
         carpetChart |> ignore
         isoSurfaceChart |> ignore
         meshChart |> ignore
+        scatter3DChart |> ignore
+        streamTubeChart |> ignore
+        surfaceChart |> ignore

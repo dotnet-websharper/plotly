@@ -101,6 +101,7 @@ module Scatter3DModule =
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
+                "opacity", T<float>
             ]
         }
 

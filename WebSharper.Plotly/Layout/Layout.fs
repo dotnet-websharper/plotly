@@ -1652,8 +1652,8 @@ module LayoutModule =
             Optional = [
                 "visible", T<bool>
                 "method", LayoutButtonsMethod.Type
-                "args", T<obj>
-                "args2", T<obj>
+                "args", !| T<obj>
+                "args2", !| T<obj>
                 "label", T<string>
                 "execute", T<bool>
                 "name", T<string>
@@ -1680,6 +1680,77 @@ module LayoutModule =
                 "bgcolor", LayoutColor
                 "bordercolor", LayoutColor
                 "borderwidth", T<int>
+                "name", T<string>
+                "templateitemname", T<string>
+            ]
+        }
+
+    let LayoutSlidersSteps =
+        Pattern.Config "LayoutSlidersSteps" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "method", LayoutButtonsMethod.Type
+                "args", !| T<obj>
+                "label", T<string>
+                "execute", T<bool>
+                "name", T<string>
+                "templateitemname", T<string>
+            ]
+        }
+
+    let LayoutSlidersTransition =
+        Pattern.Config "LayoutSlidersTransition" {
+            Required = []
+            Optional = [
+                "duration", T<Number>
+                "easing", LayoutEasing.Type
+            ]
+        }
+
+    let LayoutSlidersCVXAnchor =
+        Pattern.EnumStrings "LayoutSlidersCVXAnchor" [
+            "left"
+            "center"
+            "right"
+        ]
+
+    let LayoutSlidersCurrentValue =
+        Pattern.Config "LayoutSlidersCurrentValue" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "xanchor", LayoutSlidersCVXAnchor.Type
+                "offset", T<int>
+                "prefix", T<string>
+                "suffix", T<string>
+                "font", LayoutFontConfig.Type
+            ]
+        }
+
+    let LayoutSliders =
+        Pattern.Config "LayoutSliders" {
+            Required = []
+            Optional = [
+                "visible", T<bool>
+                "active", T<int>
+                "steps", LayoutSlidersSteps.Type
+                "lenmode", LayoutColorBarMode.Type
+                "len", (T<float> + T<int>)
+                "x", T<float>
+                "xanchor", LayoutXAnchor.Type
+                "y", T<float>
+                "yanchor", LayoutYAnchor.Type
+                "transition", LayoutSlidersTransition.Type
+                "currentvalue", LayoutSlidersCurrentValue.Type
+                "font", LayoutFontConfig.Type
+                "activebgcolor", LayoutColor
+                "bgcolor", LayoutColor
+                "bordercolor", LayoutColor
+                "borderwidth", T<int>
+                "ticklen", T<int>
+                "tickwidth", T<int>
+                "minorticklen", T<int>
                 "name", T<string>
                 "templateitemname", T<string>
             ]
@@ -1766,7 +1837,7 @@ module LayoutModule =
             "shapes", !| T<obj>
             "images", !| T<obj>
             "updatemenus", !| LayoutUpdateMenus.Type
-            "sliders", T<unit>
+            "sliders", !| LayoutSliders.Type
         ]
     
     let LayoutNameSpaces : CodeModel.NamespaceEntity list = [
@@ -1891,5 +1962,15 @@ module LayoutModule =
         LayoutXAxis
         LayoutYAxis
         LayoutColorAxis
+        LayoutDirection
+        LayoutButtonsMethod
+        LayoutUpdateMenusButtons
+        LayoutUpdateMenusType
+        LayoutUpdateMenus
+        LayoutSlidersCurrentValue
+        LayoutSlidersCVXAnchor
+        LayoutSlidersSteps
+        LayoutSlidersTransition
+        LayoutSliders
         Layout
     ]

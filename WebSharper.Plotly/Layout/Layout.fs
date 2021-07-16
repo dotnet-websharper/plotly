@@ -69,10 +69,10 @@ module LayoutModule =
         Pattern.Config "LayoutPadding" {
             Required = []
             Optional = [
-                "t", T<Number>
-                "r", T<Number>
-                "b", T<Number>
-                "l", T<Number>
+                "t", T<int> + T<float>
+                "r", T<int> + T<float>
+                "b", T<int> + T<float>
+                "l", T<int> + T<float>
             ]
         }
 
@@ -156,11 +156,11 @@ module LayoutModule =
                 "itemwidth", T<int>
                 "itemclick", LayoutItemClick.Type
                 "itemdoubleclick", LayoutItemClick.Type
-                "x", T<Number>
+                "x", T<int> + T<float>
                 "xanchor", LayoutXAnchor.Type
-                "y", T<Number>
+                "y", T<int> + T<float>
                 "yanchor", LayoutYAnchor.Type
-                "uirevision", T<Number> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
                 "valign", LayoutVAlign.Type
                 "title", LayoutLegendTitle.Type
                 "side", LayoutLegendSide.Type
@@ -203,7 +203,7 @@ module LayoutModule =
                 "orientation", LayoutOrientation.Type
                 "bgcolor", LayoutColor
                 "color", LayoutColor
-                "uirevision", T<Number> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
                 "add", T<string> + !| T<string>
                 "remove", T<string> + !| T<string>
             ]
@@ -319,7 +319,7 @@ module LayoutModule =
         Pattern.Config "LayoutTransition" {
             Required = []
             Optional = [
-                "duration", T<Number>
+                "duration", T<int> + T<float>
                 "easing", LayoutEasing.Type
                 "ordering", LayoutOrdering.Type
             ]
@@ -341,8 +341,8 @@ module LayoutModule =
         Pattern.Config "LayoutGridDomain" {
             Required = []
             Optional = [
-                "x", !| (T<Number> + T<string>)
-                "y", !| (T<Number> + T<string>)
+                "x", !| (T<int> + T<float> + T<string>)
+                "y", !| (T<int> + T<float> + T<string>)
             ]
         }
 
@@ -551,7 +551,7 @@ module LayoutModule =
                 "enabled", T<bool>
                 "bounds", !| T<string> // array, seems to be string arr
                 "pattern", LayoutRangeBreaksPattern.Type
-                "values", !| T<Number> // array
+                "values", !| T<int> + !| T<float> // array
                 "dvalue", T<int>
                 "name", T<string>
                 "templateitemname", T<string>
@@ -767,9 +767,9 @@ module LayoutModule =
             Optional = [
                 "visible", T<bool>
                 "buttons", LayoutRangeSelectorButtons.Type
-                "x", T<Number>
+                "x", T<int> + T<float>
                 "xanchor", LayoutXAnchor.Type
-                "y", T<Number>
+                "y", T<int> + T<float>
                 "yanchor", LayoutYAnchor.Type
                 "font", LayoutFontConfig.Type
                 "bgcolor", LayoutColor
@@ -790,7 +790,7 @@ module LayoutModule =
                 "autotypenumbers", LayoutAutoTypeNumbers.Type
                 "autorange", LayoutAutoRange.Type
                 "rangemode", LayoutRangeMode.Type
-                "range", !| (T<Number> + T<string>)
+                "range", !| (T<int> + T<float> + T<string>)
                 "fixedrange", T<bool>
                 "scaleanchor", LayoutScaleAnchor.Type
                 "scaleratio", T<float> + T<int>
@@ -854,7 +854,7 @@ module LayoutModule =
                 "position", (T<float> + T<int>)
                 "categoryorder", LayoutCO.Type
                 "categoryarray", !| T<obj>
-                "uirevision", T<Number> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
                 "rangeslider", LayoutAxisRangeSlider.Type
                 "rangeselector", LayoutAxisRangeSelector.Type
                 "calendar", LayoutCalendar.Type
@@ -872,7 +872,7 @@ module LayoutModule =
                 "autotypenumbers", LayoutAutoTypeNumbers.Type
                 "autorange", LayoutAutoRange.Type
                 "rangemode", LayoutRangeMode.Type
-                "range", !| (T<Number> + T<string>)
+                "range", !| (T<int> + T<float> + T<string>)
                 "fixedrange", T<bool>
                 "scaleanchor", LayoutScaleAnchor.Type
                 "scaleratio", T<float> + T<int>
@@ -936,7 +936,7 @@ module LayoutModule =
                 "position", (T<float> + T<int>)
                 "categoryorder", LayoutCO.Type
                 "categoryarray", !| T<obj>
-                "uirevision", T<Number> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
                 "calendar", LayoutCalendar.Type
             ]
         }
@@ -989,8 +989,8 @@ module LayoutModule =
                 "gridcolor", LayoutColor
                 "gridwidth", T<int>
                 "layer", LayoutAxisLayer.Type
-                "min", T<Number>
-                "uirevision", T<Number> + T<string>
+                "min", T<int> + T<float>
+                "uirevision", T<int> + T<float> + T<string>
             ]
         }
 
@@ -1000,11 +1000,11 @@ module LayoutModule =
             Optional = [
                 "domain", LayoutDomain.Type
                 "bgcolor", LayoutColor
-                "sum", T<Number>
+                "sum", T<int> + T<float>
                 "aaxis", LayoutTernaryAxis.Type 
                 "baxis", LayoutTernaryAxis.Type
                 "caxis", LayoutTernaryAxis.Type
-                "uirevision", T<Number> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
             ]
         }
 
@@ -1012,9 +1012,9 @@ module LayoutModule =
         Pattern.Config "LayoutCameraAxises" {
             Required = []
             Optional = [
-                "x", T<Number>
-                "y", T<Number>
-                "z", T<Number>
+                "x", T<int> + T<float>
+                "y", T<int> + T<float>
+                "z", T<int> + T<float>
             ]
         }
 
@@ -1138,7 +1138,7 @@ module LayoutModule =
                 "zaxis", LayoutSceneAxis.Type
                 "dragmode", LayoutSceneDragmode.Type
                 "hovermode", LayoutSceneHoverMode.Type
-                "uirevision", T<Number> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
                 "annotations", !| T<obj>
             ]
         }
@@ -1197,9 +1197,9 @@ module LayoutModule =
         Pattern.Config "LayoutGeoProjectionRotation" {
             Required = []
             Optional = [
-                "lon", T<Number>
-                "lat", T<Number>
-                "roll", T<Number>
+                "lon", T<int> + T<float>
+                "lat", T<int> + T<float>
+                "roll", T<int> + T<float>
             ]
         }
 
@@ -1210,16 +1210,16 @@ module LayoutModule =
                 "type", LayoutGeoProjectionType.Type
                 "rotation", LayoutGeoProjectionRotation.Type
                 "parallels", !| T<obj> // array
-                "scale", T<Number>
+                "scale", T<int> + T<float>
             ]
         }
 
     let LayoutCenter =
-        Pattern.Config "LayoutGeoCenter" {
+        Pattern.Config "LayoutCenter" {
             Required = []
             Optional = [
-                "lon", T<Number>
-                "lat", T<Number>
+                "lon", T<int> + T<float>
+                "lat", T<int> + T<float>
             ]
         }
 
@@ -1229,8 +1229,8 @@ module LayoutModule =
             Optional = [
                 "range", !| T<obj> //array
                 "showgrid", T<bool>
-                "tick0", T<Number>
-                "dtick", T<Number>
+                "tick0", T<int> + T<float>
+                "dtick", T<int> + T<float>
                 "gridcolor", LayoutColor
                 "gridwidth", T<int>
             ]
@@ -1249,7 +1249,7 @@ module LayoutModule =
                 "visible", T<bool>
                 "showcoastlines", T<bool>
                 "coastlinecolor", LayoutColor
-                "coastlinewidth", T<int>
+                "coastlinewidth", T<int> + T<float>
                 "showland", T<bool>
                 "landcolor", LayoutColor
                 "showocean", T<bool>
@@ -1258,20 +1258,20 @@ module LayoutModule =
                 "lakecolor", LayoutColor
                 "showrivers", T<bool>
                 "rivercolor", LayoutColor
-                "riverwidth", T<int>
+                "riverwidth", T<int> + T<float>
                 "showcountries", T<bool>
                 "countrycolor", LayoutColor
-                "countrywidth", T<int>
+                "countrywidth", T<int> + T<float>
                 "showsubunits", T<bool>
                 "subunitcolor", LayoutColor
-                "subunitwidth", T<int>
+                "subunitwidth", T<int> + T<float>
                 "showframe", T<bool>
                 "framecolor", LayoutColor
-                "framewidth", T<int>
+                "framewidth", T<int> + T<float>
                 "bgcolor", LayoutColor
                 "lonaxis", LayoutGeoAxis.Type
                 "lataxis", LayoutGeoAxis.Type
-                "uirevision", T<Number> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
             ]
         }
 
@@ -1295,7 +1295,7 @@ module LayoutModule =
         Pattern.Config "LayoutMapboxLayerCircle" {
             Required = []
             Optional = [
-                "radius", T<Number>
+                "radius", T<int> + T<float>
             ]
         }
 
@@ -1342,7 +1342,7 @@ module LayoutModule =
             Required = []
             Optional = [
                 "icon", T<string>
-                "iconsize", T<Number>
+                "iconsize", T<int> + T<float>
                 "text", T<string>
                 "placement", LayoutSymbolPlacement.Type
                 "textfont", LayoutFontConfig.Type
@@ -1356,11 +1356,11 @@ module LayoutModule =
             Optional = [
                 "visible", T<bool>
                 "sourcetype", LayoutSourceType.Type
-                "source", T<Number> + T<string>
+                "source", T<int> + T<float> + T<string>
                 "sourcelayer", T<string>
                 "sourceattribution", T<string>
                 "type", LayoutMapboxLayerType.Type
-                "coordinates", T<Number> + T<string>
+                "coordinates", T<int> + T<float> + T<string>
                 "below", T<string>
                 "color", LayoutColor
                 "opacity", T<float> + T<int>
@@ -1381,13 +1381,13 @@ module LayoutModule =
             Optional = [
                 "domain", LayoutDomain.Type
                 "accesstoken", T<string>
-                "style", T<Number> + T<string>
+                "style", T<int> + T<float> + T<string>
                 "center", LayoutCenter.Type
-                "zoom", T<Number>
-                "bearing", T<Number>
-                "pitch", T<Number>
+                "zoom", T<int> + T<float>
+                "bearing", T<int> + T<float>
+                "pitch", T<int> + T<float>
                 "layers", LayoutMapboxLayer.Type
-                "uirevision", T<Number> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
             ]
         }
 
@@ -1421,7 +1421,7 @@ module LayoutModule =
                 "side", LayoutRadialAxisSide.Type
                 "title", LayoutLegendTitle.Type
                 "hoverformat", T<string>
-                "uirevision", T<Number> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
                 "color", LayoutColor
                 "showline", T<bool>
                 "linecolor", LayoutColor
@@ -1480,11 +1480,11 @@ module LayoutModule =
                 "categoryorder", LayoutCO.Type
                 "categoryarray", !| T<obj>
                 "thetaunit", LayoutPolarThetaUnit.Type
-                "period", T<Number>
+                "period", T<int> + T<float>
                 "direction", LayoutRadialAxisSide.Type
-                "rotation", T<Number>
+                "rotation", T<int> + T<float>
                 "hoverformat", T<string>
-                "uirevision", T<Number> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
                 "color", LayoutColor
                 "showline", T<bool>
                 "linecolor", LayoutColor
@@ -1536,7 +1536,7 @@ module LayoutModule =
                 "radialaxis", LayoutPolarRadialAxis.Type
                 "angularaxis", LayoutPolarAngularAxis.Type
                 "gridshape", LayoutGridShape.Type
-                "uirevision", T<Number> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
             ]
         }
 
@@ -1611,9 +1611,9 @@ module LayoutModule =
             Required = []
             Optional = [
                 "cauto", T<bool>
-                "cmin", T<Number>
-                "cmax", T<Number>
-                "cmid", T<Number>
+                "cmin", T<int> + T<float>
+                "cmax", T<int> + T<float>
+                "cmid", T<int> + T<float>
                 "colorscale", LayoutColorscale.Type
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
@@ -1703,7 +1703,7 @@ module LayoutModule =
         Pattern.Config "LayoutSlidersTransition" {
             Required = []
             Optional = [
-                "duration", T<Number>
+                "duration", T<int> + T<float>
                 "easing", LayoutEasing.Type
             ]
         }
@@ -1784,13 +1784,13 @@ module LayoutModule =
                 "spikedistance", T<int>
                 "hoverlabel", LayoutHoverLabel.Type
                 "transition", LayoutTransition.Type
-                "datarevision", T<Number> + T<string>
-                "uirevision", T<Number> + T<string>
-                "editrevision", T<Number> + T<string>
-                "selectionrevision", T<Number> + T<string>
-                "template", T<Number> + T<string>
-                "meta", T<Number> + T<string>
-                "computed", T<Number> + T<string>
+                "datarevision", T<int> + T<float> + T<string>
+                "uirevision", T<int> + T<float> + T<string>
+                "editrevision", T<int> + T<float> + T<string>
+                "selectionrevision", T<int> + T<float> + T<string>
+                "template", T<int> + T<float> + T<string>
+                "meta", T<int> + T<float> + T<string>
+                "computed", T<int> + T<float> + T<string>
                 "grid", LayoutGrid.Type
                 "calendar", LayoutCalendar.Type
                 "newshape", LayoutNewShape.Type

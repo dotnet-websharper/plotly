@@ -238,6 +238,25 @@ module Client =
             Range = [|0;250|]
         )
     )
+    indicator.Domain <- IndicatorDomain(
+        Row = 0,
+        Column = 0
+    )
+    indicator.Title <- IndicatorTitle(
+        Text = "Speed"
+    )
+    indicator.Mode <- IndicatorMode.Number_delta_gauge
+
+    let indicatorLayout = WebSharper.Plotly.Layout()
+    indicatorLayout.Width <- 600
+    indicatorLayout.Height <- 400
+    indicatorLayout.Margin <- LayoutMargin(T = 25, B = 25, L = 25, R = 25)
+    indicatorLayout.Grid <- LayoutGrid(
+        Rows = 2,
+        Columns = 2,
+        Pattern = LayoutGridPattern.Independent
+    )
+
 
     let ohlc = OHLCOptions()
     ohlc.X <- [|
@@ -569,12 +588,63 @@ module Client =
     let spolargl2 = ScatterPolarGLOptions()
     spolargl2.R <- [|1;2;3|]
     spolargl2.Theta <- [|1;2;3|]
-    spolargl2.Thetaunit <- ScatterPolarGLThetaUnit.Radians
+    spolargl2.Thetaunit <-  ScatterPolarGLThetaUnit.Radians
+
+    let densityMBLayout = Layout()
+    densityMBLayout.Width <- 600
+    densityMBLayout.Height <- 400
+    densityMBLayout.Mapbox <- LayoutMapbox(
+        Style = "stamen-terrain"
+    )
+
+    let scatterGeoLayout = Layout()
+    scatterGeoLayout.Title <- LayoutTitle(
+        Text = "Canadian cities",
+        Font = LayoutFontConfig(
+            Size = 16
+        )
+    )
+    scatterGeoLayout.Font <- LayoutFontConfig(
+        Family = "Droid Serif, serif",
+        Size = 6
+    )
+    scatterGeoLayout.Geo <- LayoutGeo(
+        Scope = LayoutGeoScope.North_america,
+        Resolution = LayoutGeoResolution.``50``,
+        Lonaxis = LayoutGeoAxis(
+            Range = [|-130;-55|] 
+        ),
+        Lataxis = LayoutGeoAxis(
+            Range = [|40;70|] 
+        ),
+        Showrivers = true,
+        Rivercolor = "#fff",
+        Showlakes = true,
+        Lakecolor = "#fff",
+        Showland = true,
+        Landcolor = "#fff",
+        Countrycolor = "EAEAAE",
+        Countrywidth = 1.5,
+        Subunitcolor = "#d3d3d3"
+    )
+
+    let scatterMBLayout = Layout()
+    scatterMBLayout.Autosize <- true
+    scatterMBLayout.Hovermode <- LayoutHoverMode.Closest
+    scatterMBLayout.Mapbox <- LayoutMapbox(
+        Bearing = 0,
+        Center = LayoutCenter(
+            Lat = 45,
+            Lon = -73
+        ),
+        Pitch = 0,
+        Zoom = 5
+    )
 
 
 
-
-
+    let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|], scatterGeoLayout, null)
+    let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|], densityMBLayout)
     let spolarglChart = Plotly.Plotly.NewPlot("spolarglchartDiv", [|spolargl1;spolargl2|])
     let spolarChart = Plotly.Plotly.NewPlot("spolarchartDiv", [|spolar|])
     let scarpetChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|scattercarpet|])
@@ -604,16 +674,14 @@ module Client =
     let candleStickChart = Plotly.Plotly.NewPlot("candlestickchartDiv", [|candlestick|])
     let funnelChart = Plotly.Plotly.NewPlot("funnelchartDiv", [|funnel|])
     let funnelAreaChart = Plotly.Plotly.NewPlot("funnelareachartDiv", [|funnelarea|])
-    let indicatorChart = Plotly.Plotly.NewPlot("indicatorchartDiv", [|indicator|])
+    let indicatorChart = Plotly.Plotly.NewPlot("indicatorchartDiv", [|indicator|], indicatorLayout)
     let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|], null, option1)
     let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|], null, null)
     let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|], null, null)
     let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], null, null)
-    let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|], null, null)
-    let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], null, null)
-    let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|], null, null)
     let scatter3DChart = Plotly.Plotly.NewPlot("scatter3dchartDiv", [|scatter3d|], null, null)
     let surfaceChart = Plotly.Plotly.NewPlot("surfacechartDiv", [|surface|])
+    let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], scatterMBLayout)
 
 
     //Console.Log(Tests)

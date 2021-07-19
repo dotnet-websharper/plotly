@@ -569,10 +569,10 @@ module Client =
         Value = [|8;4;2;8;4;2|]
     )
 
-    let scarpet = CarpetOptions()
-    scarpet.A <- Seq.map ((*)1e-6)
+    (*let scarpet = CarpetOptions()
+    scarpet.A <- Seq.map (( * )1e-6)
         [|4.0;4.0;4.0;4.5;4.5;4.5;5.0;5.0;5.0;6.0;6.0;6.0|]
-    scarpet.B <- Seq.map ((*)1e6)
+    scarpet.B <- Seq.map (( * )1e6)
         [|1.0;2.0;3.0;1.0;2.0;3.0;1.0;2.0;3.0;1.0;2.0;3.0|]
     scarpet.Y <- [|2.0;3.5;4.0;3.0;4.5;5.0;5.5;6.5;7.5;8.0;8.5;10.0|]
     scarpet.Aaxis <- CarpetAxis(
@@ -586,7 +586,7 @@ module Client =
         Ticksuffix = "Pa",
         Smoothing = 1,
         Minorgridcount = 9
-    )
+    )*)
     let scattercarpet = ScatterCarpetOptions()
     scattercarpet.A <- Seq.map ((*)1e-6) [|4.0;4.5;5.0;6.0|]
     scattercarpet.B <- Seq.map ((*)1e6) [|1.5;2.5;1.5;2.5|]
@@ -594,6 +594,8 @@ module Client =
         Shape = ScatterCarpetShape.Spline,
         Smoothing = 1
     )
+
+    let scarpetLayout = Layout()
 
     let spolar = ScatterPolarOptions()
     spolar.R <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
@@ -688,7 +690,6 @@ module Client =
     )
 
     let ccarpetLayout = Layout()
-    ccarpetLayout.Title <- LayoutTitle(Text = "Cheater plot with 1d input")
     ccarpetLayout.Margin <- LayoutMargin(
         T = 40,
         R = 30,
@@ -784,19 +785,17 @@ module Client =
 
 
 
-
-
+    let scarpetChart = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scattercarpet|])
     let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
     let treeMapChart = Plotly.Plotly.NewPlot("treemapchartDiv", [|treemap|])
     let sunBurstChart = Plotly.Plotly.NewPlot("sunburstchartDiv", [|sunburst|], sunBurstLayout)
     let splomChart = Plotly.Plotly.NewPlot("splomchartDiv", [|splom|], splomLayout, null)
     let scatter3DChart = Plotly.Plotly.NewPlot("scatter3dchartDiv", [|scatter3d|], scatter3DLayout, null)
     let sternaryChart = Plotly.Plotly.NewPlot("sternarychartDiv", [|sternary|], sternaryLayout)
-    // needs a carpet -- let ccarpetChart = Plotly.Plotly.NewPlot("ccarpetchartDiv", [|ccarpet|],ccarpetLayout, null)
+    let ccarpetChart = Plotly.Plotly.NewPlot("ccarpetchartDiv", [|ccarpet|],ccarpetLayout, null)
     let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|], densityMBLayout)
     let spolarglChart = Plotly.Plotly.NewPlot("spolarglchartDiv", [|spolargl1;spolargl2|])
     let spolarChart = Plotly.Plotly.NewPlot("spolarchartDiv", [|spolar|])
-    //let scarpetChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|scattercarpet|])
     let sankeyChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|sankey|])
     let parcoordsChart = Plotly.Plotly.NewPlot("parcoordschartDiv", [|parcoords|])
     let parcatsChart = Plotly.Plotly.NewPlot("parcatschartDiv", [|parcats|])
@@ -903,16 +902,16 @@ module Client =
             div [attr.id "streamtubechartDiv"] []
             h2 [] [text "Surface chart"]
             div [attr.id "surfacechartDiv"] []
-            //h2 [] [text "ContourCarpet chart"]
-            //div [attr.id "ccarpetchartDiv"] []
+            h2 [] [text "ContourCarpet chart"]
+            div [attr.id "ccarpetchartDiv"] []
             h2 [] [text "Parallel Categories chart"]
             div [attr.id "parcatschartDiv"] []
             h2 [] [text "Parallel Coordinates chart"]
             div [attr.id "parcoordschartDiv"] []
             h2 [] [text "Sankey chart"]
             div [attr.id "sankeychartDiv"] []
-            //h2 [] [text "ScatterCarpet chart"]
-            //div [attr.id "scarpetchartDiv"] []
+            h2 [] [text "ScatterCarpet chart"]
+            div [attr.id "scarpetchartDiv"] []
             h2 [] [text "ScatterPolar chart"]
             div [attr.id "spolarchartDiv"] []
             h2 [] [text "ScatterPolarGL chart"]
@@ -959,11 +958,11 @@ module Client =
         scatter3DChart |> ignore
         streamTubeChart |> ignore
         surfaceChart |> ignore
-        //ccarpetChart |> ignore
+        ccarpetChart |> ignore
         parcatsChart |> ignore
         parcoordsChart |> ignore
         sankeyChart |> ignore
-        //scarpetChart |> ignore
+        scarpetChart |> ignore
         spolarChart |> ignore
         spolarglChart |> ignore
         sternaryChart |> ignore

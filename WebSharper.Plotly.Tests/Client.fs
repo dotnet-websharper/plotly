@@ -12,10 +12,6 @@ open WebSharper.Plotly
 [<JavaScript>]
 module Client =
 
-    (*x: [1, 2, 3, 4],
-    y: [10, 15, 13, 17],
-    mode: "markers",*)
-
     let carpet = CarpetOptions()
     carpet.A <- [|
         4.0; 4.0; 4.0; 4.5; 4.5; 4.5;
@@ -103,8 +99,15 @@ module Client =
         [|0.0; 0.625; 2.5; 5.625; 10.0|]
     |]
 
-    let imagetrace = ImageOptions()
-    imagetrace.Source <- "./icon.png"
+    let image = ImageOptions()
+    image.Z <- [|[|[|255;0;0|];[|0;255;0|];[|0;0;255|]|]|]
+    image.Opacity <- 0.1
+
+    let imageLayout = Layout()
+    imageLayout.Width <- 400
+    imageLayout.Height <- 400
+    imageLayout.Title <- LayoutTitle(Text = "Image with opacity 0.1")
+
 
     let box = BoxOptions()
     box.Y <- [|0;1;1;2;3;5;8;13;21|]
@@ -687,23 +690,6 @@ module Client =
         Range = [|0.667;5.932|]
     )
 
-    let imageLayout = Layout()
-    imageLayout.Images <- [|
-        LayoutImage(
-            Source = "https://images.plot.ly/language-icons/api-home/r-logo.png",
-            Xref = "x",
-            Yref = "y",
-            X = 1,
-            Y = 3,
-            Sizex = 2,
-            Sizey = 2,
-            Sizing = "stretch",
-            Opacity = 0.4,
-            Layer = "below"
-
-        )
-    |]
-
     let sternary = ScatterTernaryOptions()
     sternary.Mode <- ScatterTernaryModes.Lines
     sternary.Name <- "k"
@@ -815,7 +801,7 @@ module Client =
     let tableChart = Plotly.Plotly.NewPlot("tablechartDiv", [|table|])
     let heatMapGLChart = Plotly.Plotly.NewPlot("heatmapglchartDiv", [|heatmapgl|])
     let contourChart = Plotly.Plotly.NewPlot("contourchartDiv", [|contour|])
-    //layout image obj -- let imageChart = Plotly.Plotly.NewPlot("imagechartDiv", [|scatterTrace|], imageLayout)
+    let imageChart = Plotly.Plotly.NewPlot("imagechartDiv", [|image|], imageLayout)
     let boxChart = Plotly.Plotly.NewPlot("boxchartDiv", [|box|])
     let hgChart = Plotly.Plotly.NewPlot("hgchartDiv", [|histogram|])
     let hg2dChart = Plotly.Plotly.NewPlot("hg2dchartDiv", [|histogram2d|])
@@ -857,8 +843,8 @@ module Client =
             div [attr.id "heatmapglchartDiv"] []
             h2 [] [text "Contour chart"]
             div [attr.id "contourchartDiv"] []
-            //h2 [] [text "Image chart"]
-            //div [attr.id "imagechartDiv"] []
+            h2 [] [text "Image chart"]
+            div [attr.id "imagechartDiv"] []
             h2 [] [text "Box chart"]
             div [attr.id "boxchartDiv"] []
             h2 [] [text "Histogram chart"]
@@ -937,7 +923,7 @@ module Client =
         tableChart |> ignore
         heatMapGLChart |> ignore
         contourChart |> ignore
-        //imageChart |> ignore
+        imageChart |> ignore
         boxChart |> ignore
         hgChart |> ignore
         hg2dChart |> ignore

@@ -337,11 +337,11 @@ module Client =
     choropleth.Text <- Union2Of2([|"a";"b";"c";"d";"e";"f";"g";"h";"i";"j"|])
     choropleth.Autocolorscale <- true
 
-    let choroplethmb = ChoroplethMBOptions()
+    (*let choroplethmb = ChoroplethMBOptions()
     choroplethmb.Locations <- [|"NY";"MA";"VT"|]
     choroplethmb.Z <- [|-50;-10;-20|]
     choroplethmb.Geojson <- "https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json"
-
+    *)
     let densitymb = DensityMBOptions()
     densitymb.Lon <- [|10;20;30|]
     densitymb.Lat <- [|15;25;35|]
@@ -446,6 +446,17 @@ module Client =
     streamtube.Sizeref <- 0.5
     streamtube.Cmin <- 0
     streamtube.Cmax <- 3
+
+    let streamTubeLayout = Layout()
+    streamTubeLayout.Scene <- LayoutScene(
+        Camera = LayoutSceneCamera(
+            Eye = LayoutCameraAxises(
+                X = -0.7243612458865182,
+                Y = 1.9269804254717962,
+                Z = 0.6704828299861716
+            )
+        )
+    )
 
     let surface = SurfaceOptions()
     surface.Z <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
@@ -641,9 +652,149 @@ module Client =
         Zoom = 5
     )
 
+    let scatter3DLayout = Layout()
+    scatter3DLayout.Margin <- LayoutMargin(
+        L = 0,
+        R = 0,
+        B = 0,
+        T = 0
+    )
+
+    let surfaceLayout = Layout()
+    surfaceLayout.Title <- LayoutTitle(Text = "Mt Bruno Elevation")
+    surfaceLayout.Autosize <- false
+    surfaceLayout.Width <- 500
+    surfaceLayout.Height <- 500
+    surfaceLayout.Margin <- LayoutMargin(
+        L = 65,
+        R = 50,
+        B = 65,
+        T = 90    
+    )
+
+    let ccarpetLayout = Layout()
+    ccarpetLayout.Title <- LayoutTitle(Text = "Cheater plot with 1d input")
+    ccarpetLayout.Margin <- LayoutMargin(
+        T = 40,
+        R = 30,
+        B = 30,
+        L = 30
+    )
+    ccarpetLayout.Yaxis <- LayoutYAxis(
+        Range = [|0.388;4.361|]
+    )
+    ccarpetLayout.Xaxis <- LayoutXAxis(
+        Range = [|0.667;5.932|]
+    )
+
+    let imageLayout = Layout()
+    imageLayout.Images <- [|
+        LayoutImage(
+            Source = "https://images.plot.ly/language-icons/api-home/r-logo.png",
+            Xref = "x",
+            Yref = "y",
+            X = 1,
+            Y = 3,
+            Sizex = 2,
+            Sizey = 2,
+            Sizing = "stretch",
+            Opacity = 0.4,
+            Layer = "below"
+
+        )
+    |]
+
+    let sternary = ScatterTernaryOptions()
+    sternary.Mode <- ScatterTernaryModes.Lines
+    sternary.Name <- "k"
+    sternary.A <- [||]
+    sternary.B <- [||]
+    sternary.C <- [||]
+    sternary.Line <- ScatterTernaryLine(
+        Color = "#c00"
+    )
+
+    let sternaryLayout = Layout()
+    sternaryLayout.Ternary <- LayoutTernary(
+        Sum = 100
+    )
+    sternaryLayout.Showlegend <- false
+    sternaryLayout.Width <- 700
+
+    let splom = SplomOptions()
+    splom.Dimensions <- SplomDimensions(
+        Label = "sepal length",
+        Values = [|34;52|]
+    )
+    splom.Text <- Union2Of2([|"fst"; "snd"|])
+    splom.Marker <- SplomMarker(
+        Color = [|"#c00";"#343434"|],
+        Size = 7,
+        Line = SplomMarkerLine(
+            Color = "white",
+            Width = 0.5
+        )
+    )
+
+    let splomLayout = Layout()
+    splomLayout.Title <- LayoutTitle(Text = "Iris Data set")
+    splomLayout.Height <- 400
+    splomLayout.Width <- 400
+    splomLayout.Autosize <- false
+    splomLayout.Hovermode <- LayoutHoverMode.Closest
+    splomLayout.Dragmode <- LayoutDragMode.Select
+    splomLayout.Plot_bgcolor <- "rgba(240,240,240, 0.95)"
+
+    let sunburst = SunBurstOptions()
+    sunburst.Labels <- [|
+        "Eve"; "Cain"; "Seth"; "Enos"; "Noam"; "Abel";
+        "Awan"; "Enoch"; "Azura"
+    |]
+    sunburst.Parents <- [|
+        ""; "Eve"; "Eve"; "Seth"; "Seth"; "Eve"; "Eve"; "Awan"; "Eve"
+    |]
+    sunburst.Values <- [|10;14;12;10;2;6;6;4;4|]
+    sunburst.Outsidetextfont <- SunBurstFont(
+        Size = 20,
+        Color = "#377eb8"
+    )
+    sunburst.Leaf <- SunBurstLeaf(
+        Opacity = 0.4
+    )
+    sunburst.Marker <- SunBurstMarker(
+        Line = SunBurstMarkerLine(
+            Width = 2
+        )
+    )
+
+    let sunBurstLayout = Layout()
+    sunBurstLayout.Margin <- LayoutMargin(
+        L = 0,
+        R = 0,
+        B = 0,
+        T = 0
+    )
+    sunBurstLayout.Width <- 500
+    sunBurstLayout.Height <- 500
+
+    let treemap = TreeMapOptions()
+    treemap.Labels <- [|"Eve"; "Cain"; "Seth"; "Enos";
+    "Noam"; "Abel"; "Awan"; "Enoch"; "Azura"|]
+    treemap.Parents <- [|
+        ""; "Eve"; "Eve"; "Seth"; "Seth"; "Eve"; "Eve"; "Awan"; "Eve"
+    |]
 
 
-    let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|], scatterGeoLayout, null)
+
+
+
+
+    let treeMapChart = Plotly.Plotly.NewPlot("treemapchartDiv", [|treemap|])
+    let sunBurstChart = Plotly.Plotly.NewPlot("sunburstchartDiv", [|sunburst|], sunBurstLayout)
+    let splomChart = Plotly.Plotly.NewPlot("splomchartDiv", [|splom|], splomLayout, null)
+    let scatter3DChart = Plotly.Plotly.NewPlot("scatter3dchartDiv", [|scatter3d|], scatter3DLayout, null)
+    let sternaryChart = Plotly.Plotly.NewPlot("sternarychartDiv", [|sternary|], sternaryLayout)
+    // needs a carpet -- let ccarpetChart = Plotly.Plotly.NewPlot("ccarpetchartDiv", [|ccarpet|],ccarpetLayout, null)
     let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|], densityMBLayout)
     let spolarglChart = Plotly.Plotly.NewPlot("spolarglchartDiv", [|spolargl1;spolargl2|])
     let spolarChart = Plotly.Plotly.NewPlot("spolarchartDiv", [|spolar|])
@@ -651,8 +802,7 @@ module Client =
     let sankeyChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|sankey|])
     let parcoordsChart = Plotly.Plotly.NewPlot("parcoordschartDiv", [|parcoords|])
     let parcatsChart = Plotly.Plotly.NewPlot("parcatschartDiv", [|parcats|])
-    let ccarpetChart = Plotly.Plotly.NewPlot("ccarpetchartDiv", [|ccarpet|])
-    let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|])
+    let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
     let meshChart = Plotly.Plotly.NewPlot("meshchartDiv", [|mesh|], null, option1)
     let isoSurfaceChart = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|], null, option1)
     let coneChart = Plotly.Plotly.NewPlot("conechartDiv", [|cone|])
@@ -665,7 +815,7 @@ module Client =
     let tableChart = Plotly.Plotly.NewPlot("tablechartDiv", [|table|])
     let heatMapGLChart = Plotly.Plotly.NewPlot("heatmapglchartDiv", [|heatmapgl|])
     let contourChart = Plotly.Plotly.NewPlot("contourchartDiv", [|contour|])
-    //let imageChart = Plotly.Plotly.NewPlot("imagechartDiv", [|imagetrace|])
+    //layout image obj -- let imageChart = Plotly.Plotly.NewPlot("imagechartDiv", [|scatterTrace|], imageLayout)
     let boxChart = Plotly.Plotly.NewPlot("boxchartDiv", [|box|])
     let hgChart = Plotly.Plotly.NewPlot("hgchartDiv", [|histogram|])
     let hg2dChart = Plotly.Plotly.NewPlot("hg2dchartDiv", [|histogram2d|])
@@ -678,9 +828,9 @@ module Client =
     let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|], null, option1)
     let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|], null, null)
     let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|], null, null)
-    let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], null, null)
-    let scatter3DChart = Plotly.Plotly.NewPlot("scatter3dchartDiv", [|scatter3d|], null, null)
-    let surfaceChart = Plotly.Plotly.NewPlot("surfacechartDiv", [|surface|])
+    // needs a token -- let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], null, null)
+    let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|], scatterGeoLayout, null)
+    let surfaceChart = Plotly.Plotly.NewPlot("surfacechartDiv", [|surface|], surfaceLayout)
     let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], scatterMBLayout)
 
 
@@ -733,8 +883,8 @@ module Client =
             div [attr.id "waterfallchartDiv"] []
             h2 [] [text "Choropleth chart"]
             div [attr.id "choroplethchartDiv"] []
-            h2 [] [text "ChoroplethMB chart"]
-            div [attr.id "choroplethmbchartDiv"] []
+            //h2 [] [text "ChoroplethMB chart"]
+            //div [attr.id "choroplethmbchartDiv"] []
             h2 [] [text "DensityMB chart"]
             div [attr.id "densitymbchartDiv"] []
             h2 [] [text "ScatterGeo chart"]
@@ -755,8 +905,8 @@ module Client =
             div [attr.id "streamtubechartDiv"] []
             h2 [] [text "Surface chart"]
             div [attr.id "surfacechartDiv"] []
-            h2 [] [text "ContourCarpet chart"]
-            div [attr.id "ccarpetchartDiv"] []
+            //h2 [] [text "ContourCarpet chart"]
+            //div [attr.id "ccarpetchartDiv"] []
             h2 [] [text "Parallel Categories chart"]
             div [attr.id "parcatschartDiv"] []
             h2 [] [text "Parallel Coordinates chart"]
@@ -769,6 +919,14 @@ module Client =
             div [attr.id "spolarchartDiv"] []
             h2 [] [text "ScatterPolarGL chart"]
             div [attr.id "spolarglchartDiv"] []
+            h2 [] [text "ScatterTernary chart"]
+            div [attr.id "sternarychartDiv"] []
+            h2 [] [text "Splom chart"]
+            div [attr.id "splomchartDiv"] []
+            h2 [] [text "SunBurst chart"]
+            div [attr.id "sunburstchartDiv"] []
+            h2 [] [text "TreeMap chart"]
+            div [attr.id "treemapchartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -792,7 +950,7 @@ module Client =
         ohlcChart |> ignore
         waterfallChart |> ignore
         choroplethChart |> ignore
-        choroplethMBChart |> ignore
+        //choroplethMBChart |> ignore
         densityMBChart |> ignore
         scatterGeoChart |> ignore
         scatterMBChart |> ignore
@@ -803,10 +961,14 @@ module Client =
         scatter3DChart |> ignore
         streamTubeChart |> ignore
         surfaceChart |> ignore
-        ccarpetChart |> ignore
+        //ccarpetChart |> ignore
         parcatsChart |> ignore
         parcoordsChart |> ignore
         sankeyChart |> ignore
         scarpetChart |> ignore
         spolarChart |> ignore
         spolarglChart |> ignore
+        sternaryChart |> ignore
+        splomChart |> ignore
+        sunBurstChart |> ignore
+        treeMapChart |> ignore

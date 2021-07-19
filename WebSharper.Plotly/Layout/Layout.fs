@@ -1275,6 +1275,25 @@ module LayoutModule =
             ]
         }
 
+    let LayoutImage =
+        Pattern.Config "LayoutImage" {
+            Required = []
+            Optional = [
+                "source", T<string>
+                "xref", T<string>
+                "yref", T<string>
+                "x", T<int>
+                "y", T<int>
+                "sizex", T<int>
+                "sizey", T<int>
+                "xanchor", T<string>
+                "yanchor", T<string>
+                "sizing", T<string>
+                "opacity", T<float>
+                "layer", T<string>
+            ]
+        }
+
     let LayoutSourceType =
         Pattern.EnumStrings "LayoutSourceType" [
             "geojson"
@@ -1833,7 +1852,7 @@ module LayoutModule =
                 "coloraxis", LayoutColorAxis.Type
                 "annotations", !| T<obj>
                 "shapes", !| T<obj>
-                "images", !| T<obj>
+                "images", !| LayoutImage.Type
                 "updatemenus", !| LayoutUpdateMenus.Type
                 "sliders", !| LayoutSliders.Type
             ]
@@ -1841,6 +1860,7 @@ module LayoutModule =
     
     let LayoutNameSpaces : CodeModel.NamespaceEntity list = [
         LayoutTitle
+        LayoutImage
         LayoutLegend
         LayoutMargin
         LayoutFontConfig

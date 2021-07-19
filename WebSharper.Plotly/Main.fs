@@ -33,13 +33,62 @@ module ConcatNamespaceEntities =
 
 module Definition =
 
+    let Types = [
+            ScatterModule.ScatterOptions.Type
+            ScatterGLModule.ScatterGLOptions.Type
+            PieModule.PieOptions.Type
+            BarModule.BarOptions.Type
+            HeatMapModule.HeatMapOptions.Type
+            HeatMapGLModule.HeatMapGLOptions.Type
+            ImageModule.ImageOptions.Type
+            TableModule.TableOptions.Type
+            ContourModule.ContourOptions.Type
+            BoxModule.BoxOptions.Type
+            HGModule.HGOptions.Type
+            HG2DModule.HG2DOptions.Type
+            HG2DContModule.HG2DContOptions.Type
+            ViolinModule.ViolinOptions.Type
+            CandleStickModule.CandleStickOptions.Type
+            FunnelModule.FunnelOptions.Type
+            FunnelAreaModule.FunnelAreaOptions.Type
+            IndicatorModule.IndicatorOptions.Type
+            OHLCModule.OHLCOptions.Type
+            WaterfallModule.WaterfallOptions.Type
+            ConeModule.ConeOptions.Type
+            ISOSurfaceModule.ISOSurfaceOptions.Type
+            MeshModule.MeshOptions.Type
+            Scatter3DModule.Scatter3DOptions.Type
+            StreamTubeModule.StreamTubeOptions.Type
+            SurfaceModule.SurfaceOptions.Type
+            VolumeModule.VolumeOptions.Type
+            ChoroplethModule.ChoroplethOptions.Type
+            ChoroplethMBModule.ChoroplethMBOptions.Type
+            DensityMBModule.DensityMBOptions.Type
+            ScatterGeoModule.ScatterGeoOptions.Type
+            ScatterMBModule.ScatterMBOptions.Type
+            BarPolarModule.BarPolarOptions.Type
+            CarpetModule.CarpetOptions.Type
+            ContourCarpetModule.ContourCarpetOptions.Type
+            IcicleModule.IcicleOptions.Type
+            ParCatsModule.ParCatsOptions.Type
+            ParCoordsModule.ParCoordsOptions.Type
+            SankeyModule.SankeyOptions.Type
+            ScatterCarpetModule.ScatterCarpetOptions.Type
+            ScatterPolarModule.ScatterPolarOptions.Type
+            ScatterPolarGLModule.ScatterPolarGLOptions.Type
+            ScatterTernaryModule.ScatterTernaryOptions.Type
+            SplomModule.SplomOptions.Type
+            SunBurstModule.SunBurstOptions.Type
+            TreeMapModule.TreeMapOptions.Type
+        ]
+
     let Data =
         !| ScatterModule.ScatterOptions.Type +
         !| ScatterGLModule.ScatterGLOptions.Type +
         !| PieModule.PieOptions.Type +
         !| BarModule.BarOptions.Type +
         !| HeatMapModule.HeatMapOptions.Type +
-        !| HeatMapGLModule.HeatMapGLOptions +
+        !| HeatMapGLModule.HeatMapGLOptions.Type +
         !| ImageModule.ImageOptions +
         !| TableModule.TableOptions +
         !| ContourModule.ContourOptions +
@@ -81,38 +130,65 @@ module Definition =
         !| SunBurstModule.SunBurstOptions +
         !| TreeMapModule.TreeMapOptions
 
+    let WithTypes values f =
+        List.map f values
+        |> List.reduce (fun l r -> l + r)
+
     let Layout = LayoutModule.Layout
 
     let Options = OptionsModule.Options
 
+    let PlotObject =
+        Generic - fun t1 ->
+            Class "PlotObject"
+            |+> Pattern.RequiredFields [
+                "data", Data
+                "layout", Layout.[t1]
+            ]
+
+    let Frames =
+        Class "Frames"
+        |+> Pattern.RequiredFields [
+            "name", T<string>
+            "data", Data
+        ]
+
     let Plotly =
         Class "Plotly"
         |+> Static [
-            "newPlot" => (T<string> + T<HTMLElement>) * Data * !?Layout * !? Options ^-> T<HTMLElement> //TODO
-            "react" => T<unit> //TODO
-            "restyle" => T<unit> //TODO
-            "relayout" => T<unit> //TODO
-            "update" => T<unit> //TODO
-            "validate" => T<unit> //TODO
-            "makeTeamplate" => T<unit> //TODO
-            "validateTeamplate" => T<unit> //TODO
-            "addTraces" => T<unit> //TODO
-            "deleteTraces" => T<unit> //TODO
-            "moveTraces" => T<unit> //TODO
-            "extendTraces" => T<unit> //TODO
-            "prependTraces" => T<unit> //TODO
-            "addFrames" => T<unit> //TODO
-            "animate" => T<unit> //TODO
-            "purge" => T<unit> //TODO
-            "toImage" => T<unit> //TODO
-            "downloadImage" => T<unit> //TODO
+            "newPlot" => WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !| Common.CommonModule.Trace * !?Layout.[t] * !? Options ^-> T<HTMLElement>)
+            // WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !|t * !?Layout.[t] * !? Options ^-> T<HTMLElement>)
+            "react" =>
+                WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !|t * !?Layout.[t] * !? Options ^-> T<HTMLElement>)
+            "restyle" => (T<string> + T<HTMLElement>) * T<obj> * !? (!| T<int>) ^-> T<HTMLElement> // TODO: update
+            "relayout" => (T<string> + T<HTMLElement>) * T<obj> ^-> T<HTMLElement> // TODO: update
+            "update" => (T<string> + T<HTMLElement>) * T<obj> * T<obj> * !? (!| T<int>) ^-> T<HTMLElement> // TODO: both objects
+            "validate" =>
+                WithTypes Types (fun t -> !|t * Layout.[t] ^-> T<HTMLElement>)
+            "makeTeamplate" =>
+                WithTypes Types (fun t -> PlotObject.[t] + T<HTMLElement> ^-> T<HTMLElement>)
+            "validateTeamplate" =>
+                WithTypes Types (fun t -> (PlotObject.[t] + T<HTMLElement>) * T<obj> ^-> T<HTMLElement>)
+            "addTraces" => (T<string> + T<HTMLElement>) * Data ^-> T<HTMLElement>
+            "deleteTraces" => (T<string> + T<HTMLElement>) * (T<int> + !| T<int>) ^-> T<HTMLElement>
+            "moveTraces" => (T<string> + T<HTMLElement>) * (T<int> + !| T<int>) * !? (T<int> + !| T<int>) ^-> T<HTMLElement>
+            "extendTraces" => (T<string> + T<HTMLElement>) * Data * !| T<int> * !? T<int> ^-> T<HTMLElement>
+            "prependTraces" => (T<string> + T<HTMLElement>) * Data * !| T<int> * !? T<int> ^-> T<HTMLElement>
+            "addFrames" => (T<string> + T<HTMLElement>) * Frames ^-> T<HTMLElement>
+            "animate" => (T<string> + T<HTMLElement>) * Frames ^-> T<HTMLElement> // Super TODO
+            "purge" => (T<string> + T<HTMLElement>) ^-> T<HTMLElement>
+            "toImage" => (T<string> + T<HTMLElement>) * T<obj> ^-> T<HTMLElement> // TODO
+            "downloadImage" => (T<string> + T<HTMLElement>) * T<obj> ^-> T<HTMLElement> // TODO
         ]
 
     let Assembly =
         Assembly [
             Namespace "WebSharper.Plotly.Resources" [
-                Resource "PlotlyJsCDN" "https://cdn.plot.ly/plotly-2.2.0.min.js"
-                |> AssemblyWide
+                yield 
+                    Resource "PlotlyJsCDN" "https://cdn.plot.ly/plotly-2.2.0.min.js"
+                    |> AssemblyWide
+                yield!
+                    OptionsModule.Resources
             ]
             Namespace "WebSharper.Plotly" (ConcatNamespaceEntities.concatNamespaceEntities [
                 ScatterModule.ScatterTraceNamespaces
@@ -163,7 +239,12 @@ module Definition =
                 TreeMapModule.TreeMapTraceNamespaces
                 LayoutModule.LayoutNameSpaces
                 OptionsModule.OptionsNamespaces
-                [Plotly]
+                [
+                    Common.CommonModule.Trace
+                    PlotObject
+                    Frames
+                    Plotly
+                ]
             ])
         ]
 

@@ -23,6 +23,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
+open WebSharper.Plotly.Extension.Common
 
 module ContourCarpetModule =
 
@@ -282,6 +283,7 @@ module ContourCarpetModule =
 
     let ContourCarpetOptions =
         Class "ContourCarpetOptions"
+        |=> Implements [CommonModule.Trace]
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'contourcarpet'}"

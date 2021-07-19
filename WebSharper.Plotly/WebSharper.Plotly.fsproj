@@ -4,6 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Permutation.fs" />
+    <Compile Include="Common.fs" />
     <Compile Include="Options/Options.fs" />
     <Compile Include="Layout/Layout.fs" />
     <Compile Include="Traces/Simple/Contour.fs" />

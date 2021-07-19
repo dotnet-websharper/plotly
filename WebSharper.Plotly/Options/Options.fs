@@ -103,6 +103,43 @@ module OptionsModule =
             ]
         }
 
+    let LocalInterface =
+        Class "ILocale"
+
+    let Locale =
+        Class "Locale"
+
+    let mutable Resources : CodeModel.NamespaceEntity list = []
+
+    let LocaleSetup (s: string) = 
+        let r =
+            Resource (s.ToUpperInvariant() + "CDN") (sprintf "https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.2.1/plotly-locale-%s.min.js" s)
+        let cl =
+            Class (s.ToUpperInvariant())
+            |> Requires [r]
+            |=> Inherits LocalInterface
+            |+> Static [
+                "localeString" =? T<string>
+                |> WithGetterInline (sprintf "'%s'" s)
+            ]
+
+        Resources <- List.append Resources [r]
+
+        Locale
+        |+> Static [
+            (s.ToUpperInvariant()) =? cl
+            |> WithGetterInline (sprintf "'%s'" s)
+        ]
+        |> ignore
+        
+        cl
+
+    let AM =
+        LocaleSetup "am"
+
+    let FR =
+        LocaleSetup "fr"
+
     let Options =
         Pattern.Config "Options" {
             Required = []
@@ -118,7 +155,7 @@ module OptionsModule =
                 "plotlyServerURL", T<string> // investigate
                 "linkText", T<string>
                 "showEditInChartStudio", T<bool>
-                "locale", T<string>
+                "locale", LocalInterface.Type
                 "displayLogo", T<bool>
                 "responsive", T<bool>
                 "doubleClickDelay", T<int>
@@ -132,4 +169,8 @@ module OptionsModule =
         ModeBarButtonTypes
         ModeBarButtonsToAdd
         Options
+        Locale
+        LocalInterface
+        AM
+        FR
     ]

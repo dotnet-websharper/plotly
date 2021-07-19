@@ -337,11 +337,23 @@ module Client =
     choropleth.Text <- Union2Of2([|"a";"b";"c";"d";"e";"f";"g";"h";"i";"j"|])
     choropleth.Autocolorscale <- true
 
-    (*let choroplethmb = ChoroplethMBOptions()
+    let choroplethmb = ChoroplethMBOptions()
     choroplethmb.Locations <- [|"NY";"MA";"VT"|]
     choroplethmb.Z <- [|-50;-10;-20|]
     choroplethmb.Geojson <- "https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json"
-    *)
+    
+    let choropletMBLayout = Layout()
+    choropletMBLayout.Title <- LayoutTitle(Text = "Acces token required")
+    choropletMBLayout.Mapbox <- LayoutMapbox(
+        Center = LayoutCenter(
+            Lon = -74,
+            Lat = 43
+        ),
+        Zoom = 3.5,
+        Style = "stamen-toner"
+    )
+
+
     let densitymb = DensityMBOptions()
     densitymb.Lon <- [|10;20;30|]
     densitymb.Lat <- [|15;25;35|]
@@ -640,6 +652,7 @@ module Client =
     )
 
     let scatterMBLayout = Layout()
+    scatterMBLayout.Title <- LayoutTitle(Text = "Acces token required")
     scatterMBLayout.Autosize <- true
     scatterMBLayout.Hovermode <- LayoutHoverMode.Closest
     scatterMBLayout.Mapbox <- LayoutMapbox(
@@ -827,10 +840,10 @@ module Client =
     let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|], null, option1)
     let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|], null, null)
     let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|], null, null)
-    // needs a token -- let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], null, null)
+    let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], null, null)
     let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|], scatterGeoLayout, null)
     let surfaceChart = Plotly.Plotly.NewPlot("surfacechartDiv", [|surface|], surfaceLayout)
-    //let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], scatterMBLayout)
+    let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], scatterMBLayout)
 
 
     //Console.Log(Tests)
@@ -882,14 +895,14 @@ module Client =
             div [attr.id "waterfallchartDiv"] []
             h2 [] [text "Choropleth chart"]
             div [attr.id "choroplethchartDiv"] []
-            //h2 [] [text "ChoroplethMB chart"]
-            //div [attr.id "choroplethmbchartDiv"] []
+            h2 [] [text "ChoroplethMB chart"]
+            div [attr.id "choroplethmbchartDiv"] []
             h2 [] [text "DensityMB chart"]
             div [attr.id "densitymbchartDiv"] []
             h2 [] [text "ScatterGeo chart"]
             div [attr.id "scattergeochartDiv"] []
-            //h2 [] [text "ScatterMB chart"]
-            //div [attr.id "scattermbchartDiv"] []
+            h2 [] [text "ScatterMB chart"]
+            div [attr.id "scattermbchartDiv"] []
             h2 [] [text "Cone chart"]
             div [attr.id "conechartDiv"] []
             h2 [] [text "Carpet chart"]
@@ -949,10 +962,10 @@ module Client =
         ohlcChart |> ignore
         waterfallChart |> ignore
         choroplethChart |> ignore
-        //choroplethMBChart |> ignore
+        choroplethMBChart |> ignore
         densityMBChart |> ignore
         scatterGeoChart |> ignore
-        //scatterMBChart |> ignore
+        scatterMBChart |> ignore
         coneChart |> ignore
         carpetChart |> ignore
         isoSurfaceChart |> ignore

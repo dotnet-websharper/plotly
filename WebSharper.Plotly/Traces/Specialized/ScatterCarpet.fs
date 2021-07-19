@@ -24,7 +24,6 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
-open WebSharper.Plotly.Extension.Common
 
 module ScatterCarpetModule =
 
@@ -702,7 +701,6 @@ module ScatterCarpetModule =
 
     let ScatterCarpetOptions =
         Class "ScatterCarpetOptions"
-        |=> Implements [CommonModule.Trace]
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scattercarpet'}"

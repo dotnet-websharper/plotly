@@ -25,6 +25,7 @@ open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
 
+
 module ConeModule =
 
     let ConeNullValue = Pattern.EnumInlines "ConeNullValue" ["null", "null"]

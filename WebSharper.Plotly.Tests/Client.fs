@@ -785,7 +785,7 @@ module Client =
 
 
 
-    let scarpetChart = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scattercarpet|])
+    let scarpetChart = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scattercarpet :> Trace|])
     let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
     let treeMapChart = Plotly.Plotly.NewPlot("treemapchartDiv", [|treemap|])
     let sunBurstChart = Plotly.Plotly.NewPlot("sunburstchartDiv", [|sunburst|], sunBurstLayout)

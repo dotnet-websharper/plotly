@@ -340,11 +340,23 @@ module Client =
     choropleth.Text <- Union2Of2([|"a";"b";"c";"d";"e";"f";"g";"h";"i";"j"|])
     choropleth.Autocolorscale <- true
 
-    (*let choroplethmb = ChoroplethMBOptions()
+    let choroplethmb = ChoroplethMBOptions()
     choroplethmb.Locations <- [|"NY";"MA";"VT"|]
     choroplethmb.Z <- [|-50;-10;-20|]
     choroplethmb.Geojson <- "https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json"
-    *)
+    
+    let choropletMBLayout = Layout()
+    choropletMBLayout.Title <- LayoutTitle(Text = "Acces token required")
+    choropletMBLayout.Mapbox <- LayoutMapbox(
+        Center = LayoutCenter(
+            Lon = -74,
+            Lat = 43
+        ),
+        Zoom = 3.5,
+        Style = "stamen-toner"
+    )
+
+
     let densitymb = DensityMBOptions()
     densitymb.Lon <- [|10;20;30|]
     densitymb.Lat <- [|15;25;35|]
@@ -440,12 +452,12 @@ module Client =
     )
 
     let streamtube = StreamTubeOptions()
-    streamtube.X <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
-    streamtube.Y <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
-    streamtube.Z <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
-    streamtube.U <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
-    streamtube.V <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
-    streamtube.W <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
+    streamtube.X <- [|1;1;1;1;1;1;1;1;1;1|]
+    streamtube.Y <- [|1;1;1;1;1;0;0;0;-1;-1|]
+    streamtube.Z <- [|0;0;0;0;0;0;0;0;0;0|]
+    streamtube.U <- [|0;0;0;0;0;0;1;1;1;2|]
+    streamtube.V <- [|0;0;0;1;1;1;1;2;2;2|]
+    streamtube.W <- [|0;1;2;0;1;2;0;1;2;0|]
     streamtube.Sizeref <- 0.5
     streamtube.Cmin <- 0
     streamtube.Cmax <- 3
@@ -462,7 +474,7 @@ module Client =
     )
 
     let surface = SurfaceOptions()
-    surface.Z <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
+    surface.Z <- [|[|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|];[|65;34;654;345;235;34;42;345;34;52;54;436;665;34;23|]|]
 
     //VOLUME
 
@@ -643,6 +655,7 @@ module Client =
     )
 
     let scatterMBLayout = Layout()
+    scatterMBLayout.Title <- LayoutTitle(Text = "Acces token required")
     scatterMBLayout.Autosize <- true
     scatterMBLayout.Hovermode <- LayoutHoverMode.Closest
     scatterMBLayout.Mapbox <- LayoutMapbox(
@@ -774,7 +787,7 @@ module Client =
 
 
 
-
+    let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
     let treeMapChart = Plotly.Plotly.NewPlot("treemapchartDiv", [|treemap|])
     let sunBurstChart = Plotly.Plotly.NewPlot("sunburstchartDiv", [|sunburst|], sunBurstLayout)
     let splomChart = Plotly.Plotly.NewPlot("splomchartDiv", [|splom|], splomLayout, null)
@@ -784,11 +797,10 @@ module Client =
     let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|], densityMBLayout)
     let spolarglChart = Plotly.Plotly.NewPlot("spolarglchartDiv", [|spolargl1;spolargl2|])
     let spolarChart = Plotly.Plotly.NewPlot("spolarchartDiv", [|spolar|])
-    let scarpetChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|scattercarpet|])
+    //let scarpetChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|scattercarpet|])
     let sankeyChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|sankey|])
     let parcoordsChart = Plotly.Plotly.NewPlot("parcoordschartDiv", [|parcoords|])
     let parcatsChart = Plotly.Plotly.NewPlot("parcatschartDiv", [|parcats|])
-    let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
     let meshChart = Plotly.Plotly.NewPlot("meshchartDiv", [|mesh|], null, option1)
     let isoSurfaceChart = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|], null, option1)
     let coneChart = Plotly.Plotly.NewPlot("conechartDiv", [|cone|])
@@ -814,7 +826,7 @@ module Client =
     let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|], null, option1)
     let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|], null, null)
     let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|], null, null)
-    // needs a token -- let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], null, null)
+    let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], null, null)
     let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|], scatterGeoLayout, null)
     let surfaceChart = Plotly.Plotly.NewPlot("surfacechartDiv", [|surface|], surfaceLayout)
     let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], scatterMBLayout)
@@ -869,8 +881,8 @@ module Client =
             div [attr.id "waterfallchartDiv"] []
             h2 [] [text "Choropleth chart"]
             div [attr.id "choroplethchartDiv"] []
-            //h2 [] [text "ChoroplethMB chart"]
-            //div [attr.id "choroplethmbchartDiv"] []
+            h2 [] [text "ChoroplethMB chart"]
+            div [attr.id "choroplethmbchartDiv"] []
             h2 [] [text "DensityMB chart"]
             div [attr.id "densitymbchartDiv"] []
             h2 [] [text "ScatterGeo chart"]
@@ -899,8 +911,8 @@ module Client =
             div [attr.id "parcoordschartDiv"] []
             h2 [] [text "Sankey chart"]
             div [attr.id "sankeychartDiv"] []
-            h2 [] [text "ScatterCarpet chart"]
-            div [attr.id "scarpetchartDiv"] []
+            //h2 [] [text "ScatterCarpet chart"]
+            //div [attr.id "scarpetchartDiv"] []
             h2 [] [text "ScatterPolar chart"]
             div [attr.id "spolarchartDiv"] []
             h2 [] [text "ScatterPolarGL chart"]
@@ -936,7 +948,7 @@ module Client =
         ohlcChart |> ignore
         waterfallChart |> ignore
         choroplethChart |> ignore
-        //choroplethMBChart |> ignore
+        choroplethMBChart |> ignore
         densityMBChart |> ignore
         scatterGeoChart |> ignore
         scatterMBChart |> ignore
@@ -951,7 +963,7 @@ module Client =
         parcatsChart |> ignore
         parcoordsChart |> ignore
         sankeyChart |> ignore
-        scarpetChart |> ignore
+        //scarpetChart |> ignore
         spolarChart |> ignore
         spolarglChart |> ignore
         sternaryChart |> ignore

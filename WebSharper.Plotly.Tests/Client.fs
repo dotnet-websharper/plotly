@@ -345,15 +345,14 @@ module Client =
     choroplethmb.Z <- [|-50;-10;-20|]
     choroplethmb.Geojson <- "https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json"
     
-    let choropletMBLayout = Layout()
-    choropletMBLayout.Title <- LayoutTitle(Text = "Acces token required")
-    choropletMBLayout.Mapbox <- LayoutMapbox(
+    let choroplethMBLayout = Layout()
+    choroplethMBLayout.Mapbox <- LayoutMapbox(
+        Style = "stamen-watercolor",
         Center = LayoutCenter(
             Lon = -74,
             Lat = 43
         ),
-        Zoom = 3.5,
-        Style = "stamen-toner"
+        Zoom = 3.5
     )
 
 
@@ -655,10 +654,10 @@ module Client =
     )
 
     let scatterMBLayout = Layout()
-    scatterMBLayout.Title <- LayoutTitle(Text = "Acces token required")
     scatterMBLayout.Autosize <- true
     scatterMBLayout.Hovermode <- LayoutHoverMode.Closest
     scatterMBLayout.Mapbox <- LayoutMapbox(
+        Style = "stamen-terrain",
         Bearing = 0,
         Center = LayoutCenter(
             Lat = 45,
@@ -826,10 +825,11 @@ module Client =
     let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|], null, option1)
     let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|], null, null)
     let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|], null, null)
-    let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], null, null)
     let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|], scatterGeoLayout, null)
     let surfaceChart = Plotly.Plotly.NewPlot("surfacechartDiv", [|surface|], surfaceLayout)
     let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], scatterMBLayout)
+    let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], choroplethMBLayout, null)
+
 
 
     //Console.Log(Tests)

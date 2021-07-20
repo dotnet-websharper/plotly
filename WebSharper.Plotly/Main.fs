@@ -155,7 +155,7 @@ module Definition =
     let Plotly =
         Class "Plotly"
         |+> Static [
-            "newPlot" => WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !| t * !? Layout * !? Options ^-> T<HTMLElement>)
+            "newPlot" => (T<string> + T<HTMLElement>) * Data * !? Layout * !? Options ^-> T<HTMLElement>
             // WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !|t * !?Layout * !? Options ^-> T<HTMLElement>)
             "react" =>
                 WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !|t * !?Layout * !? Options ^-> T<HTMLElement>)

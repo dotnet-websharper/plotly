@@ -588,8 +588,8 @@ module Client =
         Minorgridcount = 9
     )*)
     let scattercarpet = ScatterCarpetOptions()
-    scattercarpet.A <- Seq.map ((*)1e-6) [|4.0;4.5;5.0;6.0|]
-    scattercarpet.B <- Seq.map ((*)1e6) [|1.5;2.5;1.5;2.5|]
+    scattercarpet.A <- Array.map ((*)1e-6) [|4.0;4.5;5.0;6.0|]
+    scattercarpet.B <- Array.map ((*)1e6) [|1.5;2.5;1.5;2.5|]
     scattercarpet.Line <- ScatterCarpetLine(
         Shape = ScatterCarpetShape.Spline,
         Smoothing = 1
@@ -783,8 +783,41 @@ module Client =
         ""; "Eve"; "Eve"; "Seth"; "Seth"; "Eve"; "Eve"; "Awan"; "Eve"
     |]
 
+    let icicle = IcicleOptions()
+    icicle.Labels <- [|
+        "Eve"; "Cain"; "Seth"; "Enos"; "Noam"; "Abel";
+        "Awan"; "Enoch"; "Azura"
+    |]
+    icicle.Parents <- [|
+        ""; "Eve"; "Eve"; "Seth"; "Seth"; "Eve"; "Eve"; "Awan"; "Eve"
+    |]
+    icicle.Values <- [|10;14;12;10;2;6;6;4;4|]
+    icicle.Outsidetextfont <- IcicleFont(
+        Size = 20,
+        Color = "#377eb8"
+    )
+    icicle.Leaf <- IcicleLeaf(
+        Opacity = 0.4
+    )
+    icicle.Marker <- IcicleMarker(
+        Line = IcicleMarkerLine(
+            Width = 2
+        )
+    )
+    icicle.Root <- IcicleRoot(
+        Color = "lightgrey"
+    )
+
+    let icicleLayout = Layout()
+    icicleLayout.Margin <- LayoutMargin(
+        L = 25,
+        R = 25,
+        B = 25,
+        T = 50
+    )
 
 
+    let icicleChart = Plotly.Plotly.NewPlot("iciclechartDiv", [|icicle|], icicleLayout)
     let scarpetChart = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scattercarpet|])
     let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
     let treeMapChart = Plotly.Plotly.NewPlot("treemapchartDiv", [|treemap|])
@@ -924,6 +957,8 @@ module Client =
             div [attr.id "sunburstchartDiv"] []
             h2 [] [text "TreeMap chart"]
             div [attr.id "treemapchartDiv"] []
+            h2 [] [text "Icicle chart"]
+            div [attr.id "iciclechartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -969,3 +1004,4 @@ module Client =
         splomChart |> ignore
         sunBurstChart |> ignore
         treeMapChart |> ignore
+        icicleChart |> ignore

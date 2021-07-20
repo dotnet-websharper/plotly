@@ -26,6 +26,7 @@ open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.Traces
 open WebSharper.Plotly.Extension.Layout
 open WebSharper.Plotly.Extension.Options
+open WebSharper.Plotly.Extension.Common
 
 module ConcatNamespaceEntities =
     let concatNamespaceEntities (namespaceEntities: CodeModel.NamespaceEntity list list) =
@@ -81,6 +82,9 @@ module Definition =
             SunBurstModule.SunBurstOptions.Type
             TreeMapModule.TreeMapOptions.Type
         ]
+
+    // let ToTraceArray (arr: CodeModel.Class array) =
+    //     Array.map (fun x -> x :> T<CommonModule.Trace>) arr
 
     let Data =
         !| ScatterModule.ScatterOptions.Type +
@@ -155,8 +159,8 @@ module Definition =
     let Plotly =
         Class "Plotly"
         |+> Static [
-            "newPlot" => (T<string> + T<HTMLElement>) * Data * !? Layout * !? Options ^-> T<HTMLElement>
-            // WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !|t * !?Layout * !? Options ^-> T<HTMLElement>)
+            "newPlot" => WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !| t * !? Layout * !? Options ^-> T<HTMLElement>)
+            "newPlot" => (T<string> + T<HTMLElement>) * !| CommonModule.Trace * !? Layout * !? Options ^-> T<HTMLElement>
             "react" =>
                 WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !|t * !?Layout * !? Options ^-> T<HTMLElement>)
             "restyle" => (T<string> + T<HTMLElement>) * T<obj> * !? (!| T<int>) ^-> T<HTMLElement> // TODO: update

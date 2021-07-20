@@ -24,6 +24,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
+open WebSharper.Plotly.Extension.Common
 
 module Scatter3DModule =
 
@@ -448,6 +449,7 @@ module Scatter3DModule =
 
     let Scatter3DOptions =
         Class "Scatter3DOptions"
+        |=> Inherits CommonModule.Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scatter3d'}"

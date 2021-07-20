@@ -6,4 +6,4 @@ open WebSharper.InterfaceGenerator
 module CommonModule =
 
     let Trace =
-        Interface "Trace"
+        Class "Trace"

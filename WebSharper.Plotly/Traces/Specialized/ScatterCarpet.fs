@@ -19,6 +19,7 @@ namespace WebSharper.Plotly.Extension.Traces
 // permissions and limitations under the License.
 //
 // $end{copyright}
+open WebSharper.Plotly.Extension.Common
 
 open WebSharper
 open WebSharper.JavaScript
@@ -701,6 +702,7 @@ module ScatterCarpetModule =
 
     let ScatterCarpetOptions =
         Class "ScatterCarpetOptions"
+        |=> Inherits CommonModule.Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scattercarpet'}"

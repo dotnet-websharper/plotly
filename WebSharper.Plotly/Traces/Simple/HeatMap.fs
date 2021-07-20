@@ -24,6 +24,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
+open WebSharper.Plotly.Extension.Common
 
 module HeatMapModule =
 
@@ -271,6 +272,7 @@ module HeatMapModule =
 
     let HeatMapOptions = 
         Class "HeatMapOptions"
+        |=> Inherits CommonModule.Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'heatmap'}"

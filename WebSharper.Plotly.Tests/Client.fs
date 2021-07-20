@@ -433,8 +433,8 @@ module Client =
     mesh.Opacity <- 0.8
     mesh.Color <- "rgb(300,100,200)"
 
-    //let option1 = WebSharper.Plotly.Options()
-    //option1.Locale <- "fr"
+    let option1 = WebSharper.Plotly.Options()
+    option1.Locale <- Locale.FR
 
     let scatter3d = Scatter3DOptions()
     scatter3d.X <- [|234;234;23;235;45;23;23;5;24;234;4;334;234;43;234;543;134;645;345;234;64|]
@@ -475,26 +475,41 @@ module Client =
     let surface = SurfaceOptions()
     surface.Z <- [|[|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|];[|65;34;654;345;235;34;42;345;34;52;54;436;665;34;23|]|]
 
-    //VOLUME
-
-    let ccarpet = ContourCarpetOptions()
-    ccarpet.A <- [|0; 1; 2; 3; 0; 1; 2; 3; 0; 1; 2; 3|]
-    ccarpet.B <- [|4; 4; 4; 4; 5; 5; 5; 5; 6; 6; 6; 6|]
-    ccarpet.Z <- [|
-        1.0; 1.96; 2.56; 3.0625; 4.0; 5.0625;
-        1.0; 7.5625; 9.0; 12.25; 15.21; 14.0625
+    let ccarpet = CarpetOptions()
+    ccarpet.A <- [|0;1;2;3;0;1;2;3;0;1;2;3|]
+    ccarpet.B <- [|4;4;4;4;5;5;5;5;6;6;6;6|]
+    ccarpet.X <- [|2.0;3.0;4.0;5.0;2.2;3.1;4.1;5.1;1.5;2.5;3.5;4.5|]
+    ccarpet.Y <- [|1.0;1.4;1.6;1.75;2.0;2.5;2.7;2.75;3.0;3.5;3.7;3.75|]
+    ccarpet.Aaxis <- CarpetAxis(
+        Tickprefix = "a = ",
+        Smoothing = 0,
+        Minorgridcount = 9,
+        Type = CarpetAxisType.Linear
+    )
+    ccarpet.Baxis <- CarpetAxis(
+        Tickprefix = "b = ",
+        Smoothing = 0,
+        Minorgridcount = 9,
+        Type = CarpetAxisType.Linear
+    )
+    let contourcarpet = ContourCarpetOptions()
+    contourcarpet.A <- [|0;1;2;3;0;1;2;3;0;1;2;3|]
+    contourcarpet.B <- [|4;4;4;4;5;5;5;5;6;6;6;6|]
+    contourcarpet.Z <- [|
+        1.0; 1.96; 2.56; 3.0625; 4.0; 5.0625; 1.0;
+        7.5625; 9.0; 12.25; 15.21; 14.0625
     |]
-    ccarpet.Autocontour <- false
-    ccarpet.Contours <- ContourCarpetContours(
+    contourcarpet.Autocontour <- false
+    contourcarpet.Contours <- ContourCarpetContours(
         Start = 1,
         End = 14,
         Size = 1
     )
-    ccarpet.Line <- ContourCarpetLine(
-        Width = 0.4,
+    contourcarpet.Line <- ContourCarpetLine(
+        Width = 2,
         Smoothing = 0
     )
-    ccarpet.Colorbar <- ContourCarpetColorBar(
+    contourcarpet.Colorbar <- ContourCarpetColorBar(
         Len = 0.4,
         Y = 0.25
     )
@@ -567,10 +582,10 @@ module Client =
         Value = [|8;4;2;8;4;2|]
     )
 
-    (*let scarpet = CarpetOptions()
-    scarpet.A <- Seq.map (( * )1e-6)
+    let scarpet = CarpetOptions()
+    scarpet.A <- Array.map ((*)1e-6)
         [|4.0;4.0;4.0;4.5;4.5;4.5;5.0;5.0;5.0;6.0;6.0;6.0|]
-    scarpet.B <- Seq.map (( * )1e6)
+    scarpet.B <- Array.map ((*)1e6)
         [|1.0;2.0;3.0;1.0;2.0;3.0;1.0;2.0;3.0;1.0;2.0;3.0|]
     scarpet.Y <- [|2.0;3.5;4.0;3.0;4.5;5.0;5.5;6.5;7.5;8.0;8.5;10.0|]
     scarpet.Aaxis <- CarpetAxis(
@@ -584,7 +599,7 @@ module Client =
         Ticksuffix = "Pa",
         Smoothing = 1,
         Minorgridcount = 9
-    )*)
+    )
     let scattercarpet = ScatterCarpetOptions()
     scattercarpet.A <- Array.map ((*)1e-6) [|4.0;4.5;5.0;6.0|]
     scattercarpet.B <- Array.map ((*)1e6) [|1.5;2.5;1.5;2.5|]
@@ -721,11 +736,16 @@ module Client =
     let splom = SplomOptions()
     splom.Dimensions <- SplomDimensions(
         Label = "sepal length",
-        Values = [|34;52|]
+        Values = [|5.1;4.9;4.7;4.6;5.0;5.4;4.6;5.0;4.4;4.9|]
     )
-    splom.Text <- Union2Of2([|"fst"; "snd"|])
+    splom.Text <- Union2Of2([|
+        "Iris-setosa"; "Iris-setosa"; "Iris-setosa";
+        "Iris-setosa"; "Iris-setosa"; "Iris-setosa";
+        "Iris-setosa"; "Iris-setosa"; "Iris-setosa"; "Iris-setosa"
+    |])
     splom.Marker <- SplomMarker(
-        Color = [|"#c00";"#343434"|],
+        Color = [|"#c00";"#343434";"#343434";"#343434";"#343434";
+            "#343434";"#343434";"#343434";"#343434";"#343434"|],
         Size = 7,
         Line = SplomMarkerLine(
             Color = "white",
@@ -835,44 +855,23 @@ module Client =
         "South";"S-W";"West";"N-W"
        |]
 
-    let barPolarLayout = Layout()
-    barPolarLayout.Title <- LayoutTitle(Text = "Wind Speed Distribution in Laurel, NE")
-    barPolarLayout.Font <- LayoutFontConfig(Size = 16)
-    barPolarLayout.Legend <- LayoutLegend(Font = LayoutFontConfig(Size = 16))
-    barPolarLayout.Polar <- LayoutPolar(
-        Radialaxis = LayoutPolarRadialAxis(
-            Ticksuffix = "%"
-        ),
-        Angularaxis = LayoutPolarAngularAxis(
-            Rotation = 90
-        )
-    )
-
-    let volume = VolumeOptions()
-    let array2 = [|10.0;20.0;30.0;40.0;50.0;60.0;70.0;80.0|]
-    volume.X <- array2
-    volume.Y <- array2
-    volume.Z <- array2
-    volume.Value <- array2
-    volume.Isomin <- -10
-    volume.Isomax <- 100
-    volume.Opacity <- 0.1
-    volume.Surface <- VolumeSurface(Count = 17)
+    let option2 = Options()
+    option2.Locale <- Locale.RU
 
 
-    let volumeChart = Plotly.Plotly.NewPlot("volumechartDiv", [|volume|])
-    let barpolarChart = Plotly.Plotly.NewPlot("barpolarchartDiv", [|barpolar1|], barPolarLayout)
+
+    
     let icicleChart = Plotly.Plotly.NewPlot("iciclechartDiv", [|icicle|], icicleLayout)
-    let scarpetChart = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scattercarpet|])
+    let scarpetChart = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scarpet :> Trace;scattercarpet :> Trace|])
     let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
     let treeMapChart = Plotly.Plotly.NewPlot("treemapchartDiv", [|treemap|])
     let sunBurstChart = Plotly.Plotly.NewPlot("sunburstchartDiv", [|sunburst|], sunBurstLayout)
     let splomChart = Plotly.Plotly.NewPlot("splomchartDiv", [|splom|], splomLayout, null)
     let scatter3DChart = Plotly.Plotly.NewPlot("scatter3dchartDiv", [|scatter3d|], scatter3DLayout, null)
     let sternaryChart = Plotly.Plotly.NewPlot("sternarychartDiv", [|sternary|], sternaryLayout)
-    let ccarpetChart = Plotly.Plotly.NewPlot("ccarpetchartDiv", [|ccarpet|],ccarpetLayout, null)
+    let ccarpetChart = Plotly.Plotly.NewPlot("ccarpetchartDiv", [|ccarpet :> Trace; contourcarpet :> Trace|],ccarpetLayout, null)
     let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|], densityMBLayout)
-    let spolarglChart = Plotly.Plotly.NewPlot("spolarglchartDiv", [|spolargl1;spolargl2|])
+    let spolarglChart = Plotly.Plotly.NewPlot("spolarglchartDiv", [|spolargl1;spolargl2|], null, option2)
     let spolarChart = Plotly.Plotly.NewPlot("spolarchartDiv", [|spolar|])
     let sankeyChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|sankey|])
     let parcoordsChart = Plotly.Plotly.NewPlot("parcoordschartDiv", [|parcoords|])
@@ -881,7 +880,7 @@ module Client =
     let isoSurfaceChart = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|], null)
     let coneChart = Plotly.Plotly.NewPlot("conechartDiv", [|cone|])
     let carpetChart = Plotly.Plotly.NewPlot("carpetchartDiv", [|carpet|])
-    let scatterChart = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|], null)
+    let scatterChart = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|], null, option1)
     let scatterGLChart = Plotly.Plotly.NewPlot("scatterglchartDiv", [|scatterGLTrace|])
     let pieChart = Plotly.Plotly.NewPlot("piechartDiv", [|pieTrace|])
     let barChart = Plotly.Plotly.NewPlot("barchartDiv", [|barTrace|])
@@ -1004,10 +1003,6 @@ module Client =
             div [attr.id "treemapchartDiv"] []
             h2 [] [text "Icicle chart"]
             div [attr.id "iciclechartDiv"] []
-            h2 [] [text "BarPolar chart"]
-            div [attr.id "barpolarchartDiv"] []
-            h2 [] [text "Volume chart"]
-            div [attr.id "volumechartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -1054,5 +1049,3 @@ module Client =
         sunBurstChart |> ignore
         treeMapChart |> ignore
         icicleChart |> ignore
-        barpolarChart |> ignore
-        volumeChart |> ignore

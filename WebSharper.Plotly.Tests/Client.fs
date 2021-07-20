@@ -820,12 +820,20 @@ module Client =
     barpolar1.Marker <- BarPolarMarker(
         Color = "rgb(158,154,200)"
     )
+    barpolar1.Text <- Union2Of2[|
+        "North";"N-E";"East";"S-E";
+        "South";"S-W";"West";"N-W"
+       |]
     let barpolar2 = BarPolarOptions()
     barpolar2.R <- [|40.0; 30.0; 30.0; 35.0; 7.5; 7.5; 32.5; 40.0|]
     barpolar2.Name <- "5-8 m/s"
     barpolar2.Marker <- BarPolarMarker(
         Color = "rgb(203,201,226)"
     )
+    barpolar2.Text <- Union2Of2[|
+        "North";"N-E";"East";"S-E";
+        "South";"S-W";"West";"N-W"
+       |]
 
     let barPolarLayout = Layout()
     barPolarLayout.Title <- LayoutTitle(Text = "Wind Speed Distribution in Laurel, NE")
@@ -852,8 +860,8 @@ module Client =
     volume.Surface <- VolumeSurface(Count = 17)
 
 
-    //let volumeChart = Plotly.Plotly.NewPlot("volumechartDiv", [|volume|])
-    //let barpolarChart = Plotly.Plotly.NewPlot("barpolarchartDiv", [|barpolar1|], barPolarLayout)
+    let volumeChart = Plotly.Plotly.NewPlot("volumechartDiv", [|volume|])
+    let barpolarChart = Plotly.Plotly.NewPlot("barpolarchartDiv", [|barpolar1|], barPolarLayout)
     let icicleChart = Plotly.Plotly.NewPlot("iciclechartDiv", [|icicle|], icicleLayout)
     let scarpetChart = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scattercarpet|])
     let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
@@ -996,10 +1004,10 @@ module Client =
             div [attr.id "treemapchartDiv"] []
             h2 [] [text "Icicle chart"]
             div [attr.id "iciclechartDiv"] []
-            //h2 [] [text "BarPolar chart"]
-            //div [attr.id "barpolarchartDiv"] []
-            //h2 [] [text "Volume chart"]
-            //div [attr.id "volumechartDiv"] []
+            h2 [] [text "BarPolar chart"]
+            div [attr.id "barpolarchartDiv"] []
+            h2 [] [text "Volume chart"]
+            div [attr.id "volumechartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -1046,5 +1054,5 @@ module Client =
         sunBurstChart |> ignore
         treeMapChart |> ignore
         icicleChart |> ignore
-        //barpolarChart |> ignore
-        //volumeChart |> ignore
+        barpolarChart |> ignore
+        volumeChart |> ignore

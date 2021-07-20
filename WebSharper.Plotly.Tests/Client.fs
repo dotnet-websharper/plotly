@@ -433,8 +433,8 @@ module Client =
     mesh.Opacity <- 0.8
     mesh.Color <- "rgb(300,100,200)"
 
-    let option1 = WebSharper.Plotly.Options()
-    option1.Locale <- "fr"
+    //let option1 = WebSharper.Plotly.Options()
+    //option1.Locale <- "fr"
 
     let scatter3d = Scatter3DOptions()
     scatter3d.X <- [|234;234;23;235;45;23;23;5;24;234;4;334;234;43;234;543;134;645;345;234;64|]
@@ -785,7 +785,7 @@ module Client =
 
 
 
-    let scarpetChart = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scattercarpet :> Trace|])
+    let scarpetChart = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scattercarpet|])
     let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
     let treeMapChart = Plotly.Plotly.NewPlot("treemapchartDiv", [|treemap|])
     let sunBurstChart = Plotly.Plotly.NewPlot("sunburstchartDiv", [|sunburst|], sunBurstLayout)
@@ -799,11 +799,11 @@ module Client =
     let sankeyChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|sankey|])
     let parcoordsChart = Plotly.Plotly.NewPlot("parcoordschartDiv", [|parcoords|])
     let parcatsChart = Plotly.Plotly.NewPlot("parcatschartDiv", [|parcats|])
-    let meshChart = Plotly.Plotly.NewPlot("meshchartDiv", [|mesh|], null, option1)
-    let isoSurfaceChart = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|], null, option1)
+    let meshChart = Plotly.Plotly.NewPlot("meshchartDiv", [|mesh|], null)
+    let isoSurfaceChart = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|], null)
     let coneChart = Plotly.Plotly.NewPlot("conechartDiv", [|cone|])
     let carpetChart = Plotly.Plotly.NewPlot("carpetchartDiv", [|carpet|])
-    let scatterChart = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|], null, option1)
+    let scatterChart = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|], null)
     let scatterGLChart = Plotly.Plotly.NewPlot("scatterglchartDiv", [|scatterGLTrace|])
     let pieChart = Plotly.Plotly.NewPlot("piechartDiv", [|pieTrace|])
     let barChart = Plotly.Plotly.NewPlot("barchartDiv", [|barTrace|])
@@ -821,7 +821,7 @@ module Client =
     let funnelChart = Plotly.Plotly.NewPlot("funnelchartDiv", [|funnel|])
     let funnelAreaChart = Plotly.Plotly.NewPlot("funnelareachartDiv", [|funnelarea|])
     let indicatorChart = Plotly.Plotly.NewPlot("indicatorchartDiv", [|indicator|], indicatorLayout)
-    let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|], null, option1)
+    let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|], null)
     let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|], null, null)
     let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|], null, null)
     let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|], scatterGeoLayout, null)

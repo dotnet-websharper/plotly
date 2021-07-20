@@ -139,12 +139,11 @@ module Definition =
     let Options = OptionsModule.Options
 
     let PlotObject =
-        Generic - fun t1 ->
-            Class "PlotObject"
-            |+> Pattern.RequiredFields [
-                "data", Data
-                "layout", Layout.[t1]
-            ]
+        Class "PlotObject"
+        |+> Pattern.RequiredFields [
+            "data", Data
+            "layout", Layout.Type
+        ]
 
     let Frames =
         Class "Frames"
@@ -156,19 +155,19 @@ module Definition =
     let Plotly =
         Class "Plotly"
         |+> Static [
-            "newPlot" => WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !| Common.CommonModule.Trace * !?Layout.[t] * !? Options ^-> T<HTMLElement>)
-            // WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !|t * !?Layout.[t] * !? Options ^-> T<HTMLElement>)
+            "newPlot" => WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !| t * !? Layout * !? Options ^-> T<HTMLElement>)
+            // WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !|t * !?Layout * !? Options ^-> T<HTMLElement>)
             "react" =>
-                WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !|t * !?Layout.[t] * !? Options ^-> T<HTMLElement>)
+                WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !|t * !?Layout * !? Options ^-> T<HTMLElement>)
             "restyle" => (T<string> + T<HTMLElement>) * T<obj> * !? (!| T<int>) ^-> T<HTMLElement> // TODO: update
             "relayout" => (T<string> + T<HTMLElement>) * T<obj> ^-> T<HTMLElement> // TODO: update
             "update" => (T<string> + T<HTMLElement>) * T<obj> * T<obj> * !? (!| T<int>) ^-> T<HTMLElement> // TODO: both objects
             "validate" =>
-                WithTypes Types (fun t -> !|t * Layout.[t] ^-> T<HTMLElement>)
-            "makeTeamplate" =>
-                WithTypes Types (fun t -> PlotObject.[t] + T<HTMLElement> ^-> T<HTMLElement>)
-            "validateTeamplate" =>
-                WithTypes Types (fun t -> (PlotObject.[t] + T<HTMLElement>) * T<obj> ^-> T<HTMLElement>)
+                WithTypes Types (fun t -> !|t * Layout ^-> T<HTMLElement>)
+            "makeTemplate" =>
+                WithTypes Types (fun t -> PlotObject + T<HTMLElement> ^-> T<HTMLElement>)
+            "validateTemplate" =>
+                WithTypes Types (fun t -> (PlotObject + T<HTMLElement>) * T<obj> ^-> T<HTMLElement>)
             "addTraces" => (T<string> + T<HTMLElement>) * Data ^-> T<HTMLElement>
             "deleteTraces" => (T<string> + T<HTMLElement>) * (T<int> + !| T<int>) ^-> T<HTMLElement>
             "moveTraces" => (T<string> + T<HTMLElement>) * (T<int> + !| T<int>) * !? (T<int> + !| T<int>) ^-> T<HTMLElement>

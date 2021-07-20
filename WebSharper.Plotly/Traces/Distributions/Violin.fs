@@ -24,6 +24,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
+open WebSharper.Plotly.Extension.Common
 
 module ViolinModule =
 
@@ -564,6 +565,7 @@ module ViolinModule =
 
     let ViolinOptions =
         Class "ViolinOptions"
+        |=> Inherits CommonModule.Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'violin'}"

@@ -24,6 +24,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
+open WebSharper.Plotly.Extension.Common
 
 module IndicatorModule =
 
@@ -280,6 +281,7 @@ module IndicatorModule =
 
     let IndicatorOptions =
         Class "IndicatorOptions"
+        |=> Inherits CommonModule.Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'indicator'}"

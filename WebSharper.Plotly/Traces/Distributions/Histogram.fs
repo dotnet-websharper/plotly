@@ -24,6 +24,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
+open WebSharper.Plotly.Extension.Common
 
 module HGModule =
 
@@ -475,6 +476,7 @@ module HGModule =
 
     let HGOptions =
         Class "HGOptions"
+        |=> Inherits CommonModule.Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'histogram'}"

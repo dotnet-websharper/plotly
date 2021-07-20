@@ -24,6 +24,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
+open WebSharper.Plotly.Extension.Common
 
 module ScatterTernaryModule =
 
@@ -693,6 +694,7 @@ module ScatterTernaryModule =
 
     let ScatterTernaryOptions =
         Class "ScatterTernaryOptions"
+        |=> Inherits CommonModule.Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scatterternary'}"

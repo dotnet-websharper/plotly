@@ -24,6 +24,7 @@ open WebSharper
 open WebSharper.JavaScript
 open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
+open WebSharper.Plotly.Extension.Common
 
 module ScatterPolarModule =
 
@@ -708,6 +709,7 @@ module ScatterPolarModule =
 
     let ScatterPolarOptions =
         Class "ScatterPolarOptions"
+        |=> Inherits CommonModule.Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scatterpolar'}"

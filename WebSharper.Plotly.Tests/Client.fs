@@ -499,8 +499,6 @@ module Client =
         Y = 0.25
     )
 
-    //Icicle
-
     let parcats = ParCatsOptions()
     parcats.Dimensions <- [|
         ParCatsDimensions(
@@ -816,7 +814,46 @@ module Client =
         T = 50
     )
 
+    let barpolar1 = BarPolarOptions()
+    barpolar1.R <- [|57.5; 50.0; 45.0; 35.0; 20.0; 22.5; 37.5; 55.0|]
+    barpolar1.Name <- "8-11 m/s"
+    barpolar1.Marker <- BarPolarMarker(
+        Color = "rgb(158,154,200)"
+    )
+    let barpolar2 = BarPolarOptions()
+    barpolar2.R <- [|40.0; 30.0; 30.0; 35.0; 7.5; 7.5; 32.5; 40.0|]
+    barpolar2.Name <- "5-8 m/s"
+    barpolar2.Marker <- BarPolarMarker(
+        Color = "rgb(203,201,226)"
+    )
 
+    let barPolarLayout = Layout()
+    barPolarLayout.Title <- LayoutTitle(Text = "Wind Speed Distribution in Laurel, NE")
+    barPolarLayout.Font <- LayoutFontConfig(Size = 16)
+    barPolarLayout.Legend <- LayoutLegend(Font = LayoutFontConfig(Size = 16))
+    barPolarLayout.Polar <- LayoutPolar(
+        Radialaxis = LayoutPolarRadialAxis(
+            Ticksuffix = "%"
+        ),
+        Angularaxis = LayoutPolarAngularAxis(
+            Rotation = 90
+        )
+    )
+
+    let volume = VolumeOptions()
+    let array2 = [|10.0;20.0;30.0;40.0;50.0;60.0;70.0;80.0|]
+    volume.X <- array2
+    volume.Y <- array2
+    volume.Z <- array2
+    volume.Value <- array2
+    volume.Isomin <- -10
+    volume.Isomax <- 100
+    volume.Opacity <- 0.1
+    volume.Surface <- VolumeSurface(Count = 17)
+
+
+    //let volumeChart = Plotly.Plotly.NewPlot("volumechartDiv", [|volume|])
+    //let barpolarChart = Plotly.Plotly.NewPlot("barpolarchartDiv", [|barpolar1|], barPolarLayout)
     let icicleChart = Plotly.Plotly.NewPlot("iciclechartDiv", [|icicle|], icicleLayout)
     let scarpetChart = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scattercarpet|])
     let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
@@ -959,6 +996,10 @@ module Client =
             div [attr.id "treemapchartDiv"] []
             h2 [] [text "Icicle chart"]
             div [attr.id "iciclechartDiv"] []
+            //h2 [] [text "BarPolar chart"]
+            //div [attr.id "barpolarchartDiv"] []
+            //h2 [] [text "Volume chart"]
+            //div [attr.id "volumechartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -1005,3 +1046,5 @@ module Client =
         sunBurstChart |> ignore
         treeMapChart |> ignore
         icicleChart |> ignore
+        //barpolarChart |> ignore
+        //volumeChart |> ignore

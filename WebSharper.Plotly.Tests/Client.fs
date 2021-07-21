@@ -334,7 +334,7 @@ module Client =
 
     let choropleth = ChoroplethOptions()
     choropleth.Locationmode <- LocationMode.CountryNames
-    choropleth.Locations <- [|"Montreal";"Toronto";"Vancouver";"Calgary";"Edmonton";"Ottawa";"Halifax";"Victoria";"Winnepeg";"Regina"|]
+    choropleth.Locations <- [|"Brazil";"Canada";"Indonesia";"Australia";"Japan";"France";"Norway";"Egypt";"South Africa";"Mongolia"|]
     choropleth.Z <- [|234;234;23;235;45;23;23;5;24;234|]
     choropleth.Text <- Union2Of2([|"a";"b";"c";"d";"e";"f";"g";"h";"i";"j"|])
     choropleth.Autocolorscale <- true

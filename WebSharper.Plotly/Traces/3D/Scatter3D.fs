@@ -37,31 +37,12 @@ module Scatter3DModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "Scatter3DModes" generatedEnum
 
-    let Scatter3DTextPosition =
-        Pattern.EnumInlines "Scatter3DTextPosition" [
-            "TopLeft", "'top left'"
-            "TopCenter", "'top center'"
-            "TopRight", "'top right'"
-            "MiddleLeft", "'middle left'"
-            "MiddleCenter", "'middle center'"
-            "MiddleRight", "'middle right'"
-            "BottomLeft", "'bottom left'"
-            "BottomCenter", "'bottom center'"
-            "BottomRight", "'bottom right'"
-        ]
-
     let Scatter3DHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "Scatter3DHoverInfo" generatedEnum
-
-    let Scatter3DSizeMode =
-        Pattern.EnumStrings "Scatter3DSizeMode" [
-            "diameter"
-            "area"
-        ]
 
     let Scatter3DMarkerLine =
         Pattern.Config "Scatter3DMarkerLine" {
@@ -101,7 +82,7 @@ module Scatter3DModule =
                 "size", (T<float> + T<int>) + !| T<float> + !| T<int>
                 "sizeref", (T<float> + T<int>)
                 "sizemin", (T<float> + T<int>)
-                "sizemode", Scatter3DSizeMode.Type
+                "sizemode", SizeMode.Type
                 "opacity", T<float> + !| T<float>
                 "colorbar", ColorBar.Type
                 "line", Scatter3DMarkerLine.Type
@@ -138,28 +119,8 @@ module Scatter3DModule =
             ]
         }
 
-    let Scatter3DErrorX = 
-        Pattern.Config "Scatter3DErrorX" {
-            Required = []
-            Optional = [
-                "visible", T<bool>
-                "type", ErrorType.Type
-                "symmetric", T<bool>
-                "array", !| T<obj> // data array
-                "arrayminus", !| T<obj> // data array
-                "value", (T<float> + T<int>)
-                "valueminus", (T<float> + T<int>)
-                "traceref", T<int>
-                "tracerefminus", T<int>
-                "copy_zstyle", T<bool>
-                "color", Color
-                "thickness", (T<float> + T<int>)
-                "width", (T<float> + T<int>)
-            ]
-        }
-
-    let Scatter3DErrorY = 
-        Pattern.Config "Scatter3DErrorY" {
+    let Scatter3DErrorAxis = 
+        Pattern.Config "Scatter3DErrorAxis" {
             Required = []
             Optional = [
                 "visible", T<bool>
@@ -247,7 +208,7 @@ module Scatter3DModule =
             "z", !| T<int> + !| T<float>
             "surfacecolor", Color
             "text", T<string> + !| T<string>
-            "textposition", Scatter3DTextPosition.Type
+            "textposition", TextPositionInline.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
             "hoverinfo", Scatter3DHoverInfo.Type
@@ -260,8 +221,8 @@ module Scatter3DModule =
             "marker", Scatter3DMarker.Type
             "line", Scatter3DLine.Type
             "textfont", Font.Type
-            "error_x", Scatter3DErrorX.Type
-            "error_y", Scatter3DErrorY.Type
+            "error_x", Scatter3DErrorAxis.Type
+            "error_y", Scatter3DErrorAxis.Type
             "error_z", Scatter3DErrorZ.Type
             "zhoverformat", T<string>
             "connectgaps", T<bool>
@@ -276,15 +237,12 @@ module Scatter3DModule =
 
     let Scatter3DTraceNamespaces : CodeModel.NamespaceEntity list = [
         Scatter3DModes
-        Scatter3DTextPosition
         Scatter3DHoverInfo
-        Scatter3DSizeMode
         Scatter3DMarkerLine
         Scatter3DSymbol
         Scatter3DMarker
         Scatter3DLine
-        Scatter3DErrorX
-        Scatter3DErrorY
+        Scatter3DErrorAxis
         Scatter3DErrorZ
         Scatter3DProjectionXYZ
         Scatter3DProjection

@@ -78,17 +78,6 @@ module ParCatsModule =
             ]
         }
 
-    let ParCatsDomain =
-        Pattern.Config "ParCatsDomain" {
-            Required = []
-            Optional = [
-                "x", !| T<int> + !| T<float>
-                "y", !| T<int> + !| T<float>
-                "row", T<int>
-                "column", T<int>
-            ]
-        }
-
     let ParCatsHoverInfo =
         Pattern.EnumStrings "ParCatsHoverInfo" [
             "count"
@@ -136,7 +125,7 @@ module ParCatsModule =
             "hoverinfo", ParCatsHoverInfo.Type
             "hovertemplate", T<string>
             "meta", (T<float> + T<int>) + T<string>
-            "domain", ParCatsDomain.Type
+            "domain", Domain.Type
             "line", ParCatsLine.Type
             "arrangement", ParCatsArrangement.Type
             "bundlecolors", T<bool>
@@ -152,7 +141,6 @@ module ParCatsModule =
         ParCatsDimensions
         ParCatsLineShape
         ParCatsLine
-        ParCatsDomain
         ParCatsHoverInfo
         ParCatsArrangement
         ParCatsSortPath

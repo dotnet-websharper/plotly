@@ -37,31 +37,6 @@ module CandleStickModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "CandleStickHoverInfo" generatedEnum
 
-    let CandleStickPeriodAlignment =
-        Pattern.EnumStrings "XCandleStickPeriodAlignment" [
-            "start"
-            "middle"
-            "end"
-        ]
-
-    let CandleStickGradientType =
-        Pattern.EnumStrings "CandleStickGradientType" [
-            "radial"
-            "horizontal"
-            "vertical"
-            "none"
-        ]
-
-    let CandleStickGradient =
-        Pattern.Config "CandleStickGradient" {
-            Required = []
-            Optional = [
-                "type", CandleStickGradientType.Type
-                "color", Color + !| Color
-            ]
-        }
-
-
     let CandleStickLine =
         Pattern.Config "CandleStickLine" {
             Required = []
@@ -120,7 +95,7 @@ module CandleStickModule =
             "xaxis", T<string> //type is 'subplotid'
             "yaxis", T<string> //type is 'subplotid'
             "xperiod", (T<float> + T<int>) + T<string>
-            "xperiodalignment", CandleStickPeriodAlignment.Type
+            "xperiodalignment", PeriodAlignment.Type
             "xperiod0", (T<float> + T<int>) + T<string>
             "whiskerwidth", T<float>
             "line", CandleStickLine.Type
@@ -134,9 +109,6 @@ module CandleStickModule =
 
     let CandleStickTraceNamespaces : CodeModel.NamespaceEntity list = [
         CandleStickHoverInfo
-        CandleStickPeriodAlignment
-        CandleStickGradientType
-        CandleStickGradient
         CandleStickLine
         CandleStickCreasingLine
         CandleStickCreasing

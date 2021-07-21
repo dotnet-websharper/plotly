@@ -47,17 +47,6 @@ module IndicatorModule =
             ]
         }
 
-    let IndicatorDomain =
-        Pattern.Config "IndicatorDomain" {
-            Required = []
-            Optional = [
-                "x", !| T<string> + !| T<int> + !| T<float>
-                "y", !| T<string> + !| T<int> + !| T<float>
-                "row", T<int>
-                "column", T<int>
-            ]
-        }
-
     let IndicatorMode =
         let generatedEnum = (GenerateOptions.allPermutations ["number"; "delta"; "gauge"] '+')
         Pattern.EnumStrings "IndicatorMode" generatedEnum
@@ -267,7 +256,7 @@ module IndicatorModule =
             "value", T<int> + T<float>
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
-            "domain", IndicatorDomain.Type
+            "domain", Domain.Type
             "align", Align.Type
             "delta", IndicatorDelta.Type
             "number", IndicatorNumber.Type
@@ -278,7 +267,6 @@ module IndicatorModule =
     let IndicatorTraceNamespaces : CodeModel.NamespaceEntity list = [
         IndicatorTitlePosition
         IndicatorTitle
-        IndicatorDomain
         IndicatorMode
         IndicatorDeltaPosition
         IndicatorDeltaCreasing

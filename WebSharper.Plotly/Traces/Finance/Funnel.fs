@@ -44,30 +44,6 @@ module FunnelModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "FunnelTextInfo" generatedEnum
 
-    let FunnelPeriodAlignment =
-        Pattern.EnumStrings "XFunnelPeriodAlignment" [
-            "start"
-            "middle"
-            "end"
-        ]
-
-    let FunnelGradientType =
-        Pattern.EnumStrings "FunnelGradientType" [
-            "radial"
-            "horizontal"
-            "vertical"
-            "none"
-        ]
-
-    let FunnelGradient =
-        Pattern.Config "FunnelGradient" {
-            Required = []
-            Optional = [
-                "type", FunnelGradientType.Type
-                "color", Color + !| Color
-            ]
-        }
-
     let FunnelLine =
         Pattern.Config "FunnelLine" {
             Required = []
@@ -86,38 +62,6 @@ module FunnelModule =
                 "width", T<int> + T<float> 
             ]           
         }
-
-    let FunnelCreasingLine =
-        Pattern.Config "FunnelCreasingLine" {
-            Required = []
-            Optional = [
-                "color", Color
-                "width", T<int> + T<float>
-            ]
-        }
-
-    let FunnelCreasing =
-        Pattern.Config "FunnelCreasing" {
-            Required = []
-            Optional = [
-                "line", FunnelCreasingLine.Type
-                "fillcolor", Color
-            ]
-        }
-
-    let FunnelTextPosition =
-        Pattern.EnumStrings "FunnelTextPosition" [
-            "inside"
-            "outside"
-            "auto"
-            "none"
-        ]
-
-    let FunnelOrientation =
-        Pattern.EnumStrings "FunnelOrientation" [
-            "v"
-            "h"
-        ]
 
     let FunnelConnectorMode =
         Pattern.EnumStrings "FunnelConnectorMode" [
@@ -167,8 +111,6 @@ module FunnelModule =
             ]
         }
 
-    let FunnelColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
     let FunnelMarkerLine =
         Pattern.Config "FunnelMarkerLine" {
             Required = []
@@ -179,7 +121,7 @@ module FunnelModule =
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", FunnelColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
@@ -196,7 +138,7 @@ module FunnelModule =
                 "cmin", T<int> + T<float>
                 "cmax", T<int> + T<float>
                 "cmid", T<int> + T<float>
-                "colorscale", FunnelColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversecolorscale", T<bool>
                 "showscale", T<bool>
@@ -231,7 +173,7 @@ module FunnelModule =
             "width", T<int> + T<float> + !| T<int> + !| T<float>
             "offset", T<int> + T<float> + !| T<int> + !| T<float>
             "text", T<string> + !| T<string>
-            "textposition", FunnelTextPosition.Type
+            "textposition", TextPositionEnum.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
             "hoverinfo", T<string> //FunnelHoverInfo.Type //TODO
@@ -242,14 +184,14 @@ module FunnelModule =
             "customdata", T<string> // undefined type, string is placeholder
             "xaxis", T<string> //type is 'subplotid'
             "yaxis", T<string> //type is 'subplotid'
-            "orientation", FunnelOrientation.Type
+            "orientation", Orientation.Type
             "alignmentgroup", T<string>
             "offsetgroup", T<string>
             "xperiod", (T<float> + T<int>) + T<string>
-            "xperiodalignment", FunnelPeriodAlignment.Type
+            "xperiodalignment", PeriodAlignment.Type
             "xperiod0", (T<float> + T<int>) + T<string>
             "yperiod", (T<float> + T<int>) + T<string>
-            "yperiodalignment", FunnelPeriodAlignment.Type
+            "yperiodalignment", PeriodAlignment.Type
             "yperiod0", (T<float> + T<int>) + T<string>
             "marker", FunnelMarker.Type
             "textangle", T<int> + T<float> //angle
@@ -269,15 +211,8 @@ module FunnelModule =
     let FunnelTraceNamespaces : CodeModel.NamespaceEntity list = [
         FunnelHoverInfo
         FunnelTextInfo
-        FunnelPeriodAlignment
-        FunnelGradientType
-        FunnelGradient
         FunnelLine
         FunnelTotalsMarkerLine
-        FunnelCreasingLine
-        FunnelCreasing
-        FunnelTextPosition
-        FunnelOrientation
         FunnelConnectorMode
         FunnelConnector
         FunnelConstrainText

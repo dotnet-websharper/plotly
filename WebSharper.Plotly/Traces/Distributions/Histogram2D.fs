@@ -37,55 +37,6 @@ module HG2DModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "HG2DHoverInfo" generatedEnum
 
-    let HG2DGradientType =
-        Pattern.EnumStrings "HG2DGradientType" [
-            "radial"
-            "horizontal"
-            "vertical"
-            "none"
-        ]
-
-    let HG2DGradient =
-        Pattern.Config "HG2DGradient" {
-            Required = []
-            Optional = [
-                "type", HG2DGradientType.Type
-                "color", Color + !| Color
-            ]
-        }
-
-    let HG2DMarkerPatternShape =
-        Pattern.EnumInlines "HG2DMarkerPatternShape" [
-            "empty", "''"
-            "slash", "'/'"
-            "backslash", """'\\'"""
-            "x", "'x'"
-            "minus", "'-'"
-            "pipeline", "'|'"
-            "plus", "'+'"
-            "dot", "'.'"
-        ]
-
-    let HG2DFillMode =
-        Pattern.EnumStrings "HG2DFillMode" [
-            "replace"
-            "overlay"
-        ]
-
-    let HG2DMarkerPattern =
-        Pattern.Config "HG2DMarkerPattern" {
-            Required = []
-            Optional = [
-                "shape", HG2DMarkerPatternShape.Type
-                "fillmode", HG2DFillMode.Type
-                "bgcolor", Color + !| Color
-                "fgcolor", Color + !| Color
-                "fgopacity", (T<float> + T<int>)
-                "size", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "solidity", (T<float> + T<int>) + !| T<float> + !| T<int>               
-            ]
-        }
-
     let HG2DMarker =
         Pattern.Config "HG2DMarker" {
             Required = []
@@ -93,15 +44,6 @@ module HG2DModule =
                 "color", Color + !| Color //data array
             ]
         }
-
-    let HG2DHistFunc =
-        Pattern.EnumStrings "HG2DHistFunc" [
-            "count"
-            "sum"
-            "avg"
-            "min"
-            "max"
-        ]
 
     let HG2DHistNorm =
         Pattern.EnumInlines "HG2DHistNorm" [
@@ -120,13 +62,7 @@ module HG2DModule =
                 "end", T<int> + T<float> + T<string>
                 "size", T<int> + T<float> + T<string>
             ]
-        }
-
-    let HG2DZSmooth =
-        Pattern.EnumStrings "HG2DZSmooth" [
-            "fast"
-            "best"
-        ]
+        }    
 
     let HG2DOptions =
         Class "HG2DOptions"
@@ -158,7 +94,7 @@ module HG2DModule =
             "xaxis", T<string> //type is 'subplotid'
             "yaxis", T<string> //type is 'subplotid'
             "coloraxis", T<string> //type is 'subplotid'
-            "histfunc", HG2DHistFunc.Type
+            "histfunc", HistFunc.Type
             "histnorm", HG2DHistNorm.Type
             "nbinsx", T<int>
             "ybinsx", T<int>
@@ -180,7 +116,7 @@ module HG2DModule =
             "zmax", T<int> + T<float>
             "zmid", T<int> + T<float>
             "zmin", T<int> + T<float>
-            "zsmooth", HG2DZSmooth.Type + T<bool>
+            "zsmooth", ZSmooth.Type + T<bool>
             "hoverlabel", HoverLabel.Type
             "xcalendar", Calendar.Type
             "ycalendar",Calendar.Type
@@ -189,15 +125,8 @@ module HG2DModule =
 
     let HG2DTraceNamespaces : CodeModel.NamespaceEntity list = [       
         HG2DHoverInfo
-        HG2DGradientType
-        HG2DGradient
-        HG2DMarkerPatternShape
-        HG2DFillMode
-        HG2DMarkerPattern
         HG2DMarker
-        HG2DHistFunc
         HG2DHistNorm
         HG2DXYBins
-        HG2DZSmooth
         HG2DOptions
     ]

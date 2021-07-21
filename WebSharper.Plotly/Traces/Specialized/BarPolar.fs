@@ -61,38 +61,6 @@ module BarPolarModule =
             ]
         }
 
-    let BarPolarMarkerPatternShape =
-        Pattern.EnumInlines "BarPolarMarkerPatternShape" [
-            "empty", "''"
-            "slash", "'/'"
-            "backslash", """'\\'"""
-            "x", "'x'"
-            "minus", "'-'"
-            "pipeline", "'|'"
-            "plus", "'+'"
-            "dot", "'.'"
-        ]
-
-    let BarPolarFillMode =
-        Pattern.EnumStrings "BarPolarFillMode" [
-            "replace"
-            "overlay"
-        ]
-
-    let BarPolarMarkerPattern =
-        Pattern.Config "BarPolarMarkerPattern" {
-            Required = []
-            Optional = [
-                "shape", BarPolarMarkerPatternShape.Type
-                "fillmode", BarPolarFillMode.Type
-                "bgcolor", Color + !| Color
-                "fgcolor", Color + !| Color
-                "fgopacity", (T<float> + T<int>)
-                "size", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "solidity", (T<float> + T<int>) + !| T<float> + !| T<int>               
-            ]
-        }
-
     let BarPolarMarker =
         Pattern.Config "BarPolarMarker" {
             Required = []
@@ -110,7 +78,7 @@ module BarPolarModule =
                 "showscale", T<bool>
                 "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
-                "pattern", BarPolarMarkerPattern.Type
+                "pattern", MarkerPattern.Type
             ]
         }
 
@@ -120,14 +88,15 @@ module BarPolarModule =
             Optional = [
                 "opacity", (T<float> + T<int>)
                 "color", Color
-                "size", (T<float> + T<int>)
             ]
         }
 
     let BarPolarSelectedTextFont =
         Pattern.Config "BarPolarSelectedTextFont" {
             Required = []
-            Optional = ["color", Color]
+            Optional = [
+                "color", Color
+            ]
         }
 
     let BarPolarSelectedOption =
@@ -138,24 +107,6 @@ module BarPolarModule =
                 "textfont", BarPolarSelectedTextFont.Type
             ]
         }
-
-    let BarPolarFill =
-        Pattern.EnumStrings "BarPolarFill" [
-            "none"
-            "tozeroy"
-            "tozerox"
-            "tonexty"
-            "tonextx"
-            "toself"
-            "tonext"
-        ]
-
-    let BarPolarThetaUnit =
-        Pattern.EnumStrings "BarPolarThetaUnit" [
-            "radians"
-            "degrees"
-            "gradians"
-        ]
 
     let BarPolarOptions =
         Class "BarPolarOptions"
@@ -181,7 +132,7 @@ module BarPolarModule =
             "theta", !| T<int> + !| T<float>
             "theta0", (T<float> + T<int>) + T<string>
             "dtheta", (T<float> + T<int>)
-            "thetaunit", BarPolarThetaUnit.Type
+            "thetaunit", ThetaUnit.Type
             "width", T<int> + T<float> + !| T<int> + !| T<float>
             "offset", T<int> + T<float> + !| T<int> + !| T<float>
             "text", T<string> + !| T<string>
@@ -203,14 +154,9 @@ module BarPolarModule =
         BarPolarModes
         BarPolarHoverInfo
         BarPolarMarkerLine
-        BarPolarMarkerPatternShape
-        BarPolarFillMode
-        BarPolarMarkerPattern
         BarPolarMarker
         BarPolarSelectedMarker
         BarPolarSelectedTextFont
         BarPolarSelectedOption
-        BarPolarFill
-        BarPolarThetaUnit
         BarPolarOptions
     ]

@@ -28,15 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module BarModule =
 
-    open CommonModule
-
-    let BarTextPosition =
-        Pattern.EnumStrings "BarTextPosition" [
-            "inside"
-            "outside"
-            "auto"
-            "none"
-        ]    
+    open CommonModule  
             
     let BarHoverInfo =
         let generatedEnum =
@@ -44,13 +36,6 @@ module BarModule =
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "BarHoverInfo" generatedEnum
-
-    let BarPeriodAlignment =
-        Pattern.EnumStrings "BarPeriodAlignment" [
-            "start"
-            "middle"
-            "end"
-        ]
 
     let BarMarkerLine =
         Pattern.Config "BarMarkerLine" {
@@ -67,39 +52,7 @@ module BarModule =
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
             ]
-        }
-
-    let BarMarkerPatternShape =
-        Pattern.EnumInlines "BarMarkerPatternShape" [
-            "empty", "''"
-            "slash", "'/'"
-            "backslash", """'\\'"""
-            "x", "'x'"
-            "minus", "'-'"
-            "pipeline", "'|'"
-            "plus", "'+'"
-            "dot", "'.'"
-        ]
-
-    let BarFillMode =
-        Pattern.EnumStrings "BarFillMode" [
-            "replace"
-            "overlay"
-        ]
-
-    let BarMarkerPattern =
-        Pattern.Config "BarMarkerPattern" {
-            Required = []
-            Optional = [
-                "shape", BarMarkerPatternShape.Type
-                "fillmode", BarFillMode.Type
-                "bgcolor", Color + !| Color
-                "fgcolor", Color + !|Color
-                "fgopacity", (T<float> + T<int>)
-                "size", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "solidity", (T<float> + T<int>) + !| T<float> + !| T<int>               
-            ]
-        }
+        } 
 
     let BarMarker =
         Pattern.Config "BarMarker" {
@@ -118,7 +71,7 @@ module BarModule =
                 "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
                 "opacity", (T<float> + T<int>)
-                "pattern", BarMarkerPattern.Type
+                "pattern", MarkerPattern.Type
             ]
         }
 
@@ -175,14 +128,15 @@ module BarModule =
             Optional = [
                 "opacity", (T<float> + T<int>)
                 "color", Color
-                "size", (T<float> + T<int>)
             ]
         }
 
     let BarSelectedTextFont =
         Pattern.Config "BarSelectedTextFont" {
             Required = []
-            Optional = ["BarColor", Color]
+            Optional = [
+                "color", Color
+            ]
         }
 
     let BarSelectedOption =
@@ -190,7 +144,7 @@ module BarModule =
             Required = []
             Optional = [
                 "marker",  BarSelectedMarker.Type
-                "font",  BarSelectedTextFont.Type
+                "textfont",  BarSelectedTextFont.Type
             ]
         }
 
@@ -235,7 +189,7 @@ module BarModule =
             "width", (T<float> + T<int>) + !| T<float> + !| T<int>
             "offset", (T<float> + T<int>) + (T<float> + T<int>)
             "text", T<string> + !| T<string>
-            "textposition", BarTextPosition.Type
+            "textposition", TextPositionEnum.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
             "hoverinfo", BarHoverInfo.Type
@@ -250,10 +204,10 @@ module BarModule =
             "alignmentgroup", T<string>
             "offsetgroup", T<string>
             "xperiod", (T<float> + T<int>) + T<string>
-            "xperiodalignment", BarPeriodAlignment.Type
+            "xperiodalignment", PeriodAlignment.Type
             "xperiod0", (T<float> + T<int>) + T<string>
             "yperiod", (T<float> + T<int>) + T<string>
-            "yperiodalignment", BarPeriodAlignment.Type
+            "yperiodalignment", PeriodAlignment.Type
             "yperiod0", (T<float> + T<int>) + T<string>
             "marker", BarMarker.Type
             "textangle", (T<float> + T<int>) //angle
@@ -275,13 +229,8 @@ module BarModule =
         ]
 
     let BarTraceNamespaces : CodeModel.NamespaceEntity list = [
-        BarTextPosition
         BarHoverInfo
-        BarPeriodAlignment
         BarMarkerLine
-        BarMarkerPatternShape
-        BarFillMode
-        BarMarkerPattern
         BarMarker
         BarErrorType
         BarErrorX

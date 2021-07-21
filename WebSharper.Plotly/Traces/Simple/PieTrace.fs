@@ -51,31 +51,12 @@ module PieModule =
             ]
         }
 
-    let PieTextPosition =
-        Pattern.EnumStrings "PieTextPosition" [
-            "inside"
-            "outside"
-            "auto"
-            "none"
-        ]
-
     let PieHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["label"; "text"; "value"; "percent"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "PieHoverInfo" generatedEnum
-
-    let PieDomain = 
-        Pattern.Config "PieDomain" {
-            Required = []
-            Optional = [
-                "x", !| (((T<float> + T<int>) + NullValue.Type) * ((T<float> + T<int>) + NullValue.Type)) //array
-                "y", !| (((T<float> + T<int>) + NullValue.Type) * ((T<float> + T<int>) + NullValue.Type)) //array
-                "row", T<int>
-                "column", T<int>
-            ]
-        }
 
     let PieMarkerLine =
         Pattern.Config "PieMarkerLine" {
@@ -109,14 +90,6 @@ module PieModule =
             "counterclockwise"
         ]
 
-    let PieTextOrientation = 
-        Pattern.EnumStrings "PieTextOrientation" [
-            "horizontal"
-            "radial"
-            "tangential"
-            "auto"
-        ]
-
     let PieOptions = 
         Class "PieOptions"
         |=> Inherits Trace
@@ -140,14 +113,14 @@ module PieModule =
             "label0", (T<float> + T<int>)
             "pull", (T<float> + T<int>) + !| T<float> + !| T<int>
             "text", T<string>
-            "textposition", PieTextPosition.Type
+            "textposition", TextPositionEnum.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
             "hoverinfo", PieHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> //data
-            "domain", PieDomain.Type
+            "domain", Domain.Type
             "automargin", T<bool>
             "marker", PieMarker.Type
             "textPieFont", Font.Type
@@ -156,7 +129,7 @@ module PieModule =
             "hole", (T<float> + T<int>)
             "hoverlabel", HoverLabel.Type
             "insidetextfont", Font.Type
-            "insidetextorientation", PieTextOrientation.Type
+            "insidetextorientation", TextOrientation.Type
             "outsidetextfont", Font.Type
             "rotation", (T<float> + T<int>)
             "scalegroup", T<string>
@@ -167,13 +140,10 @@ module PieModule =
     let PieTraceNamespaces : CodeModel.NamespaceEntity list = [
         PieTitlePosition
         PieTitle
-        PieTextPosition
         PieHoverInfo
-        PieDomain
         PieMarkerLine
         PieMarker
         PieTextInfo
         PieDirection
-        PieTextOrientation
         PieOptions
     ]

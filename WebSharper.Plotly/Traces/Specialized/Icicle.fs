@@ -58,17 +58,6 @@ module IcicleModule =
             ]
         }
 
-    let IcicleDomain =
-        Pattern.Config "IcicleDomain" {
-            Required = []
-            Optional = [
-                "x", !| T<int> + !| T<float>
-                "y", !| T<int> + !| T<float>
-                "row", T<int>
-                "column", T<int>
-            ]
-        }
-
     let IcicleBranchValues =
         Pattern.EnumStrings "IcicleBranchValues" [
             "remainder"
@@ -82,14 +71,6 @@ module IcicleModule =
             "branches+leaves"
             "leaves+branches"
         ]
-
-    let IcicleRoot =
-        Pattern.Config "IcicleRoot" {
-            Required = []
-            Optional = [
-                "color", Color
-            ]
-        }
 
     let IcicleLeaf =
         Pattern.Config "IcicleLeaf" {
@@ -168,7 +149,7 @@ module IcicleModule =
             "hovertemplate", T<string> + !| T<string>
             "meta", (T<float> + T<int>) + T<string>
             "customdata", !| T<string> + !| T<int> + !| T<float>
-            "domain", IcicleDomain.Type
+            "domain", Domain.Type
             "marker", IcicleMarker.Type
             "textfont", Font.Type
             "textinfo", !| T<string> //TODO
@@ -179,7 +160,7 @@ module IcicleModule =
             "hoverlabel", HoverLabel.Type
             "insidetextfont", Font.Type
             "outsidetextfont", Font.Type
-            "root", IcicleRoot.Type
+            "root", Root.Type
             "leaf", IcicleLeaf.Type
             "level", T<int> + T<float> + T<string>
             "maxdepth", T<int>
@@ -190,10 +171,8 @@ module IcicleModule =
     let IcicleTraceNamespaces : CodeModel.NamespaceEntity list = [
         IcicleMarkerLine
         IcicleMarker
-        IcicleDomain
         IcicleBranchValues
         IcicleCount
-        IcicleRoot
         IcicleLeaf
         IcicleTilingFlip
         IcicleTiling

@@ -240,7 +240,7 @@ module Client =
             Range = [|0;250|]
         )
     )
-    indicator.Domain <- IndicatorDomain(
+    indicator.Domain <- Domain(
         Row = 0,
         Column = 0
     )
@@ -323,7 +323,7 @@ module Client =
         "Sales"; "Consulting"; "Net revenue"; "Purchases";
         "Other expenses"; "Profit before tax"       
     |]
-    waterfall.Textposition <- WaterfallTextPosition.Outside
+    waterfall.Textposition <- TextPositionEnum.Outside
     waterfall.Text <- Union2Of2([|"+60";"+80";"";"-40";"-20";"Total"|])
     waterfall.Y <- [|60;80;0;-40;-20;0|]
     waterfall.Connector <- WaterfallConnector(
@@ -387,16 +387,16 @@ module Client =
     )
     scattergeo.Name <- "Canadian cities"
     scattergeo.Textposition <- [|
-        ScatterGeoTextPosition.TopRight;
-        ScatterGeoTextPosition.TopLeft;
-        ScatterGeoTextPosition.TopCenter;
-        ScatterGeoTextPosition.BottomRight;
-        ScatterGeoTextPosition.TopRight;
-        ScatterGeoTextPosition.TopLeft;
-        ScatterGeoTextPosition.BottomRight;
-        ScatterGeoTextPosition.BottomLeft;
-        ScatterGeoTextPosition.TopRight;
-        ScatterGeoTextPosition.TopRight;
+        TextPositionInline.TopRight;
+        TextPositionInline.TopLeft;
+        TextPositionInline.TopCenter;
+        TextPositionInline.BottomRight;
+        TextPositionInline.TopRight;
+        TextPositionInline.TopLeft;
+        TextPositionInline.BottomRight;
+        TextPositionInline.BottomLeft;
+        TextPositionInline.TopRight;
+        TextPositionInline.TopRight;
     |]
 
     let scattermb = ScatterMBOptions()
@@ -603,7 +603,7 @@ module Client =
     scattercarpet.A <- Array.map ((*)1e-6) [|4.0;4.5;5.0;6.0|]
     scattercarpet.B <- Array.map ((*)1e6) [|1.5;2.5;1.5;2.5|]
     scattercarpet.Line <- ScatterCarpetLine(
-        Shape = ScatterCarpetShape.Spline,
+        Shape = Shape.Spline,
         Smoothing = 1
     )
 
@@ -622,12 +622,12 @@ module Client =
     spolargl1.R <- [|1;2;3|]
     spolargl1.Theta <- [|50;100;200|]
     spolargl1.Marker <- ScatterPolarGLMarker(
-        Symbol = ScatterPolarGLSymbol.Square
+        Symbol = Symbol.Square
     )
     let spolargl2 = ScatterPolarGLOptions()
     spolargl2.R <- [|1;2;3|]
     spolargl2.Theta <- [|1;2;3|]
-    spolargl2.Thetaunit <-  ScatterPolarGLThetaUnit.Radians
+    spolargl2.Thetaunit <-  ThetaUnit.Radians
 
     let densityMBLayout = Layout()
     densityMBLayout.Width <- 600
@@ -821,7 +821,7 @@ module Client =
             Width = 2
         )
     )
-    icicle.Root <- IcicleRoot(
+    icicle.Root <- Root(
         Color = "lightgrey"
     )
 

@@ -43,13 +43,6 @@ module HGModule =
             "h"
         ]
 
-    let HGPeriodAlignment =
-        Pattern.EnumStrings "XHGPeriodAlignment" [
-            "start"
-            "middle"
-            "end"
-        ]
-
     let HGMarkerLine =
         Pattern.Config "HGMarkerLine" {
             Required = []
@@ -64,55 +57,6 @@ module HGModule =
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
-            ]
-        }
-
-    let HGGradientType =
-        Pattern.EnumStrings "HGGradientType" [
-            "radial"
-            "horizontal"
-            "vertical"
-            "none"
-        ]
-
-    let HGGradient =
-        Pattern.Config "HGGradient" {
-            Required = []
-            Optional = [
-                "type", HGGradientType.Type
-                "color", Color + !| Color
-            ]
-        }
-
-    let HGMarkerPatternShape =
-        Pattern.EnumInlines "HGMarkerPatternShape" [
-            "empty", "''"
-            "slash", "'/'"
-            "backslash", """'\\'"""
-            "x", "'x'"
-            "minus", "'-'"
-            "pipeline", "'|'"
-            "plus", "'+'"
-            "dot", "'.'"
-        ]
-
-    let HGFillMode =
-        Pattern.EnumStrings "HGFillMode" [
-            "replace"
-            "overlay"
-        ]
-
-    let HGMarkerPattern =
-        Pattern.Config "HGMarkerPattern" {
-            Required = []
-            Optional = [
-                "shape", HGMarkerPatternShape.Type
-                "fillmode", HGFillMode.Type
-                "bgcolor", Color + !| Color
-                "fgcolor", Color + !| Color
-                "fgopacity", (T<float> + T<int>)
-                "size", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "solidity", (T<float> + T<int>) + !| T<float> + !| T<int>               
             ]
         }
 
@@ -180,43 +124,9 @@ module HGModule =
                 "colorbar", ColorBar.Type
                 "coloraxis", T<float> + T<int> + T<string>
                 "opacity", T<float> + !| T<float>
-                "pattern", HGMarkerPattern.Type
+                "pattern", MarkerPattern.Type
             ]
         }
-
-    let HGSelectedMarker =
-        Pattern.Config "HGSelectedMarker" {
-            Required = []
-            Optional = [
-                "opacity", (T<float> + T<int>)
-                "color", Color
-                "size", (T<float> + T<int>)
-            ]
-        }
-
-    let HGSelectedTextFont =
-        Pattern.Config "HGSelectedTextFont" {
-            Required = []
-            Optional = ["color", Color]
-        }
-
-    let HGSelectedOption =
-        Pattern.Config "HGSelectedOption" {
-            Required = []
-            Optional = [
-                "marker", HGSelectedMarker.Type
-                "textfont", HGSelectedTextFont.Type
-            ]
-        }
-
-    let HGHistFunc =
-        Pattern.EnumStrings "HGHistFunc" [
-            "count"
-            "sum"
-            "avg"
-            "min"
-            "max"
-        ]
 
     let HGHistNorm =
         Pattern.EnumInlines "HGHistNorm" [
@@ -289,7 +199,7 @@ module HGModule =
             "xaxis", T<string> //type is 'subplotid'
             "yaxis", T<string> //type is 'subplotid'
             "orientation", HGOrientation.Type
-            "histfunc", HGHistFunc.Type
+            "histfunc", HistFunc.Type
             "histnorm", HGHistNorm.Type
             "alignmentgroup", T<string>
             "offsetgroup", T<string>
@@ -304,8 +214,8 @@ module HGModule =
             "error_x", HGErrorX.Type
             "error_y", HGErrorY.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
-            "selected", HGSelectedOption.Type
-            "unselected", HGSelectedOption.Type // change name later
+            "selected", SelectedOption.Type
+            "unselected", SelectedOption.Type // change name later
             "cumulative", HGCumulative.Type
             "hoverlabel", HoverLabel.Type
             "xcalendar", Calendar.Type
@@ -316,18 +226,8 @@ module HGModule =
     let HGTraceNamespaces : CodeModel.NamespaceEntity list = [       
         HGHoverInfo
         HGOrientation
-        HGPeriodAlignment
         HGMarkerLine
-        HGGradientType
-        HGMarkerPatternShape
-        HGMarkerPattern
-        HGGradient
-        HGFillMode
         HGMarker
-        HGSelectedMarker
-        HGSelectedTextFont
-        HGSelectedOption
-        HGHistFunc
         HGHistNorm
         HGXYBins
         HGDirection

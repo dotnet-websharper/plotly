@@ -43,58 +43,18 @@ module ContourModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "ContourHoverInfo" generatedEnum
 
-    let ContourPeriodAlignment =
-        Pattern.EnumStrings "XContourPeriodAlignment" [
-            "start"
-            "middle"
-            "end"
-        ]
-
-    let ContourGradientType =
-        Pattern.EnumStrings "ContourGradientType" [
-            "radial"
-            "horizontal"
-            "vertical"
-            "none"
-        ]
-
-    let ContourGradient =
-        Pattern.Config "ContourGradient" {
-            Required = []
-            Optional = [
-                "type", ContourGradientType.Type
-                "color", Color + !| Color
-            ]
-        }
-
-    let ContourShape =
-        Pattern.EnumStrings "ContourShape" [
-            "linear"
-            "spline"
-            "hv"
-            "vh"
-            "hvh"
-            "vhv"
-        ]
-
     let ContourLine =
         Pattern.Config "ContourLine" {
             Required = []
             Optional = [
                 "color", Color
                 "width", (T<float> + T<int>)
-                "shape", ContourShape.Type
+                "shape", Shape.Type
                 "smoothing", (T<float> + T<int>)
                 "dash", T<string>
                 "simplify", T<bool>
             ]
         }
-
-    let ContourXYType =
-        Pattern.EnumStrings "ContourXYType" [
-            "array"
-            "scaled"
-        ]
 
     let ContoursType =
         Pattern.EnumStrings "ContoursType" [
@@ -164,11 +124,11 @@ module ContourModule =
             "x", !| T<int> + !| T<float>
             "x0", (T<float> + T<int>) + T<string>
             "dx", (T<float> + T<int>)
-            "xtype", ContourXYType.Type
+            "xtype", XYType.Type
             "y", !| T<int> + !| T<float>
             "y0", (T<float> + T<int>) + T<string>
             "dy", (T<float> + T<int>)
-            "ytype", ContourXYType.Type
+            "ytype", XYType.Type
             "z", !| (!| T<float> + !| T<int>)
             "text", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
@@ -182,10 +142,10 @@ module ContourModule =
             "yaxis", T<string> //type is 'subplotid'
             "coloraxis", T<string> //type is 'subplotid'
             "xperiod", (T<float> + T<int>) + T<string>
-            "xperiodalignment", ContourPeriodAlignment.Type
+            "xperiodalignment", PeriodAlignment.Type
             "xperiod0", (T<float> + T<int>) + T<string>
             "yperiod", (T<float> + T<int>) + T<string>
-            "yperiodalignment", ContourPeriodAlignment.Type
+            "yperiodalignment", PeriodAlignment.Type
             "yperiod0", (T<float> + T<int>) + T<string>
             "line", ContourLine.Type
             "colorbar", ColorBar.Type
@@ -214,12 +174,7 @@ module ContourModule =
     let ContourTraceNamespaces : CodeModel.NamespaceEntity list = [
         ContourModes
         ContourHoverInfo
-        ContourPeriodAlignment
-        ContourGradientType
-        ContourGradient
-        ContourShape
         ContourLine
-        ContourXYType
         ContoursType
         ContourColoring
         ContourOperation

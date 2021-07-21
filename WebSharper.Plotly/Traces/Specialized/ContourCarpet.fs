@@ -29,23 +29,13 @@ module ContourCarpetModule =
 
     open CommonModule
 
-    let ContourCarpetShape =
-        Pattern.EnumStrings "ContourCarpetShape" [
-            "linear"
-            "spline"
-            "hv"
-            "vh"
-            "hvh"
-            "vhv"
-        ]
-
     let ContourCarpetLine =
         Pattern.Config "ContourCarpetLine" {
             Required = []
             Optional = [
                 "color", Color
                 "width", (T<float> + T<int>)
-                "shape", ContourCarpetShape.Type
+                "shape", Shape.Type
                 "smoothing", (T<float> + T<int>)
                 "dash", T<string>
                 "simplify", T<bool>
@@ -100,12 +90,6 @@ module ContourCarpetModule =
             ]
         }
 
-    let ContourCarpetType =
-        Pattern.EnumStrings "ContourCarpetType" [
-            "array"
-            "scaled"
-        ]
-
     let ContourCarpetOptions =
         Class "ContourCarpetOptions"
         |=> Inherits Trace
@@ -124,11 +108,11 @@ module ContourCarpetModule =
             "ids", !| T<string>
             "z", !| T<string> + !| T<int> + !| T<float>
             "a", !| T<string> + !| T<int> + !| T<float>
-            "atype", ContourCarpetType.Type
+            "atype", XYType.Type
             "a0", T<int> + T<float> + T<string>
             "da", T<int> + T<float>
             "b", !| T<string> + !| T<int> + !| T<float>
-            "btype", ContourCarpetType.Type
+            "btype", XYType.Type
             "b0", T<int> + T<float> + T<string>
             "db", T<int> + T<float>
             "text", !| T<string> + !| T<int> + !| T<float>
@@ -158,12 +142,10 @@ module ContourCarpetModule =
         ]
 
     let ContourCarpetTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ContourCarpetShape
         ContourCarpetLine
         ContourCarpetsType
         ContourCarpetColoring
         ContourCarpetOperation
         ContourCarpetContours
-        ContourCarpetType
         ContourCarpetOptions
     ]

@@ -44,14 +44,6 @@ module FunnelAreaModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "FunnelAreaTextInfo" generatedEnum
 
-    let FunnelAreaTextPosition =
-        Pattern.EnumStrings "FunnelAreaTextPosition" [
-            "inside"
-            "outside"
-            "auto"
-            "none"
-        ]
-
     let FunnelAreaMarkerLine =
         Pattern.Config "FunnelAreaMarkerLine" {
             Required = []
@@ -87,17 +79,6 @@ module FunnelAreaModule =
             ]
         }
 
-    let FunnelAreaDomain =
-        Pattern.Config "FunnelAreaDomain" {
-            Required = []
-            Optional = [
-                "x", !| T<string> + !| T<int> + !| T<float>
-                "y", !| T<string> + !| T<int> + !| T<float>
-                "row", T<int>
-                "column", T<int>
-            ]
-        }
-
     let FunnelAreaOptions =
         Class "FunnelAreaOptions"
         |=> Inherits Trace
@@ -120,14 +101,14 @@ module FunnelAreaModule =
             "dlabel", T<int> + T<float>
             "label0", T<int> + T<float>
             "text", T<string> + !| T<string>
-            "textposition", FunnelAreaTextPosition.Type
+            "textposition", TextPositionEnum.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
             "hoverinfo", FunnelAreaHoverInfo.Type //TODO
             "hovertemplate", T<string> + !| T<string>
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
-            "domain", FunnelAreaDomain.Type
+            "domain", Domain.Type
             "marker", FunnelAreaMarker.Type
             "textfont", Font.Type
             "textinfo", FunnelAreaTextInfo.Type
@@ -142,11 +123,9 @@ module FunnelAreaModule =
     let FunnelAreaTraceNamespaces : CodeModel.NamespaceEntity list = [
         FunnelAreaHoverInfo
         FunnelAreaTextInfo
-        FunnelAreaTextPosition
         FunnelAreaMarkerLine
         FunnelAreaMarker
         FunnelAreaTitlePosition
         FunnelAreaTitle
-        FunnelAreaDomain
         FunnelAreaOptions
     ]

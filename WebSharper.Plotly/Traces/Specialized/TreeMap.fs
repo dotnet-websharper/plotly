@@ -76,17 +76,6 @@ module TreeMapModule =
             ]
         }
 
-    let TreeMapDomain =
-        Pattern.Config "TreeMapDomain" {
-            Required = []
-            Optional = [
-                "x", !| T<int> + !| T<float>
-                "y", !| T<int> + !| T<float>
-                "row", T<int>
-                "column", T<int>
-            ]
-        }
-
     let TreeMapBranchValues =
         Pattern.EnumStrings "TreeMapBranchValues" [
             "remainder"
@@ -99,27 +88,6 @@ module TreeMapModule =
             "leaves"
             "branches+leaves"
             "leaves+branches"
-        ]
-
-    let TreeMapRoot =
-        Pattern.Config "TreeMapRoot" {
-            Required = []
-            Optional = [
-                "color", Color
-            ]
-        }
-
-    let TreeMapTextPosition =
-        Pattern.EnumInlines "TreeMapTextPosition" [
-            "TopLeft", "'top left'"
-            "TopCenter", "'top center'"
-            "TopRight", "'top right'"
-            "MiddleLeft", "'middle left'"
-            "MiddleCenter", "'middle center'"
-            "MiddleRight", "'middle right'"
-            "BottomLeft", "'bottom left'"
-            "BottomCenter", "'bottom center'"
-            "BottomRight", "'bottom right'"
         ]
 
     let TreeMapTilingPacking =
@@ -197,14 +165,14 @@ module TreeMapModule =
             "values", !| T<string> + !| T<int> + !| T<float>
             "labels", !| T<string> + !| T<int> + !| T<float>
             "text", T<string> + !| T<string>
-            "textposition", TreeMapTextPosition.Type
+            "textposition", TextPositionInline.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
             "hoverinfo", !| T<string> //TODO
             "hovertemplate", T<string> + !| T<string>
             "meta", (T<float> + T<int>) + T<string>
             "customdata", !| T<string> + !| T<int> + !| T<float>
-            "domain", TreeMapDomain.Type
+            "domain", Domain.Type
             "marker", TreeMapMarker.Type
             "textfont", Font.Type
             "textinfo", !| T<string> //TODO
@@ -215,7 +183,7 @@ module TreeMapModule =
             "hoverlabel", HoverLabel.Type
             "insidetextfont", Font.Type
             "outsidetextfont", Font.Type
-            "root", TreeMapRoot.Type
+            "root", Root.Type
             "level", T<int> + T<float> + T<string>
             "maxdepth", T<int>
             "sort", T<bool>
@@ -227,11 +195,8 @@ module TreeMapModule =
         TreeMapMarkerPad
         TreeMapMarkerDepthFade
         TreeMapMarker
-        TreeMapDomain
         TreeMapBranchValues
         TreeMapCount
-        TreeMapRoot
-        TreeMapTextPosition
         TreeMapTilingPacking
         TreeMapTilingFlip
         TreeMapTiling

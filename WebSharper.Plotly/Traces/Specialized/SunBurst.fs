@@ -58,17 +58,6 @@ module SunBurstModule =
             ]
         }
 
-    let SunBurstDomain =
-        Pattern.Config "SunBurstDomain" {
-            Required = []
-            Optional = [
-                "x", !| T<int> + !| T<float>
-                "y", !| T<int> + !| T<float>
-                "row", T<int>
-                "column", T<int>
-            ]
-        }
-
     let SunBurstBranchValues =
         Pattern.EnumStrings "SunBurstBranchValues" [
             "remainder"
@@ -81,23 +70,7 @@ module SunBurstModule =
             "leaves"
             "branches+leaves"
             "leaves+branches"
-        ]
-
-    let SunBurstTextOrientation =
-        Pattern.EnumStrings "SunBurstTextOrientation" [
-            "horizontal"
-            "radial"
-            "tangential"
-            "auto"
-        ]
-
-    let SunBurstRoot =
-        Pattern.Config "SunBurstRoot" {
-            Required = []
-            Optional = [
-                "color", Color
-            ]
-        }
+        ]    
 
     let SunBurstLeaf =
         Pattern.Config "SunBurstLeaf" {
@@ -131,7 +104,7 @@ module SunBurstModule =
             "hoverinfo", !| T<string> //TODO
             "hovertemplate", T<string> + !| T<string>
             "meta", (T<float> + T<int>) + T<string>
-            "domain", SunBurstDomain.Type
+            "domain", Domain.Type
             "marker", SunBurstMarker.Type
             "textfont", Font.Type
             "textinfo", !| T<string> //TODO
@@ -139,9 +112,9 @@ module SunBurstModule =
             "count", SunBurstCount.Type
             "hoverlabel", HoverLabel.Type
             "insidetextfont", Font.Type
-            "insidetextorientation", SunBurstTextOrientation.Type
+            "insidetextorientation", TextOrientation.Type
             "outsidetextfont", Font.Type
-            "root", SunBurstRoot.Type
+            "root", Root.Type
             "leaf", SunBurstLeaf.Type
             "level", T<int> + T<float> + T<string>
             "maxdepth", T<int>
@@ -153,11 +126,8 @@ module SunBurstModule =
     let SunBurstTraceNamespaces : CodeModel.NamespaceEntity list = [
         SunBurstMarkerLine
         SunBurstMarker
-        SunBurstDomain
         SunBurstBranchValues
         SunBurstCount
-        SunBurstTextOrientation
-        SunBurstRoot
         SunBurstLeaf
         SunBurstOptions
     ]

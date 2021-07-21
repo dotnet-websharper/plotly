@@ -926,17 +926,6 @@ module LayoutModule =
             ]
         }
 
-    let LayoutDomain =
-        Pattern.Config "LayoutDomain" {
-            Required = []
-            Optional = [
-                "x", !| T<string> + !| T<int> + !| T<float>
-                "y", !| T<string> + !| T<int> + !| T<float>
-                "row", T<int>
-                "column", T<int>
-            ]
-        }
-
     let LayoutTernaryAxis =
         Pattern.Config "LayoutTernaryAAxis" {
             Required = []
@@ -983,7 +972,7 @@ module LayoutModule =
         Pattern.Config "LayoutTernary" {
             Required = []
             Optional = [
-                "domain", LayoutDomain.Type
+                "domain", Domain.Type
                 "bgcolor", Color
                 "sum", T<int> + T<float>
                 "aaxis", LayoutTernaryAxis.Type 
@@ -1115,7 +1104,7 @@ module LayoutModule =
             Optional = [
                 "bgcolor", Color
                 "camera", LayoutSceneCamera.Type
-                "domain", LayoutDomain.Type
+                "domain", Domain.Type
                 "aspectmode", LayoutAspectMode.Type
                 "aspectratio", LayoutCameraAxises.Type
                 "xaxis", LayoutSceneAxis.Type
@@ -1225,7 +1214,7 @@ module LayoutModule =
         Pattern.Config "LayoutGeo" {
             Required = []
             Optional = [
-                "domain", LayoutDomain.Type
+                "domain", Domain.Type
                 "fitbounds", LayoutGeoFitBounds.Type
                 "resolution", LayoutGeoResolution.Type
                 "scope", LayoutGeoScope.Type
@@ -1328,19 +1317,6 @@ module LayoutModule =
             "line-center"
         ]
 
-    let LayoutSymbolTextPosition =
-        Pattern.EnumInlines "LayoutSymbolTextPosition" [
-            "TopLeft", "'top left'"
-            "TopCenter", "'top center'"
-            "TopRight", "'top right'"
-            "MiddleLeft", "'middle left'"
-            "MiddleCenter", "'middle center'"
-            "MiddleRight", "'middle right'"
-            "BottomLeft", "'bottom left'"
-            "BottomCenter", "'bottom center'"
-            "BottomRight", "'bottom right'"
-        ]
-
     let LayoutMapboxLayerSymbol =
         Pattern.Config "LayoutMapboxLayerSymbol" {
             Required = []
@@ -1350,7 +1326,7 @@ module LayoutModule =
                 "text", T<string>
                 "placement", LayoutSymbolPlacement.Type
                 "textfont", Font.Type
-                "textposition", LayoutSymbolTextPosition.Type
+                "textposition", TextPositionInline.Type
             ]
         }
 
@@ -1383,7 +1359,7 @@ module LayoutModule =
         Pattern.Config "LayoutMapbox" {
             Required = []
             Optional = [
-                "domain", LayoutDomain.Type
+                "domain", Domain.Type
                 "accesstoken", T<string>
                 "style", T<int> + T<float> + T<string>
                 "center", LayoutCenter.Type
@@ -1533,7 +1509,7 @@ module LayoutModule =
         Pattern.Config "LayoutPolar" {
             Required = []
             Optional = [
-                "domain", LayoutDomain.Type
+                "domain", Domain.Type
                 "sector", !| T<obj>
                 "hole", (T<float> + T<int>)
                 "bgcolor", Color
@@ -1921,7 +1897,6 @@ module LayoutModule =
         LayoutSliderAxisRangemode
         LayoutAxisRangeSliderAxis
         LayoutAxisRangeSlider
-        LayoutDomain
         LayoutGeoFitBounds
         LayoutGeoResolution
         LayoutGeoScope
@@ -1935,7 +1910,6 @@ module LayoutModule =
         LayoutMapboxLayerLine
         LayoutMapboxLayerFill
         LayoutSymbolPlacement
-        LayoutSymbolTextPosition
         LayoutMapboxLayerSymbol
         LayoutMapboxLayerCircle
         LayoutMapboxLayer

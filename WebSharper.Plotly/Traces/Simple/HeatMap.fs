@@ -30,31 +30,12 @@ module HeatMapModule =
 
     open CommonModule
 
-    let HMXYType =
-        Pattern.EnumStrings "HMXYType" [
-            "array"
-            "scaled"
-        ]
-
     let HMHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "HMHoverInfo" generatedEnum
-
-    let HMPeriodAlignment =
-        Pattern.EnumStrings "HMPeriodAlignment" [
-            "start"
-            "middle"
-            "end"
-        ]
-
-    let HMZSmooth =
-        Pattern.EnumStrings "HMZSmooth" [
-            "fast"
-            "best"
-        ]
 
     let HeatMapOptions = 
         Class "HeatMapOptions"
@@ -75,12 +56,12 @@ module HeatMapModule =
             "x", !| T<float> + !| T<int> + !| T<string> //data array
             "x0", (T<float> + T<int>) + !| T<string>
             "dx", (T<float> + T<int>)
-            "xtype", HMXYType.Type
+            "xtype", XYType.Type
             "xgap", (T<float> + T<int>)
             "y", !| T<float> + !| T<int> + !| T<string> + !| (!| T<float> + !| T<int> + !| T<string>) + !| (!| (!| T<float> + !| T<int> + !| T<string>))    //data array
             "y0", (T<float> + T<int>) + !| T<string>
             "dy", (T<float> + T<int>)
-            "ytype", HMXYType.Type
+            "ytype", XYType.Type
             "ygap", (T<float> + T<int>)
             "z", !| T<float> + !| T<int> + !| T<string> //data array
             "text", !| T<string> //data array
@@ -95,10 +76,10 @@ module HeatMapModule =
             "yaxis", T<string> //subplotid
             "coloraxis", T<string> //subplotid
             "xperiod", (T<float> + T<int>) + T<string>
-            "xperiodalignment", HMPeriodAlignment.Type
+            "xperiodalignment", PeriodAlignment.Type
             "xperiod0", (T<float> + T<int>) + T<string>
             "yperiod", (T<float> + T<int>) + T<string>
-            "yperiodalignment", HMPeriodAlignment.Type
+            "yperiodalignment", PeriodAlignment.Type
             "yperiod0", (T<float> + T<int>) + T<string>
             "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
@@ -110,7 +91,7 @@ module HeatMapModule =
             "zmax", (T<float> + T<int>)
             "mid", (T<float> + T<int>)
             "min", (T<float> + T<int>)
-            "zsmooth", HMZSmooth.Type + T<bool>
+            "zsmooth", ZSmooth.Type + T<bool>
             "connectgaps", T<bool>
             "hoverlabel", HoverLabel.Type
             "hoverongaps", T<bool>
@@ -121,9 +102,6 @@ module HeatMapModule =
         ]
 
     let HeatMapTraceNamespaces : CodeModel.NamespaceEntity list = [
-        HMXYType
         HMHoverInfo
-        HMPeriodAlignment
-        HMZSmooth
         HeatMapOptions
     ]

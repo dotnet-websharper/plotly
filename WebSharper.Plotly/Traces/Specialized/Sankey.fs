@@ -30,17 +30,6 @@ module SankeyModule =
 
     open CommonModule
 
-    let SankeyDomain =
-        Pattern.Config "SankeyDomain" {
-            Required = []
-            Optional = [
-                "x", !| T<int> + !| T<float>
-                "y", !| T<int> + !| T<float>
-                "row", T<int>
-                "column", T<int>
-            ]
-        }
-
     let SankeyHoverInfo =
         Pattern.EnumStrings "SankeyHoverInfo" [
             "none"
@@ -143,7 +132,7 @@ module SankeyModule =
             "hoverinfo", SankeyHoverInfo.Type
             "meta", (T<float> + T<int>) + T<string>
             "customdata", !| T<string> + !| T<int> + !| T<float>
-            "domain", SankeyDomain.Type
+            "domain", Domain.Type
             "orientation", Orientation.Type
             "node", SankeyNode.Type
             "link", SankeyLink.Type
@@ -157,7 +146,6 @@ module SankeyModule =
         ]
 
     let SankeyTraceNamespaces : CodeModel.NamespaceEntity list = [
-        SankeyDomain
         SankeyHoverInfo
         SankeyNodeLine
         SankeyNodeHoverInfo

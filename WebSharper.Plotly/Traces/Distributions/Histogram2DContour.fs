@@ -37,91 +37,13 @@ module HG2DContModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "HG2DContHoverInfo" generatedEnum
 
-    let HG2DContGradientType =
-        Pattern.EnumStrings "HG2DContGradientType" [
-            "radial"
-            "horizontal"
-            "vertical"
-            "none"
-        ]
-
-    let HG2DContGradient =
-        Pattern.Config "HG2DContGradient" {
-            Required = []
-            Optional = [
-                "type", HG2DContGradientType.Type
-                "color", Color + !| Color
-            ]
-        }
-
-    let HG2DContMarkerPatternShape =
-        Pattern.EnumInlines "HG2DContMarkerPatternShape" [
-            "empty", "''"
-            "slash", "'/'"
-            "backslash", """'\\'"""
-            "x", "'x'"
-            "minus", "'-'"
-            "pipeline", "'|'"
-            "plus", "'+'"
-            "dot", "'.'"
-        ]
-
-    let HG2DContFillMode =
-        Pattern.EnumStrings "HG2DContFillMode" [
-            "replace"
-            "overlay"
-        ]
-
-    let HG2DContMarkerPattern =
-        Pattern.Config "HG2DContMarkerPattern" {
-            Required = []
-            Optional = [
-                "shape", HG2DContMarkerPatternShape.Type
-                "fillmode", HG2DContFillMode.Type
-                "bgcolor", Color + !| Color
-                "fgcolor", Color + !| Color
-                "fgopacity", (T<float> + T<int>)
-                "size", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "solidity", (T<float> + T<int>) + !| T<float> + !| T<int>               
-            ]
-        }
-
     let HG2DContMarker =
         Pattern.Config "HG2DContMarker" {
             Required = []
             Optional = [
                 "color", Color + !| Color //data array
             ]
-        }
-
-    let HG2DContCalendar =
-        Pattern.EnumStrings "HG2DContCalendar" [
-            "gregorian"
-            "chinese"
-            "coptic"
-            "discworld"
-            "ethiopian"
-            "hebrew"
-            "islamic"
-            "julian"
-            "mayan"
-            "nanakshahi"
-            "nepali"
-            "persian"
-            "jalali"
-            "taiwan"
-            "thai"
-            "ummalqura"
-        ]
-
-    let HG2DContHistFunc =
-        Pattern.EnumStrings "HG2DContHistFunc" [
-            "count"
-            "sum"
-            "avg"
-            "min"
-            "max"
-        ]
+        }  
 
     let HG2DContHistNorm =
         Pattern.EnumInlines "HG2DContHistNorm" [
@@ -230,7 +152,7 @@ module HG2DContModule =
             "xaxis", T<string> //type is 'subplotid'
             "yaxis", T<string> //type is 'subplotid'
             "coloraxis", T<string> //type is 'subplotid'
-            "histfunc", HG2DContHistFunc.Type
+            "histfunc", HistFunc.Type
             "histnorm", HG2DContHistNorm.Type
             "nbinsx", T<int>
             "ybinsx", T<int>
@@ -257,21 +179,14 @@ module HG2DContModule =
             "contours", HG2DContContours.Type
             "hoverlabel",HoverLabel.Type
             "ncontours", T<int>
-            "xcalendar", HG2DContCalendar.Type
-            "ycalendar", HG2DContCalendar.Type
+            "xcalendar", Calendar.Type
+            "ycalendar", Calendar.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let HG2DContTraceNamespaces : CodeModel.NamespaceEntity list = [       
         HG2DContHoverInfo
-        HG2DContGradientType
-        HG2DContGradient
-        HG2DContMarkerPatternShape
-        HG2DContFillMode
-        HG2DContMarkerPattern
         HG2DContMarker
-        HG2DContCalendar
-        HG2DContHistFunc
         HG2DContHistNorm
         HG2DContXYBins
         HG2DContLine

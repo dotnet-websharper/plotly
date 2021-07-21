@@ -56,17 +56,6 @@ module TableModule =
             ]
         }
 
-    let TableDomain =
-        Pattern.Config "TableDomain" {
-            Required = []
-            Optional = [
-                "x", !| T<float> + !| T<int> + !| T<string>
-                "y", !| T<int> + !| T<float> + !| T<string>
-                "row", T<int>
-                "column", T<int>
-            ]
-        }
-
     let TableLine =
         Pattern.Config "tableLine" {
             Required = []
@@ -135,7 +124,7 @@ module TableModule =
             "hoverinfo", TableHoverInfo.Type
             "meta", (T<float> + T<int>) + T<string>
             "customdata", !| T<string> //data array
-            "domain", TableDomain.Type
+            "domain", Domain.Type
             "cells", TableCells.Type
             "header", TableHeader.Type
             "hoverlabel", TableHoverLabel.Type
@@ -145,7 +134,6 @@ module TableModule =
     let TableTraceNamespaces : CodeModel.NamespaceEntity list = [
         TableHoverInfo
         TableHoverLabel
-        TableDomain
         TableAlign
         TableLine
         TableFill

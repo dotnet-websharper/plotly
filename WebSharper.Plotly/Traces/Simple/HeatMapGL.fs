@@ -30,31 +30,12 @@ module HeatMapGLModule =
 
     open CommonModule
 
-    let HMGLXYType =
-        Pattern.EnumStrings "HMGLXYType" [
-            "array"
-            "scaled"
-        ]
-
     let HMGLHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "HMGLHoverInfo" generatedEnum
-
-    let HMGLPeriodAlignment =
-        Pattern.EnumStrings "HMGLPeriodAlignment" [
-            "start"
-            "middle"
-            "end"
-        ]
-
-    let HMGLZSmooth =
-        Pattern.EnumStrings "HMGLZSmooth" [
-            "fast"
-            "best"
-        ]
 
     let HeatMapGLOptions = 
         Class "HeatMapGLOptions"
@@ -73,11 +54,11 @@ module HeatMapGLModule =
             "x", !| T<float> + !| T<int> + !| T<string> //data array
             "x0", (T<float> + T<int>) + !| T<string>
             "dx", (T<float> + T<int>)
-            "xtype", HMGLXYType.Type
+            "xtype", XYType.Type
             "y", !| T<float> + !| T<int> + !| T<string> + !| (!| T<float> + !| T<int> + !| T<string>) + !| (!| (!| T<float> + !| T<int> + !| T<string>))    //data array
             "y0", (T<float> + T<int>) + !| T<string>
             "dy", (T<float> + T<int>)
-            "ytype", HMGLXYType.Type
+            "ytype", XYType.Type
             "z", !| T<float> + !| T<int> + !| T<string> //data array
             "text", !| T<string> //data array
             "hoverinfo", HMGLHoverInfo.Type
@@ -95,16 +76,13 @@ module HeatMapGLModule =
             "zmax", (T<float> + T<int>)
             "mid", (T<float> + T<int>)
             "min", (T<float> + T<int>)
-            "zsmooth", HMGLZSmooth.Type + T<bool>
+            "zsmooth", ZSmooth.Type + T<bool>
             "hoverlabel", HoverLabel.Type
             "transpose", T<bool>
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let HeatMapGLTraceNamespaces : CodeModel.NamespaceEntity list = [
-        HMGLXYType
         HMGLHoverInfo
-        HMGLPeriodAlignment
-        HMGLZSmooth
         HeatMapGLOptions
     ]

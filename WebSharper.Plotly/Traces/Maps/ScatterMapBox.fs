@@ -37,31 +37,12 @@ module ScatterMBModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "ScatterMBModes" generatedEnum
 
-    let ScatterMBTextPosition =
-        Pattern.EnumInlines "ScatterMBTextPosition" [
-            "TopLeft", "'top left'"
-            "TopCenter", "'top center'"
-            "TopRight", "'top right'"
-            "MiddleLeft", "'middle left'"
-            "MiddleCenter", "'middle center'"
-            "MiddleRight", "'middle right'"
-            "BottomLeft", "'bottom left'"
-            "BottomCenter", "'bottom center'"
-            "BottomRight", "'bottom right'"
-        ]
-
     let ScatterMBHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["lon"; "lat"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "ScatterMBHoverInfo" generatedEnum
-
-    let ScatterMBSizeMode =
-        Pattern.EnumStrings "ScatterMBSizeMode" [
-            "diameter"
-            "area"
-        ]
 
     let ScatterMBMarker =
         Pattern.Config "ScatterMBMarker" {
@@ -74,7 +55,7 @@ module ScatterMBModule =
                 "size", (T<float> + T<int>) + !| T<float> + !| T<int>
                 "sizeref", (T<float> + T<int>)
                 "sizemin", (T<float> + T<int>)
-                "sizemode", ScatterMBSizeMode.Type
+                "sizemode", SizeMode.Type
                 "color", Color + !| Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
@@ -98,34 +79,13 @@ module ScatterMBModule =
             ]
         }
 
-    let ScatterMBSelectedMarker =
-        Pattern.Config "ScatterMBSelectedMarker" {
-            Required = []
-            Optional = [
-                "opacity", (T<float> + T<int>)
-                "color", Color
-                "size", (T<float> + T<int>)
-            ]
-        }
-
     let ScatterMBSelectedOption =
         Pattern.Config "ScatterMBSelectedOption" {
             Required = []
             Optional = [
-                "marker", ScatterMBSelectedMarker.Type
+                "marker", SelectedMarker.Type
             ]
         }
-
-    let ScatterMBFill =
-        Pattern.EnumStrings "ScatterMBFill" [
-            "none"
-            "tozeroy"
-            "tozerox"
-            "tonexty"
-            "tonextx"
-            "toself"
-            "tonext"
-        ]
 
     let ScatterMBOptions =
         Class "ScatterMBOptions"
@@ -147,7 +107,7 @@ module ScatterMBModule =
             "lat", !| T<int> + !| T<float> + !| T<string>
             "lon", !| T<int> + !| T<float> + !| T<string>
             "text", T<string> + !| T<string>
-            "textposition", ScatterMBTextPosition.Type
+            "textposition", TextPositionInline.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
             "hoverinfo", ScatterMBHoverInfo.Type
@@ -163,7 +123,7 @@ module ScatterMBModule =
             "unselected", ScatterMBSelectedOption.Type // change name later
             "below", T<string>
             "connectgaps", T<bool>
-            "fill", ScatterMBFill.Type
+            "fill", Fill.Type
             "fillcolor", Color
             "hoverlabel", HoverLabel.Type
             "uirevision", (T<float> + T<int>) + T<string>
@@ -171,13 +131,9 @@ module ScatterMBModule =
 
     let ScatterMBTraceNamespaces : CodeModel.NamespaceEntity list = [
         ScatterMBModes
-        ScatterMBTextPosition
         ScatterMBHoverInfo
-        ScatterMBSizeMode
         ScatterMBMarker
         ScatterMBLine
-        ScatterMBSelectedMarker
         ScatterMBSelectedOption
-        ScatterMBFill
         ScatterMBOptions
     ]

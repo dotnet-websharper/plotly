@@ -30,13 +30,6 @@ module CarpetModule =
 
     open CommonModule
 
-    let CarpetTickMode =
-        Pattern.EnumStrings "CarpetTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
     let CarpetAxisTitle =
         Pattern.Config "CarpetAxisTitle" {
             Required = []
@@ -102,7 +95,7 @@ module CarpetModule =
                 "range", !| T<int> + !| T<float> + !| T<string>
                 "fixedrange", T<bool>
                 "cheatertype", CarpetAxisCT.Type
-                "tickmode", CarpetTickMode.Type
+                "tickmode", TickMode.Type
                 "nticks", T<int>
                 "tick0", (T<float> + T<int>)
                 "dtick", (T<float> + T<int>)
@@ -182,7 +175,6 @@ module CarpetModule =
         ]
 
     let CarpetTraceNamespaces : CodeModel.NamespaceEntity list = [
-        CarpetTickMode
         CarpetAxisTitle
         CarpetAxisType
         CarpetAxisATN

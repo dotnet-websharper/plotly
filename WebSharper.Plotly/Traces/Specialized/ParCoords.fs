@@ -66,17 +66,6 @@ module ParCoordsModule =
             ]
         }
 
-    let ParCoordsDomain =
-        Pattern.Config "ParCoordsDomain" {
-            Required = []
-            Optional = [
-                "x", !| T<int> + !| T<float>
-                "y", !| T<int> + !| T<float>
-                "row", T<int>
-                "column", T<int>
-            ]
-        }
-
     let ParCoordsLabelSide =
         Pattern.EnumStrings "ParCoordsLabelSide" [
             "top"
@@ -99,7 +88,7 @@ module ParCoordsModule =
             "dimensions", !| ParCoordsDimensions.Type
             "meta", (T<float> + T<int>) + T<string>
             "customdata", !| T<string> + !| T<int> + !| T<float>
-            "domain", ParCoordsDomain.Type
+            "domain", Domain.Type
             "line", ParCoordsLine.Type
             "labelangle", T<int> + T<float>
             "labelfont", Font.Type
@@ -112,7 +101,6 @@ module ParCoordsModule =
     let ParCoordsTraceNamespaces : CodeModel.NamespaceEntity list = [
         ParCoordsDimensions
         ParCoordsLine
-        ParCoordsDomain
         ParCoordsLabelSide
         ParCoordsOptions
     ]

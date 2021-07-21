@@ -44,30 +44,6 @@ module WaterfallModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "WaterfallTextInfo" generatedEnum
 
-    let WaterfallPeriodAlignment =
-        Pattern.EnumStrings "XWaterfallPeriodAlignment" [
-            "start"
-            "middle"
-            "end"
-        ]
-
-    let WaterfallGradientType =
-        Pattern.EnumStrings "WaterfallGradientType" [
-            "radial"
-            "horizontal"
-            "vertical"
-            "none"
-        ]
-
-    let WaterfallGradient =
-        Pattern.Config "WaterfallGradient" {
-            Required = []
-            Optional = [
-                "type", WaterfallGradientType.Type
-                "color", Color + !| Color
-            ]
-        }
-
     let WaterfallLine =
         Pattern.Config "WaterfallLine" {
             Required = []
@@ -104,14 +80,6 @@ module WaterfallModule =
                 "fillcolor", Color
             ]
         }
-
-    let WaterfallTextPosition =
-        Pattern.EnumStrings "WaterfallTextPosition" [
-            "inside"
-            "outside"
-            "auto"
-            "none"
-        ]
 
     let WaterfallConnectorMode =
         Pattern.EnumStrings "WaterfallConnectorMode" [
@@ -188,7 +156,7 @@ module WaterfallModule =
             "measure", !| T<int> + !| T<float> + T<string>
             "offset", T<int> + T<float> + !| T<int> + !| T<float>
             "text", T<string> + !| T<string>
-            "textposition", WaterfallTextPosition.Type
+            "textposition", TextPositionEnum.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
             "hoverinfo", WaterfallHoverInfo.Type
@@ -203,10 +171,10 @@ module WaterfallModule =
             "alignmentgroup", T<string>
             "offsetgroup", T<string>
             "xperiod", (T<float> + T<int>) + T<string>
-            "xperiodalignment", WaterfallPeriodAlignment.Type
+            "xperiodalignment", PeriodAlignment.Type
             "xperiod0", (T<float> + T<int>) + T<string>
             "yperiod", (T<float> + T<int>) + T<string>
-            "yperiodalignment", WaterfallPeriodAlignment.Type
+            "yperiodalignment", PeriodAlignment.Type
             "yperiod0", (T<float> + T<int>) + T<string>
             "textangle", T<int> + T<float> //angle
             "textfont", Font.Type
@@ -228,14 +196,10 @@ module WaterfallModule =
     let WaterfallTraceNamespaces : CodeModel.NamespaceEntity list = [
         WaterfallHoverInfo
         WaterfallTextInfo
-        WaterfallPeriodAlignment
-        WaterfallGradientType
-        WaterfallGradient
         WaterfallLine
         WaterfallMarkerLine
         WaterfallCreasingLine
         WaterfallCreasing
-        WaterfallTextPosition
         WaterfallConnectorMode
         WaterfallConnector
         WaterfallConstrainText

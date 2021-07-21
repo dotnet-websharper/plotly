@@ -889,13 +889,13 @@ module Client =
         T = 50
     )
 
-    let barpolar1 = BarPolarOptions()
-    barpolar1.R <- [|57.5; 50.0; 45.0; 35.0; 20.0; 22.5; 37.5; 55.0|]
-    barpolar1.Name <- "8-11 m/s"
-    barpolar1.Marker <- BarPolarMarker(
-        Color = "red"
+    let barpolar3 = BarPolarOptions()
+    barpolar3.R <- [|57.5; 50.0; 45.0; 35.0; 20.0; 22.5; 37.5; 55.0|]
+    barpolar3.Name <- "8-11 m/s"
+    barpolar3.Marker <- BarPolarMarker(
+        Color = "rgb(158,154,200)"
     )
-    barpolar1.Theta <- [|
+    barpolar3.Theta <- [|
         "North";"N-E";"East";"S-E";
         "South";"S-W";"West";"N-W"
        |]
@@ -903,9 +903,29 @@ module Client =
     barpolar2.R <- [|40.0; 30.0; 30.0; 35.0; 7.5; 7.5; 32.5; 40.0|]
     barpolar2.Name <- "5-8 m/s"
     barpolar2.Marker <- BarPolarMarker(
-        Color = "blue"
-    )
+        Color = "rgb(203,201,226)"
+    )    
     barpolar2.Theta <- [|
+        "North";"N-E";"East";"S-E";
+        "South";"S-W";"West";"N-W"
+       |]
+    let barpolar1 = BarPolarOptions()
+    barpolar1.R <- [|77.5; 72.5; 70.0; 45.0; 22.5; 42.5; 40.0; 62.5|]
+    barpolar1.Name <- "11-14 m/s"
+    barpolar1.Marker <- BarPolarMarker(
+        Color = "rgb(106,81,163)"
+    )
+    barpolar1.Theta <- [|
+        "North";"N-E";"East";"S-E";
+        "South";"S-W";"West";"N-W"
+       |]
+    let barpolar4 = BarPolarOptions()
+    barpolar4.R <- [|20.0; 7.5; 15.0; 22.5; 2.5; 2.5; 12.5; 22.5|]
+    barpolar4.Name <- "< 5 m/s"
+    barpolar4.Marker <- BarPolarMarker(
+        Color = "rgb(242,240,247)"
+    )
+    barpolar4.Theta <- [|
         "North";"N-E";"East";"S-E";
         "South";"S-W";"West";"N-W"
        |]
@@ -922,7 +942,6 @@ module Client =
             Size = 16
         )
     )
-    barpolarLayout.Bargap <- 0
     barpolarLayout.Polar <- LayoutPolar(
         Radialaxis = LayoutPolarRadialAxis(
             Ticksuffix = "%",
@@ -931,16 +950,8 @@ module Client =
         ),
         Angularaxis = LayoutPolarAngularAxis(
             Direction = LayoutRadialAxisSide.Clockwise
-        )
-    )
-
-    let barpolar = BarPolarOptions()
-    barpolar.R <- [|3; 2; 5; 1; 2|]
-    barpolar.Ids <- [|"Strength"; "Intelligence"; "Dexterity"; "Wisdom"; "Stealth"|]
-    barpolar.Theta <- [|108.0; 180.0; 252.0; 324.0; 396.0|]
-    barpolar.Width <- 72
-    barpolar.Marker <- BarPolarMarker(
-        Color = [|"red"; "green"; "blue"; "orange"; "pink"|]
+        ),
+        Bargap = 0
     )
 
     let option2 = Options()
@@ -993,7 +1004,7 @@ module Client =
     let surfaceChart = Plotly.Plotly.NewPlot("surfacechartDiv", [|surface|], surfaceLayout)
     let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], scatterMBLayout)
     let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], choroplethMBLayout, null)
-    let barpolarChart = Plotly.Plotly.NewPlot("barpolarchartDiv", [|barpolar1; barpolar2|], barpolarLayout)
+    let barpolarChart = Plotly.Plotly.NewPlot("barpolarchartDiv", [|barpolar1; barpolar2; barpolar3; barpolar4|], barpolarLayout)
 
     [<SPAEntryPoint>]
     let Main () =

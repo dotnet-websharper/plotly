@@ -1497,6 +1497,7 @@ module LayoutModule =
                 "angularaxis", LayoutPolarAngularAxis.Type
                 "gridshape", LayoutGridShape.Type
                 "uirevision", T<int> + T<float> + T<string>
+                "bargap", T<float> + T<int>
             ]
         }
 

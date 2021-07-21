@@ -83,9 +83,6 @@ module Definition =
             TreeMapModule.TreeMapOptions.Type
         ]
 
-    // let ToTraceArray (arr: CodeModel.Class array) =
-    //     Array.map (fun x -> x :> T<CommonModule.Trace>) arr
-
     let WithTypes values f =
         List.map f values
         |> List.reduce (fun l r -> l + r)
@@ -126,7 +123,7 @@ module Definition =
         Assembly [
             Namespace "WebSharper.Plotly.Resources" [
                 yield 
-                    Resource "PlotlyJsCDN" "https://cdn.plot.ly/plotly-2.2.0.min.js"
+                    Resource "PlotlyJsCDN" "https://cdn.plot.ly/plotly-2.2.1.min.js"
                     |> AssemblyWide
                 yield!
                     OptionsModule.Resources

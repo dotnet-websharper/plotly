@@ -21,8 +21,8 @@ namespace WebSharper.Plotly.Extension.Options
 // $end{copyright}
 
 open WebSharper
-open WebSharper.InterfaceGenerator
 open WebSharper.JavaScript
+open WebSharper.InterfaceGenerator
 
 module OptionsModule =
 
@@ -116,7 +116,7 @@ module OptionsModule =
 
         (s.ToUpperInvariant()) =? TSelf
         |> Requires [r]
-        // |> WithGetterInline (sprintf "'%s'" s)
+        |> WithGetterInline (sprintf "'%s'" s)
 
     let localeStrings =
         [

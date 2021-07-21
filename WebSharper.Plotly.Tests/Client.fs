@@ -955,61 +955,127 @@ module Client =
     )
 
     let option2 = Options()
-    option2.Locale <- Locale.RU
+    option2.Locale <- Locale.FR
 
 
 
     
-    let icicleChart = Plotly.Plotly.NewPlot("iciclechartDiv", [|icicle|], icicleLayout)
-    let scarpetChart = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scarpet :> Trace;scattercarpet :> Trace|])
-    let streamTubeChart = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
-    let treeMapChart = Plotly.Plotly.NewPlot("treemapchartDiv", [|treemap|])
-    let sunBurstChart = Plotly.Plotly.NewPlot("sunburstchartDiv", [|sunburst|], sunBurstLayout)
-    let splomChart = Plotly.Plotly.NewPlot("splomchartDiv", [|splom|], splomLayout, null)
-    let scatter3DChart = Plotly.Plotly.NewPlot("scatter3dchartDiv", [|scatter3d|], scatter3DLayout, null)
-    let sternaryChart = Plotly.Plotly.NewPlot("sternarychartDiv", [|sternary|], sternaryLayout)
-    let ccarpetChart = Plotly.Plotly.NewPlot("ccarpetchartDiv", [|ccarpet :> Trace; contourcarpet :> Trace|],ccarpetLayout, null)
-    let densityMBChart = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|], densityMBLayout)
-    let spolarglChart = Plotly.Plotly.NewPlot("spolarglchartDiv", [|spolargl1;spolargl2|], null, option2)
-    let spolarChart = Plotly.Plotly.NewPlot("spolarchartDiv", [|spolar|])
-    let sankeyChart = Plotly.Plotly.NewPlot("sankeychartDiv", [|sankey|])
-    let parcoordsChart = Plotly.Plotly.NewPlot("parcoordschartDiv", [|parcoords|])
-    let parcatsChart = Plotly.Plotly.NewPlot("parcatschartDiv", [|parcats|])
-    let meshChart = Plotly.Plotly.NewPlot("meshchartDiv", [|mesh|], null)
-    let isoSurfaceChart = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|], null)
-    let coneChart = Plotly.Plotly.NewPlot("conechartDiv", [|cone|])
-    let carpetChart = Plotly.Plotly.NewPlot("carpetchartDiv", [|carpet|])
-    let scatterChart = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|], null, option1)
-    let scatterGLChart = Plotly.Plotly.NewPlot("scatterglchartDiv", [|scatterGLTrace|])
-    let pieChart = Plotly.Plotly.NewPlot("piechartDiv", [|pieTrace|])
-    let barChart = Plotly.Plotly.NewPlot("barchartDiv", [|barTrace|])
-    let heatMapChart = Plotly.Plotly.NewPlot("heatmapchartDiv", [|heatmap|])
-    let tableChart = Plotly.Plotly.NewPlot("tablechartDiv", [|table|])
-    let heatMapGLChart = Plotly.Plotly.NewPlot("heatmapglchartDiv", [|heatmapgl|])
-    let contourChart = Plotly.Plotly.NewPlot("contourchartDiv", [|contour|])
-    let imageChart = Plotly.Plotly.NewPlot("imagechartDiv", [|image|], imageLayout)
-    let boxChart = Plotly.Plotly.NewPlot("boxchartDiv", [|box|])
-    let hgChart = Plotly.Plotly.NewPlot("hgchartDiv", [|histogram|])
-    let hg2dChart = Plotly.Plotly.NewPlot("hg2dchartDiv", [|histogram2d|])
-    let hg2dContChart = Plotly.Plotly.NewPlot("hg2dcontchartDiv", [|hg2dcontour|])
-    let violinChart = Plotly.Plotly.NewPlot("violinchartDiv", [|violin|])
-    let candleStickChart = Plotly.Plotly.NewPlot("candlestickchartDiv", [|candlestick|])
-    let funnelChart = Plotly.Plotly.NewPlot("funnelchartDiv", [|funnel|])
-    let funnelAreaChart = Plotly.Plotly.NewPlot("funnelareachartDiv", [|funnelarea|])
-    let indicatorChart = Plotly.Plotly.NewPlot("indicatorchartDiv", [|indicator|], indicatorLayout)
-    let ohlcChart = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|], null)
-    let waterfallChart = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|], null, null)
-    let choroplethChart = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|], null, null)
-    let scatterGeoChart = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|], scatterGeoLayout, null)
-    let surfaceChart = Plotly.Plotly.NewPlot("surfacechartDiv", [|surface|], surfaceLayout)
-    let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], scatterMBLayout)
-    let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], choroplethMBLayout, null)
-    let barpolarChart = Plotly.Plotly.NewPlot("barpolarchartDiv", [|barpolar1; barpolar2; barpolar3; barpolar4|], barpolarLayout)
+    let icicleChart () = Plotly.Plotly.NewPlot("iciclechartDiv", [|icicle|], icicleLayout)
+    let scarpetChart () = Plotly.Plotly.NewPlot("scarpetchartDiv", [|scarpet :> Trace;scattercarpet :> Trace|])
+    let streamTubeChart () = Plotly.Plotly.NewPlot("streamtubechartDiv", [|streamtube|], streamTubeLayout)
+    let treeMapChart () = Plotly.Plotly.NewPlot("treemapchartDiv", [|treemap|])
+    let sunBurstChart () = Plotly.Plotly.NewPlot("sunburstchartDiv", [|sunburst|], sunBurstLayout)
+    let splomChart () = Plotly.Plotly.NewPlot("splomchartDiv", [|splom|], splomLayout, null)
+    let scatter3DChart () = Plotly.Plotly.NewPlot("scatter3dchartDiv", [|scatter3d|], scatter3DLayout, null)
+    let sternaryChart () = Plotly.Plotly.NewPlot("sternarychartDiv", [|sternary|], sternaryLayout)
+    let ccarpetChart () = Plotly.Plotly.NewPlot("ccarpetchartDiv", [|ccarpet :> Trace; contourcarpet :> Trace|],ccarpetLayout, null)
+    let densityMBChart () = Plotly.Plotly.NewPlot("densitymbchartDiv", [|densitymb|], densityMBLayout)
+    let spolarglChart () = Plotly.Plotly.NewPlot("spolarglchartDiv", [|spolargl1;spolargl2|], null, option2)
+    let spolarChart () = Plotly.Plotly.NewPlot("spolarchartDiv", [|spolar|])
+    let sankeyChart () = Plotly.Plotly.NewPlot("sankeychartDiv", [|sankey|])
+    let parcoordsChart () = Plotly.Plotly.NewPlot("parcoordschartDiv", [|parcoords|])
+    let parcatsChart () = Plotly.Plotly.NewPlot("parcatschartDiv", [|parcats|])
+    let meshChart () = Plotly.Plotly.NewPlot("meshchartDiv", [|mesh|], null)
+    let isoSurfaceChart () = Plotly.Plotly.NewPlot("isochartDiv", [|isosurface|], null)
+    let coneChart () = Plotly.Plotly.NewPlot("conechartDiv", [|cone|])
+    let carpetChart () = Plotly.Plotly.NewPlot("carpetchartDiv", [|carpet|])
+    let scatterChart () = Plotly.Plotly.NewPlot("scatterchartDiv", [|scatterTrace|], null, option1)
+    let scatterGLChart () = Plotly.Plotly.NewPlot("scatterglchartDiv", [|scatterGLTrace|])
+    let pieChart () = Plotly.Plotly.NewPlot("piechartDiv", [|pieTrace|])
+    let barChart () = Plotly.Plotly.NewPlot("barchartDiv", [|barTrace|])
+    let heatMapChart () = Plotly.Plotly.NewPlot("heatmapchartDiv", [|heatmap|])
+    let tableChart () = Plotly.Plotly.NewPlot("tablechartDiv", [|table|])
+    let heatMapGLChart () = Plotly.Plotly.NewPlot("heatmapglchartDiv", [|heatmapgl|])
+    let contourChart () = Plotly.Plotly.NewPlot("contourchartDiv", [|contour|])
+    let imageChart () = Plotly.Plotly.NewPlot("imagechartDiv", [|image|], imageLayout)
+    let boxChart () = Plotly.Plotly.NewPlot("boxchartDiv", [|box|])
+    let hgChart () = Plotly.Plotly.NewPlot("hgchartDiv", [|histogram|])
+    let hg2dChart () = Plotly.Plotly.NewPlot("hg2dchartDiv", [|histogram2d|])
+    let hg2dContChart () = Plotly.Plotly.NewPlot("hg2dcontchartDiv", [|hg2dcontour|])
+    let violinChart () = Plotly.Plotly.NewPlot("violinchartDiv", [|violin|])
+    let candleStickChart () = Plotly.Plotly.NewPlot("candlestickchartDiv", [|candlestick|])
+    let funnelChart () = Plotly.Plotly.NewPlot("funnelchartDiv", [|funnel|])
+    let funnelAreaChart () = Plotly.Plotly.NewPlot("funnelareachartDiv", [|funnelarea|])
+    let indicatorChart () = Plotly.Plotly.NewPlot("indicatorchartDiv", [|indicator|], indicatorLayout)
+    let ohlcChart () = Plotly.Plotly.NewPlot("ohlcchartDiv", [|ohlc|], null)
+    let waterfallChart () = Plotly.Plotly.NewPlot("waterfallchartDiv", [|waterfall|], null, null)
+    let choroplethChart () = Plotly.Plotly.NewPlot("choroplethchartDiv", [|choropleth|], null, null)
+    let scatterGeoChart () = Plotly.Plotly.NewPlot("scattergeochartDiv", [|scattergeo|], scatterGeoLayout, null)
+    let surfaceChart () = Plotly.Plotly.NewPlot("surfacechartDiv", [|surface|], surfaceLayout)
+    let scatterMBChart () = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], scatterMBLayout)
+    let choroplethMBChart () = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], choroplethMBLayout, null)
+    let barpolarChart () = Plotly.Plotly.NewPlot("barpolarchartDiv", [|barpolar1; barpolar2; barpolar3; barpolar4|], barpolarLayout)
 
     [<SPAEntryPoint>]
     let Main () =
 
-        Doc.Concat [
+        div [
+            on.afterRender (fun _ ->
+                [
+                    scatterChart
+                    pieChart
+                    barChart
+                    heatMapChart
+                    tableChart
+                    contourChart
+                    imageChart
+                    boxChart
+                    hgChart
+                    hg2dChart
+                    hg2dContChart
+                    violinChart
+                    candleStickChart
+                    funnelChart
+                    funnelAreaChart
+                    indicatorChart
+                    ohlcChart
+                    waterfallChart
+                    choroplethChart
+                    scatterGeoChart
+                    carpetChart
+                    isoSurfaceChart
+                    ccarpetChart
+                    parcatsChart
+                    sankeyChart
+                    scarpetChart
+                    spolarChart
+                    sternaryChart
+                    sunBurstChart
+                    treeMapChart
+                    icicleChart
+                ]
+                |> List.iter (fun x -> x () |> ignore)
+                async {
+                    let webglchartRenderers =
+                        [
+                            scatterGLChart
+                            spolarglChart
+                            heatMapGLChart
+                            splomChart
+                            parcoordsChart
+                            scatter3DChart
+                            surfaceChart
+                            streamTubeChart
+                            meshChart
+                            coneChart
+                            scatterMBChart
+                            choroplethMBChart
+                            densityMBChart
+                        ]
+                    let! _ = 
+                        webglchartRenderers
+                        |> List.map (fun renderer ->
+                            async {
+                                renderer () |> ignore
+                                do! Async.Sleep 1000
+                            }
+                        )
+                        |> Async.Sequential
+                    ()
+                }
+                |> Async.Start
+            )
+        ] [
             h1 [] [text "Plotly Js sample site"]
             h2 [] [text "Scatter chart"]
             div [attr.id "scatterchartDiv"] []
@@ -1103,48 +1169,3 @@ module Client =
             div [attr.id "barpolarchartDiv"] []
         ]
         |> Doc.RunById "main"
-        scatterChart |> ignore
-        scatterGLChart |> ignore
-        pieChart |> ignore
-        barChart |> ignore
-        heatMapChart |> ignore
-        tableChart |> ignore
-        heatMapGLChart |> ignore
-        contourChart |> ignore
-        imageChart |> ignore
-        boxChart |> ignore
-        hgChart |> ignore
-        hg2dChart |> ignore
-        hg2dContChart |> ignore
-        violinChart |> ignore
-        candleStickChart |> ignore
-        funnelChart |> ignore
-        funnelAreaChart |> ignore
-        indicatorChart |> ignore
-        ohlcChart |> ignore
-        waterfallChart |> ignore
-        choroplethChart |> ignore
-        choroplethMBChart |> ignore
-        densityMBChart |> ignore
-        scatterGeoChart |> ignore
-        scatterMBChart |> ignore
-        coneChart |> ignore
-        carpetChart |> ignore
-        isoSurfaceChart |> ignore
-        meshChart |> ignore
-        scatter3DChart |> ignore
-        streamTubeChart |> ignore
-        surfaceChart |> ignore
-        ccarpetChart |> ignore
-        parcatsChart |> ignore
-        parcoordsChart |> ignore
-        sankeyChart |> ignore
-        scarpetChart |> ignore
-        spolarChart |> ignore
-        spolarglChart |> ignore
-        sternaryChart |> ignore
-        splomChart |> ignore
-        sunBurstChart |> ignore
-        treeMapChart |> ignore
-        icicleChart |> ignore
-        barpolarChart |> ignore

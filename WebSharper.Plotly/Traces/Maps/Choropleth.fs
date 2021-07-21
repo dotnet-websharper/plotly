@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module ChoroplethModule =
 
-    let ChoroplethNullValue = Pattern.EnumInlines "ChoroplethNullValue" ["null", "null"]
-
-    let ChoroplethColor = T<string> + (T<float> + T<int>) + (!| (!? (ChoroplethNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ChoroplethNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let ChoroplethColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let ChoroplethVisibleString = Pattern.EnumStrings "ChoroplethVisibleString" ["legendonly"]
-
-    let ChoroplethFont =
-        Pattern.Config "ChoroplethFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", ChoroplethColor
-            ]
-        }
-
-    let ChoroplethLegendGroupTitle =
-        Pattern.Config "ChoroplethLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ChoroplethFont.Type
-            ]
-        }
+    open CommonModule
 
     let ChoroplethHoverInfo =
         let generatedEnum =
@@ -62,161 +37,11 @@ module ChoroplethModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "ChoroplethHoverInfo" generatedEnum
 
-    let ChoroplethColorBarMode =
-        Pattern.EnumStrings "ChoroplethThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let ChoroplethXAnchor =
-        Pattern.EnumStrings "ChoroplethXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let ChoroplethYAnchor =
-        Pattern.EnumStrings "ChoroplethYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let ChoroplethTickMode =
-        Pattern.EnumStrings "ChoroplethTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let ChoroplethTicks =
-        Pattern.EnumInlines "ChoroplethTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let ChoroplethTickLabelOverflow =
-        Pattern.EnumInlines "ChoroplethTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let ChoroplethTickLabelPosition =
-        Pattern.EnumInlines "ChoroplethTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let ChoroplethTickFormatStops =
-        Pattern.Config "ChoroplethTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + ChoroplethNullValue.Type) * (DTickValue + ChoroplethNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let ChoroplethShowTickFix =
-        Pattern.EnumStrings "ChoroplethShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = ChoroplethShowTickFix
-
-    let ChoroplethExponentFormat =
-        Pattern.EnumInlines "ChoroplethExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let ChoroplethSide =
-        Pattern.EnumStrings "ChoroplethSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let ChoroplethTitle =
-        Pattern.Config "ChoroplethTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ChoroplethFont.Type
-                "side", ChoroplethSide.Type
-            ]
-        }
-
-    let ChoroplethColorBar =
-        Pattern.Config "ChoroplethColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", ChoroplethColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", ChoroplethColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", ChoroplethXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", ChoroplethYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", ChoroplethColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", ChoroplethColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", ChoroplethColor
-                "tickmode", ChoroplethTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", ChoroplethTicks.Type
-                "ticklabeloverflow", ChoroplethTickLabelOverflow.Type
-                "ticklabelposition", ChoroplethTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", ChoroplethColor
-                "showticklabels", T<bool>
-                "tickfont", ChoroplethFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", ChoroplethTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", ChoroplethShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", ChoroplethShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", ChoroplethExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", ChoroplethTitle.Type
-            ]
-        }
-
     let ChoroplethMarkerLine =
         Pattern.Config "ChoroplethMarkerLine" {
             Required = []
             Optional = [
-                "color", ChoroplethColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
@@ -257,9 +82,9 @@ module ChoroplethModule =
         Pattern.Config "ChoroplethHoverLabel" {
             Required = []
             Optional = [
-                "bgcolor", ChoroplethColor + !| ChoroplethColor
-                "bordercolor", ChoroplethColor + !| ChoroplethColor
-                "font", ChoroplethFont.Type
+                "bgcolor", Color + !| Color
+                "bordercolor", Color + !| Color
+                "font", Font.Type
                 "align", ChoroplethAlign.Type
                 "namelength", T<int>
             ]
@@ -275,18 +100,18 @@ module ChoroplethModule =
 
     let ChoroplethOptions =
         Class "ChoroplethOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'choropleth'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ChoroplethVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", ChoroplethLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "ids", !| T<string>
             "z", !| T<int> + !| T<float> + !| T<string> //data array
             "geojson", T<int> + T<float> + T<string>
@@ -301,9 +126,9 @@ module ChoroplethModule =
             "geo", T<string> //subplotid
             "coloraxis", T<string> //subplotid
             "marker", ChoroplethMarker.Type
-            "colorbar", ChoroplethColorBar.Type
+            "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", ChoroplethColorScale
+            "colorscale", ColorScale
             "showscale", T<bool>
             "reversescale", T<bool>
             "zauto", T<bool>
@@ -319,25 +144,8 @@ module ChoroplethModule =
         ]
 
     let ChoroplethTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ChoroplethNullValue
-        ChoroplethVisibleString
-        ChoroplethFont
-        ChoroplethLegendGroupTitle
         ChoroplethHoverInfo
         ChoroplethMarkerLine
-        ChoroplethColorBarMode
-        ChoroplethXAnchor
-        ChoroplethYAnchor
-        ChoroplethTickMode
-        ChoroplethTicks
-        ChoroplethTickLabelOverflow
-        ChoroplethTickLabelPosition
-        ChoroplethTickFormatStops
-        ChoroplethShowTickFix
-        ChoroplethExponentFormat
-        ChoroplethSide
-        ChoroplethTitle
-        ChoroplethColorBar
         ChoroplethMarker
         ChoroplethSelectedMarker
         ChoroplethSelectedOption

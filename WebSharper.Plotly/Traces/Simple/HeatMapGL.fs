@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module HeatMapGLModule =
 
-    let HMGLNullValue = Pattern.EnumInlines "HMGNullValue" ["null", "null"]
-
-    let HMGLColor = T<string> + (T<float> + T<int>) + (!| (!? (HMGLNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (HMGLNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let HMGLColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let HMGLVisibleString = Pattern.EnumStrings "HMGLVisibleString" ["legendonly"]
-
-    let HMGLFont =
-        Pattern.Config "HMGLFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", HMGLColor
-            ]
-        }
-
-    let HMGLLegendGroupTitle =
-        Pattern.Config "HMGLLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", HMGLFont.Type
-            ]
-        }
+    open CommonModule
 
     let HMGLXYType =
         Pattern.EnumStrings "HMGLXYType" [
@@ -75,193 +50,24 @@ module HeatMapGLModule =
             "end"
         ]
 
-    let HMGLColorBarMode =
-        Pattern.EnumStrings "HMGLColorBarMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let HMGLXAnchor =
-        Pattern.EnumStrings "HMGLXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let HMGLYAnchor =
-        Pattern.EnumStrings "HMGLYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let HMGLTickMode =
-        Pattern.EnumStrings "HMGLTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let HMGLTicks =
-        Pattern.EnumInlines "HMGLTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let HMGLTickLabelOverflow =
-        Pattern.EnumInlines "HMGLTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let HMGLTickLabelPosition =
-        Pattern.EnumInlines "HMGLTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let HMGLDTickValue = (T<float> + T<int>) + T<string>
-
-    let HMGLTickFormatStops =
-        Pattern.Config "HMGLTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((HMGLDTickValue + HMGLNullValue.Type) * (HMGLDTickValue + HMGLNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let HMGLShowTickFix =
-        Pattern.EnumStrings "HMGLShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let HMGLShowExponent = HMGLShowTickFix
-
-    let HMGLExponentFormat =
-        Pattern.EnumInlines "HMGLExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let HMGLSide =
-        Pattern.EnumStrings "HMGLSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let HMGLTitle =
-        Pattern.Config "HMGLTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", HMGLFont.Type
-                "side", HMGLSide.Type
-            ]
-        }
-
-    let HMGLColorBar =
-        Pattern.Config "HMGLColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", HMGLColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", HMGLColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", HMGLXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", HMGLYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", HMGLColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", HMGLColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", HMGLColor
-                "tickmode", HMGLTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", HMGLTicks.Type
-                "ticklabeloverflow", HMGLTickLabelOverflow.Type
-                "ticklabelposition", HMGLTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", HMGLColor
-                "showticklabels", T<bool>
-                "tickfont", HMGLFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", HMGLTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", HMGLShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", HMGLShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", HMGLExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", HMGLShowExponent.Type // change type name to fit
-                "title", HMGLTitle.Type
-            ]
-        }
-
     let HMGLZSmooth =
         Pattern.EnumStrings "HMGLZSmooth" [
             "fast"
             "best"
         ]
 
-    let HMGLAlign =
-        Pattern.EnumStrings "HMGLAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let HMGLHoverLabel =
-        Pattern.Config "HMGLHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", HMGLColor + !| HMGLColor
-                "bordercolor", HMGLColor + !| HMGLColor
-                "fonts", HMGLFont.Type
-                "align", HMGLAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
     let HeatMapGLOptions = 
         Class "HeatMapGLOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'heatmapgl'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + HMGLVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "legendrank", T<float> + T<int>
-            "legendgrouptitle", HMGLLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", (T<float> + T<int>)
             "ids", !| T<string> //data array
             "x", !| T<float> + !| T<int> + !| T<string> //data array
@@ -280,9 +86,9 @@ module HeatMapGLModule =
             "xaxis", T<string> //subplotid
             "yaxis", T<string> //subplotid
             "coloraxis", T<string> //subplotid
-            "colorbar", HMGLColorBar.Type
+            "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", HMGLColorScale
+            "colorscale", ColorScale
             "showscale", T<bool>
             "reversescale", T<bool>
             "zauto", T<bool>
@@ -290,34 +96,15 @@ module HeatMapGLModule =
             "mid", (T<float> + T<int>)
             "min", (T<float> + T<int>)
             "zsmooth", HMGLZSmooth.Type + T<bool>
-            "hoverlabel", HMGLHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "transpose", T<bool>
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let HeatMapGLTraceNamespaces : CodeModel.NamespaceEntity list = [
-        HMGLFont
-        HMGLNullValue
-        HMGLVisibleString
-        HMGLLegendGroupTitle
         HMGLXYType
         HMGLHoverInfo
         HMGLPeriodAlignment
-        HMGLColorBarMode
-        HMGLXAnchor
-        HMGLYAnchor
-        HMGLTickMode
-        HMGLTicks
-        HMGLTickFormatStops
-        HMGLTickLabelOverflow
-        HMGLTickLabelPosition
-        HMGLShowTickFix
-        HMGLExponentFormat
-        HMGLSide
-        HMGLTitle
-        HMGLColorBar
         HMGLZSmooth
-        HMGLAlign
-        HMGLHoverLabel
         HeatMapGLOptions
     ]

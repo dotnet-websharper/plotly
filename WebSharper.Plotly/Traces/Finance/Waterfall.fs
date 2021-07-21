@@ -28,30 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module WaterfallModule =
 
-    let WaterfallNullValue = Pattern.EnumInlines "WaterfallNullValue" ["null", "null"]
-
-    let WaterfallColor = T<string> + (T<float> + T<int>) + (!| (!? (WaterfallNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (WaterfallNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let WaterfallVisibleString = Pattern.EnumStrings "WaterfallVisibleString" ["legendonly"]
-
-    let WaterfallFont =
-        Pattern.Config "WaterfallFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", WaterfallColor
-            ]
-        }
-
-    let WaterfallLegendGroupTitle =
-        Pattern.Config "WaterfallLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", WaterfallFont.Type
-            ]
-        }
+    open CommonModule
 
     let WaterfallHoverInfo =
         let generatedEnum =
@@ -87,26 +64,7 @@ module WaterfallModule =
             Required = []
             Optional = [
                 "type", WaterfallGradientType.Type
-                "color", WaterfallColor + !| WaterfallColor
-            ]
-        }
-
-    let WaterfallAlign =
-        Pattern.EnumStrings "WaterfallAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let WaterfallHoverLabel =
-        Pattern.Config "WaterfallHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", WaterfallColor + !| WaterfallColor
-                "bordercolor", WaterfallColor + !| WaterfallColor
-                "font", WaterfallFont.Type
-                "align", WaterfallAlign.Type
-                "namelength", T<int>
+                "color", Color + !| Color
             ]
         }
 
@@ -114,7 +72,7 @@ module WaterfallModule =
         Pattern.Config "WaterfallLine" {
             Required = []
             Optional = [
-                "color", WaterfallColor
+                "color", Color
                 "width", T<int> + T<float>
                 "dash", T<string>
             ]
@@ -124,7 +82,7 @@ module WaterfallModule =
         Pattern.Config "WaterfallMarkerLine" {
             Required = []
             Optional = [
-                "color", WaterfallColor
+                "color", Color
                 "width", T<int> + T<float>  
             ]          
         }
@@ -133,7 +91,7 @@ module WaterfallModule =
         Pattern.Config "WaterfallCreasingLine" {
             Required = []
             Optional = [
-                "color", WaterfallColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
@@ -143,7 +101,7 @@ module WaterfallModule =
             Required = []
             Optional = [
                 "line", WaterfallCreasingLine.Type
-                "fillcolor", WaterfallColor
+                "fillcolor", Color
             ]
         }
 
@@ -153,12 +111,6 @@ module WaterfallModule =
             "outside"
             "auto"
             "none"
-        ]
-
-    let WaterfallOrientation =
-        Pattern.EnumStrings "WaterfallOrientation" [
-            "v"
-            "h"
         ]
 
     let WaterfallConnectorMode =
@@ -196,7 +148,7 @@ module WaterfallModule =
         Pattern.Config "WaterfallMarker" {
             Required = []
             Optional = [
-                "color", WaterfallColor
+                "color", Color
                 "line", WaterfallMarkerLine.Type
             ]
         }
@@ -211,18 +163,18 @@ module WaterfallModule =
 
     let WaterfallOptions =
         Class "WaterfallOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'waterfall'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + WaterfallVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", WaterfallLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float>
@@ -247,7 +199,7 @@ module WaterfallModule =
             "customdata", T<string> // undefined type, string is placeholder
             "xaxis", T<string> //type is 'subplotid'
             "yaxis", T<string> //type is 'subplotid'
-            "orientation", WaterfallOrientation.Type
+            "orientation", Orientation.Type
             "alignmentgroup", T<string>
             "offsetgroup", T<string>
             "xperiod", (T<float> + T<int>) + T<string>
@@ -257,7 +209,7 @@ module WaterfallModule =
             "yperiodalignment", WaterfallPeriodAlignment.Type
             "yperiod0", (T<float> + T<int>) + T<string>
             "textangle", T<int> + T<float> //angle
-            "textfont", WaterfallFont.Type
+            "textfont", Font.Type
             "textinfo", WaterfallTextInfo.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
             "cliponaxis", T<bool>
@@ -265,32 +217,25 @@ module WaterfallModule =
             "constraintext", WaterfallConstrainText.Type
             "increasing", WaterfallCreasing.Type
             "decreasing", WaterfallCreasing.Type
-            "hoverlabel", WaterfallHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "insidetextanchor", WaterfallInsideTextAnchor.Type
-            "insidetextfont", WaterfallFont.Type
-            "outsidetextfont", WaterfallFont.Type
+            "insidetextfont", Font.Type
+            "outsidetextfont", Font.Type
             "totals", WaterfallTotals.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let WaterfallTraceNamespaces : CodeModel.NamespaceEntity list = [
-        WaterfallNullValue
-        WaterfallVisibleString
-        WaterfallFont
-        WaterfallLegendGroupTitle
         WaterfallHoverInfo
         WaterfallTextInfo
         WaterfallPeriodAlignment
         WaterfallGradientType
         WaterfallGradient
-        WaterfallAlign
-        WaterfallHoverLabel
         WaterfallLine
         WaterfallMarkerLine
         WaterfallCreasingLine
         WaterfallCreasing
         WaterfallTextPosition
-        WaterfallOrientation
         WaterfallConnectorMode
         WaterfallConnector
         WaterfallConstrainText

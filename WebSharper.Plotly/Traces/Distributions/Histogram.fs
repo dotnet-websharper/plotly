@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module HGModule =
 
-    let HGNullValue = Pattern.EnumInlines "HGNullValue" ["null", "null"]
-
-    let HGColor = T<string> + (T<float> + T<int>) + (!| (!? (HGNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (HGNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let HGColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let HGVisibleString = Pattern.EnumStrings "HGVisibleString" ["legendonly"]
-
-    let HGFont =
-        Pattern.Config "HGFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", HGColor
-            ]
-        }
-
-    let HGLegendGroupTitle =
-        Pattern.Config "HGLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", HGFont.Type
-            ]
-        }
+    open CommonModule
 
     let HGHoverInfo =
         let generatedEnum =
@@ -80,12 +55,12 @@ module HGModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", HGColor
+                "color", Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", HGColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
@@ -105,157 +80,7 @@ module HGModule =
             Required = []
             Optional = [
                 "type", HGGradientType.Type
-                "color", HGColor + !| HGColor
-            ]
-        }
-
-    let HGThicknessMode =
-        Pattern.EnumStrings "HGThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let HGXAnchor =
-        Pattern.EnumStrings "HGXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let HGYAnchor =
-        Pattern.EnumStrings "HGYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let HGTickMode =
-        Pattern.EnumStrings "HGTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let HGTicks =
-        Pattern.EnumInlines "HGTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let HGTickLabelOverflow =
-        Pattern.EnumInlines "HGTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let HGTickLabelPosition =
-        Pattern.EnumInlines "HGTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let HGTickFormatStops =
-        Pattern.Config "HGTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + HGNullValue.Type) * (DTickValue + HGNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let HGShowTickFix =
-        Pattern.EnumStrings "HGShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = HGShowTickFix
-
-    let HGExponentFormat =
-        Pattern.EnumInlines "HGExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let HGSide =
-        Pattern.EnumStrings "HGSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let HGTitle =
-        Pattern.Config "HGTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", HGFont.Type
-                "side", HGSide.Type
-            ]
-        }
-
-    let HGColorBar =
-        Pattern.Config "HGColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", HGThicknessMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", HGThicknessMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", HGXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", HGYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", HGColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", HGColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", HGColor
-                "tickmode", HGTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", HGTicks.Type
-                "ticklabeloverflow", HGTickLabelOverflow.Type
-                "ticklabelposition", HGTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", HGColor
-                "showticklabels", T<bool>
-                "tickfont", HGFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", HGTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", HGShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", HGShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", HGExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", HGTitle.Type
+                "color", Color + !| Color
             ]
         }
 
@@ -283,8 +108,8 @@ module HGModule =
             Optional = [
                 "shape", HGMarkerPatternShape.Type
                 "fillmode", HGFillMode.Type
-                "bgcolor", HGColor + !| HGColor
-                "fgcolor", HGColor + !| HGColor
+                "bgcolor", Color + !| Color
+                "fgcolor", Color + !| Color
                 "fgopacity", (T<float> + T<int>)
                 "size", (T<float> + T<int>) + !| T<float> + !| T<int>
                 "solidity", (T<float> + T<int>) + !| T<float> + !| T<int>               
@@ -313,7 +138,7 @@ module HGModule =
                 "traceref", T<int>
                 "tracerefminus", T<int>
                 "copy_ystyle", T<bool>
-                "color", HGColor
+                "color", Color
                 "thickness", (T<float> + T<int>)
                 "width", (T<float> + T<int>)
             ]
@@ -332,7 +157,7 @@ module HGModule =
                 "valueminus", (T<float> + T<int>)
                 "traceref", T<int>
                 "tracerefminus", T<int>
-                "color", HGColor
+                "color", Color
                 "thickness", (T<float> + T<int>)
                 "width", (T<float> + T<int>)
             ]
@@ -343,16 +168,16 @@ module HGModule =
             Required = []
             Optional = [
                 "line", HGMarkerLine.Type
-                "color", HGColor + !| HGColor
+                "color", Color + !| Color
                 "cauto", T<bool>
                 "cmin", T<int> + T<float>
                 "cmax", T<int> + T<float>
                 "cmid", T<int> + T<float>
-                "colorscale", HGColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "showscale", T<bool>
-                "colorbar", HGColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<float> + T<int> + T<string>
                 "opacity", T<float> + !| T<float>
                 "pattern", HGMarkerPattern.Type
@@ -364,7 +189,7 @@ module HGModule =
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", HGColor
+                "color", Color
                 "size", (T<float> + T<int>)
             ]
         }
@@ -372,7 +197,7 @@ module HGModule =
     let HGSelectedTextFont =
         Pattern.Config "HGSelectedTextFont" {
             Required = []
-            Optional = ["color", HGColor]
+            Optional = ["color", Color]
         }
 
     let HGSelectedOption =
@@ -383,45 +208,6 @@ module HGModule =
                 "textfont", HGSelectedTextFont.Type
             ]
         }
-
-    let HGAlign =
-        Pattern.EnumStrings "HGAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let HGHoverLabel =
-        Pattern.Config "HGHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", HGColor + !| HGColor
-                "bordercolor", HGColor + !| HGColor
-                "fonts", HGFont.Type
-                "align", HGAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
-    let HGCalendar =
-        Pattern.EnumStrings "HGCalendar" [
-            "gregorian"
-            "chinese"
-            "coptic"
-            "discworld"
-            "ethiopian"
-            "hebrew"
-            "islamic"
-            "julian"
-            "mayan"
-            "nanakshahi"
-            "nepali"
-            "persian"
-            "jalali"
-            "taiwan"
-            "thai"
-            "ummalqura"
-        ]
 
     let HGHistFunc =
         Pattern.EnumStrings "HGHistFunc" [
@@ -476,18 +262,18 @@ module HGModule =
 
     let HGOptions =
         Class "HGOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'histogram'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + HGVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", HGLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float>
@@ -521,27 +307,13 @@ module HGModule =
             "selected", HGSelectedOption.Type
             "unselected", HGSelectedOption.Type // change name later
             "cumulative", HGCumulative.Type
-            "hoverlabel", HGHoverLabel.Type
-            "xcalendar", HGCalendar.Type
-            "ycalendar", HGCalendar.Type
+            "hoverlabel", HoverLabel.Type
+            "xcalendar", Calendar.Type
+            "ycalendar", Calendar.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let HGTraceNamespaces : CodeModel.NamespaceEntity list = [       
-        HGTickLabelPosition
-        HGTickLabelOverflow
-        HGTicks
-        HGTickMode
-        HGYAnchor
-        HGXAnchor
-        HGThicknessMode
-        HGSide
-        HGExponentFormat
-        HGShowTickFix
-        HGTickFormatStops
-        HGVisibleString
-        HGFont
-        HGLegendGroupTitle
         HGHoverInfo
         HGOrientation
         HGPeriodAlignment
@@ -549,17 +321,12 @@ module HGModule =
         HGGradientType
         HGMarkerPatternShape
         HGMarkerPattern
-        HGTitle
         HGGradient
         HGFillMode
         HGMarker
         HGSelectedMarker
         HGSelectedTextFont
         HGSelectedOption
-        HGAlign
-        HGHoverLabel
-        HGCalendar
-        HGColorBar
         HGHistFunc
         HGHistNorm
         HGXYBins

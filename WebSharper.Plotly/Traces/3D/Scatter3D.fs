@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module Scatter3DModule =
 
-    let Scatter3DNullValue = Pattern.EnumInlines "Scatter3DNullValue" ["null", "null"]
-
-    let Scatter3DColor = T<string> + (T<float> + T<int>) + (!| (!? (Scatter3DNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (Scatter3DNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let Scatter3DColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let Scatter3DVisibleString = Pattern.EnumStrings "Scatter3DVisibleString" ["legendonly"]
-
-    let Scatter3DFont =
-        Pattern.Config "Scatter3DFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", Scatter3DColor
-            ]
-        }
-
-    let Scatter3DLegendGroupTitle =
-        Pattern.Config "Scatter3DLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", Scatter3DFont.Type
-            ]
-        }
+    open CommonModule
 
     let Scatter3DModes =
         let generatedEnum =
@@ -93,166 +68,16 @@ module Scatter3DModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", Scatter3DColor
+                "color", Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", Scatter3DColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
                 "opacity", T<float>
-            ]
-        }
-
-    let Scatter3DColorBarMode =
-        Pattern.EnumStrings "Scatter3DThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let Scatter3DXAnchor =
-        Pattern.EnumStrings "Scatter3DXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let Scatter3DYAnchor =
-        Pattern.EnumStrings "Scatter3DYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let Scatter3DTickMode =
-        Pattern.EnumStrings "Scatter3DTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let Scatter3DTicks =
-        Pattern.EnumInlines "Scatter3DTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let Scatter3DTickLabelOverflow =
-        Pattern.EnumInlines "Scatter3DTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let Scatter3DTickLabelPosition =
-        Pattern.EnumInlines "Scatter3DTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let Scatter3DTickFormatStops =
-        Pattern.Config "Scatter3DTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + Scatter3DNullValue.Type) * (DTickValue + Scatter3DNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let Scatter3DShowTickFix =
-        Pattern.EnumStrings "Scatter3DShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = Scatter3DShowTickFix
-
-    let Scatter3DExponentFormat =
-        Pattern.EnumInlines "Scatter3DExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let Scatter3DSide =
-        Pattern.EnumStrings "Scatter3DSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let Scatter3DTitle =
-        Pattern.Config "Scatter3DTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", Scatter3DFont.Type
-                "side", Scatter3DSide.Type
-            ]
-        }
-
-    let Scatter3DColorBar =
-        Pattern.Config "Scatter3DColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", Scatter3DColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", Scatter3DColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", Scatter3DXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", Scatter3DYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", Scatter3DColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", Scatter3DColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", Scatter3DColor
-                "tickmode", Scatter3DTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", Scatter3DTicks.Type
-                "ticklabeloverflow", Scatter3DTickLabelOverflow.Type
-                "ticklabelposition", Scatter3DTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", Scatter3DColor
-                "showticklabels", T<bool>
-                "tickfont", Scatter3DFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", Scatter3DTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", Scatter3DShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", Scatter3DShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", Scatter3DExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", Scatter3DTitle.Type
             ]
         }
 
@@ -278,14 +103,14 @@ module Scatter3DModule =
                 "sizemin", (T<float> + T<int>)
                 "sizemode", Scatter3DSizeMode.Type
                 "opacity", T<float> + !| T<float>
-                "colorbar", Scatter3DColorBar.Type
+                "colorbar", ColorBar.Type
                 "line", Scatter3DMarkerLine.Type
-                "color", Scatter3DColor + !| Scatter3DColor
+                "color", Color + !| Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", Scatter3DColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
@@ -299,34 +124,26 @@ module Scatter3DModule =
             Optional = [
                 "width", (T<float> + T<int>)
                 "dash", T<string>
-                "color", Scatter3DColor
+                "color", Color
                 "cauto", T<bool>
                 "cmin", T<int> + T<float>
                 "cmax", T<int> + T<float>
                 "cmid", T<int> + T<float>
-                "colorscale", Scatter3DColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "showscale", T<bool>
-                "colorbar", Scatter3DColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<string> //subplotid
             ]
         }
-
-    let Scatter3DErrorType =
-        Pattern.EnumStrings "Scatter3DErrorType" [
-            "percent"
-            "constant"
-            "sqrt"
-            "data"
-        ]
 
     let Scatter3DErrorX = 
         Pattern.Config "Scatter3DErrorX" {
             Required = []
             Optional = [
                 "visible", T<bool>
-                "type", Scatter3DErrorType.Type
+                "type", ErrorType.Type
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
@@ -335,7 +152,7 @@ module Scatter3DModule =
                 "traceref", T<int>
                 "tracerefminus", T<int>
                 "copy_zstyle", T<bool>
-                "color", Scatter3DColor
+                "color", Color
                 "thickness", (T<float> + T<int>)
                 "width", (T<float> + T<int>)
             ]
@@ -346,7 +163,7 @@ module Scatter3DModule =
             Required = []
             Optional = [
                 "visible", T<bool>
-                "type", Scatter3DErrorType.Type
+                "type", ErrorType.Type
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
@@ -355,7 +172,7 @@ module Scatter3DModule =
                 "traceref", T<int>
                 "tracerefminus", T<int>
                 "copy_zstyle", T<bool>
-                "color", Scatter3DColor
+                "color", Color
                 "thickness", (T<float> + T<int>)
                 "width", (T<float> + T<int>)
             ]
@@ -366,7 +183,7 @@ module Scatter3DModule =
             Required = []
             Optional = [
                 "visible", T<bool>
-                "type", Scatter3DErrorType.Type
+                "type", ErrorType.Type
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
@@ -374,50 +191,11 @@ module Scatter3DModule =
                 "valueminus", (T<float> + T<int>)
                 "traceref", T<int>
                 "tracerefminus", T<int>
-                "color", Scatter3DColor
+                "color", Color
                 "thickness", (T<float> + T<int>)
                 "width", (T<float> + T<int>)
             ]
         }
-
-    let Scatter3DAlign =
-        Pattern.EnumStrings "Scatter3DAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let Scatter3DHoverLabel =
-        Pattern.Config "Scatter3DHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", Scatter3DColor + !| Scatter3DColor
-                "bordercolor", Scatter3DColor + !| Scatter3DColor
-                "fonts", Scatter3DFont.Type
-                "align", Scatter3DAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
-    let Scatter3DCalendar =
-        Pattern.EnumStrings "Scatter3DCalendar" [
-            "gregorian"
-            "chinese"
-            "coptic"
-            "discworld"
-            "ethiopian"
-            "hebrew"
-            "islamic"
-            "julian"
-            "mayan"
-            "nanakshahi"
-            "nepali"
-            "persian"
-            "jalali"
-            "taiwan"
-            "thai"
-            "ummalqura"
-        ]
 
     let Scatter3DProjectionXYZ =
         Pattern.Config "Scatter3DProjectionXYZ" {
@@ -449,25 +227,25 @@ module Scatter3DModule =
 
     let Scatter3DOptions =
         Class "Scatter3DOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scatter3d'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + Scatter3DVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", Scatter3DLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "mode", Scatter3DModes.Type
             "ids", !| T<string>
             "x", !| T<int> + !| T<float>
             "y", !| T<int> + !| T<float>
             "z", !| T<int> + !| T<float>
-            "surfacecolor", Scatter3DColor
+            "surfacecolor", Color
             "text", T<string> + !| T<string>
             "textposition", Scatter3DTextPosition.Type
             "texttemplate", T<string> + !| T<string>
@@ -481,54 +259,33 @@ module Scatter3DModule =
             "scene", T<string> //subplotid
             "marker", Scatter3DMarker.Type
             "line", Scatter3DLine.Type
-            "textfont", Scatter3DFont.Type
+            "textfont", Font.Type
             "error_x", Scatter3DErrorX.Type
             "error_y", Scatter3DErrorY.Type
             "error_z", Scatter3DErrorZ.Type
             "zhoverformat", T<string>
             "connectgaps", T<bool>
-            "hoverlabel", Scatter3DHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "projection", Scatter3DProjection.Type
             "surfaceaxis", Scatter3DSurfaceAxis.Type
-            "xcalendar", Scatter3DCalendar.Type
-            "ycalendar", Scatter3DCalendar.Type
-            "zcalendar", Scatter3DCalendar.Type
+            "xcalendar", Calendar.Type
+            "ycalendar", Calendar.Type
+            "zcalendar", Calendar.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let Scatter3DTraceNamespaces : CodeModel.NamespaceEntity list = [
-        Scatter3DNullValue
-        Scatter3DVisibleString
-        Scatter3DFont
-        Scatter3DLegendGroupTitle
         Scatter3DModes
         Scatter3DTextPosition
         Scatter3DHoverInfo
         Scatter3DSizeMode
         Scatter3DMarkerLine
-        Scatter3DColorBarMode
-        Scatter3DXAnchor
-        Scatter3DYAnchor
-        Scatter3DTickMode
-        Scatter3DTicks
-        Scatter3DTickLabelOverflow
-        Scatter3DTickLabelPosition
-        Scatter3DTickFormatStops
-        Scatter3DShowTickFix
-        Scatter3DExponentFormat
-        Scatter3DSide
-        Scatter3DTitle
-        Scatter3DColorBar
         Scatter3DSymbol
         Scatter3DMarker
         Scatter3DLine
-        Scatter3DErrorType
         Scatter3DErrorX
         Scatter3DErrorY
         Scatter3DErrorZ
-        Scatter3DAlign
-        Scatter3DHoverLabel
-        Scatter3DCalendar
         Scatter3DProjectionXYZ
         Scatter3DProjection
         Scatter3DSurfaceAxis

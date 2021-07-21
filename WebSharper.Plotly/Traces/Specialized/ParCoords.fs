@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module ParCoordsModule =
 
-    let ParCoordsNullValue = Pattern.EnumInlines "ParCoordsNullValue" ["null", "null"]
-
-    let ParCoordsColor = T<string> + (T<float> + T<int>) + (!| (!? (ParCoordsNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ParCoordsNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let ParCoordsColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let ParCoordsVisibleString = Pattern.EnumStrings "ParCoordsVisibleString" ["legendonly"]
-
-    let ParCoordsFont =
-        Pattern.Config "ParCoordsFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", ParCoordsColor
-            ]
-        }
-
-    let ParCoordsLegendGroupTitle =
-        Pattern.Config "ParCoordsLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ParCoordsFont.Type
-            ]
-        }
+    open CommonModule
 
     let ParCoordsDimensions =
         Pattern.Config "ParCoordsDimensions" {
@@ -73,170 +48,20 @@ module ParCoordsModule =
             ]
         }
 
-    let ParCoordsColorBarMode =
-        Pattern.EnumStrings "ParCoordsThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let ParCoordsXAnchor =
-        Pattern.EnumStrings "ParCoordsXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let ParCoordsYAnchor =
-        Pattern.EnumStrings "ParCoordsYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let ParCoordsTickMode =
-        Pattern.EnumStrings "ParCoordsTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let ParCoordsTicks =
-        Pattern.EnumInlines "ParCoordsTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let ParCoordsTickLabelOverflow =
-        Pattern.EnumInlines "ParCoordsTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let ParCoordsTickLabelPosition =
-        Pattern.EnumInlines "ParCoordsTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let ParCoordsTickFormatStops =
-        Pattern.Config "ParCoordsTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + ParCoordsNullValue.Type) * (DTickValue + ParCoordsNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let ParCoordsShowTickFix =
-        Pattern.EnumStrings "ParCoordsShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = ParCoordsShowTickFix
-
-    let ParCoordsExponentFormat =
-        Pattern.EnumInlines "ParCoordsExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let ParCoordsSide =
-        Pattern.EnumStrings "ParCoordsSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let ParCoordsTitle =
-        Pattern.Config "ParCoordsTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ParCoordsFont.Type
-                "side", ParCoordsSide.Type
-            ]
-        }
-
-    let ParCoordsColorBar =
-        Pattern.Config "ParCoordsColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", ParCoordsColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", ParCoordsColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", ParCoordsXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", ParCoordsYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", ParCoordsColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", ParCoordsColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", ParCoordsColor
-                "tickmode", ParCoordsTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", ParCoordsTicks.Type
-                "ticklabeloverflow", ParCoordsTickLabelOverflow.Type
-                "ticklabelposition", ParCoordsTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", ParCoordsColor
-                "showticklabels", T<bool>
-                "tickfont", ParCoordsFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", ParCoordsTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", ParCoordsShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", ParCoordsShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", ParCoordsExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", ParCoordsTitle.Type
-            ]
-        }
-
     let ParCoordsLine =
         Pattern.Config "ParCoordsLine" {
             Required = []
             Optional = [
-                "color", ParCoordsColor + !| ParCoordsColor //data array
+                "color", Color + !| Color //data array
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ParCoordsColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", ParCoordsColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
             ]
         }
@@ -260,16 +85,16 @@ module ParCoordsModule =
 
     let ParCoordsOptions =
         Class "ParCoordsOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'parcoords'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ParCoordsVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "legendrank", (T<float> + T<int>)
-            "legendgrouptitle", ParCoordsLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "ids", !| T<string>
             "dimensions", !| ParCoordsDimensions.Type
             "meta", (T<float> + T<int>) + T<string>
@@ -277,32 +102,15 @@ module ParCoordsModule =
             "domain", ParCoordsDomain.Type
             "line", ParCoordsLine.Type
             "labelangle", T<int> + T<float>
-            "labelfont", ParCoordsFont.Type
+            "labelfont", Font.Type
             "labelside", ParCoordsLabelSide.Type
-            "rangefont", ParCoordsFont.Type
-            "tickfont", ParCoordsFont.Type
+            "rangefont", Font.Type
+            "tickfont", Font.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let ParCoordsTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ParCoordsNullValue
-        ParCoordsVisibleString
-        ParCoordsFont
-        ParCoordsLegendGroupTitle
         ParCoordsDimensions
-        ParCoordsColorBarMode
-        ParCoordsXAnchor
-        ParCoordsYAnchor
-        ParCoordsTickMode
-        ParCoordsTicks
-        ParCoordsTickLabelOverflow
-        ParCoordsTickLabelPosition
-        ParCoordsTickFormatStops
-        ParCoordsShowTickFix
-        ParCoordsExponentFormat
-        ParCoordsSide
-        ParCoordsTitle
-        ParCoordsColorBar
         ParCoordsLine
         ParCoordsDomain
         ParCoordsLabelSide

@@ -28,31 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module FunnelAreaModule =
 
-    let FunnelAreaNullValue = Pattern.EnumInlines "FunnelAreaNullValue" ["null", "null"]
-
-    let FunnelAreaColor = T<string> + (T<float> + T<int>) + (!| (!? (FunnelAreaNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (FunnelAreaNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let FunnelAreaVisibleString = Pattern.EnumStrings "FunnelAreaVisibleString" ["legendonly"]
-
-    let FunnelAreaFont =
-        Pattern.Config "FunnelAreaFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", FunnelAreaColor
-                "opacity", T<float>
-            ]
-        }
-
-    let FunnelAreaLegendGroupTitle =
-        Pattern.Config "FunnelAreaLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", FunnelAreaFont.Type
-            ]
-        }
+    open CommonModule
 
     let FunnelAreaHoverInfo =
         let generatedEnum =
@@ -68,25 +44,6 @@ module FunnelAreaModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "FunnelAreaTextInfo" generatedEnum
 
-    let FunnelAreaAlign =
-        Pattern.EnumStrings "FunnelAreaAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let FunnelAreaHoverLabel =
-        Pattern.Config "FunnelAreaHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", FunnelAreaColor + !| FunnelAreaColor
-                "bordercolor", FunnelAreaColor + !| FunnelAreaColor
-                "font", FunnelAreaFont.Type
-                "align", FunnelAreaAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
     let FunnelAreaTextPosition =
         Pattern.EnumStrings "FunnelAreaTextPosition" [
             "inside"
@@ -99,7 +56,7 @@ module FunnelAreaModule =
         Pattern.Config "FunnelAreaMarkerLine" {
             Required = []
             Optional = [
-                "color", FunnelAreaColor + !| FunnelAreaColor
+                "color", Color + !| Color
                 "width", T<float> + T<int> + !| T<float> + !| T<int>
             ]
         }
@@ -108,7 +65,7 @@ module FunnelAreaModule =
         Pattern.Config "FunnelAreaMarker" {
             Required = []
             Optional = [
-                "colors", FunnelAreaColor + !| FunnelAreaColor
+                "colors", Color + !| Color
                 "line", FunnelAreaMarkerLine.Type
             ]
         }
@@ -125,7 +82,7 @@ module FunnelAreaModule =
             Required = []
             Optional = [
                 "text", T<string>
-                "font", FunnelAreaFont.Type
+                "font", Font.Type
                 "position", FunnelAreaTitlePosition.Type
             ]
         }
@@ -143,7 +100,7 @@ module FunnelAreaModule =
 
     let FunnelAreaOptions =
         Class "FunnelAreaOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'funnelarea'}"
@@ -151,11 +108,11 @@ module FunnelAreaModule =
         |+> Pattern.OptionalFields [
             "name", T<string>
             "title", FunnelAreaTitle.Type
-            "visible", T<bool> + FunnelAreaVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", FunnelAreaLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "values", !| T<string> + !| T<int> + !| T<float>
@@ -172,25 +129,19 @@ module FunnelAreaModule =
             "customdata", T<string> // undefined type, string is placeholder
             "domain", FunnelAreaDomain.Type
             "marker", FunnelAreaMarker.Type
-            "textfont", FunnelAreaFont.Type
+            "textfont", Font.Type
             "textinfo", FunnelAreaTextInfo.Type
             "aspectratio", T<int> + T<float>
             "baseratio", T<int> + T<float>
-            "hoverlabel", FunnelAreaHoverLabel.Type
-            "insidetextfont", FunnelAreaFont.Type
+            "hoverlabel", HoverLabel.Type
+            "insidetextfont", Font.Type
             "scalegroup", T<string>
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let FunnelAreaTraceNamespaces : CodeModel.NamespaceEntity list = [
-        FunnelAreaNullValue
-        FunnelAreaVisibleString
-        FunnelAreaFont
-        FunnelAreaLegendGroupTitle
         FunnelAreaHoverInfo
         FunnelAreaTextInfo
-        FunnelAreaAlign
-        FunnelAreaHoverLabel
         FunnelAreaTextPosition
         FunnelAreaMarkerLine
         FunnelAreaMarker

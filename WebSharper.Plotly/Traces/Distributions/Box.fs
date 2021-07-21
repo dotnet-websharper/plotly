@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module BoxModule =
 
-    let BoxNullValue = Pattern.EnumInlines "BoxNullValue" ["null", "null"]
-
-    let BoxColor = T<string> + (T<float> + T<int>) + (!| (!? (BoxNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (BoxNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let BoxColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let BoxVisibleString = Pattern.EnumStrings "BoxVisibleString" ["legendonly"]
-
-    let BoxFont =
-        Pattern.Config "BoxFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", BoxColor
-            ]
-        }
-
-    let BoxLegendGroupTitle =
-        Pattern.Config "BoxLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", BoxFont.Type
-            ]
-        }
+    open CommonModule
 
     let BoxHoverInfo =
         let generatedEnum =
@@ -61,12 +36,6 @@ module BoxModule =
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "BoxHoverInfo" generatedEnum
-
-    let BoxOrientation =
-        Pattern.EnumStrings "BoxOrientation" [
-            "v"
-            "h"
-        ]
 
     let BoxPeriodAlignment =
         Pattern.EnumStrings "XBoxPeriodAlignment" [
@@ -79,9 +48,9 @@ module BoxModule =
         Pattern.Config "BoxMarkerLine" {
             Required = []
             Optional = [
-                "color", BoxColor
+                "color", Color
                 "width", T<float> + T<int>
-                "outliercolor", BoxColor
+                "outliercolor", Color
                 "outlierwidth", T<float> + T<int>
             ]
         }
@@ -99,7 +68,7 @@ module BoxModule =
             Required = []
             Optional = [
                 "type", BoxGradientType.Type
-                "color", BoxColor + !| BoxColor
+                "color", Color + !| Color
             ]
         }
 
@@ -427,11 +396,11 @@ module BoxModule =
         Pattern.Config "Marker" {
             Required = []
             Optional = [
-                "outliercolor", BoxColor
+                "outliercolor", Color
                 "symbol", BoxSymbol.Type
                 "opacity", T<float> + !| T<float>
                 "size", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", BoxColor
+                "color", Color
                 "line", BoxMarkerLine.Type
             ]
         }
@@ -441,7 +410,7 @@ module BoxModule =
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", BoxColor
+                "color", Color
                 "size", (T<float> + T<int>)
             ]
         }
@@ -449,7 +418,9 @@ module BoxModule =
     let BoxSelectedTextFont =
         Pattern.Config "BoxSelectedTextFont" {
             Required = []
-            Optional = ["color", BoxColor]
+            Optional = [
+                "color", Color
+            ]
         }
 
     let BoxSelectedOption =
@@ -461,48 +432,9 @@ module BoxModule =
             ]
         }
 
-    let BoxAlign =
-        Pattern.EnumStrings "BoxAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let BoxHoverLabel =
-        Pattern.Config "BoxHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", BoxColor + !| BoxColor
-                "bordercolor", BoxColor + !| BoxColor
-                "fonts", BoxFont.Type
-                "align", BoxAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
     let BoxHoverOn =
         let generatedEnum = GenerateOptions.allPermutations ["boxes"; "points"] '+'
         Pattern.EnumStrings "BoxHoverOn" generatedEnum
-
-    let BoxCalendar =
-        Pattern.EnumStrings "BoxCalendar" [
-            "gregorian"
-            "chinese"
-            "coptic"
-            "discworld"
-            "ethiopian"
-            "hebrew"
-            "islamic"
-            "julian"
-            "mayan"
-            "nanakshahi"
-            "nepali"
-            "persian"
-            "jalali"
-            "taiwan"
-            "thai"
-            "ummalqura"
-        ]
 
     let BoxMean =
         Pattern.EnumStrings "BoxMean" [
@@ -520,7 +452,7 @@ module BoxModule =
         Pattern.Config "BoxLine" {
             Required = []
             Optional = [
-                "color", BoxColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
@@ -534,18 +466,18 @@ module BoxModule =
 
     let BoxOptions =
         Class "BoxOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'box'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + BoxVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", BoxLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float>
@@ -565,7 +497,7 @@ module BoxModule =
             "customdata", T<string> // undefined type, string is placeholder
             "xaxis", T<string> //type is 'subplotid'
             "yaxis", T<string> //type is 'subplotid'
-            "orientation", BoxOrientation.Type
+            "orientation", Orientation.Type
             "alignmentgroup", T<string>
             "offsetgroup", T<string>
             "xperiod", (T<float> + T<int>) + T<string>
@@ -593,23 +525,19 @@ module BoxModule =
             "selectedpoints", (T<float> + T<int>) + T<string>
             "selected", BoxSelectedOption.Type
             "unselected", BoxSelectedOption.Type // change name later
-            "fillcolor", BoxColor
-            "hoverlabel", BoxHoverLabel.Type
+            "fillcolor", Color
+            "hoverlabel", HoverLabel.Type
             "hoveron", BoxHoverOn.Type
             "pointpos", T<float> + T<int>
             "jitter", T<float> + T<int>
-            "xcalendar", BoxCalendar.Type
-            "ycalendar", BoxCalendar.Type
+            "xcalendar", Calendar.Type
+            "ycalendar", Calendar.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let BoxTraceNamespaces : CodeModel.NamespaceEntity list = [
-        BoxVisibleString
-        BoxFont
         BoxLine
-        BoxLegendGroupTitle
         BoxHoverInfo
-        BoxOrientation
         BoxPeriodAlignment
         BoxMarkerLine
         BoxGradientType
@@ -619,10 +547,7 @@ module BoxModule =
         BoxSelectedMarker
         BoxSelectedTextFont
         BoxSelectedOption
-        BoxAlign
-        BoxHoverLabel
         BoxHoverOn
-        BoxCalendar
         BoxMean
         BoxPoints
         BoxQuartileMethod

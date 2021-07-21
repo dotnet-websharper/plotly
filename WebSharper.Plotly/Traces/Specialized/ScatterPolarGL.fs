@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module ScatterPolarGLModule =
 
-    let ScatterPolarGLNullValue = Pattern.EnumInlines "ScatterPolarGLNullValue" ["null", "null"]
-
-    let ScatterPolarGLColor = T<string> + (T<float> + T<int>) + (!| (!? (ScatterPolarGLNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ScatterPolarGLNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let ScatterPolarGLColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let ScatterPolarGLVisibleString = Pattern.EnumStrings "ScatterPolarGLVisibleString" ["legendonly"]
-
-    let ScatterPolarGLFont =
-        Pattern.Config "ScatterPolarGLFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", ScatterPolarGLColor
-            ]
-        }
-
-    let ScatterPolarGLLegendGroupTitle =
-        Pattern.Config "ScatterPolarGLLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterPolarGLFont.Type
-            ]
-        }
+    open CommonModule
 
     let ScatterPolarGLModes =
         let generatedEnum =
@@ -93,165 +68,15 @@ module ScatterPolarGLModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", ScatterPolarGLColor
+                "color", Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterPolarGLColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
-            ]
-        }
-
-    let ScatterPolarGLColorBarMode =
-        Pattern.EnumStrings "ScatterPolarGLThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let ScatterPolarGLXAnchor =
-        Pattern.EnumStrings "ScatterPolarGLXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let ScatterPolarGLYAnchor =
-        Pattern.EnumStrings "ScatterPolarGLYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let ScatterPolarGLTickMode =
-        Pattern.EnumStrings "ScatterPolarGLTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let ScatterPolarGLTicks =
-        Pattern.EnumInlines "ScatterPolarGLTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let ScatterPolarGLTickLabelOverflow =
-        Pattern.EnumInlines "ScatterPolarGLTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let ScatterPolarGLTickLabelPosition =
-        Pattern.EnumInlines "ScatterPolarGLTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let ScatterPolarGLTickFormatStops =
-        Pattern.Config "ScatterPolarGLTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + ScatterPolarGLNullValue.Type) * (DTickValue + ScatterPolarGLNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let ScatterPolarGLShowTickFix =
-        Pattern.EnumStrings "ScatterPolarGLShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = ScatterPolarGLShowTickFix
-
-    let ScatterPolarGLExponentFormat =
-        Pattern.EnumInlines "ScatterPolarGLExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let ScatterPolarGLSide =
-        Pattern.EnumStrings "ScatterPolarGLSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let ScatterPolarGLTitle =
-        Pattern.Config "ScatterPolarGLTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterPolarGLFont.Type
-                "side", ScatterPolarGLSide.Type
-            ]
-        }
-
-    let ScatterPolarGLColorBar =
-        Pattern.Config "ScatterPolarGLColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", ScatterPolarGLColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", ScatterPolarGLColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", ScatterPolarGLXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", ScatterPolarGLYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", ScatterPolarGLColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", ScatterPolarGLColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", ScatterPolarGLColor
-                "tickmode", ScatterPolarGLTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", ScatterPolarGLTicks.Type
-                "ticklabeloverflow", ScatterPolarGLTickLabelOverflow.Type
-                "ticklabelposition", ScatterPolarGLTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", ScatterPolarGLColor
-                "showticklabels", T<bool>
-                "tickfont", ScatterPolarGLFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", ScatterPolarGLTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", ScatterPolarGLShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", ScatterPolarGLShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", ScatterPolarGLExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", ScatterPolarGLTitle.Type
             ]
         }
 
@@ -586,16 +411,16 @@ module ScatterPolarGLModule =
                 "sizemin", (T<float> + T<int>)
                 "sizemode", ScatterPolarGLSizeMode.Type
                 "line", ScatterPolarGLMarkerLine.Type
-                "color", ScatterPolarGLColor + !| ScatterPolarGLColor
+                "color", Color + !| Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterPolarGLColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", ScatterPolarGLColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
             ]
         }
@@ -623,7 +448,7 @@ module ScatterPolarGLModule =
         Pattern.Config "ScatterPolarGLLine" {
             Required = []
             Optional = [
-                "color", ScatterPolarGLColor
+                "color", Color
                 "width", (T<float> + T<int>)
                 "shape", ScatterPolarGLShape.Type
                 "dash", ScatterPolarGLLineDash.Type
@@ -635,7 +460,7 @@ module ScatterPolarGLModule =
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", ScatterPolarGLColor
+                "color", Color
                 "size", (T<float> + T<int>)
             ]
         }
@@ -643,7 +468,9 @@ module ScatterPolarGLModule =
     let ScatterPolarGLSelectedTextFont =
         Pattern.Config "ScatterPolarGLSelectedTextFont" {
             Required = []
-            Optional = ["color", ScatterPolarGLColor]
+            Optional = [
+                "color", Color
+            ]
         }
 
     let ScatterPolarGLSelectedOption =
@@ -666,25 +493,6 @@ module ScatterPolarGLModule =
             "tonext"
         ]
 
-    let ScatterPolarGLAlign =
-        Pattern.EnumStrings "ScatterPolarGLAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let ScatterPolarGLHoverLabel =
-        Pattern.Config "ScatterPolarGLHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", ScatterPolarGLColor + !| ScatterPolarGLColor
-                "bordercolor", ScatterPolarGLColor + !| ScatterPolarGLColor
-                "fonts", ScatterPolarGLFont.Type
-                "align", ScatterPolarGLAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
     let ScatterPolarGLThetaUnit =
         Pattern.EnumStrings "ScatterPolarGLThetaUnit" [
             "radians"
@@ -694,18 +502,18 @@ module ScatterPolarGLModule =
 
     let ScatterPolarGLOptions =
         Class "ScatterPolarGLOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scatterpolargl'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ScatterPolarGLVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", ScatterPolarGLLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "mode", ScatterPolarGLModes.Type
             "ids", !| T<string>
@@ -727,40 +535,23 @@ module ScatterPolarGLModule =
             "subplot", T<string> //type is 'subplotid'
             "marker", ScatterPolarGLMarker.Type
             "line", ScatterPolarGLLine.Type
-            "textfont", ScatterPolarGLFont.Type
+            "textfont", Font.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
             "selected", ScatterPolarGLSelectedOption.Type
             "unselected", ScatterPolarGLSelectedOption.Type // change name later
             "connectgaps", T<bool>
             "fill", ScatterPolarGLFill.Type
-            "fillcolor", ScatterPolarGLColor
-            "hoverlabel", ScatterPolarGLHoverLabel.Type
+            "fillcolor", Color
+            "hoverlabel", HoverLabel.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let ScatterPolarGLTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ScatterPolarGLNullValue
-        ScatterPolarGLVisibleString
-        ScatterPolarGLFont
-        ScatterPolarGLLegendGroupTitle
         ScatterPolarGLModes
         ScatterPolarGLTextPosition
         ScatterPolarGLHoverInfo
         ScatterPolarGLSizeMode
         ScatterPolarGLMarkerLine
-        ScatterPolarGLColorBarMode
-        ScatterPolarGLXAnchor
-        ScatterPolarGLYAnchor
-        ScatterPolarGLTickMode
-        ScatterPolarGLTicks
-        ScatterPolarGLTickLabelOverflow
-        ScatterPolarGLTickLabelPosition
-        ScatterPolarGLTickFormatStops
-        ScatterPolarGLShowTickFix
-        ScatterPolarGLExponentFormat
-        ScatterPolarGLSide
-        ScatterPolarGLTitle
-        ScatterPolarGLColorBar
         ScatterPolarGLSymbol
         ScatterPolarGLMarker
         ScatterPolarGLShape
@@ -770,8 +561,6 @@ module ScatterPolarGLModule =
         ScatterPolarGLSelectedTextFont
         ScatterPolarGLSelectedOption
         ScatterPolarGLFill
-        ScatterPolarGLAlign
-        ScatterPolarGLHoverLabel
         ScatterPolarGLThetaUnit
         ScatterPolarGLOptions
     ]

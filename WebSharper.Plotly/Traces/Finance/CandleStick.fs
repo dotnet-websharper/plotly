@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module CandleStickModule =
 
-    let CandleStickNullValue = Pattern.EnumInlines "CandleStickNullValue" ["null", "null"]
-
-    let CandleStickColor = T<string> + (T<float> + T<int>) + (!| (!? (CandleStickNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (CandleStickNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let CandleStickColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let CandleStickVisibleString = Pattern.EnumStrings "CandleStickVisibleString" ["legendonly"]
-
-    let CandleStickFont =
-        Pattern.Config "CandleStickFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", CandleStickColor
-            ]
-        }
-
-    let CandleStickLegendGroupTitle =
-        Pattern.Config "CandleStickLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", CandleStickFont.Type
-            ]
-        }
+    open CommonModule
 
     let CandleStickHoverInfo =
         let generatedEnum =
@@ -82,56 +57,17 @@ module CandleStickModule =
             Required = []
             Optional = [
                 "type", CandleStickGradientType.Type
-                "color", CandleStickColor + !| CandleStickColor
+                "color", Color + !| Color
             ]
         }
 
-    let CandleStickAlign =
-        Pattern.EnumStrings "CandleStickAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let CandleStickHoverLabel =
-        Pattern.Config "CandleStickHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", CandleStickColor + !| CandleStickColor
-                "bordercolor", CandleStickColor + !| CandleStickColor
-                "font", CandleStickFont.Type
-                "align", CandleStickAlign.Type
-                "namelength", T<int>
-                "split", T<bool>
-            ]
-        }
-
-    let CandleStickCalendar =
-        Pattern.EnumStrings "CandleStickCalendar" [
-            "gregorian"
-            "chinese"
-            "coptic"
-            "discworld"
-            "ethiopian"
-            "hebrew"
-            "islamic"
-            "julian"
-            "mayan"
-            "nanakshahi"
-            "nepali"
-            "persian"
-            "jalali"
-            "taiwan"
-            "thai"
-            "ummalqura"
-        ]
 
     let CandleStickLine =
         Pattern.Config "CandleStickLine" {
             Required = []
             Optional = [
                 "width", T<int> + T<float>
-                "color", CandleStickColor
+                "color", Color
             ]
         }
 
@@ -139,7 +75,7 @@ module CandleStickModule =
         Pattern.Config "CandleStickCreasingLine" {
             Required = []
             Optional = [
-                "color", CandleStickColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
@@ -149,24 +85,24 @@ module CandleStickModule =
             Required = []
             Optional = [
                 "line", CandleStickCreasingLine.Type
-                "fillcolor", CandleStickColor
+                "fillcolor", Color
             ]
         }
 
     let CandleStickOptions =
         Class "CandleStickOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'candlestick'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + CandleStickVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", CandleStickLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float>
@@ -191,23 +127,16 @@ module CandleStickModule =
             "selectedpoints", (T<float> + T<int>) + T<string>
             "increasing", CandleStickCreasing.Type
             "decreasing", CandleStickCreasing.Type
-            "hoverlabel", CandleStickHoverLabel.Type
-            "xcalendar", CandleStickCalendar.Type
+            "hoverlabel", HoverLabel.Type
+            "xcalendar", Calendar.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let CandleStickTraceNamespaces : CodeModel.NamespaceEntity list = [
-        CandleStickNullValue
-        CandleStickVisibleString
-        CandleStickFont
-        CandleStickLegendGroupTitle
         CandleStickHoverInfo
         CandleStickPeriodAlignment
         CandleStickGradientType
         CandleStickGradient
-        CandleStickAlign
-        CandleStickHoverLabel
-        CandleStickCalendar
         CandleStickLine
         CandleStickCreasingLine
         CandleStickCreasing

@@ -225,10 +225,8 @@ module Definition =
                 TreeMapModule.TreeMapTraceNamespaces
                 LayoutModule.LayoutNameSpaces
                 OptionsModule.OptionsNamespaces
-                [
-                    Common.CommonModule.Trace
-                    Plotly
-                ]
+                CommonModule.CommonNamespaces
+                [Plotly]
             ])
         ]
 

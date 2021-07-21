@@ -28,30 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module FunnelModule =
 
-    let FunnelNullValue = Pattern.EnumInlines "FunnelNullValue" ["null", "null"]
-
-    let FunnelColor = T<string> + (T<float> + T<int>) + (!| (!? (FunnelNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (FunnelNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let FunnelVisibleString = Pattern.EnumStrings "FunnelVisibleString" ["legendonly"]
-
-    let FunnelFont =
-        Pattern.Config "FunnelFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", FunnelColor
-            ]
-        }
-
-    let FunnelLegendGroupTitle =
-        Pattern.Config "FunnelLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", FunnelFont.Type
-            ]
-        }
+    open CommonModule
 
     let FunnelHoverInfo =
         let generatedEnum =
@@ -87,26 +64,7 @@ module FunnelModule =
             Required = []
             Optional = [
                 "type", FunnelGradientType.Type
-                "color", FunnelColor + !| FunnelColor
-            ]
-        }
-
-    let FunnelAlign =
-        Pattern.EnumStrings "FunnelAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let FunnelHoverLabel =
-        Pattern.Config "FunnelHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", FunnelColor + !| FunnelColor
-                "bordercolor", FunnelColor + !| FunnelColor
-                "font", FunnelFont.Type
-                "align", FunnelAlign.Type
-                "namelength", T<int>
+                "color", Color + !| Color
             ]
         }
 
@@ -114,7 +72,7 @@ module FunnelModule =
         Pattern.Config "FunnelLine" {
             Required = []
             Optional = [
-                "color", FunnelColor
+                "color", Color
                 "width", T<int> + T<float>
                 "dash", T<string>
             ]
@@ -124,7 +82,7 @@ module FunnelModule =
         Pattern.Config "FunnelTotalsMarkerLine" {
             Required = []
             Optional = [
-                "color", FunnelColor
+                "color", Color
                 "width", T<int> + T<float> 
             ]           
         }
@@ -133,7 +91,7 @@ module FunnelModule =
         Pattern.Config "FunnelCreasingLine" {
             Required = []
             Optional = [
-                "color", FunnelColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
@@ -143,7 +101,7 @@ module FunnelModule =
             Required = []
             Optional = [
                 "line", FunnelCreasingLine.Type
-                "fillcolor", FunnelColor
+                "fillcolor", Color
             ]
         }
 
@@ -196,7 +154,7 @@ module FunnelModule =
         Pattern.Config "FunnelTotalsMarker" {
             Required = []
             Optional = [
-                "color", FunnelColor
+                "color", Color
                 "line", FunnelTotalsMarkerLine.Type
             ]
         }
@@ -216,7 +174,7 @@ module FunnelModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", FunnelColor
+                "color", Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
@@ -228,162 +186,12 @@ module FunnelModule =
             ]
         }
 
-    let FunnelColorBarMode =
-        Pattern.EnumStrings "FunnelThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let FunnelXAnchor =
-        Pattern.EnumStrings "FunnelXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let FunnelYAnchor =
-        Pattern.EnumStrings "FunnelYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let FunnelTickMode =
-        Pattern.EnumStrings "FunnelTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let FunnelTicks =
-        Pattern.EnumInlines "FunnelTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let FunnelTickLabelOverflow =
-        Pattern.EnumInlines "FunnelTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let FunnelTickLabelPosition =
-        Pattern.EnumInlines "FunnelTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let FunnelTickFormatStops =
-        Pattern.Config "FunnelTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + FunnelNullValue.Type) * (DTickValue + FunnelNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let FunnelShowTickFix =
-        Pattern.EnumStrings "FunnelShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = FunnelShowTickFix
-
-    let FunnelExponentFormat =
-        Pattern.EnumInlines "FunnelExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let FunnelSide =
-        Pattern.EnumStrings "FunnelSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let FunnelTitle =
-        Pattern.Config "FunnelTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", FunnelFont.Type
-                "side", FunnelSide.Type
-            ]
-        }
-
-    let FunnelColorBar =
-        Pattern.Config "FunnelColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", FunnelColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", FunnelColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", FunnelXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", FunnelYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", FunnelColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", FunnelColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", FunnelColor
-                "tickmode", FunnelTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", FunnelTicks.Type
-                "ticklabeloverflow", FunnelTickLabelOverflow.Type
-                "ticklabelposition", FunnelTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", FunnelColor
-                "showticklabels", T<bool>
-                "tickfont", FunnelFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", FunnelTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", FunnelShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", FunnelShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", FunnelExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", FunnelTitle.Type
-            ]
-        }
-
     let FunnelMarker =
         Pattern.Config "FunnelMarker" {
             Required = []
             Optional = [
                 "line", FunnelMarkerLine.Type //
-                "color", FunnelColor + !| FunnelColor
+                "color", Color + !| Color
                 "cauto", T<bool>
                 "cmin", T<int> + T<float>
                 "cmax", T<int> + T<float>
@@ -392,7 +200,7 @@ module FunnelModule =
                 "autocolorscale", T<bool>
                 "reversecolorscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", FunnelColorBar.Type //
+                "colorbar", ColorBar.Type //
                 "coloraxis", T<string>
                 "opacity", T<float>
             ]
@@ -400,18 +208,18 @@ module FunnelModule =
 
     let FunnelOptions =
         Class "FunnelOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'funnel'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + FunnelVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", FunnelLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float>
@@ -445,31 +253,25 @@ module FunnelModule =
             "yperiod0", (T<float> + T<int>) + T<string>
             "marker", FunnelMarker.Type
             "textangle", T<int> + T<float> //angle
-            "textfont", FunnelFont.Type
+            "textfont", Font.Type
             "textinfo", FunnelTextInfo.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
             "cliponaxis", T<bool>
             "connector", FunnelConnector.Type
             "constraintext", FunnelConstrainText.Type
-            "hoverlabel", FunnelHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "insidetextanchor", FunnelInsideTextAnchor.Type
-            "insidetextfont", FunnelFont.Type
-            "outsidetextfont", FunnelFont.Type
+            "insidetextfont", Font.Type
+            "outsidetextfont", Font.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let FunnelTraceNamespaces : CodeModel.NamespaceEntity list = [
-        FunnelNullValue
-        FunnelVisibleString
-        FunnelFont
-        FunnelLegendGroupTitle
         FunnelHoverInfo
         FunnelTextInfo
         FunnelPeriodAlignment
         FunnelGradientType
         FunnelGradient
-        FunnelAlign
-        FunnelHoverLabel
         FunnelLine
         FunnelTotalsMarkerLine
         FunnelCreasingLine
@@ -483,19 +285,6 @@ module FunnelModule =
         FunnelTotalsMarker
         FunnelTotals
         FunnelMarkerLine
-        FunnelColorBarMode
-        FunnelXAnchor
-        FunnelYAnchor
-        FunnelTickMode
-        FunnelTicks
-        FunnelTickLabelOverflow
-        FunnelTickLabelPosition
-        FunnelTickFormatStops
-        FunnelShowTickFix
-        FunnelExponentFormat
-        FunnelSide
-        FunnelTitle
-        FunnelColorBar
         FunnelMarker
         FunnelOptions
     ]

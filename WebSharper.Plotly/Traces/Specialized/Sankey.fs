@@ -28,51 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module SankeyModule =
 
-    let SankeyNullValue = Pattern.EnumInlines "SankeyNullValue" ["null", "null"]
-
-    let SankeyColor = T<string> + (T<float> + T<int>) + (!| (!? (SankeyNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (SankeyNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let SankeyColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let SankeyVisibleString = Pattern.EnumStrings "SankeyVisibleString" ["legendonly"]
-
-    let SankeyFont =
-        Pattern.Config "SankeyFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", SankeyColor
-            ]
-        }
-
-    let SankeyLegendGroupTitle =
-        Pattern.Config "SankeyLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", SankeyFont.Type
-            ]
-        }
-
-    let SankeyAlign =
-        Pattern.EnumStrings "SankeyAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let SankeyHoverLabel =
-        Pattern.Config "SankeyHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", SankeyColor + !| SankeyColor
-                "bordercolor", SankeyColor + !| SankeyColor
-                "font", SankeyFont.Type
-                "align", SankeyAlign.Type
-                "namelength", T<int>
-            ]
-        }
+    open CommonModule
 
     let SankeyDomain =
         Pattern.Config "SankeyDomain" {
@@ -91,17 +47,11 @@ module SankeyModule =
             "skip"
         ]
 
-    let SankeyOrientation =
-        Pattern.EnumStrings "SankeyOrientation" [
-            "v"
-            "h"
-        ]
-
     let SankeyNodeLine =
         Pattern.Config "SankeyNodeLine" {
             Required = []
             Optional = [
-                "color", SankeyColor + !| SankeyColor
+                "color", Color + !| Color
                 "width", T<int> + T<float> + !| T<int> + !| T<float>
             ]
         }
@@ -120,7 +70,7 @@ module SankeyModule =
                 "label", T<string>
                 "cmax", T<int> + T<float>
                 "cmin", T<int> + T<float>
-                "colorscale", SankeyColorScale
+                "colorscale", ColorScale
                 "name", T<string>
                 "templateitemname", T<string>
             ]
@@ -131,14 +81,14 @@ module SankeyModule =
             Required = []
             Optional = [
                 "label", !| T<string> + !| T<int> + !| T<float>
-                "color", SankeyColor + !| SankeyColor
+                "color", Color + !| Color
                 "customdata", !| T<string> + !| T<int> + !| T<float>
                 "line", SankeyNodeLine.Type
                 "source", !| T<string> + !| T<int> + !| T<float>
                 "target", !| T<string> + !| T<int> + !| T<float>
                 "value", !| T<string> + !| T<int> + !| T<float>
                 "hoverinfo", SankeyNodeHoverInfo.Type
-                "hoverlabel", SankeyHoverLabel.Type
+                "hoverlabel", HoverLabel.Type
                 "hovertemplate", T<string> + !| T<string>
                 "colorscales", SankeyLinkColorScale.Type
             ]
@@ -152,13 +102,13 @@ module SankeyModule =
                 "groups", !| T<string> + !| T<int> + !| T<float>
                 "x", !| T<string> + !| T<int> + !| T<float>
                 "y", !| T<string> + !| T<int> + !| T<float>
-                "color", SankeyColor + !| SankeyColor
+                "color", Color + !| Color
                 "customdata", !| T<string> + !| T<int> + !| T<float>
                 "line", SankeyNodeLine.Type
                 "pad", T<int> + T<float>
                 "thickness", T<int> + T<float>
                 "hoverinfo", SankeyNodeHoverInfo.Type
-                "hoverlabel", SankeyHoverLabel.Type
+                "hoverlabel", HoverLabel.Type
                 "hovertemplate", T<string> + !| T<string>
             ]
         }
@@ -173,16 +123,16 @@ module SankeyModule =
 
     let SankeyOptions =
         Class "SankeyOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'sankey'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + SankeyVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "legendrank", (T<float> + T<int>)
-            "legendgrouptitle", SankeyLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "ids", !| T<string>
             "parents", !| T<string> + !| T<int> + !| T<float>
             "values", !| T<string> + !| T<int> + !| T<float>
@@ -194,28 +144,21 @@ module SankeyModule =
             "meta", (T<float> + T<int>) + T<string>
             "customdata", !| T<string> + !| T<int> + !| T<float>
             "domain", SankeyDomain.Type
-            "orientation", SankeyOrientation.Type
+            "orientation", Orientation.Type
             "node", SankeyNode.Type
             "link", SankeyLink.Type
-            "textfont", SankeyFont.Type
+            "textfont", Font.Type
             "selectedpoints", T<int> + T<float> + T<string>
             "arrangement", SankeyArrangement.Type
-            "hoverlabel", SankeyHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "valueformat", T<string>
             "valuesuffix", T<string>
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let SankeyTraceNamespaces : CodeModel.NamespaceEntity list = [
-        SankeyNullValue
-        SankeyVisibleString
-        SankeyFont
-        SankeyLegendGroupTitle
-        SankeyAlign
-        SankeyHoverLabel
         SankeyDomain
         SankeyHoverInfo
-        SankeyOrientation
         SankeyNodeLine
         SankeyNodeHoverInfo
         SankeyLinkColorScale

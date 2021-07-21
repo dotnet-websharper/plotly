@@ -64,7 +64,7 @@ module Client =
         Fill = TableFill(
             Color = "grey"
         ),
-        Font = TableFont(
+        Font = Font(
             Family = "Arial",
             Size = 12,
             Color = "white"
@@ -83,7 +83,7 @@ module Client =
             Color = "black",
             Width = 1
         ),
-        Font = TableFont(
+        Font = Font(
             Family = "Arial",
             Size = 11,
             Color = [|"black"|]
@@ -223,11 +223,10 @@ module Client =
             Width = Union4Of4([|2;1;5;0;3|])
         )
     )
-    funnelarea.Textfont <- FunnelAreaFont(
+    funnelarea.Textfont <- Font(
         Family = "Old Standard TT",
         Size = 13,
-        Color = "black",
-        Opacity = 0.65
+        Color = "black"
     )
 
     let indicator = IndicatorOptions()
@@ -315,7 +314,7 @@ module Client =
 
     let waterfall = WaterfallOptions()
     waterfall.Name <- "2018"
-    waterfall.Orientation <- WaterfallOrientation.V
+    waterfall.Orientation <- Orientation.V
     waterfall.Measure <- [|
         "relative"; "relative"; "total"; "relative";
         "relative"; "total"
@@ -509,7 +508,7 @@ module Client =
         Width = 2,
         Smoothing = 0
     )
-    contourcarpet.Colorbar <- ContourCarpetColorBar(
+    contourcarpet.Colorbar <- ColorBar(
         Len = 0.4,
         Y = 0.25
     )
@@ -565,7 +564,7 @@ module Client =
     |]
 
     let sankey = SankeyOptions()
-    sankey.Orientation <- SankeyOrientation.H
+    sankey.Orientation <- Orientation.H
     sankey.Node <- SankeyNode(
         Pad = 15,
         Thickness = 30,
@@ -640,11 +639,11 @@ module Client =
     let scatterGeoLayout = Layout()
     scatterGeoLayout.Title <- LayoutTitle(
         Text = "Canadian cities",
-        Font = LayoutFontConfig(
+        Font = Font(
             Size = 16
         )
     )
-    scatterGeoLayout.Font <- LayoutFontConfig(
+    scatterGeoLayout.Font <- Font(
         Family = "Droid Serif, serif",
         Size = 6
     )
@@ -771,7 +770,7 @@ module Client =
         ""; "Eve"; "Eve"; "Seth"; "Seth"; "Eve"; "Eve"; "Awan"; "Eve"
     |]
     sunburst.Values <- [|10;14;12;10;2;6;6;4;4|]
-    sunburst.Outsidetextfont <- SunBurstFont(
+    sunburst.Outsidetextfont <- Font(
         Size = 20,
         Color = "#377eb8"
     )
@@ -810,7 +809,7 @@ module Client =
         ""; "Eve"; "Eve"; "Seth"; "Seth"; "Eve"; "Eve"; "Awan"; "Eve"
     |]
     icicle.Values <- [|10;14;12;10;2;6;6;4;4|]
-    icicle.Outsidetextfont <- IcicleFont(
+    icicle.Outsidetextfont <- Font(
         Size = 20,
         Color = "#377eb8"
     )

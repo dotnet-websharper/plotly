@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module OHLCModule =
 
-    let OHLCNullValue = Pattern.EnumInlines "OHLCNullValue" ["null", "null"]
-
-    let OHLCColor = T<string> + (T<float> + T<int>) + (!| (!? (OHLCNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (OHLCNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let OHLCColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let OHLCVisibleString = Pattern.EnumStrings "OHLCVisibleString" ["legendonly"]
-
-    let OHLCFont =
-        Pattern.Config "OHLCFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", OHLCColor
-            ]
-        }
-
-    let OHLCLegendGroupTitle =
-        Pattern.Config "OHLCLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", OHLCFont.Type
-            ]
-        }
+    open CommonModule
 
     let OHLCHoverInfo =
         let generatedEnum =
@@ -82,7 +57,7 @@ module OHLCModule =
             Required = []
             Optional = [
                 "type", OHLCGradientType.Type
-                "color", OHLCColor + !| OHLCColor
+                "color", Color + !| Color
             ]
         }
 
@@ -406,53 +381,13 @@ module OHLCModule =
             "arrow-bar-right-open"
         ]
 
-    let OHLCAlign =
-        Pattern.EnumStrings "OHLCAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let OHLCHoverLabel =
-        Pattern.Config "OHLCHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", OHLCColor + !| OHLCColor
-                "bordercolor", OHLCColor + !| OHLCColor
-                "font", OHLCFont.Type
-                "align", OHLCAlign.Type
-                "namelength", T<int>
-                "split", T<bool>
-            ]
-        }
-
-    let OHLCCalendar =
-        Pattern.EnumStrings "OHLCCalendar" [
-            "gregorian"
-            "chinese"
-            "coptic"
-            "discworld"
-            "ethiopian"
-            "hebrew"
-            "islamic"
-            "julian"
-            "mayan"
-            "nanakshahi"
-            "nepali"
-            "persian"
-            "jalali"
-            "taiwan"
-            "thai"
-            "ummalqura"
-        ]
-
     let OHLCLine =
         Pattern.Config "OHLCLine" {
             Required = []
             Optional = [
                 "dash", T<string>
                 "width", T<int> + T<float>
-                "color", OHLCColor
+                "color", Color
             ]
         }
 
@@ -460,7 +395,7 @@ module OHLCModule =
         Pattern.Config "OHLCCreasingLine" {
             Required = []
             Optional = [
-                "color", OHLCColor
+                "color", Color
                 "width", T<int> + T<float>
                 "dash", T<string>
             ]
@@ -476,18 +411,18 @@ module OHLCModule =
 
     let OHLCOptions =
         Class "OHLCOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'ohlc'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + OHLCVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", OHLCLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float>
@@ -511,25 +446,18 @@ module OHLCModule =
             "selectedpoints", (T<float> + T<int>) + T<string>
             "increasing", OHLCCreasing.Type
             "decreasing", OHLCCreasing.Type
-            "hoverlabel", OHLCHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "tickwidth", T<float>
-            "xcalendar", OHLCCalendar.Type
+            "xcalendar", Calendar.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let OHLCTraceNamespaces : CodeModel.NamespaceEntity list = [
-        OHLCNullValue
-        OHLCVisibleString
-        OHLCFont
-        OHLCLegendGroupTitle
         OHLCHoverInfo
         OHLCPeriodAlignment
         OHLCGradientType
         OHLCGradient
         OHLCSymbol
-        OHLCAlign
-        OHLCHoverLabel
-        OHLCCalendar
         OHLCLine
         OHLCCreasingLine
         OHLCCreasing

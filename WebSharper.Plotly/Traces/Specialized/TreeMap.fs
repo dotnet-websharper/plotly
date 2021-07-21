@@ -28,189 +28,14 @@ open WebSharper.Plotly.Extension.Common
 
 module TreeMapModule =
 
-    let TreeMapNullValue = Pattern.EnumInlines "TreeMapNullValue" ["null", "null"]
-
-    let TreeMapColor = T<string> + (T<float> + T<int>) + (!| (!? (TreeMapNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (TreeMapNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let TreeMapColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let TreeMapVisibleString = Pattern.EnumStrings "TreeMapVisibleString" ["legendonly"]
-
-    let TreeMapFont =
-        Pattern.Config "TreeMapFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", TreeMapColor
-            ]
-        }
-
-    let TreeMapLegendGroupTitle =
-        Pattern.Config "TreeMapLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", TreeMapFont.Type
-            ]
-        }
+    open CommonModule
 
     let TreeMapMarkerLine =
         Pattern.Config "TreeMapMarkerLine" {
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", TreeMapColor
-            ]
-        }
-
-    let TreeMapColorBarMode =
-        Pattern.EnumStrings "TreeMapThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let TreeMapXAnchor =
-        Pattern.EnumStrings "TreeMapXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let TreeMapYAnchor =
-        Pattern.EnumStrings "TreeMapYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let TreeMapTickMode =
-        Pattern.EnumStrings "TreeMapTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let TreeMapTicks =
-        Pattern.EnumInlines "TreeMapTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let TreeMapTickLabelOverflow =
-        Pattern.EnumInlines "TreeMapTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let TreeMapTickLabelPosition =
-        Pattern.EnumInlines "TreeMapTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let TreeMapTickFormatStops =
-        Pattern.Config "TreeMapTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + TreeMapNullValue.Type) * (DTickValue + TreeMapNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let TreeMapShowTickFix =
-        Pattern.EnumStrings "TreeMapShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = TreeMapShowTickFix
-
-    let TreeMapExponentFormat =
-        Pattern.EnumInlines "TreeMapExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let TreeMapSide =
-        Pattern.EnumStrings "TreeMapSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let TreeMapTitle =
-        Pattern.Config "TreeMapTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", TreeMapFont.Type
-                "side", TreeMapSide.Type
-            ]
-        }
-
-    let TreeMapColorBar =
-        Pattern.Config "TreeMapColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", TreeMapColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", TreeMapColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", TreeMapXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", TreeMapYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", TreeMapColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", TreeMapColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", TreeMapColor
-                "tickmode", TreeMapTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", TreeMapTicks.Type
-                "ticklabeloverflow", TreeMapTickLabelOverflow.Type
-                "ticklabelposition", TreeMapTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", TreeMapColor
-                "showticklabels", T<bool>
-                "tickfont", TreeMapFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", TreeMapTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", TreeMapShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", TreeMapShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", TreeMapExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", TreeMapTitle.Type
+                "color", Color
             ]
         }
 
@@ -235,38 +60,19 @@ module TreeMapModule =
             Required = []
             Optional = [
                 "pad", TreeMapMarkerPad.Type
-                "colors", TreeMapColor + !| TreeMapColor //data array
+                "colors", Color + !| Color //data array
                 "depthfade", T<bool> + TreeMapMarkerDepthFade.Type
                 "line", TreeMapMarkerLine.Type
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", TreeMapColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", TreeMapColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
-            ]
-        }
-
-    let TreeMapAlign =
-        Pattern.EnumStrings "TreeMapAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let TreeMapHoverLabel =
-        Pattern.Config "TreeMapHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", TreeMapColor + !| TreeMapColor
-                "bordercolor", TreeMapColor + !| TreeMapColor
-                "fonts", TreeMapFont.Type
-                "align", TreeMapAlign.Type
-                "namelength", T<int>
             ]
         }
 
@@ -299,7 +105,7 @@ module TreeMapModule =
         Pattern.Config "TreeMapRoot" {
             Required = []
             Optional = [
-                "color", TreeMapColor
+                "color", Color
             ]
         }
 
@@ -368,23 +174,23 @@ module TreeMapModule =
                 "side", TreeMapPathBarSide.Type
                 "edgeshape", TreeMapPathBarES.Type
                 "thickness", T<int> + T<float>
-                "textfont", TreeMapFont.Type
+                "textfont", Font.Type
             ]
         }
 
     let TreeMapOptions =
         Class "TreeMapOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'treemap'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + TreeMapVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
-            "legendgrouptitle", TreeMapLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "parents", !| T<string> + !| T<int> + !| T<float>
@@ -400,15 +206,15 @@ module TreeMapModule =
             "customdata", !| T<string> + !| T<int> + !| T<float>
             "domain", TreeMapDomain.Type
             "marker", TreeMapMarker.Type
-            "textfont", TreeMapFont.Type
+            "textfont", Font.Type
             "textinfo", !| T<string> //TODO
             "branchvalues", TreeMapBranchValues.Type
             "count", TreeMapCount.Type
             "tiling", TreeMapTiling.Type
             "pathbar", TreeMapPathBar.Type
-            "hoverlabel", TreeMapHoverLabel.Type
-            "insidetextfont", TreeMapFont.Type
-            "outsidetextfont", TreeMapFont.Type
+            "hoverlabel", HoverLabel.Type
+            "insidetextfont", Font.Type
+            "outsidetextfont", Font.Type
             "root", TreeMapRoot.Type
             "level", T<int> + T<float> + T<string>
             "maxdepth", T<int>
@@ -417,29 +223,10 @@ module TreeMapModule =
         ]
 
     let TreeMapTraceNamespaces : CodeModel.NamespaceEntity list = [
-        TreeMapNullValue
-        TreeMapVisibleString
-        TreeMapFont
-        TreeMapLegendGroupTitle
         TreeMapMarkerLine
-        TreeMapColorBarMode
-        TreeMapXAnchor
-        TreeMapYAnchor
-        TreeMapTickMode
-        TreeMapTicks
-        TreeMapTickLabelOverflow
-        TreeMapTickLabelPosition
-        TreeMapTickFormatStops
-        TreeMapShowTickFix
-        TreeMapExponentFormat
-        TreeMapSide
-        TreeMapTitle
-        TreeMapColorBar
         TreeMapMarkerPad
         TreeMapMarkerDepthFade
         TreeMapMarker
-        TreeMapAlign
-        TreeMapHoverLabel
         TreeMapDomain
         TreeMapBranchValues
         TreeMapCount

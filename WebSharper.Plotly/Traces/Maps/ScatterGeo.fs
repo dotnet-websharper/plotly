@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module ScatterGeoModule =
 
-    let ScatterGeoNullValue = Pattern.EnumInlines "ScatterGeoNullValue" ["null", "null"]
-
-    let ScatterGeoColor = T<string> + (T<float> + T<int>) + (!| (!? (ScatterGeoNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ScatterGeoNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let ScatterGeoColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let ScatterGeoVisibleString = Pattern.EnumStrings "ScatterGeoVisibleString" ["legendonly"]
-
-    let ScatterGeoFont =
-        Pattern.Config "ScatterGeoFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", ScatterGeoColor
-            ]
-        }
-
-    let ScatterGeoLegendGroupTitle =
-        Pattern.Config "ScatterGeoLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterGeoFont.Type
-            ]
-        }
+    open CommonModule
 
     let ScatterGeoModes =
         let generatedEnum =
@@ -93,12 +68,12 @@ module ScatterGeoModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", ScatterGeoColor
+                "color", Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterGeoColorScale
+                "colorscale",ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
@@ -118,157 +93,7 @@ module ScatterGeoModule =
             Required = []
             Optional = [
                 "type", ScatterGeoGradientType.Type
-                "color", ScatterGeoColor + !| ScatterGeoColor
-            ]
-        }
-
-    let ScatterGeoColorBarMode =
-        Pattern.EnumStrings "ScatterGeoThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let ScatterGeoXAnchor =
-        Pattern.EnumStrings "ScatterGeoXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let ScatterGeoYAnchor =
-        Pattern.EnumStrings "ScatterGeoYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let ScatterGeoTickMode =
-        Pattern.EnumStrings "ScatterGeoTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let ScatterGeoTicks =
-        Pattern.EnumInlines "ScatterGeoTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let ScatterGeoTickLabelOverflow =
-        Pattern.EnumInlines "ScatterGeoTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let ScatterGeoTickLabelPosition =
-        Pattern.EnumInlines "ScatterGeoTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let ScatterGeoTickFormatStops =
-        Pattern.Config "ScatterGeoTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + ScatterGeoNullValue.Type) * (DTickValue + ScatterGeoNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let ScatterGeoShowTickFix =
-        Pattern.EnumStrings "ScatterGeoShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = ScatterGeoShowTickFix
-
-    let ScatterGeoExponentFormat =
-        Pattern.EnumInlines "ScatterGeoExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let ScatterGeoSide =
-        Pattern.EnumStrings "ScatterGeoSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let ScatterGeoTitle =
-        Pattern.Config "ScatterGeoTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterGeoFont.Type
-                "side", ScatterGeoSide.Type
-            ]
-        }
-
-    let ScatterGeoColorBar =
-        Pattern.Config "ScatterGeoColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", ScatterGeoColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", ScatterGeoColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", ScatterGeoXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", ScatterGeoYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", ScatterGeoColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", ScatterGeoColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", ScatterGeoColor
-                "tickmode", ScatterGeoTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", ScatterGeoTicks.Type
-                "ticklabeloverflow", ScatterGeoTickLabelOverflow.Type
-                "ticklabelposition", ScatterGeoTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", ScatterGeoColor
-                "showticklabels", T<bool>
-                "tickfont", ScatterGeoFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", ScatterGeoTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", ScatterGeoShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", ScatterGeoShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", ScatterGeoExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", ScatterGeoTitle.Type
+                "color", Color + !| Color
             ]
         }
 
@@ -604,16 +429,16 @@ module ScatterGeoModule =
                 "sizemode", ScatterGeoSizeMode.Type
                 "line", ScatterGeoMarkerLine.Type
                 "gradient", ScatterGeoGradient.Type
-                "color", ScatterGeoColor + !| ScatterGeoColor
+                "color", Color + !| Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterGeoColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", ScatterGeoColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
             ]
         }
@@ -622,7 +447,7 @@ module ScatterGeoModule =
         Pattern.Config "ScatterGeoLine" {
             Required = []
             Optional = [
-                "color", ScatterGeoColor
+                "color", Color
                 "width", (T<float> + T<int>)
                 "dash", T<string>
             ]
@@ -633,7 +458,7 @@ module ScatterGeoModule =
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", ScatterGeoColor
+                "color", Color
                 "size", (T<float> + T<int>)
             ]
         }
@@ -641,7 +466,7 @@ module ScatterGeoModule =
     let ScatterGeoSelectedTextFont =
         Pattern.Config "ScatterGeoSelectedTextFont" {
             Required = []
-            Optional = ["color", ScatterGeoColor]
+            Optional = ["color", Color]
         }
 
     let ScatterGeoSelectedOption =
@@ -664,25 +489,6 @@ module ScatterGeoModule =
             "tonext"
         ]
 
-    let ScatterGeoAlign =
-        Pattern.EnumStrings "ScatterGeoAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let ScatterGeoHoverLabel =
-        Pattern.Config "ScatterGeoHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", ScatterGeoColor + !| ScatterGeoColor
-                "bordercolor", ScatterGeoColor + !| ScatterGeoColor
-                "fonts", ScatterGeoFont.Type
-                "align", ScatterGeoAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
     let ScatterGeoLocationMode =
         Pattern.EnumInlines "ScatterGeoLocationMode" [
             "ISO-3", "'ISO-3'"
@@ -693,18 +499,18 @@ module ScatterGeoModule =
 
     let ScatterGeoOptions =
         Class "ScatterGeoOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scattergeo'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ScatterGeoVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", ScatterGeoLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "mode", ScatterGeoModes.Type
             "ids", !| T<string>
@@ -724,23 +530,19 @@ module ScatterGeoModule =
             "geo", T<string> //subplotid
             "marker", ScatterGeoMarker.Type
             "line", ScatterGeoLine.Type
-            "textfont", ScatterGeoFont.Type
+            "textfont", Font.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
             "selected", ScatterGeoSelectedOption.Type
             "unselected", ScatterGeoSelectedOption.Type // change name later
             "connectgaps", T<bool>
             "fill", ScatterGeoFill.Type
-            "fillcolor", ScatterGeoColor
-            "hoverlabel", ScatterGeoHoverLabel.Type
+            "fillcolor", Color
+            "hoverlabel", HoverLabel.Type
             "locationmode", ScatterGeoLocationMode.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let ScatterGeoTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ScatterGeoNullValue
-        ScatterGeoVisibleString
-        ScatterGeoFont
-        ScatterGeoLegendGroupTitle
         ScatterGeoModes 
         ScatterGeoTextPosition
         ScatterGeoHoverInfo
@@ -748,19 +550,6 @@ module ScatterGeoModule =
         ScatterGeoMarkerLine
         ScatterGeoGradientType
         ScatterGeoGradient
-        ScatterGeoColorBarMode
-        ScatterGeoXAnchor
-        ScatterGeoYAnchor
-        ScatterGeoTickMode
-        ScatterGeoTicks
-        ScatterGeoTickLabelOverflow
-        ScatterGeoTickLabelPosition
-        ScatterGeoTickFormatStops
-        ScatterGeoShowTickFix
-        ScatterGeoExponentFormat
-        ScatterGeoSide
-        ScatterGeoTitle
-        ScatterGeoColorBar
         ScatterGeoSymbol
         ScatterGeoMarker
         ScatterGeoLine
@@ -768,8 +557,6 @@ module ScatterGeoModule =
         ScatterGeoSelectedTextFont
         ScatterGeoSelectedOption
         ScatterGeoFill
-        ScatterGeoAlign
-        ScatterGeoHoverLabel
         ScatterGeoLocationMode
         ScatterGeoOptions
     ]

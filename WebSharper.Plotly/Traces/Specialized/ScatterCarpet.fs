@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.GenerateEnum
 
 module ScatterCarpetModule =
 
-    let ScatterCarpetNullValue = Pattern.EnumInlines "ScatterCarpetNullValue" ["null", "null"]
-
-    let ScatterCarpetColor = T<string> + (T<float> + T<int>) + (!| (!? (ScatterCarpetNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ScatterCarpetNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let ScatterCarpetColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let ScatterCarpetVisibleString = Pattern.EnumStrings "ScatterCarpetVisibleString" ["legendonly"]
-
-    let ScatterCarpetFont =
-        Pattern.Config "ScatterCarpetFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", ScatterCarpetColor
-            ]
-        }
-
-    let ScatterCarpetLegendGroupTitle =
-        Pattern.Config "ScatterCarpetLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterCarpetFont.Type
-            ]
-        }
+    open CommonModule
 
     let ScatterCarpetModes =
         let generatedEnum =
@@ -93,12 +68,12 @@ module ScatterCarpetModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", ScatterCarpetColor
+                "color", Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterCarpetColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
@@ -118,157 +93,7 @@ module ScatterCarpetModule =
             Required = []
             Optional = [
                 "type", ScatterCarpetGradientType.Type
-                "color", ScatterCarpetColor + !| ScatterCarpetColor
-            ]
-        }
-
-    let ScatterCarpetColorBarMode =
-        Pattern.EnumStrings "ScatterCarpetColorBarMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let ScatterCarpetXAnchor =
-        Pattern.EnumStrings "ScatterCarpetXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let ScatterCarpetYAnchor =
-        Pattern.EnumStrings "ScatterCarpetYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let ScatterCarpetTickMode =
-        Pattern.EnumStrings "ScatterCarpetTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let ScatterCarpetTicks =
-        Pattern.EnumInlines "ScatterCarpetTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let ScatterCarpetTickLabelOverflow =
-        Pattern.EnumInlines "ScatterCarpetTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let ScatterCarpetTickLabelPosition =
-        Pattern.EnumInlines "ScatterCarpetTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let ScatterCarpetTickFormatStops =
-        Pattern.Config "ScatterCarpetTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + ScatterCarpetNullValue.Type) * (DTickValue + ScatterCarpetNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let ScatterCarpetShowTickFix =
-        Pattern.EnumStrings "ScatterCarpetShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = ScatterCarpetShowTickFix
-
-    let ScatterCarpetExponentFormat =
-        Pattern.EnumInlines "ScatterCarpetExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let ScatterCarpetSide =
-        Pattern.EnumStrings "ScatterCarpetSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let ScatterCarpetTitle =
-        Pattern.Config "ScatterCarpetTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterCarpetFont.Type
-                "side", ScatterCarpetSide.Type
-            ]
-        }
-
-    let ScatterCarpetColorBar =
-        Pattern.Config "ScatterCarpetColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", ScatterCarpetColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", ScatterCarpetColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", ScatterCarpetXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", ScatterCarpetYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", ScatterCarpetColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", ScatterCarpetColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", ScatterCarpetColor
-                "tickmode", ScatterCarpetTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", ScatterCarpetTicks.Type
-                "ticklabeloverflow", ScatterCarpetTickLabelOverflow.Type
-                "ticklabelposition", ScatterCarpetTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", ScatterCarpetColor
-                "showticklabels", T<bool>
-                "tickfont", ScatterCarpetFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", ScatterCarpetTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", ScatterCarpetShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", ScatterCarpetShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", ScatterCarpetExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", ScatterCarpetTitle.Type
+                "color", Color + !| Color
             ]
         }
 
@@ -605,16 +430,16 @@ module ScatterCarpetModule =
                 "sizemode", ScatterCarpetSizeMode.Type
                 "line", ScatterCarpetMarkerLine.Type
                 "gradient", ScatterCarpetGradient.Type
-                "color", ScatterCarpetColor + !| ScatterCarpetColor
+                "color", Color + !| Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterCarpetColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", ScatterCarpetColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
             ]
         }
@@ -633,7 +458,7 @@ module ScatterCarpetModule =
         Pattern.Config "ScatterCarpetLine" {
             Required = []
             Optional = [
-                "color", ScatterCarpetColor
+                "color", Color
                 "width", (T<float> + T<int>)
                 "shape", ScatterCarpetShape.Type
                 "smoothing", (T<float> + T<int>)
@@ -646,7 +471,7 @@ module ScatterCarpetModule =
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", ScatterCarpetColor
+                "color", Color
                 "size", (T<float> + T<int>)
             ]
         }
@@ -654,7 +479,7 @@ module ScatterCarpetModule =
     let ScatterCarpetSelectedTextFont =
         Pattern.Config "ScatterCarpetSelectedTextFont" {
             Required = []
-            Optional = ["color", ScatterCarpetColor]
+            Optional = ["color", Color]
         }
 
     let ScatterCarpetSelectedOption =
@@ -677,43 +502,24 @@ module ScatterCarpetModule =
             "tonext"
         ]
 
-    let ScatterCarpetAlign =
-        Pattern.EnumStrings "ScatterCarpetAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let ScatterCarpetHoverLabel =
-        Pattern.Config "ScatterCarpetHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", ScatterCarpetColor + !| ScatterCarpetColor
-                "bordercolor", ScatterCarpetColor + !| ScatterCarpetColor
-                "fonts", ScatterCarpetFont.Type
-                "align", ScatterCarpetAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
     let ScatterCarpetHoverOn =
         let generatedEnum = GenerateOptions.allPermutations ["points"; "fills"] '+'
         Pattern.EnumStrings "ScatterCarpetHoverOn" generatedEnum
 
     let ScatterCarpetOptions =
         Class "ScatterCarpetOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scattercarpet'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ScatterCarpetVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", ScatterCarpetLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "mode", ScatterCarpetModes.Type
             "ids", !| T<string>
@@ -731,42 +537,25 @@ module ScatterCarpetModule =
             "yaxis", T<string> //type is 'subplotid'
             "marker", ScatterCarpetMarker.Type
             "line", ScatterCarpetLine.Type
-            "textfont", ScatterCarpetFont.Type
+            "textfont", Font.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
             "selected", ScatterCarpetSelectedOption.Type
             "unselected", ScatterCarpetSelectedOption.Type // change name later
             "carpet", T<string>
             "connectgaps", T<bool>
             "fill", ScatterCarpetFill.Type
-            "fillcolor", ScatterCarpetColor
-            "hoverlabel", ScatterCarpetHoverLabel.Type
+            "fillcolor", Color
+            "hoverlabel", HoverLabel.Type
             "hoveron", ScatterCarpetHoverOn.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let ScatterCarpetTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ScatterCarpetNullValue
-        ScatterCarpetVisibleString
-        ScatterCarpetFont
-        ScatterCarpetLegendGroupTitle
         ScatterCarpetModes
         ScatterCarpetTextPosition
         ScatterCarpetHoverInfo
         ScatterCarpetSizeMode
         ScatterCarpetMarkerLine
-        ScatterCarpetColorBarMode
-        ScatterCarpetXAnchor
-        ScatterCarpetYAnchor
-        ScatterCarpetTickMode
-        ScatterCarpetTicks
-        ScatterCarpetTickLabelOverflow
-        ScatterCarpetTickLabelPosition
-        ScatterCarpetTickFormatStops
-        ScatterCarpetShowTickFix
-        ScatterCarpetExponentFormat
-        ScatterCarpetSide
-        ScatterCarpetTitle
-        ScatterCarpetColorBar
         ScatterCarpetSymbol
         ScatterCarpetMarker
         ScatterCarpetShape
@@ -775,8 +564,6 @@ module ScatterCarpetModule =
         ScatterCarpetSelectedTextFont
         ScatterCarpetSelectedOption
         ScatterCarpetFill
-        ScatterCarpetAlign
-        ScatterCarpetHoverLabel
         ScatterCarpetHoverOn
         ScatterCarpetOptions
         ScatterCarpetGradient

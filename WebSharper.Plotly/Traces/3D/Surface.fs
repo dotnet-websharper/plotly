@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module SurfaceModule =
 
-    let SurfaceNullValue = Pattern.EnumInlines "SurfaceNullValue" ["null", "null"]
-
-    let SurfaceColor = T<string> + (T<float> + T<int>) + (!| (!? (SurfaceNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (SurfaceNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let SurfaceColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let SurfaceVisibleString = Pattern.EnumStrings "SurfaceVisibleString" ["legendonly"]
-
-    let SurfaceFont =
-        Pattern.Config "SurfaceFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", SurfaceColor
-            ]
-        }
-
-    let SurfaceLegendGroupTitle =
-        Pattern.Config "SurfaceLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", SurfaceFont.Type
-            ]
-        }
+    open CommonModule
 
     let SurfaceHoverInfo =
         let generatedEnum =
@@ -61,195 +36,6 @@ module SurfaceModule =
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "SurfaceHoverInfo" generatedEnum
-
-    let SurfaceColorBarMode =
-        Pattern.EnumStrings "SurfaceThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let SurfaceXAnchor =
-        Pattern.EnumStrings "SurfaceXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let SurfaceYAnchor =
-        Pattern.EnumStrings "SurfaceYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let SurfaceTickMode =
-        Pattern.EnumStrings "SurfaceTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let SurfaceTicks =
-        Pattern.EnumInlines "SurfaceTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let SurfaceTickLabelOverflow =
-        Pattern.EnumInlines "SurfaceTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let SurfaceTickLabelPosition =
-        Pattern.EnumInlines "SurfaceTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let SurfaceTickFormatStops =
-        Pattern.Config "SurfaceTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + SurfaceNullValue.Type) * (DTickValue + SurfaceNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let SurfaceShowTickFix =
-        Pattern.EnumStrings "SurfaceShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = SurfaceShowTickFix
-
-    let SurfaceExponentFormat =
-        Pattern.EnumInlines "SurfaceExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let SurfaceSide =
-        Pattern.EnumStrings "SurfaceSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let SurfaceTitle =
-        Pattern.Config "SurfaceTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", SurfaceFont.Type
-                "side", SurfaceSide.Type
-            ]
-        }
-
-    let SurfaceColorBar =
-        Pattern.Config "SurfaceColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", SurfaceColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", SurfaceColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", SurfaceXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", SurfaceYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", SurfaceColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", SurfaceColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", SurfaceColor
-                "tickmode", SurfaceTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", SurfaceTicks.Type
-                "ticklabeloverflow", SurfaceTickLabelOverflow.Type
-                "ticklabelposition", SurfaceTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", SurfaceColor
-                "showticklabels", T<bool>
-                "tickfont", SurfaceFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", SurfaceTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", SurfaceShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", SurfaceShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", SurfaceExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", SurfaceTitle.Type
-            ]
-        }
-
-    let SurfaceAlign =
-        Pattern.EnumStrings "SurfaceAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let SurfaceHoverLabel =
-        Pattern.Config "SurfaceHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", SurfaceColor + !| SurfaceColor
-                "bordercolor", SurfaceColor + !| SurfaceColor
-                "fonts", SurfaceFont.Type
-                "align", SurfaceAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
-    let SurfaceCalendar =
-        Pattern.EnumStrings "SurfaceCalendar" [
-            "gregorian"
-            "chinese"
-            "coptic"
-            "discworld"
-            "ethiopian"
-            "hebrew"
-            "islamic"
-            "julian"
-            "mayan"
-            "nanakshahi"
-            "nepali"
-            "persian"
-            "jalali"
-            "taiwan"
-            "thai"
-            "ummalqura"
-        ]
 
     let SurfaceLighting =
         Pattern.Config "SurfaceLighting" {
@@ -292,11 +78,11 @@ module SurfaceModule =
                 "end", T<int> + T<float>
                 "size", T<int> + T<float>
                 "project", SurfaceContoursProject.Type
-                "color", SurfaceColor
+                "color", Color
                 "usecolormap", T<bool>
                 "width", T<int> + T<float>
                 "highlight", T<bool>
-                "highlightcolorr", SurfaceColor
+                "highlightcolorr", Color
                 "highlightwidth", T<int> + T<float>
             ]
         }
@@ -313,24 +99,24 @@ module SurfaceModule =
 
     let SurfaceOptions =
         Class "SurfaceOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'surface'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + SurfaceVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", SurfaceLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float>
             "y", !| T<int> + !| T<float>
             "z", !| T<int> + !| T<float>
-            "surfacecolor", SurfaceColor
+            "surfacecolor", Color
             "text", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
             "hoverinfo", SurfaceHoverInfo.Type
@@ -341,9 +127,9 @@ module SurfaceModule =
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
             "coloraxis", T<string> // type: subplotid
-            "colorbar", SurfaceColorBar.Type
+            "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", SurfaceColorScale
+            "colorscale", ColorScale
             "showscale", T<bool>
             "reverscale", T<bool>
             "zhoverformat", T<string>
@@ -354,38 +140,18 @@ module SurfaceModule =
             "connectgaps", T<bool>
             "contours", SurfaceContours.Type //
             "hidesurface", T<bool>
-            "hoverlabel", SurfaceHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "lighting", SurfaceLighting.Type
             "lightposition", SurfaceLightPosition.Type
             "opacityscale", T<int> + T<float> + T<string>
-            "xcalendar", SurfaceCalendar.Type
-            "ycalendar", SurfaceCalendar.Type
-            "zcalendar", SurfaceCalendar.Type
+            "xcalendar", Calendar.Type
+            "ycalendar", Calendar.Type
+            "zcalendar", Calendar.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let SurfaceTraceNamespaces : CodeModel.NamespaceEntity list = [
-        SurfaceNullValue
-        SurfaceVisibleString
-        SurfaceFont
-        SurfaceLegendGroupTitle
         SurfaceHoverInfo
-        SurfaceColorBarMode
-        SurfaceXAnchor
-        SurfaceYAnchor
-        SurfaceTickMode
-        SurfaceTicks
-        SurfaceTickLabelOverflow
-        SurfaceTickLabelPosition
-        SurfaceTickFormatStops
-        SurfaceShowTickFix
-        SurfaceExponentFormat
-        SurfaceSide
-        SurfaceTitle
-        SurfaceColorBar
-        SurfaceAlign
-        SurfaceHoverLabel
-        SurfaceCalendar
         SurfaceLighting
         SurfaceLightPosition
         SurfaceContoursProject

@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module BarPolarModule =
 
-    let BarPolarNullValue = Pattern.EnumInlines "BarPolarNullValue" ["null", "null"]
-
-    let BarPolarColor = T<string> + (T<float> + T<int>) + (!| (!? (BarPolarNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (BarPolarNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let BarPolarColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let BarPolarVisibleString = Pattern.EnumStrings "BarPolarVisibleString" ["legendonly"]
-
-    let BarPolarFont =
-        Pattern.Config "BarPolarFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", BarPolarColor
-            ]
-        }
-
-    let BarPolarLegendGroupTitle =
-        Pattern.Config "BarPolarLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", BarPolarFont.Type
-            ]
-        }
+    open CommonModule
 
     let BarPolarModes =
         let generatedEnum =
@@ -74,165 +49,15 @@ module BarPolarModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", BarPolarColor
+                "color", Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", BarPolarColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
-            ]
-        }
-
-    let BarPolarColorBarMode =
-        Pattern.EnumStrings "BarPolarThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let BarPolarXAnchor =
-        Pattern.EnumStrings "BarPolarXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let BarPolarYAnchor =
-        Pattern.EnumStrings "BarPolarYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let BarPolarTickMode =
-        Pattern.EnumStrings "BarPolarTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let BarPolarTicks =
-        Pattern.EnumInlines "BarPolarTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let BarPolarTickLabelOverflow =
-        Pattern.EnumInlines "BarPolarTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let BarPolarTickLabelPosition =
-        Pattern.EnumInlines "BarPolarTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let BarPolarTickFormatStops =
-        Pattern.Config "BarPolarTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + BarPolarNullValue.Type) * (DTickValue + BarPolarNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let BarPolarShowTickFix =
-        Pattern.EnumStrings "BarPolarShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = BarPolarShowTickFix
-
-    let BarPolarExponentFormat =
-        Pattern.EnumInlines "BarPolarExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let BarPolarSide =
-        Pattern.EnumStrings "BarPolarSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let BarPolarTitle =
-        Pattern.Config "BarPolarTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", BarPolarFont.Type
-                "side", BarPolarSide.Type
-            ]
-        }
-
-    let BarPolarColorBar =
-        Pattern.Config "BarPolarColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", BarPolarColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", BarPolarColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", BarPolarXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", BarPolarYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", BarPolarColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", BarPolarColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", BarPolarColor
-                "tickmode", BarPolarTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", BarPolarTicks.Type
-                "ticklabeloverflow", BarPolarTickLabelOverflow.Type
-                "ticklabelposition", BarPolarTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", BarPolarColor
-                "showticklabels", T<bool>
-                "tickfont", BarPolarFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", BarPolarTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", BarPolarShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", BarPolarShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", BarPolarExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", BarPolarTitle.Type
             ]
         }
 
@@ -260,8 +85,8 @@ module BarPolarModule =
             Optional = [
                 "shape", BarPolarMarkerPatternShape.Type
                 "fillmode", BarPolarFillMode.Type
-                "bgcolor", BarPolarColor + !| BarPolarColor
-                "fgcolor", BarPolarColor + !| BarPolarColor
+                "bgcolor", Color + !| Color
+                "fgcolor", Color + !| Color
                 "fgopacity", (T<float> + T<int>)
                 "size", (T<float> + T<int>) + !| T<float> + !| T<int>
                 "solidity", (T<float> + T<int>) + !| T<float> + !| T<int>               
@@ -274,16 +99,16 @@ module BarPolarModule =
             Optional = [
                 "opacity", T<float> + !| T<float>
                 "line", BarPolarMarkerLine.Type
-                "color", BarPolarColor + !| BarPolarColor
+                "color", Color + !| Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", BarPolarColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "ColorBar", BarPolarColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
                 "pattern", BarPolarMarkerPattern.Type
             ]
@@ -294,7 +119,7 @@ module BarPolarModule =
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", BarPolarColor
+                "color", Color
                 "size", (T<float> + T<int>)
             ]
         }
@@ -302,7 +127,7 @@ module BarPolarModule =
     let BarPolarSelectedTextFont =
         Pattern.Config "BarPolarSelectedTextFont" {
             Required = []
-            Optional = ["color", BarPolarColor]
+            Optional = ["color", Color]
         }
 
     let BarPolarSelectedOption =
@@ -325,25 +150,6 @@ module BarPolarModule =
             "tonext"
         ]
 
-    let BarPolarAlign =
-        Pattern.EnumStrings "BarPolarAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let BarPolarHoverLabel =
-        Pattern.Config "BarPolarHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", BarPolarColor + !| BarPolarColor
-                "bordercolor", BarPolarColor + !| BarPolarColor
-                "fonts", BarPolarFont.Type
-                "align", BarPolarAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
     let BarPolarThetaUnit =
         Pattern.EnumStrings "BarPolarThetaUnit" [
             "radians"
@@ -353,18 +159,18 @@ module BarPolarModule =
 
     let BarPolarOptions =
         Class "BarPolarOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'BarPolar'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + BarPolarVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", BarPolarLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "mode", BarPolarModes.Type
             "ids", !| T<string>
@@ -389,31 +195,14 @@ module BarPolarModule =
             "selectedpoints", (T<float> + T<int>) + T<string>
             "selected", BarPolarSelectedOption.Type
             "unselected", BarPolarSelectedOption.Type // change name later
-            "hoverlabel", BarPolarHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let BarPolarTraceNamespaces : CodeModel.NamespaceEntity list = [
-        BarPolarNullValue
-        BarPolarVisibleString
-        BarPolarFont
-        BarPolarLegendGroupTitle
         BarPolarModes
         BarPolarHoverInfo
         BarPolarMarkerLine
-        BarPolarColorBarMode
-        BarPolarXAnchor
-        BarPolarYAnchor
-        BarPolarTickMode
-        BarPolarTicks
-        BarPolarTickLabelOverflow
-        BarPolarTickLabelPosition
-        BarPolarTickFormatStops
-        BarPolarShowTickFix
-        BarPolarExponentFormat
-        BarPolarSide
-        BarPolarTitle
-        BarPolarColorBar
         BarPolarMarkerPatternShape
         BarPolarFillMode
         BarPolarMarkerPattern
@@ -422,8 +211,6 @@ module BarPolarModule =
         BarPolarSelectedTextFont
         BarPolarSelectedOption
         BarPolarFill
-        BarPolarAlign
-        BarPolarHoverLabel
         BarPolarThetaUnit
         BarPolarOptions
     ]

@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module ScatterMBModule =
 
-    let ScatterMBNullValue = Pattern.EnumInlines "ScatterMBNullValue" ["null", "null"]
-
-    let ScatterMBColor = T<string> + (T<float> + T<int>) + (!| (!? (ScatterMBNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ScatterMBNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let ScatterMBColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let ScatterMBVisibleString = Pattern.EnumStrings "ScatterMBVisibleString" ["legendonly"]
-
-    let ScatterMBFont =
-        Pattern.Config "ScatterMBFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", ScatterMBColor
-            ]
-        }
-
-    let ScatterMBLegendGroupTitle =
-        Pattern.Config "ScatterMBLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterMBFont.Type
-            ]
-        }
+    open CommonModule
 
     let ScatterMBModes =
         let generatedEnum =
@@ -88,156 +63,6 @@ module ScatterMBModule =
             "area"
         ]
 
-    let ScatterMBColorBarMode =
-        Pattern.EnumStrings "ScatterMBThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let ScatterMBXAnchor =
-        Pattern.EnumStrings "ScatterMBXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let ScatterMBYAnchor =
-        Pattern.EnumStrings "ScatterMBYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let ScatterMBTickMode =
-        Pattern.EnumStrings "ScatterMBTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let ScatterMBTicks =
-        Pattern.EnumInlines "ScatterMBTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let ScatterMBTickLabelOverflow =
-        Pattern.EnumInlines "ScatterMBTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let ScatterMBTickLabelPosition =
-        Pattern.EnumInlines "ScatterMBTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let ScatterMBTickFormatStops =
-        Pattern.Config "ScatterMBTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + ScatterMBNullValue.Type) * (DTickValue + ScatterMBNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let ScatterMBShowTickFix =
-        Pattern.EnumStrings "ScatterMBShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = ScatterMBShowTickFix
-
-    let ScatterMBExponentFormat =
-        Pattern.EnumInlines "ScatterMBExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let ScatterMBSide =
-        Pattern.EnumStrings "ScatterMBSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let ScatterMBTitle =
-        Pattern.Config "ScatterMBTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterMBFont.Type
-                "side", ScatterMBSide.Type
-            ]
-        }
-
-    let ScatterMBColorBar =
-        Pattern.Config "ScatterMBColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", ScatterMBColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", ScatterMBColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", ScatterMBXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", ScatterMBYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", ScatterMBColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", ScatterMBColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", ScatterMBColor
-                "tickmode", ScatterMBTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", ScatterMBTicks.Type
-                "ticklabeloverflow", ScatterMBTickLabelOverflow.Type
-                "ticklabelposition", ScatterMBTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", ScatterMBColor
-                "showticklabels", T<bool>
-                "tickfont", ScatterMBFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", ScatterMBTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", ScatterMBShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", ScatterMBShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", ScatterMBExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", ScatterMBTitle.Type
-            ]
-        }
-
     let ScatterMBMarker =
         Pattern.Config "ScatterMBMarker" {
             Required = []
@@ -250,16 +75,16 @@ module ScatterMBModule =
                 "sizeref", (T<float> + T<int>)
                 "sizemin", (T<float> + T<int>)
                 "sizemode", ScatterMBSizeMode.Type
-                "color", ScatterMBColor + !| ScatterMBColor
+                "color", Color + !| Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterMBColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", ScatterMBColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
             ]
         }
@@ -268,7 +93,7 @@ module ScatterMBModule =
         Pattern.Config "ScatterMBLine" {
             Required = []
             Optional = [
-                "color", ScatterMBColor
+                "color", Color
                 "width", (T<float> + T<int>)
             ]
         }
@@ -278,7 +103,7 @@ module ScatterMBModule =
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", ScatterMBColor
+                "color", Color
                 "size", (T<float> + T<int>)
             ]
         }
@@ -302,39 +127,20 @@ module ScatterMBModule =
             "tonext"
         ]
 
-    let ScatterMBAlign =
-        Pattern.EnumStrings "ScatterMBAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let ScatterMBHoverLabel =
-        Pattern.Config "ScatterMBHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", ScatterMBColor + !| ScatterMBColor
-                "bordercolor", ScatterMBColor + !| ScatterMBColor
-                "fonts", ScatterMBFont.Type
-                "align", ScatterMBAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
     let ScatterMBOptions =
         Class "ScatterMBOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scattermapbox'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ScatterMBVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", ScatterMBLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "mode", ScatterMBModes.Type
             "ids", !| T<string>
@@ -351,46 +157,27 @@ module ScatterMBModule =
             "subplot", T<string> //subplotid
             "marker", ScatterMBMarker.Type
             "line", ScatterMBLine.Type
-            "textfont", ScatterMBFont.Type
+            "textfont", Font.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
             "selected", ScatterMBSelectedOption.Type
             "unselected", ScatterMBSelectedOption.Type // change name later
             "below", T<string>
             "connectgaps", T<bool>
             "fill", ScatterMBFill.Type
-            "fillcolor", ScatterMBColor
-            "hoverlabel", ScatterMBHoverLabel.Type
+            "fillcolor", Color
+            "hoverlabel", HoverLabel.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let ScatterMBTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ScatterMBNullValue
-        ScatterMBVisibleString
-        ScatterMBFont
-        ScatterMBLegendGroupTitle
         ScatterMBModes
         ScatterMBTextPosition
         ScatterMBHoverInfo
         ScatterMBSizeMode
-        ScatterMBColorBarMode
-        ScatterMBXAnchor
-        ScatterMBYAnchor
-        ScatterMBTickMode
-        ScatterMBTicks
-        ScatterMBTickLabelOverflow
-        ScatterMBTickLabelPosition
-        ScatterMBTickFormatStops
-        ScatterMBShowTickFix
-        ScatterMBExponentFormat
-        ScatterMBSide
-        ScatterMBTitle
-        ScatterMBColorBar
         ScatterMBMarker
         ScatterMBLine
         ScatterMBSelectedMarker
         ScatterMBSelectedOption
         ScatterMBFill
-        ScatterMBAlign
-        ScatterMBHoverLabel
         ScatterMBOptions
     ]

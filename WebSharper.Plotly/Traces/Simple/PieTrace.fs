@@ -28,20 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module PieModule =
 
-    let PieNullValue = Pattern.EnumInlines "PieNullValue" ["null", "null"]
-
-    let PieColor = T<string> + (T<float> + T<int>) + (!| (!? (PieNullValue.Type + T<string> + (T<float> + T<int>)))) + (!| (!| ((!? (PieNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-
-    let PieFont =
-        Pattern.Config "PieFont" {
-            Required = []
-            Optional = [
-                "family", T<string> + !| T<string>
-                "size", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "PieColor", PieColor + !| PieColor
-            ]
-        }
+    open CommonModule
 
     let PieTitlePosition =
         Pattern.EnumInlines "PieTitlePosition" [
@@ -59,19 +46,8 @@ module PieModule =
             Required= []
             Optional = [
                 "text", T<string>
-                "font", PieFont.Type
+                "font", Font.Type
                 "position", PieTitlePosition.Type
-            ]
-        }
-
-    let PieVisibleString = Pattern.EnumStrings "PieVisibleString" ["legendonly"]
-
-    let PieLegendGroupTitle =
-        Pattern.Config "PieLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", PieFont.Type
             ]
         }
 
@@ -94,8 +70,8 @@ module PieModule =
         Pattern.Config "PieDomain" {
             Required = []
             Optional = [
-                "x", !| (((T<float> + T<int>) + PieNullValue.Type) * ((T<float> + T<int>) + PieNullValue.Type)) //array
-                "y", !| (((T<float> + T<int>) + PieNullValue.Type) * ((T<float> + T<int>) + PieNullValue.Type)) //array
+                "x", !| (((T<float> + T<int>) + NullValue.Type) * ((T<float> + T<int>) + NullValue.Type)) //array
+                "y", !| (((T<float> + T<int>) + NullValue.Type) * ((T<float> + T<int>) + NullValue.Type)) //array
                 "row", T<int>
                 "column", T<int>
             ]
@@ -105,7 +81,7 @@ module PieModule =
         Pattern.Config "PieMarkerLine" {
             Required = []
             Optional = [
-                "PieColor", PieColor
+                "PieColor", Color
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
             ]
         }
@@ -114,7 +90,7 @@ module PieModule =
         Pattern.Config "PieMarker" {
             Required = []
             Optional = [
-                "PieColors", !| PieColor //data array
+                "PieColors", !| Color //data array
                 "line", PieMarkerLine.Type
 
             ]
@@ -133,25 +109,6 @@ module PieModule =
             "counterclockwise"
         ]
 
-    let PieAlign = 
-        Pattern.EnumStrings "PieAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let PieHoverLabel =
-        Pattern.Config "PieHoverLabel"  {
-            Required = []
-            Optional = [
-                "bgPieColor", PieColor + !| PieColor
-                "borderPieColor", PieColor + !| PieColor
-                "font", PieFont.Type
-                "align", PieAlign.Type
-                "namelength", T<int> + !| T<int>
-            ]
-        }  
-
     let PieTextOrientation = 
         Pattern.EnumStrings "PieTextOrientation" [
             "horizontal"
@@ -162,7 +119,7 @@ module PieModule =
 
     let PieOptions = 
         Class "PieOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'pie'}"
@@ -170,11 +127,11 @@ module PieModule =
         |+> Pattern.OptionalFields [
             "name", T<string>
             "title", PieTitle.Type
-            "visible", T<bool> + PieVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", PieLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", (T<float> + T<int>)
             "ids", T<string>
             "values", !| T<float> + !| T<int>
@@ -193,14 +150,14 @@ module PieModule =
             "domain", PieDomain.Type
             "automargin", T<bool>
             "marker", PieMarker.Type
-            "textPieFont", PieFont.Type
+            "textPieFont", Font.Type
             "textinfo", PieTextInfo.Type
             "direction", PieDirection.Type
             "hole", (T<float> + T<int>)
-            "hoverlabel", PieHoverLabel.Type
-            "insidetextfont", PieFont.Type
+            "hoverlabel", HoverLabel.Type
+            "insidetextfont", Font.Type
             "insidetextorientation", PieTextOrientation.Type
-            "outsidetextfont", PieFont.Type
+            "outsidetextfont", Font.Type
             "rotation", (T<float> + T<int>)
             "scalegroup", T<string>
             "sort", T<bool>
@@ -208,11 +165,8 @@ module PieModule =
         ]
 
     let PieTraceNamespaces : CodeModel.NamespaceEntity list = [
-        PieFont
         PieTitlePosition
         PieTitle
-        PieVisibleString
-        PieLegendGroupTitle
         PieTextPosition
         PieHoverInfo
         PieDomain
@@ -220,8 +174,6 @@ module PieModule =
         PieMarker
         PieTextInfo
         PieDirection
-        PieAlign
-        PieHoverLabel
         PieTextOrientation
         PieOptions
     ]

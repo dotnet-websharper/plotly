@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module MeshModule =
 
-    let MeshNullValue = Pattern.EnumInlines "MeshNullValue" ["null", "null"]
-
-    let MeshColor = T<string> + (T<float> + T<int>) + (!| (!? (MeshNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (MeshNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let MeshColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let MeshVisibleString = Pattern.EnumStrings "MeshVisibleString" ["legendonly"]
-
-    let MeshFont =
-        Pattern.Config "MeshFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", MeshColor
-            ]
-        }
-
-    let MeshLegendGroupTitle =
-        Pattern.Config "MeshLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", MeshFont.Type
-            ]
-        }
+    open CommonModule
 
     let MeshHoverInfo =
         let generatedEnum =
@@ -61,195 +36,6 @@ module MeshModule =
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "MeshHoverInfo" generatedEnum
-
-    let MeshColorBarMode =
-        Pattern.EnumStrings "MeshThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let MeshXAnchor =
-        Pattern.EnumStrings "MeshXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let MeshYAnchor =
-        Pattern.EnumStrings "MeshYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let MeshTickMode =
-        Pattern.EnumStrings "MeshTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let MeshTicks =
-        Pattern.EnumInlines "MeshTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let MeshTickLabelOverflow =
-        Pattern.EnumInlines "MeshTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let MeshTickLabelPosition =
-        Pattern.EnumInlines "MeshTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let MeshTickFormatStops =
-        Pattern.Config "MeshTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + MeshNullValue.Type) * (DTickValue + MeshNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let MeshShowTickFix =
-        Pattern.EnumStrings "MeshShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = MeshShowTickFix
-
-    let MeshExponentFormat =
-        Pattern.EnumInlines "MeshExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let MeshSide =
-        Pattern.EnumStrings "MeshSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let MeshTitle =
-        Pattern.Config "MeshTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", MeshFont.Type
-                "side", MeshSide.Type
-            ]
-        }
-
-    let MeshColorBar =
-        Pattern.Config "MeshColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", MeshColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", MeshColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", MeshXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", MeshYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", MeshColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", MeshColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", MeshColor
-                "tickmode", MeshTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", MeshTicks.Type
-                "ticklabeloverflow", MeshTickLabelOverflow.Type
-                "ticklabelposition", MeshTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", MeshColor
-                "showticklabels", T<bool>
-                "tickfont", MeshFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", MeshTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", MeshShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", MeshShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", MeshExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", MeshTitle.Type
-            ]
-        }
-
-    let MeshAlign =
-        Pattern.EnumStrings "MeshAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let MeshHoverLabel =
-        Pattern.Config "MeshHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", MeshColor + !| MeshColor
-                "bordercolor", MeshColor + !| MeshColor
-                "fonts", MeshFont.Type
-                "align", MeshAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
-    let MeshCalendar =
-        Pattern.EnumStrings "MeshCalendar" [
-            "gregorian"
-            "chinese"
-            "coptic"
-            "discworld"
-            "ethiopian"
-            "hebrew"
-            "islamic"
-            "julian"
-            "mayan"
-            "nanakshahi"
-            "nepali"
-            "persian"
-            "jalali"
-            "taiwan"
-            "thai"
-            "ummalqura"
-        ]
 
     let MeshLighting =
         Pattern.Config "MeshLighting" {
@@ -293,25 +79,25 @@ module MeshModule =
             Required = []
             Optional = [
                 "show", T<bool>
-                "color", MeshColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
 
     let MeshOptions =
         Class "MeshOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'mesh3d'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + MeshVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", T<float> + T<int>
             "legendgroup", T<string>
-            "legendgrouptitle", MeshLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float> //data array
@@ -320,7 +106,7 @@ module MeshModule =
             "i", !| T<int> + !| T<float> //data array
             "j", !| T<int> + !| T<float> //data array
             "k", !| T<int> + !| T<float> //data array
-            "facecolor", MeshColor
+            "facecolor", Color
             "intensity", !| T<int> + !| T<float> //data array
             "intensitymode", MeshIntensityMode.Type
             "vertexcolor",  !| T<int> + !| T<float> //data array
@@ -334,10 +120,10 @@ module MeshModule =
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
             "coloraxis", T<string> // type: subplotid
-            "color", MeshColor
-            "colorbar", MeshColorBar.Type
+            "color", Color
+            "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", MeshColorScale
+            "colorscale", ColorScale
             "showscale", T<bool>
             "reverscale", T<bool>
             "zhoverformat", T<string>
@@ -349,37 +135,17 @@ module MeshModule =
             "delaunayaxis", MeshDelanuayAxis.Type
             "contour", MeshContour.Type
             "flatshading", T<bool>
-            "hoverlabel", MeshHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "lighting", MeshLighting.Type
             "lightposition", MeshLightPosition.Type
-            "xcalendar", MeshCalendar.Type
-            "ycalendar", MeshCalendar.Type
-            "zcalendar", MeshCalendar.Type
+            "xcalendar", Calendar.Type
+            "ycalendar", Calendar.Type
+            "zcalendar", Calendar.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let MeshTraceNamespaces : CodeModel.NamespaceEntity list = [
-        MeshNullValue
-        MeshVisibleString
-        MeshFont
-        MeshLegendGroupTitle
         MeshHoverInfo
-        MeshColorBarMode
-        MeshXAnchor
-        MeshYAnchor
-        MeshTickMode
-        MeshTicks
-        MeshTickLabelOverflow
-        MeshTickLabelPosition
-        MeshTickFormatStops
-        MeshShowTickFix
-        MeshExponentFormat
-        MeshSide
-        MeshTitle
-        MeshColorBar
-        MeshAlign
-        MeshHoverLabel
-        MeshCalendar
         MeshLighting
         MeshLightPosition
         MeshIntensityMode

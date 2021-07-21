@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module ScatterTernaryModule =
 
-    let ScatterTernaryNullValue = Pattern.EnumInlines "ScatterTernaryNullValue" ["null", "null"]
-
-    let ScatterTernaryColor = T<string> + (T<float> + T<int>) + (!| (!? (ScatterTernaryNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ScatterTernaryNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let ScatterTernaryColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let ScatterTernaryVisibleString = Pattern.EnumStrings "ScatterTernaryVisibleString" ["legendonly"]
-
-    let ScatterTernaryFont =
-        Pattern.Config "ScatterTernaryFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", ScatterTernaryColor
-            ]
-        }
-
-    let ScatterTernaryLegendGroupTitle =
-        Pattern.Config "ScatterTernaryLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterTernaryFont.Type
-            ]
-        }
+    open CommonModule
 
     let ScatterTernaryModes =
         let generatedEnum =
@@ -93,12 +68,12 @@ module ScatterTernaryModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", ScatterTernaryColor
+                "color", Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterTernaryColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
@@ -118,157 +93,7 @@ module ScatterTernaryModule =
             Required = []
             Optional = [
                 "type", ScatterTernaryGradientType.Type
-                "color", ScatterTernaryColor + !| ScatterTernaryColor
-            ]
-        }
-
-    let ScatterTernaryColorBarMode =
-        Pattern.EnumStrings "ScatterTernaryThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let ScatterTernaryXAnchor =
-        Pattern.EnumStrings "ScatterTernaryXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let ScatterTernaryYAnchor =
-        Pattern.EnumStrings "ScatterTernaryYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let ScatterTernaryTickMode =
-        Pattern.EnumStrings "ScatterTernaryTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let ScatterTernaryTicks =
-        Pattern.EnumInlines "ScatterTernaryTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let ScatterTernaryTickLabelOverflow =
-        Pattern.EnumInlines "ScatterTernaryTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let ScatterTernaryTickLabelPosition =
-        Pattern.EnumInlines "ScatterTernaryTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let ScatterTernaryTickFormatStops =
-        Pattern.Config "ScatterTernaryTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + ScatterTernaryNullValue.Type) * (DTickValue + ScatterTernaryNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let ScatterTernaryShowTickFix =
-        Pattern.EnumStrings "ScatterTernaryShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = ScatterTernaryShowTickFix
-
-    let ScatterTernaryExponentFormat =
-        Pattern.EnumInlines "ScatterTernaryExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let ScatterTernarySide =
-        Pattern.EnumStrings "ScatterTernarySide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let ScatterTernaryTitle =
-        Pattern.Config "ScatterTernaryTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterTernaryFont.Type
-                "side", ScatterTernarySide.Type
-            ]
-        }
-
-    let ScatterTernaryColorBar =
-        Pattern.Config "ScatterTernaryColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", ScatterTernaryColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", ScatterTernaryColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", ScatterTernaryXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", ScatterTernaryYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", ScatterTernaryColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", ScatterTernaryColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", ScatterTernaryColor
-                "tickmode", ScatterTernaryTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", ScatterTernaryTicks.Type
-                "ticklabeloverflow", ScatterTernaryTickLabelOverflow.Type
-                "ticklabelposition", ScatterTernaryTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", ScatterTernaryColor
-                "showticklabels", T<bool>
-                "tickfont", ScatterTernaryFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", ScatterTernaryTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", ScatterTernaryShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", ScatterTernaryShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", ScatterTernaryExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", ScatterTernaryTitle.Type
+                "color", Color + !| Color
             ]
         }
 
@@ -605,16 +430,16 @@ module ScatterTernaryModule =
                 "sizemode", ScatterTernarySizeMode.Type
                 "line", ScatterTernaryMarkerLine.Type
                 "gradient", ScatterTernaryGradient.Type
-                "color", ScatterTernaryColor + !| ScatterTernaryColor
+                "color", Color + !| Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterTernaryColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", ScatterTernaryColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
             ]
         }
@@ -629,7 +454,7 @@ module ScatterTernaryModule =
         Pattern.Config "ScatterTernaryLine" {
             Required = []
             Optional = [
-                "color", ScatterTernaryColor
+                "color", Color
                 "width", (T<float> + T<int>)
                 "shape", ScatterTernaryShape.Type
                 "smoothing", (T<float> + T<int>)
@@ -642,7 +467,7 @@ module ScatterTernaryModule =
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", ScatterTernaryColor
+                "color", Color
                 "size", (T<float> + T<int>)
             ]
         }
@@ -650,7 +475,9 @@ module ScatterTernaryModule =
     let ScatterTernarySelectedTextFont =
         Pattern.Config "ScatterTernarySelectedTextFont" {
             Required = []
-            Optional = ["color", ScatterTernaryColor]
+            Optional = [
+                "color", Color
+            ]
         }
 
     let ScatterTernarySelectedOption =
@@ -669,43 +496,24 @@ module ScatterTernaryModule =
             "tonext"
         ]
 
-    let ScatterTernaryAlign =
-        Pattern.EnumStrings "ScatterTernaryAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let ScatterTernaryHoverLabel =
-        Pattern.Config "ScatterTernaryHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", ScatterTernaryColor + !| ScatterTernaryColor
-                "bordercolor", ScatterTernaryColor + !| ScatterTernaryColor
-                "fonts", ScatterTernaryFont.Type
-                "align", ScatterTernaryAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
     let ScatterTernaryHoverOn =
         let generatedEnum = GenerateOptions.allPermutations ["points"; "fills"] '+'
         Pattern.EnumStrings "ScatterTernaryHoverOn" generatedEnum
 
     let ScatterTernaryOptions =
         Class "ScatterTernaryOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scatterternary'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ScatterTernaryVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", ScatterTernaryLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "mode", ScatterTernaryModes.Type
             "ids", !| T<string>
@@ -723,25 +531,21 @@ module ScatterTernaryModule =
             "subplot", T<string> //type is 'subplotid'
             "marker", ScatterTernaryMarker.Type
             "line", ScatterTernaryLine.Type
-            "textfont", ScatterTernaryFont.Type
+            "textfont", Font.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
             "selected", ScatterTernarySelectedOption.Type
             "unselected", ScatterTernarySelectedOption.Type // change name later
             "cliponaxis", T<bool>
             "connectgaps", T<bool>
             "fill", ScatterTernaryFill.Type
-            "fillcolor", ScatterTernaryColor
-            "hoverlabel", ScatterTernaryHoverLabel.Type
+            "fillcolor", Color
+            "hoverlabel", HoverLabel.Type
             "hoveron", ScatterTernaryHoverOn.Type
             "sum", T<int> + T<float>
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let ScatterTernaryTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ScatterTernaryNullValue
-        ScatterTernaryVisibleString
-        ScatterTernaryFont
-        ScatterTernaryLegendGroupTitle
         ScatterTernaryModes
         ScatterTernaryTextPosition
         ScatterTernaryHoverInfo
@@ -749,19 +553,6 @@ module ScatterTernaryModule =
         ScatterTernaryMarkerLine
         ScatterTernaryGradientType
         ScatterTernaryGradient
-        ScatterTernaryColorBarMode
-        ScatterTernaryXAnchor
-        ScatterTernaryYAnchor
-        ScatterTernaryTickMode
-        ScatterTernaryTicks
-        ScatterTernaryTickLabelOverflow
-        ScatterTernaryTickLabelPosition
-        ScatterTernaryTickFormatStops
-        ScatterTernaryShowTickFix
-        ScatterTernaryExponentFormat
-        ScatterTernarySide
-        ScatterTernaryTitle
-        ScatterTernaryColorBar
         ScatterTernarySymbol
         ScatterTernaryMarker
         ScatterTernaryShape
@@ -770,8 +561,6 @@ module ScatterTernaryModule =
         ScatterTernarySelectedTextFont
         ScatterTernarySelectedOption
         ScatterTernaryFill
-        ScatterTernaryAlign
-        ScatterTernaryHoverLabel
         ScatterTernaryHoverOn
         ScatterTernaryOptions
     ]

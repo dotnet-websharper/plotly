@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module ScatterPolarModule =
 
-    let ScatterPolarNullValue = Pattern.EnumInlines "ScatterPolarNullValue" ["null", "null"]
-
-    let ScatterPolarColor = T<string> + (T<float> + T<int>) + (!| (!? (ScatterPolarNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ScatterPolarNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let ScatterPolarColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let ScatterPolarVisibleString = Pattern.EnumStrings "ScatterPolarVisibleString" ["legendonly"]
-
-    let ScatterPolarFont =
-        Pattern.Config "ScatterPolarFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", ScatterPolarColor
-            ]
-        }
-
-    let ScatterPolarLegendGroupTitle =
-        Pattern.Config "ScatterPolarLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterPolarFont.Type
-            ]
-        }
+    open CommonModule
 
     let ScatterPolarModes =
         let generatedEnum =
@@ -93,12 +68,12 @@ module ScatterPolarModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", ScatterPolarColor
+                "color", Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterPolarColorScale
+                "colorscale",ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
                 "coloraxis", T<string> // type: subplotid
@@ -118,157 +93,7 @@ module ScatterPolarModule =
             Required = []
             Optional = [
                 "type", ScatterPolarGradientType.Type
-                "color", ScatterPolarColor + !| ScatterPolarColor
-            ]
-        }
-
-    let ScatterPolarColorBarMode =
-        Pattern.EnumStrings "ScatterPolarThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let ScatterPolarXAnchor =
-        Pattern.EnumStrings "ScatterPolarXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let ScatterPolarYAnchor =
-        Pattern.EnumStrings "ScatterPolarYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let ScatterPolarTickMode =
-        Pattern.EnumStrings "ScatterPolarTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let ScatterPolarTicks =
-        Pattern.EnumInlines "ScatterPolarTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let ScatterPolarTickLabelOverflow =
-        Pattern.EnumInlines "ScatterPolarTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let ScatterPolarTickLabelPosition =
-        Pattern.EnumInlines "ScatterPolarTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let ScatterPolarTickFormatStops =
-        Pattern.Config "ScatterPolarTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + ScatterPolarNullValue.Type) * (DTickValue + ScatterPolarNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let ScatterPolarShowTickFix =
-        Pattern.EnumStrings "ScatterPolarShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = ScatterPolarShowTickFix
-
-    let ScatterPolarExponentFormat =
-        Pattern.EnumInlines "ScatterPolarExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let ScatterPolarSide =
-        Pattern.EnumStrings "ScatterPolarSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let ScatterPolarTitle =
-        Pattern.Config "ScatterPolarTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ScatterPolarFont.Type
-                "side", ScatterPolarSide.Type
-            ]
-        }
-
-    let ScatterPolarColorBar =
-        Pattern.Config "ScatterPolarColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", ScatterPolarColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", ScatterPolarColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", ScatterPolarXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", ScatterPolarYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", ScatterPolarColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", ScatterPolarColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", ScatterPolarColor
-                "tickmode", ScatterPolarTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", ScatterPolarTicks.Type
-                "ticklabeloverflow", ScatterPolarTickLabelOverflow.Type
-                "ticklabelposition", ScatterPolarTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", ScatterPolarColor
-                "showticklabels", T<bool>
-                "tickfont", ScatterPolarFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", ScatterPolarTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", ScatterPolarShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", ScatterPolarShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", ScatterPolarExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", ScatterPolarTitle.Type
+                "color", Color + !| Color
             ]
         }
 
@@ -605,16 +430,16 @@ module ScatterPolarModule =
                 "sizemode", ScatterPolarSizeMode.Type
                 "line", ScatterPolarMarkerLine.Type
                 "gradient", ScatterPolarGradient.Type
-                "color", ScatterPolarColor + !| ScatterPolarColor
+                "color",Color + !| Color
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", ScatterPolarColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", ScatterPolarColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
             ]
         }
@@ -633,7 +458,7 @@ module ScatterPolarModule =
         Pattern.Config "ScatterPolarLine" {
             Required = []
             Optional = [
-                "color", ScatterPolarColor
+                "color", Color
                 "width", (T<float> + T<int>)
                 "shape", ScatterPolarShape.Type
                 "smoothing", (T<float> + T<int>)
@@ -646,7 +471,7 @@ module ScatterPolarModule =
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", ScatterPolarColor
+                "color", Color
                 "size", (T<float> + T<int>)
             ]
         }
@@ -654,7 +479,7 @@ module ScatterPolarModule =
     let ScatterPolarSelectedTextFont =
         Pattern.Config "ScatterPolarSelectedTextFont" {
             Required = []
-            Optional = ["color", ScatterPolarColor]
+            Optional = ["color", Color]
         }
 
     let ScatterPolarSelectedOption =
@@ -677,25 +502,6 @@ module ScatterPolarModule =
             "tonext"
         ]
 
-    let ScatterPolarAlign =
-        Pattern.EnumStrings "ScatterPolarAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let ScatterPolarHoverLabel =
-        Pattern.Config "ScatterPolarHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", ScatterPolarColor + !| ScatterPolarColor
-                "bordercolor", ScatterPolarColor + !| ScatterPolarColor
-                "fonts", ScatterPolarFont.Type
-                "align", ScatterPolarAlign.Type
-                "namelength", T<int>
-            ]
-        }
-
     let ScatterPolarHoverOn =
         let generatedEnum = GenerateOptions.allPermutations ["points"; "fills"] '+'
         Pattern.EnumStrings "ScatterPolarHoverOn" generatedEnum
@@ -709,18 +515,18 @@ module ScatterPolarModule =
 
     let ScatterPolarOptions =
         Class "ScatterPolarOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'scatterpolar'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ScatterPolarVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", ScatterPolarLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "mode", ScatterPolarModes.Type
             "ids", !| T<string>
@@ -742,24 +548,20 @@ module ScatterPolarModule =
             "subplot", T<string> //type is 'subplotid'
             "marker", ScatterPolarMarker.Type
             "line", ScatterPolarLine.Type
-            "textfont", ScatterPolarFont.Type
+            "textfont", Font.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
             "selected", ScatterPolarSelectedOption.Type
             "unselected", ScatterPolarSelectedOption.Type // change name later
             "cliponaxis", T<bool>
             "connectgaps", T<bool>
             "fill", ScatterPolarFill.Type
-            "fillcolor", ScatterPolarColor
-            "hoverlabel", ScatterPolarHoverLabel.Type
+            "fillcolor", Color
+            "hoverlabel", HoverLabel.Type
             "hoveron", ScatterPolarHoverOn.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let ScatterPolarTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ScatterPolarNullValue
-        ScatterPolarVisibleString
-        ScatterPolarFont
-        ScatterPolarLegendGroupTitle
         ScatterPolarModes
         ScatterPolarTextPosition
         ScatterPolarHoverInfo
@@ -767,19 +569,6 @@ module ScatterPolarModule =
         ScatterPolarMarkerLine
         ScatterPolarGradientType
         ScatterPolarGradient
-        ScatterPolarColorBarMode
-        ScatterPolarXAnchor
-        ScatterPolarYAnchor
-        ScatterPolarTickMode
-        ScatterPolarTicks
-        ScatterPolarTickLabelOverflow
-        ScatterPolarTickLabelPosition
-        ScatterPolarTickFormatStops
-        ScatterPolarShowTickFix
-        ScatterPolarExponentFormat
-        ScatterPolarSide
-        ScatterPolarTitle
-        ScatterPolarColorBar
         ScatterPolarSymbol
         ScatterPolarMarker
         ScatterPolarShape
@@ -788,8 +577,6 @@ module ScatterPolarModule =
         ScatterPolarSelectedTextFont
         ScatterPolarSelectedOption
         ScatterPolarFill
-        ScatterPolarAlign
-        ScatterPolarHoverLabel
         ScatterPolarHoverOn
         ScatterPolarThetaUnit
         ScatterPolarOptions

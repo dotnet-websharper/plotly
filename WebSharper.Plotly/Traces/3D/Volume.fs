@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module VolumeModule =
 
-    let VolumeNullValue = Pattern.EnumInlines "VolumeNullValue" ["null", "null"]
-
-    let VolumeColor = T<string> + (T<float> + T<int>) + (!| (!? (VolumeNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (VolumeNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let VolumeColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let VolumeVisibleString = Pattern.EnumStrings "VolumeVisibleString" ["legendonly"]
-
-    let VolumeFont =
-        Pattern.Config "VolumeFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", VolumeColor
-            ]
-        }
-
-    let VolumeLegendGroupTitle =
-        Pattern.Config "VolumeLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", VolumeFont.Type
-            ]
-        }
+    open CommonModule
 
     let VolumeHoverInfo =
         let generatedEnum =
@@ -61,175 +36,6 @@ module VolumeModule =
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "VolumeHoverInfo" generatedEnum
-
-    let VolumeColorBarMode =
-        Pattern.EnumStrings "VolumeThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let VolumeXAnchor =
-        Pattern.EnumStrings "VolumeXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let VolumeYAnchor =
-        Pattern.EnumStrings "VolumeYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let VolumeTickMode =
-        Pattern.EnumStrings "VolumeTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let VolumeTicks =
-        Pattern.EnumInlines "VolumeTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let VolumeTickLabelOverflow =
-        Pattern.EnumInlines "VolumeTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let VolumeTickLabelPosition =
-        Pattern.EnumInlines "VolumeTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let VolumeTickFormatStops =
-        Pattern.Config "VolumeTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + VolumeNullValue.Type) * (DTickValue + VolumeNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let VolumeShowTickFix =
-        Pattern.EnumStrings "VolumeShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = VolumeShowTickFix
-
-    let VolumeExponentFormat =
-        Pattern.EnumInlines "VolumeExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let VolumeSide =
-        Pattern.EnumStrings "VolumeSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let VolumeTitle =
-        Pattern.Config "VolumeTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", VolumeFont.Type
-                "side", VolumeSide.Type
-            ]
-        }
-
-    let VolumeColorBar =
-        Pattern.Config "VolumeColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", VolumeColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", VolumeColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", VolumeXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", VolumeYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", VolumeColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", VolumeColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", VolumeColor
-                "tickmode", VolumeTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", VolumeTicks.Type
-                "ticklabeloverflow", VolumeTickLabelOverflow.Type
-                "ticklabelposition", VolumeTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", VolumeColor
-                "showticklabels", T<bool>
-                "tickfont", VolumeFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", VolumeTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", VolumeShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", VolumeShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", VolumeExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", VolumeTitle.Type
-            ]
-        }
-
-    let VolumeAlign =
-        Pattern.EnumStrings "VolumeAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let VolumeHoverLabel =
-        Pattern.Config "VolumeHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", VolumeColor + !| VolumeColor
-                "bordercolor", VolumeColor + !| VolumeColor
-                "fonts", VolumeFont.Type
-                "align", VolumeAlign.Type
-                "namelength", T<int>
-            ]
-        }
 
     let VolumeLighting =
         Pattern.Config "VolumeLighting" {
@@ -279,7 +85,7 @@ module VolumeModule =
             Required = []
             Optional = [
                 "show", T<bool>
-                "color", VolumeColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
@@ -333,18 +139,18 @@ module VolumeModule =
 
     let VolumeOptions =
         Class "VolumeOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'volume'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + VolumeVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", T<float> + T<int>
             "legendgroup", T<string>
-            "legendgrouptitle", VolumeLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float> //data array
@@ -362,9 +168,9 @@ module VolumeModule =
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
             "coloraxis", T<string> // type: subplotid
-            "colorbar", VolumeColorBar.Type
+            "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", VolumeColorScale
+            "colorscale", ColorScale
             "showscale", T<bool>
             "reverscale", T<bool>
             "zhoverformat", T<string>
@@ -375,7 +181,7 @@ module VolumeModule =
             "caps", VolumeCaps.Type
             "contour", VolumeContour.Type
             "flatshading", T<bool>
-            "hoverlabel", VolumeHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "isomax", T<int> + T<float>
             "isomin", T<int> + T<float>
             "lighting", VolumeLighting.Type
@@ -388,26 +194,7 @@ module VolumeModule =
         ]
 
     let VolumeTraceNamespaces : CodeModel.NamespaceEntity list = [
-        VolumeNullValue
-        VolumeVisibleString
-        VolumeFont
-        VolumeLegendGroupTitle
         VolumeHoverInfo
-        VolumeColorBarMode
-        VolumeXAnchor
-        VolumeYAnchor
-        VolumeTickMode
-        VolumeTicks
-        VolumeTickLabelOverflow
-        VolumeTickLabelPosition
-        VolumeTickFormatStops
-        VolumeShowTickFix
-        VolumeExponentFormat
-        VolumeSide
-        VolumeTitle
-        VolumeColorBar
-        VolumeAlign
-        VolumeHoverLabel
         VolumeLighting
         VolumeLightPosition
         VolumeCapsXYZ

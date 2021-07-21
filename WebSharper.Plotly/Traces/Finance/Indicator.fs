@@ -28,37 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module IndicatorModule =
 
-    let IndicatorNullValue = Pattern.EnumInlines "IndicatorNullValue" ["null", "null"]
-
-    let IndicatorColor = T<string> + (T<float> + T<int>) + (!| (!? (IndicatorNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (IndicatorNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let IndicatorVisibleString = Pattern.EnumStrings "IndicatorVisibleString" ["legendonly"]
-
-    let IndicatorFont =
-        Pattern.Config "IndicatorFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", IndicatorColor
-            ]
-        }
-
-    let IndicatorLegendGroupTitle =
-        Pattern.Config "IndicatorLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", IndicatorFont.Type
-            ]
-        }
-
-    let IndicatorAlign =
-        Pattern.EnumStrings "IndicatorAlign" [
-            "left"
-            "center"
-            "right"
-        ]
+    open CommonModule
 
     let IndicatorTitlePosition =
         Pattern.EnumInlines "IndicatorTitlePosition" [
@@ -72,7 +42,7 @@ module IndicatorModule =
             Required = []
             Optional = [
                 "text", T<string>
-                "font", IndicatorFont.Type
+                "font", Font.Type
                 "position", IndicatorTitlePosition.Type
             ]
         }
@@ -105,7 +75,7 @@ module IndicatorModule =
             Required = []
             Optional = [
                 "symbol", T<string>
-                "color", IndicatorColor
+                "color", Color
             ]
         }
 
@@ -119,7 +89,7 @@ module IndicatorModule =
                 "valuformat", T<string>
                 "increasing", IndicatorDeltaCreasing.Type
                 "decreasing", IndicatorDeltaCreasing.Type
-                "font", IndicatorFont.Type
+                "font", Font.Type
             ]
         }
 
@@ -128,7 +98,7 @@ module IndicatorModule =
             Required = []
             Optional = [
                 "valueformat", T<string>
-                "font", IndicatorFont.Type
+                "font", Font.Type
             ]
         }
 
@@ -142,7 +112,7 @@ module IndicatorModule =
         Pattern.Config "IndicatorGaugeLine" {
             Required = []
             Optional = [
-                "color", IndicatorColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
@@ -151,7 +121,7 @@ module IndicatorModule =
         Pattern.Config "IndicatorGaugeBar" {
             Required = []
             Optional = [
-                "color", IndicatorColor
+                "color", Color
                 "line", IndicatorGaugeLine.Type
                 "thickness", T<float>
             ]
@@ -224,9 +194,9 @@ module IndicatorModule =
                 "ticks", IndicatorGaugeAxisTicks.Type
                 "ticklen", T<int> + T<float>
                 "tickwidth", T<int> + T<float>
-                "tickcolor", IndicatorColor
+                "tickcolor", Color
                 "showticklabels", T<bool>
-                "tickfont", IndicatorFont.Type
+                "tickfont", Font.Type
                 "tickangle", T<int> + T<float>
                 "tickformat", T<string>
                 "tickformatstops", IndicatorGaugeAxisTFS.Type
@@ -245,7 +215,7 @@ module IndicatorModule =
         Pattern.Config "IndicatorGaugeSteps" {
             Required = []
             Optional = [
-                "color", IndicatorColor
+                "color", Color
                 "line", IndicatorGaugeLine.Type
                 "thickness", T<float>
                 "range", !| T<int> + !| T<float> + !| T<string>
@@ -270,8 +240,8 @@ module IndicatorModule =
             Optional = [
                 "shape", IndicatorGaugeShape.Type
                 "bar", IndicatorGaugeBar.Type
-                "bgcolor", IndicatorColor
-                "bordercolor", IndicatorColor
+                "bgcolor", Color
+                "bordercolor", Color
                 "borderwidth", T<int> + T<float>
                 "axis", IndicatorGaugeAxis.Type
                 "steps", IndicatorGaugeSteps.Type
@@ -281,7 +251,7 @@ module IndicatorModule =
 
     let IndicatorOptions =
         Class "IndicatorOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'indicator'}"
@@ -289,16 +259,16 @@ module IndicatorModule =
         |+> Pattern.OptionalFields [
             "name", T<string>
             "title", IndicatorTitle.Type
-            "visible", T<bool> + IndicatorVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "legendrank", (T<float> + T<int>)
-            "legendgrouptitle", IndicatorLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "mode", IndicatorMode.Type
             "ids", !| T<string>
             "value", T<int> + T<float>
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "domain", IndicatorDomain.Type
-            "align", IndicatorAlign.Type
+            "align", Align.Type
             "delta", IndicatorDelta.Type
             "number", IndicatorNumber.Type
             "gauge", IndicatorGauge.Type
@@ -306,11 +276,6 @@ module IndicatorModule =
         ]
 
     let IndicatorTraceNamespaces : CodeModel.NamespaceEntity list = [
-        IndicatorNullValue
-        IndicatorVisibleString
-        IndicatorFont
-        IndicatorLegendGroupTitle
-        IndicatorAlign
         IndicatorTitlePosition
         IndicatorTitle
         IndicatorDomain

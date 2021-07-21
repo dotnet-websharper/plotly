@@ -24,24 +24,11 @@ open WebSharper
 open WebSharper.InterfaceGenerator
 open WebSharper.JavaScript
 open WebSharper.Plotly.Extension.GenerateEnum
+open WebSharper.Plotly.Extension.Common
 
 module LayoutModule =
 
-    let LayoutNullValue = Pattern.EnumInlines "LayoutNullValue" ["null", "null"]
-
-    let LayoutColor = T<string> + (T<float> + T<int>) + (!| (!? (LayoutNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (LayoutNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let LayoutColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let LayoutFontConfig =
-        Pattern.Config "LayoutFontConfig" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", LayoutColor
-            ]
-        }
+    open CommonModule
 
     let LayoutRef =
         Pattern.EnumStrings "LayoutRef" [
@@ -81,7 +68,7 @@ module LayoutModule =
             Required = []
             Optional = [
                 "text", T<string>
-                "font", LayoutFontConfig.Type
+                "font", Font.Type
                 "xref", LayoutRef.Type
                 "yref", LayoutRef.Type
                 "x", T<float>
@@ -130,7 +117,7 @@ module LayoutModule =
             Required = []
             Optional = [
                 "text", T<string>
-                "font", LayoutFontConfig.Type
+                "font", Font.Type
             ]
         }
 
@@ -145,10 +132,10 @@ module LayoutModule =
         Pattern.Config "LayoutLegend" {
             Required = []
             Optional = [
-                "bgcolor", LayoutColor
-                "bordercolor", LayoutColor
+                "bgcolor", Color
+                "bordercolor", Color
                 "borderwidth", T<int>
-                "font", LayoutFontConfig.Type
+                "font", Font.Type
                 "orientation", LayoutOrientation.Type
                 "traceorder", LayoutTraceOrder.Type
                 "tracegroupgap", T<int>
@@ -190,9 +177,9 @@ module LayoutModule =
         Pattern.Config "LayoutColorscale" {
             Required = []
             Optional = [
-                "sequential", LayoutColorScale
-                "sequentialminus", LayoutColorScale
-                "diverging", LayoutColorScale
+                "sequential", ColorScale
+                "sequentialminus", ColorScale
+                "diverging", ColorScale
             ]
         }
 
@@ -201,8 +188,8 @@ module LayoutModule =
             Required = []
             Optional = [
                 "orientation", LayoutOrientation.Type
-                "bgcolor", LayoutColor
-                "color", LayoutColor
+                "bgcolor", Color
+                "color", Color
                 "uirevision", T<int> + T<float> + T<string>
                 "add", T<string> + !| T<string>
                 "remove", T<string> + !| T<string>
@@ -261,9 +248,9 @@ module LayoutModule =
         Pattern.Config "LayoutHoverLabel" {
             Required = []
             Optional = [
-                "bgcolor", LayoutColor + !| LayoutColor // ?
-                "bordercolor", LayoutColor + !| LayoutColor // ?
-                "fonts", LayoutFontConfig.Type
+                "bgcolor", Color + !| Color // ?
+                "bordercolor", Color + !| Color // ?
+                "fonts", Font.Type
                 "align", LayoutAlign.Type
                 "namelength", T<int>
             ]
@@ -405,7 +392,7 @@ module LayoutModule =
         Pattern.Config "LayoutNewShapeLine" {
             Required = []
             Optional = [
-                "color", LayoutColor
+                "color", Color
                 "width", T<int>
                 "dash", T<string>
             ]
@@ -436,7 +423,7 @@ module LayoutModule =
             Required = []
             Optional = [
                 "line", LayoutNewShapeLine.Type
-                "fillcolor", LayoutColor
+                "fillcolor", Color
                 "fillrule", LayoutFillRule.Type
                 "opacity", T<float> + T<int>
                 "layer", LayoutNewShapeLayer.Type
@@ -448,7 +435,7 @@ module LayoutModule =
         Pattern.Config "LayoutActiveShape" {
             Required = []
             Optional = [
-                "fillcolor", LayoutColor
+                "fillcolor", Color
                 "opacity", T<float> + T<int>
             ]
         }
@@ -486,7 +473,7 @@ module LayoutModule =
             Required = []
             Optional = [
                 "text", T<string>
-                "font", LayoutFontConfig.Type
+                "font", Font.Type
                 "stadoff", T<int>
             ]
         }
@@ -643,14 +630,12 @@ module LayoutModule =
             "B", "'B'"
         ]
 
-    let LayoutDTickValue = (T<float> + T<int>) + T<string>
-
     let LayoutTickFormatStops =
         Pattern.Config "LayoutTickFormatStops" {
             Required = []
             Optional = [
                 "enabled", T<bool>
-                "dtickrange", !| ((LayoutDTickValue + LayoutNullValue.Type) * (LayoutDTickValue + LayoutNullValue.Type))
+                "dtickrange", !| ((DTickValue + NullValue.Type) * (DTickValue + NullValue.Type))
                 "value", T<string>
                 "name", T<string>
                 "templateitemname", T<string>
@@ -720,8 +705,8 @@ module LayoutModule =
         Pattern.Config "LayoutAxisRangeSlider" {
             Required = []
             Optional = [
-                "bgcolor", LayoutColor
-                "bordercolor", LayoutColor
+                "bgcolor", Color
+                "bordercolor", Color
                 "borderwidth", T<int>
                 "autorange", T<bool>
                 "range", T<obj> // array
@@ -771,10 +756,10 @@ module LayoutModule =
                 "xanchor", LayoutXAnchor.Type
                 "y", T<int> + T<float>
                 "yanchor", LayoutYAnchor.Type
-                "font", LayoutFontConfig.Type
-                "bgcolor", LayoutColor
-                "activecolor", LayoutColor
-                "bordercolor", LayoutColor
+                "font", Font.Type
+                "bgcolor", Color
+                "activecolor", Color
+                "bordercolor", Color
                 "borderwidth", T<int>
             ]
         }
@@ -784,7 +769,7 @@ module LayoutModule =
             Required = []
             Optional = [
                 "visible", T<bool>
-                "color", LayoutColor
+                "color", Color
                 "title", LayoutAxisTitle.Type
                 "type", LayoutAxisType.Type
                 "autotypenumbers", LayoutAutoTypeNumbers.Type
@@ -812,16 +797,16 @@ module LayoutModule =
                 "mirror", T<bool> + LayoutAxisMirror.Type
                 "ticklen", T<int>
                 "tickwidth", T<int>
-                "tickcolor", LayoutColor
+                "tickcolor", Color
                 "showticklabels", T<bool>
                 "automargin", T<bool>
                 "showspikes", T<bool>
-                "spikecolor",LayoutColor
+                "spikecolor",Color
                 "spikethickness", T<int>
                 "spikedash", T<string>
                 "spikemode", LayoutSpikeMode.Type
                 "spikesnap", LayoutSpikeSnap.Type
-                "tickfont", LayoutFontConfig.Type
+                "tickfont", Font.Type
                 "tickangle", (T<float> + T<int>) + T<string> //type: Angle
                 "tickprefix", T<string>
                 "showtickprefix", LayoutShowTickFix.Type
@@ -835,16 +820,16 @@ module LayoutModule =
                 "tickformatstops", LayoutTickFormatStops.Type
                 "hoverformat", T<string>
                 "showline", T<bool>
-                "linecolor", LayoutColor
+                "linecolor", Color
                 "linewidth", T<int>
                 "showgrid", T<bool>
-                "gridcolor", LayoutColor
+                "gridcolor", Color
                 "gridwidth", T<int>
                 "zeroline", T<bool>
-                "zerolinecolor", LayoutColor
+                "zerolinecolor", Color
                 "zerolinewidth", T<int>
                 "showdividers", T<bool>
-                "dividercolor", LayoutColor
+                "dividercolor", Color
                 "dividerwidth", T<int>
                 "anchor", LayoutAxisAnchor.Type
                 "side", LayoutAxisSide.Type
@@ -866,7 +851,7 @@ module LayoutModule =
             Required = []
             Optional = [
                 "visible", T<bool>
-                "color", LayoutColor
+                "color", Color
                 "title", LayoutAxisTitle.Type
                 "type", LayoutAxisType.Type
                 "autotypenumbers", LayoutAutoTypeNumbers.Type
@@ -894,16 +879,16 @@ module LayoutModule =
                 "mirror", T<bool> + LayoutAxisMirror.Type
                 "ticklen", T<int>
                 "tickwidth", T<int>
-                "tickcolor", LayoutColor
+                "tickcolor", Color
                 "showticklabels", T<bool>
                 "automargin", T<bool>
                 "showspikes", T<bool>
-                "spikecolor",LayoutColor
+                "spikecolor", Color
                 "spikethickness", T<int>
                 "spikedash", T<string>
                 "spikemode", LayoutSpikeMode.Type
                 "spikesnap", LayoutSpikeSnap.Type
-                "tickfont", LayoutFontConfig.Type
+                "tickfont", Font.Type
                 "tickangle", (T<float> + T<int>) + T<string> //type: Angle
                 "tickprefix", T<string>
                 "showtickprefix", LayoutShowTickFix.Type
@@ -917,16 +902,16 @@ module LayoutModule =
                 "tickformatstops", LayoutTickFormatStops.Type
                 "hoverformat", T<string>
                 "showline", T<bool>
-                "linecolor", LayoutColor
+                "linecolor", Color
                 "linewidth", T<int>
                 "showgrid", T<bool>
-                "gridcolor", LayoutColor
+                "gridcolor", Color
                 "gridwidth", T<int>
                 "zeroline", T<bool>
-                "zerolinecolor", LayoutColor
+                "zerolinecolor", Color
                 "zerolinewidth", T<int>
                 "showdividers", T<bool>
-                "dividercolor", LayoutColor
+                "dividercolor", Color
                 "dividerwidth", T<int>
                 "anchor", LayoutAxisAnchor.Type
                 "side", LayoutAxisSide.Type
@@ -957,7 +942,7 @@ module LayoutModule =
             Required = []
             Optional = [
                 "title", LayoutLegendTitle.Type
-                "color", LayoutColor
+                "color", Color
                 "tickmode", LayoutTickMode.Type
                 "nticks", T<int>
                 "tick0", (T<float> + T<int>) + T<string>
@@ -967,7 +952,7 @@ module LayoutModule =
                 "ticks", LayoutTicks.Type
                 "ticklen", (T<float> + T<int>)
                 "tickwidth", (T<float> + T<int>)
-                "tickcolor", LayoutColor
+                "tickcolor", Color
                 "showticklabels", T<bool>
                 "tickprefix", T<string>
                 "showtickprefix", LayoutShowTickFix.Type
@@ -977,16 +962,16 @@ module LayoutModule =
                 "exponentformat", LayoutExponentFormat.Type
                 "minexponent", (T<float> + T<int>)
                 "showexponent", LayoutShowExponent.Type // change type name to fit
-                "tickfont", LayoutFontConfig.Type
+                "tickfont", Font.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
                 "tickformatstops", LayoutTickFormatStops.Type
                 "hoverformat", T<string>
                 "showline", T<bool>
-                "linecolor", LayoutColor
+                "linecolor", Color
                 "linewidth", T<int>
                 "showgrid", T<bool>
-                "gridcolor", LayoutColor
+                "gridcolor", Color
                 "gridwidth", T<int>
                 "layer", LayoutAxisLayer.Type
                 "min", T<int> + T<float>
@@ -999,7 +984,7 @@ module LayoutModule =
             Required = []
             Optional = [
                 "domain", LayoutDomain.Type
-                "bgcolor", LayoutColor
+                "bgcolor", Color
                 "sum", T<int> + T<float>
                 "aaxis", LayoutTernaryAxis.Type 
                 "baxis", LayoutTernaryAxis.Type
@@ -1058,12 +1043,12 @@ module LayoutModule =
                 "visible", T<bool>
                 "showspikes", T<bool>
                 "spikesides", T<bool>
-                "spikecolor",LayoutColor
+                "spikecolor",Color
                 "spikethickness", T<int>
                 "showbackground", T<bool>
-                "backgroundcolor", LayoutColor
+                "backgroundcolor", Color
                 "showaxeslabels", T<bool>
-                "color", LayoutColor
+                "color", Color
                 "categoryorder", LayoutCO.Type
                 "categoryarray", !| T<obj>
                 "title", LayoutLegendTitle.Type
@@ -1081,9 +1066,9 @@ module LayoutModule =
                 "mirror", T<bool> + LayoutAxisMirror.Type
                 "ticklen", T<int>
                 "tickwidth", T<int>
-                "tickcolor", LayoutColor
+                "tickcolor", Color
                 "showticklabels", T<bool>
-                "tickfont", LayoutFontConfig.Type
+                "tickfont", Font.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
                 "tickformatstops", LayoutTickFormatStops.Type
@@ -1097,13 +1082,13 @@ module LayoutModule =
                 "showexponent", LayoutShowExponent.Type // change type name to fit
                 "hoverformat", T<string>
                 "showline", T<bool>
-                "linecolor", LayoutColor
+                "linecolor", Color
                 "linewidth", T<int>
                 "showgrid", T<bool>
-                "gridcolor", LayoutColor
+                "gridcolor", Color
                 "gridwidth", T<int>
                 "zeroline", T<bool>
-                "zerolinecolor", LayoutColor
+                "zerolinecolor", Color
                 "zerolinewidth", T<int>
                 "calendar", LayoutCalendar.Type
             ]
@@ -1128,7 +1113,7 @@ module LayoutModule =
         Pattern.Config "LayoutScene" {
             Required = []
             Optional = [
-                "bgcolor", LayoutColor
+                "bgcolor", Color
                 "camera", LayoutSceneCamera.Type
                 "domain", LayoutDomain.Type
                 "aspectmode", LayoutAspectMode.Type
@@ -1231,7 +1216,7 @@ module LayoutModule =
                 "showgrid", T<bool>
                 "tick0", T<int> + T<float>
                 "dtick", T<int> + T<float>
-                "gridcolor", LayoutColor
+                "gridcolor", Color
                 "gridwidth", T<int>
             ]
         }
@@ -1248,27 +1233,27 @@ module LayoutModule =
                 "center", LayoutCenter.Type
                 "visible", T<bool>
                 "showcoastlines", T<bool>
-                "coastlinecolor", LayoutColor
+                "coastlinecolor", Color
                 "coastlinewidth", T<int> + T<float>
                 "showland", T<bool>
-                "landcolor", LayoutColor
+                "landcolor", Color
                 "showocean", T<bool>
-                "oceancolor", LayoutColor
+                "oceancolor", Color
                 "showlakes", T<bool>
-                "lakecolor", LayoutColor
+                "lakecolor", Color
                 "showrivers", T<bool>
-                "rivercolor", LayoutColor
+                "rivercolor", Color
                 "riverwidth", T<int> + T<float>
                 "showcountries", T<bool>
-                "countrycolor", LayoutColor
+                "countrycolor", Color
                 "countrywidth", T<int> + T<float>
                 "showsubunits", T<bool>
-                "subunitcolor", LayoutColor
+                "subunitcolor", Color
                 "subunitwidth", T<int> + T<float>
                 "showframe", T<bool>
-                "framecolor", LayoutColor
+                "framecolor", Color
                 "framewidth", T<int> + T<float>
-                "bgcolor", LayoutColor
+                "bgcolor", Color
                 "lonaxis", LayoutGeoAxis.Type
                 "lataxis", LayoutGeoAxis.Type
                 "uirevision", T<int> + T<float> + T<string>
@@ -1322,7 +1307,7 @@ module LayoutModule =
         Pattern.Config "LayoutMapboxLayerLine" {
             Required = []
             Optional = [
-                "color", LayoutColor
+                "color", Color
                 "width", T<int> + T<float>
                 "dash", T<string>
             ]
@@ -1332,7 +1317,7 @@ module LayoutModule =
         Pattern.Config "LayoutMapboxLayerFill" {
             Required = []
             Optional = [
-                "outlinecolor", LayoutColor
+                "outlinecolor", Color
             ]
         }
 
@@ -1364,7 +1349,7 @@ module LayoutModule =
                 "iconsize", T<int> + T<float>
                 "text", T<string>
                 "placement", LayoutSymbolPlacement.Type
-                "textfont", LayoutFontConfig.Type
+                "textfont", Font.Type
                 "textposition", LayoutSymbolTextPosition.Type
             ]
         }
@@ -1381,7 +1366,7 @@ module LayoutModule =
                 "type", LayoutMapboxLayerType.Type
                 "coordinates", T<int> + T<float> + T<string>
                 "below", T<string>
-                "color", LayoutColor
+                "color", Color
                 "opacity", T<float> + T<int>
                 "minzoom", T<float> + T<int>
                 "maxzoom", T<float> + T<int>
@@ -1441,12 +1426,12 @@ module LayoutModule =
                 "title", LayoutLegendTitle.Type
                 "hoverformat", T<string>
                 "uirevision", T<int> + T<float> + T<string>
-                "color", LayoutColor
+                "color", Color
                 "showline", T<bool>
-                "linecolor", LayoutColor
+                "linecolor", Color
                 "linewidth", T<int>
                 "showgrid", T<bool>
-                "gridcolor", LayoutColor
+                "gridcolor", Color
                 "gridwidth", T<int>
                 "tickmode", LayoutTickMode.Type
                 "nticks", T<int>
@@ -1457,9 +1442,9 @@ module LayoutModule =
                 "ticks", LayoutTicks.Type
                 "ticklen", (T<float> + T<int>)
                 "tickwidth", (T<float> + T<int>)
-                "tickcolor", LayoutColor
+                "tickcolor", Color
                 "showticklabels", T<bool>
-                "tickfont", LayoutFontConfig.Type
+                "tickfont", Font.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
                 "tickformatstops", LayoutTickFormatStops.Type
@@ -1504,12 +1489,12 @@ module LayoutModule =
                 "rotation", T<int> + T<float>
                 "hoverformat", T<string>
                 "uirevision", T<int> + T<float> + T<string>
-                "color", LayoutColor
+                "color",Color
                 "showline", T<bool>
-                "linecolor", LayoutColor
+                "linecolor", Color
                 "linewidth", T<int>
                 "showgrid", T<bool>
-                "gridcolor", LayoutColor
+                "gridcolor", Color
                 "gridwidth", T<int>
                 "tickmode", LayoutTickMode.Type
                 "nticks", T<int>
@@ -1520,9 +1505,9 @@ module LayoutModule =
                 "ticks", LayoutTicks.Type
                 "ticklen", (T<float> + T<int>)
                 "tickwidth", (T<float> + T<int>)
-                "tickcolor", LayoutColor
+                "tickcolor", Color
                 "showticklabels", T<bool>
-                "tickfont", LayoutFontConfig.Type
+                "tickfont", Font.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
                 "tickformatstops", LayoutTickFormatStops.Type
@@ -1551,7 +1536,7 @@ module LayoutModule =
                 "domain", LayoutDomain.Type
                 "sector", !| T<obj>
                 "hole", (T<float> + T<int>)
-                "bgcolor", LayoutColor
+                "bgcolor", Color
                 "radialaxis", LayoutPolarRadialAxis.Type
                 "angularaxis", LayoutPolarAngularAxis.Type
                 "gridshape", LayoutGridShape.Type
@@ -1591,11 +1576,11 @@ module LayoutModule =
                 "y", T<float>
                 "yanchor", LayoutYAnchor.Type
                 "ypad", (T<float> + T<int>)
-                "outlinecolor", LayoutColor
+                "outlinecolor", Color
                 "outlinewidth", (T<float> + T<int>)
-                "bordercolor", LayoutColor
+                "bordercolor", Color
                 "borderwidth", (T<float> + T<int>)
-                "bgcolor", LayoutColor
+                "bgcolor", Color
                 "tickmode", LayoutTickMode.Type
                 "nticks", T<int>
                 "tick0", (T<float> + T<int>) + T<string>
@@ -1607,9 +1592,9 @@ module LayoutModule =
                 "ticklabelposition", LayoutColorBarTickLabelPosition.Type
                 "ticklen", (T<float> + T<int>)
                 "tickwidth", (T<float> + T<int>)
-                "tickcolor", LayoutColor
+                "tickcolor", Color
                 "showticklabels", T<bool>
-                "tickfont", LayoutFontConfig.Type
+                "tickfont", Font.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
                 "tickformatstops", LayoutTickFormatStops.Type
@@ -1695,9 +1680,9 @@ module LayoutModule =
                 "xanchor", LayoutXAnchor.Type
                 "yanchor", LayoutYAnchor.Type
                 "pad", LayoutPadding.Type
-                "font", LayoutFontConfig.Type
-                "bgcolor", LayoutColor
-                "bordercolor", LayoutColor
+                "font", Font.Type
+                "bgcolor", Color
+                "bordercolor", Color
                 "borderwidth", T<int>
                 "name", T<string>
                 "templateitemname", T<string>
@@ -1743,7 +1728,7 @@ module LayoutModule =
                 "offset", T<int>
                 "prefix", T<string>
                 "suffix", T<string>
-                "font", LayoutFontConfig.Type
+                "font", Font.Type
             ]
         }
 
@@ -1762,10 +1747,10 @@ module LayoutModule =
                 "yanchor", LayoutYAnchor.Type
                 "transition", LayoutSlidersTransition.Type
                 "currentvalue", LayoutSlidersCurrentValue.Type
-                "font", LayoutFontConfig.Type
-                "activebgcolor", LayoutColor
-                "bgcolor", LayoutColor
-                "bordercolor", LayoutColor
+                "font", Font.Type
+                "activebgcolor", Color
+                "bgcolor", Color
+                "bordercolor", Color
                 "borderwidth", T<int>
                 "ticklen", T<int>
                 "tickwidth", T<int>
@@ -1787,11 +1772,11 @@ module LayoutModule =
                 "autosize", T<bool>
                 "width", T<int>
                 "height", T<int>
-                "font", LayoutFontConfig.Type
+                "font", Font.Type
                 "uniformtext", T<unit>
                 "separators", T<string>
-                "paper_bgcolor", LayoutColor
-                "plot_bgcolor", LayoutColor
+                "paper_bgcolor", Color
+                "plot_bgcolor", Color
                 "autotypenumbers", LayoutAutoTypeNumbers.Type
                 "colorscale", LayoutColorscale.Type
                 "colorway", !| T<string> //colorlist
@@ -1864,7 +1849,6 @@ module LayoutModule =
         LayoutImage
         LayoutLegend
         LayoutMargin
-        LayoutFontConfig
         LayoutAutoTypeNumbers
         LayoutColorscale
         LayoutModebar

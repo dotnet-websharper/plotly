@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module ISOSurfaceModule =
 
-    let ISOSurfaceNullValue = Pattern.EnumInlines "ISOSurfaceNullValue" ["null", "null"]
-
-    let ISOSurfaceColor = T<string> + (T<float> + T<int>) + (!| (!? (ISOSurfaceNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ISOSurfaceNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let ISOSurfaceColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let ISOSurfaceVisibleString = Pattern.EnumStrings "ISOSurfaceVisibleString" ["legendonly"]
-
-    let ISOSurfaceFont =
-        Pattern.Config "ISOSurfaceFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", ISOSurfaceColor
-            ]
-        }
-
-    let ISOSurfaceLegendGroupTitle =
-        Pattern.Config "ISOSurfaceLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ISOSurfaceFont.Type
-            ]
-        }
+    open CommonModule
 
     let ISOSurfaceHoverInfo =
         let generatedEnum =
@@ -61,175 +36,6 @@ module ISOSurfaceModule =
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "ISOSurfaceHoverInfo" generatedEnum
-
-    let ISOSurfaceColorBarMode =
-        Pattern.EnumStrings "ISOSurfaceThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let ISOSurfaceXAnchor =
-        Pattern.EnumStrings "ISOSurfaceXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let ISOSurfaceYAnchor =
-        Pattern.EnumStrings "ISOSurfaceYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let ISOSurfaceTickMode =
-        Pattern.EnumStrings "ISOSurfaceTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let ISOSurfaceTicks =
-        Pattern.EnumInlines "ISOSurfaceTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let ISOSurfaceTickLabelOverflow =
-        Pattern.EnumInlines "ISOSurfaceTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let ISOSurfaceTickLabelPosition =
-        Pattern.EnumInlines "ISOSurfaceTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let ISOSurfaceTickFormatStops =
-        Pattern.Config "ISOSurfaceTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + ISOSurfaceNullValue.Type) * (DTickValue + ISOSurfaceNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let ISOSurfaceShowTickFix =
-        Pattern.EnumStrings "ISOSurfaceShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = ISOSurfaceShowTickFix
-
-    let ISOSurfaceExponentFormat =
-        Pattern.EnumInlines "ISOSurfaceExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let ISOSurfaceSide =
-        Pattern.EnumStrings "ISOSurfaceSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let ISOSurfaceTitle =
-        Pattern.Config "ISOSurfaceTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ISOSurfaceFont.Type
-                "side", ISOSurfaceSide.Type
-            ]
-        }
-
-    let ISOSurfaceColorBar =
-        Pattern.Config "ISOSurfaceColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", ISOSurfaceColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", ISOSurfaceColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", ISOSurfaceXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", ISOSurfaceYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", ISOSurfaceColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", ISOSurfaceColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", ISOSurfaceColor
-                "tickmode", ISOSurfaceTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", ISOSurfaceTicks.Type
-                "ticklabeloverflow", ISOSurfaceTickLabelOverflow.Type
-                "ticklabelposition", ISOSurfaceTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", ISOSurfaceColor
-                "showticklabels", T<bool>
-                "tickfont", ISOSurfaceFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", ISOSurfaceTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", ISOSurfaceShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", ISOSurfaceShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", ISOSurfaceExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", ISOSurfaceTitle.Type
-            ]
-        }
-
-    let ISOSurfaceAlign =
-        Pattern.EnumStrings "ISOSurfaceAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let ISOSurfaceHoverLabel =
-        Pattern.Config "ISOSurfaceHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", ISOSurfaceColor + !| ISOSurfaceColor
-                "bordercolor", ISOSurfaceColor + !| ISOSurfaceColor
-                "fonts", ISOSurfaceFont.Type
-                "align", ISOSurfaceAlign.Type
-                "namelength", T<int>
-            ]
-        }
 
     let ISOSurfaceLighting =
         Pattern.Config "ISOSurfaceLighting" {
@@ -279,7 +85,7 @@ module ISOSurfaceModule =
             Required = []
             Optional = [
                 "show", T<bool>
-                "color", ISOSurfaceColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
@@ -333,18 +139,18 @@ module ISOSurfaceModule =
 
     let ISOSurfaceOptions =
         Class "ISOSurfaceOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'isosurface'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ISOSurfaceVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", T<float> + T<int>
             "legendgroup", T<string>
-            "legendgrouptitle", ISOSurfaceLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float> //data array
@@ -362,9 +168,9 @@ module ISOSurfaceModule =
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
             "coloraxis", T<string> // type: subplotid
-            "colorbar", ISOSurfaceColorBar.Type
+            "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", ISOSurfaceColorScale
+            "colorscale", ColorScale
             "showscale", T<bool>
             "reverscale", T<bool>
             "zhoverformat", T<string>
@@ -375,7 +181,7 @@ module ISOSurfaceModule =
             "caps", ISOSurfaceCaps.Type
             "contour", ISOSurfaceContour.Type
             "flatshading", T<bool>
-            "hoverlabel", ISOSurfaceHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "isomax", T<int> + T<float>
             "isomin", T<int> + T<float>
             "lighting", ISOSurfaceLighting.Type
@@ -388,26 +194,7 @@ module ISOSurfaceModule =
         ]
 
     let ISOSurfaceTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ISOSurfaceNullValue
-        ISOSurfaceVisibleString
-        ISOSurfaceFont
-        ISOSurfaceLegendGroupTitle
         ISOSurfaceHoverInfo
-        ISOSurfaceColorBarMode
-        ISOSurfaceXAnchor
-        ISOSurfaceYAnchor
-        ISOSurfaceTickMode
-        ISOSurfaceTicks
-        ISOSurfaceTickLabelOverflow
-        ISOSurfaceTickLabelPosition
-        ISOSurfaceTickFormatStops
-        ISOSurfaceShowTickFix
-        ISOSurfaceExponentFormat
-        ISOSurfaceSide
-        ISOSurfaceTitle
-        ISOSurfaceColorBar
-        ISOSurfaceAlign
-        ISOSurfaceHoverLabel
         ISOSurfaceLighting
         ISOSurfaceLightPosition
         ISOSurfaceCapsXYZ

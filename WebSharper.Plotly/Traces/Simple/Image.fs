@@ -28,19 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module ImageModule =
 
-    let ImgNullValue = Pattern.EnumInlines "ImgNullValue" ["null", "null"]
-
-    let ImgColor = T<string> + (T<int> + T<float>) + (!| (!? (ImgNullValue.Type + T<string> + (T<int> + T<float>)))) + (!| (!| ((!? (ImgNullValue.Type + T<string> + (T<int> + T<float>)))))) 
-
-    let ImgFont =
-        Pattern.Config "ImgFont" {
-            Required = []
-            Optional = [
-                "family", T<string> + !| T<string>
-                "size", (T<int> + T<float>) + !| T<int> + !| T<string>
-                "color", ImgColor + !| ImgColor
-            ]
-        }
+    open CommonModule
 
     let ImgTitlePosition =
         Pattern.EnumInlines "ImgTitlePosition" [
@@ -58,19 +46,8 @@ module ImageModule =
             Required= []
             Optional = [
                 "text", T<string>
-                "font", ImgFont.Type
+                "font", Font.Type
                 "position", ImgTitlePosition.Type
-            ]
-        }
-
-    let ImgVisibleString = Pattern.EnumStrings "ImgVisibleString" ["legendonly"]
-
-    let ImgLegendGroupTitle =
-        Pattern.Config "ImgLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ImgFont.Type
             ]
         }
 
@@ -92,39 +69,20 @@ module ImageModule =
 
     let ImgZSmooth =
         Pattern.EnumStrings "ImgZSmooth" ["fast"]
-        
-    let ImgAlign =
-        Pattern.EnumStrings "ImgAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let ImgHoverLabel =
-        Pattern.Config "ImgHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", ImgColor + !| ImgColor
-                "bordercolor", ImgColor + !| ImgColor
-                "fonts", ImgFont.Type
-                "align", ImgAlign.Type
-                "namelength", T<int>
-            ]
-        }
 
     let ImageOptions =
         Class "ImageOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'image'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ImgVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", ImgLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", (T<int> + T<float>)
             "ids", !| T<string> //data array
             "x0", (T<int> + T<float>) + T<string>
@@ -145,21 +103,15 @@ module ImageModule =
             "zmax", !| T<int> + !| T<float> + !| T<string> //array
             "min", !| T<int> + !| T<float> + !| T<string> //array
             "zsmooth", ImgZSmooth.Type + T<bool>
-            "hoverlabel", ImgHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "uirevision", (T<int> + T<float>) + T<string>
         ]
 
     let ImageTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ImgNullValue
-        ImgFont
         ImgTitlePosition
         ImgTitle
-        ImgVisibleString
-        ImgLegendGroupTitle
         ImgHoverInfo
         ImgColorModel
         ImgZSmooth
-        ImgAlign
-        ImgHoverLabel
         ImageOptions
     ]

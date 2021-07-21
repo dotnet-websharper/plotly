@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module TableModule =
 
-    let TableNullValue = Pattern.EnumInlines "TableNullValue" ["null", "null"]
-
-    let TableColor = T<string> + (T<float> + T<int>) + (!| (!? (TableNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (TableNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let TableColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let TableVisibleString = Pattern.EnumStrings "TableVisibleString" ["legendonly"]
-
-    let TableFont =
-        Pattern.Config "TableFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", TableColor
-            ]
-        }
-
-    let TableLegendGroupTitle =
-        Pattern.Config "TableLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", TableFont.Type
-            ]
-        }
+    open CommonModule
 
     let TableHoverInfo =
         let generatedEnum =
@@ -73,9 +48,9 @@ module TableModule =
         Pattern.Config "TableHoverLabel" {
             Required = []
             Optional = [
-                "bgcolor", TableColor + !| TableColor
-                "bordercolor", TableColor + !| TableColor
-                "fonts", TableFont.Type
+                "bgcolor", Color + !| Color
+                "bordercolor", Color + !| Color
+                "fonts", Font.Type
                 "align", TableAlign.Type
                 "namelength", T<int>
             ]
@@ -97,7 +72,7 @@ module TableModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", TableColor + !| TableColor
+                "color", Color + !| Color
             ]
         }
 
@@ -105,7 +80,7 @@ module TableModule =
         Pattern.Config "TableFill" {
             Required = []
             Optional = [
-                "color", TableColor + !| TableColor
+                "color", Color + !| Color
             ]
         }
 
@@ -121,7 +96,7 @@ module TableModule =
                 "align", TableAlign.Type
                 "line", TableLine.Type
                 "fill", TableFill.Type
-                "font", TableFont.Type
+                "font", Font.Type
             ]
         }
 
@@ -137,22 +112,22 @@ module TableModule =
                 "align", TableAlign.Type
                 "line", TableLine.Type
                 "fill", TableFill.Type
-                "font", TableFont.Type
+                "font", Font.Type
             ]
         }
 
     let TableOptions = 
         Class "TableOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'table'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + TableVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "legendrank", T<float> + T<int>
-            "legendgrouptitle", TableLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", (T<float> + T<int>)
             "ids", !| T<string> //data array
             "columnorder", !| T<string> + !| T<float> + !| T<int>
@@ -168,10 +143,6 @@ module TableModule =
         ]
 
     let TableTraceNamespaces : CodeModel.NamespaceEntity list = [
-        TableNullValue
-        TableVisibleString
-        TableFont
-        TableLegendGroupTitle
         TableHoverInfo
         TableHoverLabel
         TableDomain

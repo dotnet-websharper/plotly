@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module ConeModule =
 
-    let ConeNullValue = Pattern.EnumInlines "ConeNullValue" ["null", "null"]
-
-    let ConeColor = T<string> + (T<float> + T<int>) + (!| (!? (ConeNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ConeNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let ConeColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let ConeVisibleString = Pattern.EnumStrings "ConeVisibleString" ["legendonly"]
-
-    let ConeFont =
-        Pattern.Config "ConeFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", ConeColor
-            ]
-        }
-
-    let ConeLegendGroupTitle =
-        Pattern.Config "ConeLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ConeFont.Type
-            ]
-        }
+    open CommonModule
 
     (*let ConeHoverInfo =
         let generatedEnum =
@@ -61,175 +36,6 @@ module ConeModule =
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "ConeHoverInfo" generatedEnum*)
-
-    let ConeColorBarMode =
-        Pattern.EnumStrings "ConeThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let ConeXAnchor =
-        Pattern.EnumStrings "ConeXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let ConeYAnchor =
-        Pattern.EnumStrings "ConeYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let ConeTickMode =
-        Pattern.EnumStrings "ConeTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let ConeTicks =
-        Pattern.EnumInlines "ConeTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let ConeTickLabelOverflow =
-        Pattern.EnumInlines "ConeTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide past domain'"
-        ]
-
-    let ConeTickLabelPosition =
-        Pattern.EnumInlines "ConeTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let ConeTickFormatStops =
-        Pattern.Config "ConeTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + ConeNullValue.Type) * (DTickValue + ConeNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let ConeShowTickFix =
-        Pattern.EnumStrings "ConeShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = ConeShowTickFix
-
-    let ConeExponentFormat =
-        Pattern.EnumInlines "ConeExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let ConeSide =
-        Pattern.EnumStrings "ConeSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let ConeTitle =
-        Pattern.Config "ConeTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ConeFont.Type
-                "side", ConeSide.Type
-            ]
-        }
-
-    let ConeColorBar =
-        Pattern.Config "ConeColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", ConeColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", ConeColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", ConeXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", ConeYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", ConeColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", ConeColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", ConeColor
-                "tickmode", ConeTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", ConeTicks.Type
-                "ticklabeloverflow", ConeTickLabelOverflow.Type
-                "ticklabelposition", ConeTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", ConeColor
-                "showticklabels", T<bool>
-                "tickfont", ConeFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", ConeTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", ConeShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", ConeShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", ConeExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", ConeTitle.Type
-            ]
-        }
-
-    let ConeAlign =
-        Pattern.EnumStrings "ConeAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let ConeHoverLabel =
-        Pattern.Config "ConeHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", ConeColor + !| ConeColor
-                "bordercolor", ConeColor + !| ConeColor
-                "fonts", ConeFont.Type
-                "align", ConeAlign.Type
-                "namelength", T<int>
-            ]
-        }
 
     let ConeLighting =
         Pattern.Config "ConeLighting" {
@@ -271,18 +77,18 @@ module ConeModule =
 
     let ConeOptions =        
         Class "ConeOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'cone'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ConeVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", T<float> + T<int>
             "legendgroup", T<string>
-            "legendgrouptitle", ConeLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float> //data array
@@ -304,9 +110,9 @@ module ConeModule =
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
             "coloraxis", T<string> // type: subplotid
-            "colorbar", ConeColorBar.Type
+            "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
-            "colorscale", ConeColorScale
+            "colorscale", ColorScale
             "showscale", T<bool>
             "reverscale", T<bool>
             "zhoverformat", T<string>
@@ -315,7 +121,7 @@ module ConeModule =
             "cmid", T<int> + T<float>
             "cmin", T<int> + T<float>
             "anchor", ConeAnchor.Type
-            "hoverlabel", ConeHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "lighting", ConeLighting.Type
             "lightposition", ConeLightPosition.Type
             "sizemode", ConeSizeMode.Type
@@ -324,26 +130,7 @@ module ConeModule =
         ]
 
     let ConeTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ConeNullValue
-        ConeVisibleString
-        ConeFont
-        ConeLegendGroupTitle
         //ConeHoverInfo
-        ConeColorBarMode
-        ConeXAnchor
-        ConeYAnchor
-        ConeTickMode
-        ConeTicks
-        ConeTickLabelOverflow
-        ConeTickLabelPosition
-        ConeTickFormatStops
-        ConeShowTickFix
-        ConeExponentFormat
-        ConeSide
-        ConeTitle
-        ConeColorBar
-        ConeAlign
-        ConeHoverLabel
         ConeLighting
         ConeLightPosition
         ConeAnchor

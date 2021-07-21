@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module ViolinModule =
 
-    let ViolinNullValue = Pattern.EnumInlines "ViolinNullValue" ["null", "null"]
-
-    let ViolinColor = T<string> + (T<float> + T<int>) + (!| (!? (ViolinNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (ViolinNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let ViolinColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let ViolinVisibleString = Pattern.EnumStrings "ViolinVisibleString" ["legendonly"]
-
-    let ViolinFont =
-        Pattern.Config "ViolinFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", ViolinColor
-            ]
-        }
-
-    let ViolinLegendGroupTitle =
-        Pattern.Config "ViolinLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", ViolinFont.Type
-            ]
-        }
+    open CommonModule
 
     let ViolinHoverInfo =
         let generatedEnum =
@@ -61,12 +36,6 @@ module ViolinModule =
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
         Pattern.EnumStrings "ViolinHoverInfo" generatedEnum
-
-    let ViolinOrientation =
-        Pattern.EnumStrings "ViolinOrientation" [
-            "v"
-            "h"
-        ]
 
     let ViolinSizeMode =
         Pattern.EnumStrings "ViolinSizeMode" [
@@ -78,9 +47,9 @@ module ViolinModule =
         Pattern.Config "ViolinMarkerLine" {
             Required = []
             Optional = [
-                "color", ViolinColor
+                "color", Color
                 "width", T<float> + T<int>
-                "outliercolor", ViolinColor
+                "outliercolor", Color
                 "outlierwidth", T<float> + T<int>
             ]
         }
@@ -98,7 +67,7 @@ module ViolinModule =
             Required = []
             Optional = [
                 "type", ViolinGradientType.Type
-                "color", ViolinColor + !| ViolinColor
+                "color", Color + !| Color
             ]
         }
 
@@ -426,11 +395,11 @@ module ViolinModule =
         Pattern.Config "ViolinMarker" {
             Required = []
             Optional = [
-                "outliercolor", ViolinColor
+                "outliercolor", Color
                 "symbol", ViolinSymbol.Type
                 "opacity", T<float> + !| T<float>
                 "size", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", ViolinColor
+                "color", Color
                 "line", ViolinMarkerLine.Type
             ]
         }
@@ -450,7 +419,7 @@ module ViolinModule =
             Required = []
             Optional = [
                 "opacity", (T<float> + T<int>)
-                "color", ViolinColor
+                "color", Color
                 "size", (T<float> + T<int>)
             ]
         }
@@ -458,7 +427,9 @@ module ViolinModule =
     let ViolinSelectedTextFont =
         Pattern.Config "ViolinSelectedTextFont" {
             Required = []
-            Optional = ["color", ViolinColor]
+            Optional = [
+                "color", Color
+            ]
         }
 
     let ViolinSelectedOption =
@@ -467,25 +438,6 @@ module ViolinModule =
             Optional = [
                 "marker", ViolinSelectedMarker.Type
                 "textfont", ViolinSelectedTextFont.Type
-            ]
-        }
-
-    let ViolinAlign =
-        Pattern.EnumStrings "ViolinAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let ViolinHoverLabel =
-        Pattern.Config "ViolinHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", ViolinColor + !| ViolinColor
-                "bordercolor", ViolinColor + !| ViolinColor
-                "fonts", ViolinFont.Type
-                "align", ViolinAlign.Type
-                "namelength", T<int>
             ]
         }
 
@@ -500,7 +452,7 @@ module ViolinModule =
         Pattern.Config "ViolinBoxLine" {
             Required = []
             Optional = [
-                "color", ViolinColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
@@ -511,7 +463,7 @@ module ViolinModule =
             Optional = [
                 "visible", T<bool>
                 "width", T<float>
-                "fillcolor", ViolinColor
+                "fillcolor", Color
                 "line", ViolinBoxLine.Type
             ]
         }
@@ -521,7 +473,7 @@ module ViolinModule =
             Required = []
             Optional = [
                 "visible", T<bool>
-                "color", ViolinColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
@@ -558,25 +510,25 @@ module ViolinModule =
         Pattern.Config "ViolinLine" {
             Required = []
             Optional = [
-                "color", ViolinColor
+                "color", Color
                 "width", T<int> + T<float>
             ]
         }
 
     let ViolinOptions =
         Class "ViolinOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'violin'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + ViolinVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
             "legendgroup", T<string>
-            "legendgrouptitle", ViolinLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "x", !| T<int> + !| T<float>
@@ -594,19 +546,19 @@ module ViolinModule =
             "customdata", T<string> // undefined type, string is placeholder
             "xaxis", T<string> //type is 'subplotid'
             "yaxis", T<string> //type is 'subplotid'
-            "orientation", ViolinOrientation.Type
+            "orientation", Orientation.Type
             "alignmentgroup", T<string>
             "offsetgroup", T<string>
             "marker", ViolinMarker.Type
             "line", ViolinLine.Type
-            "textfont", ViolinFont.Type
+            "textfont", Font.Type
             "box", ViolinBox.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
             "selected", ViolinSelectedOption.Type
             "unselected", ViolinSelectedOption.Type // change name later
             "bandwidth", T<int> + T<float>
-            "fillcolor", ViolinColor
-            "hoverlabel", ViolinHoverLabel.Type
+            "fillcolor", Color
+            "hoverlabel", HoverLabel.Type
             "hoveron", ViolinHoverOn.Type
             "pointpos", T<int> + T<float>
             "jitter", T<float>
@@ -621,11 +573,7 @@ module ViolinModule =
         ]
 
     let ViolinTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ViolinVisibleString
-        ViolinFont
-        ViolinLegendGroupTitle
         ViolinHoverInfo
-        ViolinOrientation
         ViolinSizeMode
         ViolinMarkerLine
         ViolinGradientType
@@ -637,8 +585,6 @@ module ViolinModule =
         ViolinSelectedMarker
         ViolinSelectedTextFont
         ViolinSelectedOption
-        ViolinAlign
-        ViolinHoverLabel
         ViolinHoverOn
         ViolinOptions
         ViolinBox

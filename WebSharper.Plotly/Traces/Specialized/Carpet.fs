@@ -28,32 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module CarpetModule =
 
-    let CarpetNullValue = Pattern.EnumInlines "CarpetNullValue" ["null", "null"]
-
-    let CarpetColor = T<string> + (T<float> + T<int>) + (!| (!? (CarpetNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (CarpetNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let CarpetColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let CarpetVisibleString = Pattern.EnumStrings "CarpetVisibleString" ["legendonly"]
-
-    let CarpetFont =
-        Pattern.Config "CarpetFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", CarpetColor
-            ]
-        }
-
-    let CarpetLegendGroupTitle =
-        Pattern.Config "CarpetLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", CarpetFont.Type
-            ]
-        }
+    open CommonModule
 
     let CarpetTickMode =
         Pattern.EnumStrings "CarpetTickMode" [
@@ -62,46 +37,12 @@ module CarpetModule =
             "array"
         ]
 
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let CarpetTickFormatStops =
-        Pattern.Config "CarpetTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + CarpetNullValue.Type) * (DTickValue + CarpetNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let CarpetShowTickFix =
-        Pattern.EnumStrings "CarpetShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = CarpetShowTickFix
-
-    let CarpetExponentFormat =
-        Pattern.EnumInlines "CarpetExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
     let CarpetAxisTitle =
         Pattern.Config "CarpetAxisTitle" {
             Required = []
             Optional = [
                 "text", T<string>
-                "font", CarpetFont.Type
+                "font", Font.Type
                 "offset", T<int> + T<float>
             ]
         }
@@ -151,7 +92,7 @@ module CarpetModule =
         Pattern.Config "CarpetAxis" {
             Required = []
             Optional = [
-                "color", CarpetColor
+                "color", Color
                 "smoothing", T<float> + T<int>
                 "title", CarpetAxisTitle.Type
                 "type", CarpetAxisType.Type
@@ -170,53 +111,53 @@ module CarpetModule =
                 "tickvals", !| T<obj>
                 "ticktext", !| T<string> 
                 "showticklabels", T<bool>
-                "tickfont", CarpetFont.Type
+                "tickfont", Font.Type
                 "tickangle", (T<float> + T<int>) //type: Angle
                 "tickformat", T<string>
-                "tickformatstops", CarpetTickFormatStops.Type
+                "tickformatstops", TickFormatStops.Type
                 "tickprefix", T<string>
-                "showtickprefix", CarpetShowTickFix.Type
+                "showtickprefix", ShowTickFix.Type
                 "ticksuffix", T<string>
-                "showticksuffix", CarpetShowTickFix.Type
+                "showticksuffix", ShowTickFix.Type
                 "separatethousands", T<bool>
-                "exponentformat", CarpetExponentFormat.Type
+                "exponentformat", ExponentFormat.Type
                 "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type
+                "showexponent", ShowTickFix.Type
                 "categoryorder", CarpetAxisCO.Type
                 "categoryarray", !| T<int> + !| T<float> + !| T<string>
                 "labelpadding", T<int>
                 "labelprefix", T<string>
                 "labelsuffix", T<string>
                 "showline", T<bool>
-                "linecolor", CarpetColor
+                "linecolor", Color
                 "linewidth", T<int> + T<float>
-                "gridcolor", CarpetColor
+                "gridcolor", Color
                 "gridwidth", T<int> + T<float>
                 "showgrid", T<bool>
                 "minorgridcount", T<int>
                 "minorgridwidth", T<int> + T<float>
-                "minorgridcolor", CarpetColor
+                "minorgridcolor", Color
                 "startline", T<bool>
-                "startlinecolor", CarpetColor
+                "startlinecolor", Color
                 "startlinewidth", T<int> + T<float>
                 "endline", T<bool>
                 "endlinewidth", T<int> + T<float>
-                "endlinecolor", CarpetColor
+                "endlinecolor", Color
             ]
         }
 
     let CarpetOptions =
         Class "CarpetOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'carpet'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + CarpetVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "legendrank", T<int> + T<float>
-            "legendgrouptitle", CarpetLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<int> + !| T<float> + !| T<string>
             "x", !| T<int> + !| T<float> + !| T<string>
@@ -233,22 +174,15 @@ module CarpetModule =
             "baxis", CarpetAxis.Type
             "xaxis", T<string> //subplotid
             "yaxis", T<string> //subplotid
-            "color", CarpetColor
+            "color", Color
             "carpet", T<string>
             "cheaterslope", T<int> + T<float>
-            "font", CarpetFont.Type
+            "font", Font.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let CarpetTraceNamespaces : CodeModel.NamespaceEntity list = [
-        CarpetNullValue
-        CarpetVisibleString
-        CarpetFont
-        CarpetLegendGroupTitle
         CarpetTickMode
-        CarpetTickFormatStops
-        CarpetShowTickFix
-        CarpetExponentFormat
         CarpetAxisTitle
         CarpetAxisType
         CarpetAxisATN

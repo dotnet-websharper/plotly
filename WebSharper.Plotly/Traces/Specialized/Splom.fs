@@ -28,51 +28,7 @@ open WebSharper.Plotly.Extension.Common
 
 module SplomModule =
 
-    let SplomNullValue = Pattern.EnumInlines "SplomNullValue" ["null", "null"]
-
-    let SplomColor = T<string> + (T<float> + T<int>) + (!| (!? (SplomNullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (SplomNullValue.Type + T<string> + (T<float> + T<int>)))))) 
-
-    let SplomColorScale = T<string> + (!| T<string>) + (!| ((T<float> + T<int>) * T<string>))
-
-    let SplomVisibleString = Pattern.EnumStrings "SplomVisibleString" ["legendonly"]
-
-    let SplomFont =
-        Pattern.Config "SplomFont" {
-            Required = []
-            Optional = [
-                "family", T<string>
-                "size", (T<float> + T<int>)
-                "color", SplomColor
-            ]
-        }
-
-    let SplomLegendGroupTitle =
-        Pattern.Config "SplomLegendGroupTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", SplomFont.Type
-            ]
-        }
-
-    let SplomAlign =
-        Pattern.EnumStrings "SplomAlign" [
-            "left"
-            "right"
-            "auto"
-        ]
-
-    let SplomHoverLabel =
-        Pattern.Config "SplomHoverLabel" {
-            Required = []
-            Optional = [
-                "bgcolor", SplomColor + !| SplomColor
-                "bordercolor", SplomColor + !| SplomColor
-                "font", SplomFont.Type
-                "align", SplomAlign.Type
-                "namelength", T<int>
-            ]
-        }
+    open CommonModule
 
     let SplomHoverInfo =
         let generatedEnum =
@@ -116,165 +72,15 @@ module SplomModule =
             Required = []
             Optional = [
                 "width", (T<float> + T<int>) + !| T<float> + !| T<int>
-                "color", SplomColor + !| SplomColor //data array
+                "color",Color + !| Color //data array
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", SplomColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "coloraxis", T<string> // type: subplotid
-            ]
-        }
-
-    let SplomColorBarMode =
-        Pattern.EnumStrings "SplomThicknessMode" [
-            "fraction"
-            "pixels"
-        ]
-
-    let SplomXAnchor =
-        Pattern.EnumStrings "SplomXAnchor" [
-            "left"
-            "center"
-            "right"
-        ]
-
-    let SplomYAnchor =
-        Pattern.EnumStrings "SplomYAnchor" [
-            "top"
-            "middle"
-            "bottom"
-        ]
-
-    let SplomTickMode =
-        Pattern.EnumStrings "SplomTickMode" [
-            "auto"
-            "linear"
-            "array"
-        ]
-
-    let SplomTicks =
-        Pattern.EnumInlines "SplomTicks" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "empty", "''"
-        ]
-
-    let SplomTickLabelOverflow =
-        Pattern.EnumInlines "SplomTickLabelOverflow" [
-            "allow", "'allow'"
-            "hidePastDiv", "'hide past div'"
-            "hidePastDomain", "'hide Past Domain'"
-        ]
-
-    let SplomTickLabelPosition =
-        Pattern.EnumInlines "SplomTickLabelPosition" [
-            "outside", "'outside'"
-            "inside", "'inside'"
-            "outsideTop", "'outside top'"
-            "insideTop", "'inside top'"
-            "outsideBottom", "'outside bottom'"
-            "insideBottom", "'inside bottom'"
-        ]
-
-    let DTickValue = (T<float> + T<int>) + T<string>
-
-    let SplomTickFormatStops =
-        Pattern.Config "SplomTickFormatStops" {
-            Required = []
-            Optional = [
-                "enabled", T<bool>
-                "dtickrange", !| ((DTickValue + SplomNullValue.Type) * (DTickValue + SplomNullValue.Type))
-                "value", T<string>
-                "name", T<string>
-                "templateitemname", T<string>
-            ]
-        }
-
-    let SplomShowTickFix =
-        Pattern.EnumStrings "SplomShowTickFix" [
-            "all"
-            "first"
-            "last"
-            "none"
-        ]
-
-    let ShowExponent = SplomShowTickFix
-
-    let SplomExponentFormat =
-        Pattern.EnumInlines "SplomExponentFormat" [
-            "none", "'none'"
-            "Lowercase_E", "'e'"
-            "Uppercase_E", "'E'"
-            "power", "'power'"
-            "SI", "'SI'"
-            "B", "'B'"
-        ]
-
-    let SplomSide =
-        Pattern.EnumStrings "SplomSide" [
-            "right"
-            "top"
-            "bottom"
-        ]
-
-    let SplomTitle =
-        Pattern.Config "SplomTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", SplomFont.Type
-                "side", SplomSide.Type
-            ]
-        }
-
-    let SplomColorBar =
-        Pattern.Config "SplomColorBar" {
-            Required = []
-            Optional = [
-                "thicknessmode", SplomColorBarMode.Type
-                "thickness", (T<float> + T<int>)
-                "lenmode", SplomColorBarMode.Type
-                "len", (T<float> + T<int>)
-                "x", T<float>
-                "xanchor", SplomXAnchor.Type
-                "xpad", (T<float> + T<int>)
-                "y", T<float>
-                "yanchor", SplomYAnchor.Type
-                "ypad", (T<float> + T<int>)
-                "outlinecolor", SplomColor
-                "outlinewidth", (T<float> + T<int>)
-                "bordercolor", SplomColor
-                "borderwidth", (T<float> + T<int>)
-                "bgcolor", SplomColor
-                "tickmode", SplomTickMode.Type
-                "nticks", T<int>
-                "tick0", (T<float> + T<int>) + T<string>
-                "dtick", (T<float> + T<int>) + T<string>
-                "tickvals", !| T<obj>
-                "ticktext", !| T<string> 
-                "ticks", SplomTicks.Type
-                "ticklabeloverflow", SplomTickLabelOverflow.Type
-                "ticklabelposition", SplomTickLabelPosition.Type
-                "ticklen", (T<float> + T<int>)
-                "tickwidth", (T<float> + T<int>)
-                "tickcolor", SplomColor
-                "showticklabels", T<bool>
-                "tickfont", SplomFont.Type
-                "tickangle", (T<float> + T<int>) //type: Angle
-                "tickformat", T<string>
-                "tickformatstops", SplomTickFormatStops.Type
-                "tickprefix", T<string>
-                "showtickprefix", SplomShowTickFix.Type
-                "ticksuffix", T<string>
-                "showticksuffix", SplomShowTickFix.Type
-                "separatethousands", T<bool>
-                "exponentformat", SplomExponentFormat.Type
-                "minexponent", (T<float> + T<int>)
-                "showexponent", ShowExponent.Type // change type name to fit
-                "title", SplomTitle.Type
             ]
         }
 
@@ -609,16 +415,16 @@ module SplomModule =
             Required = []
             Optional = [
                 "line", SplomMarkerLine.Type
-                "color", SplomColor + !| SplomColor //data array
+                "color", Color + !| Color //data array
                 "cauto", T<bool>
                 "cmin", (T<float> + T<int>)
                 "cmax", (T<float> + T<int>)
                 "cmid", (T<float> + T<int>)
-                "colorscale", SplomColorScale
+                "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
                 "showscale", T<bool>
-                "colorbar", SplomColorBar.Type
+                "colorbar", ColorBar.Type
                 "coloraxis", T<string> // type: subplotid
                 "symbol", SplomMarkerSymbol.Type
                 "size", T<int> + T<float> + !| T<int> + !| T<float>
@@ -643,7 +449,7 @@ module SplomModule =
             Required = []
             Optional = [
                 "opacity", T<float>
-                "color", SplomColor
+                "color", Color
                 "size", T<int> + T<float>
             ]
         }
@@ -658,17 +464,17 @@ module SplomModule =
 
     let SplomOptions =
         Class "SplomOptions"
-        |=> Inherits CommonModule.Trace
+        |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
             |> WithInline "{type:'splom'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
-            "visible", T<bool> + SplomVisibleString.Type
+            "visible", T<bool> + VisibleString.Type
             "showlegend", T<bool>
             "legendrank", (T<float> + T<int>)
-            "legendgrouptitle", SplomLegendGroupTitle.Type
+            "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
             "ids", !| T<string>
             "text", T<string> + !| T<string>
@@ -689,35 +495,16 @@ module SplomModule =
             "selectedpoints", T<int> + T<float> + T<string>
             "selected", SplomSelected.Type
             "unselected", SplomSelected.Type
-            "hoverlabel", SplomHoverLabel.Type
+            "hoverlabel", HoverLabel.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
     let SplomTraceNamespaces : CodeModel.NamespaceEntity list = [
-        SplomNullValue
-        SplomVisibleString
-        SplomFont
-        SplomLegendGroupTitle
-        SplomAlign
-        SplomHoverLabel
         SplomHoverInfo
         SplomDimensionAxisType
         SplomDimensionAxis
         SplomDimensions
         SplomMarkerLine
-        SplomColorBarMode
-        SplomXAnchor
-        SplomYAnchor
-        SplomTickMode
-        SplomTicks
-        SplomTickLabelOverflow
-        SplomTickLabelPosition
-        SplomTickFormatStops
-        SplomShowTickFix
-        SplomExponentFormat
-        SplomSide
-        SplomTitle
-        SplomColorBar
         SplomMarkerSizeMode
         SplomMarkerSymbol
         SplomMarker

@@ -96,14 +96,6 @@ module ChoroplethMBModule =
             ]
         }
 
-    let ChoroplethMBLocationMode =
-        Pattern.EnumInlines "ChoroplethMBLocationMode" [
-            "ISO-3", "'ISO-3'"
-            "USA-states", "'USA-states'"
-            "countryNames", "'country names'"
-            "geojson-id", "'geojson-id'"
-        ]
-
     let ChoroplethMBOptions =
         Class "ChoroplethMBOptions"
         |=> Inherits Trace
@@ -158,6 +150,5 @@ module ChoroplethMBModule =
         ChoroplethMBSelectedOption
         ChoroplethMBAlign
         ChoroplethMBHoverLabel
-        ChoroplethMBLocationMode
         ChoroplethMBOptions
     ]

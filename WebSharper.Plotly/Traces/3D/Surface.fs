@@ -49,16 +49,6 @@ module SurfaceModule =
             ]        
         }
 
-    let SurfaceLightPosition =
-        Pattern.Config "SurfaceLightPosition" {
-            Required = []
-            Optional = [
-                "x", T<int> + T<float>
-                "y", T<int> + T<float>
-                "z", T<int> + T<float>
-            ]
-        }
-
     let SurfaceContoursProject =
         Pattern.Config "SurfaceContoursProject" {
             Required = []
@@ -124,9 +114,9 @@ module SurfaceModule =
             "xhoverformat", T<string>
             "yhoverformat", T<string>
             "meta", (T<float> + T<int>) + T<string>
-            "customdata", T<string> // undefined type, string is placeholder
-            "scene", T<string> //subplotid
-            "coloraxis", T<string> // type: subplotid
+            "customdata", T<string> // undefined type
+            "scene", T<string> // subplotid
+            "coloraxis", T<string> // subplotid
             "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
             "colorscale", ColorScale
@@ -138,11 +128,11 @@ module SurfaceModule =
             "cmid", T<int> + T<float>
             "cmin", T<int> + T<float>
             "connectgaps", T<bool>
-            "contours", SurfaceContours.Type //
+            "contours", SurfaceContours.Type
             "hidesurface", T<bool>
             "hoverlabel", HoverLabel.Type
             "lighting", SurfaceLighting.Type
-            "lightposition", SurfaceLightPosition.Type
+            "lightposition", LightPosition.Type
             "opacityscale", T<int> + T<float> + T<string>
             "xcalendar", Calendar.Type
             "ycalendar", Calendar.Type
@@ -153,7 +143,6 @@ module SurfaceModule =
     let SurfaceTraceNamespaces : CodeModel.NamespaceEntity list = [
         SurfaceHoverInfo
         SurfaceLighting
-        SurfaceLightPosition
         SurfaceContoursProject
         SurfaceContoursXYZ
         SurfaceContours

@@ -90,14 +90,6 @@ module ChoroplethModule =
             ]
         }
 
-    let ChoroplethLocationMode =
-        Pattern.EnumInlines "ChoroplethLocationMode" [
-            "ISO-3", "'ISO-3'"
-            "USA-states", "'USA-states'"
-            "countryNames", "'country names'"
-            "geojson-id", "'geojson-id'"
-        ]
-
     let ChoroplethOptions =
         Class "ChoroplethOptions"
         |=> Inherits Trace
@@ -139,7 +131,7 @@ module ChoroplethModule =
             "selected", ChoroplethSelectedOption.Type
             "unselected", ChoroplethSelectedOption.Type // change name later
             "hoverlabel", ChoroplethHoverLabel.Type
-            "locationmode", ChoroplethLocationMode.Type
+            "locationmode", LocationMode.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
@@ -151,6 +143,5 @@ module ChoroplethModule =
         ChoroplethSelectedOption
         ChoroplethAlign
         ChoroplethHoverLabel
-        ChoroplethLocationMode
         ChoroplethOptions
     ]

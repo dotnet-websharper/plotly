@@ -52,8 +52,8 @@ module Client =
 
 
     let table = TableOptions()
-    table.Columnwidth <- [|150; 200; 200; 150|]
-    table.Columnorder <- [|0; 1; 2; 3|]
+    table.Columnwidth <- [|150; 150; 200; 200; 150|]
+    table.Columnorder <- [|0; 1; 2; 3; 4|]
     table.Header <- TableHeader(
         Values = [|[|"<b>EXPENSES</b>"|]; [|"<b>Q1</b>"|]; [|"<b>Q2</b>"|]; [|"<b>Q3</b>"|]; [|"<b>Q4</b>"|]|],
         Align = TableAlign.Center,
@@ -333,7 +333,7 @@ module Client =
     )
 
     let choropleth = ChoroplethOptions()
-    choropleth.Locationmode <- ChoroplethLocationMode.CountryNames
+    choropleth.Locationmode <- LocationMode.CountryNames
     choropleth.Locations <- [|"Montreal";"Toronto";"Vancouver";"Calgary";"Edmonton";"Ottawa";"Halifax";"Victoria";"Winnepeg";"Regina"|]
     choropleth.Z <- [|234;234;23;235;45;23;23;5;24;234|]
     choropleth.Text <- Union2Of2([|"a";"b";"c";"d";"e";"f";"g";"h";"i";"j"|])
@@ -774,7 +774,7 @@ module Client =
         Size = 20,
         Color = "#377eb8"
     )
-    sunburst.Leaf <- SunBurstLeaf(
+    sunburst.Leaf <- Leaf(
         Opacity = 0.4
     )
     sunburst.Marker <- SunBurstMarker(
@@ -813,7 +813,7 @@ module Client =
         Size = 20,
         Color = "#377eb8"
     )
-    icicle.Leaf <- IcicleLeaf(
+    icicle.Leaf <- Leaf(
         Opacity = 0.4
     )
     icicle.Marker <- IcicleMarker(

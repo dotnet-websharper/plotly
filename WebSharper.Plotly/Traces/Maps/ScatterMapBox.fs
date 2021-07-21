@@ -66,7 +66,7 @@ module ScatterMBModule =
                 "reverscale", T<bool>
                 "showscale", T<bool>
                 "colorbar", ColorBar.Type
-                "coloraxis", T<string> // type: subplotid
+                "coloraxis", T<string> // subplotid
             ]
         }
 

@@ -37,30 +37,6 @@ module MeshModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "MeshHoverInfo" generatedEnum
 
-    let MeshLighting =
-        Pattern.Config "MeshLighting" {
-            Required = []
-            Optional = [
-                "vertexnormalsepsilon", T<float>
-                "facenormalsepsilon", T<float>
-                "ambient", T<float>
-                "diffuse", T<float>
-                "specular", T<float>
-                "roughness", T<float>
-                "fresnel", T<float>
-            ]        
-        }
-
-    let MeshLightPosition =
-        Pattern.Config "MeshLightPosition" {
-            Required = []
-            Optional = [
-                "x", T<int> + T<float>
-                "y", T<int> + T<float>
-                "z", T<int> + T<float>
-            ]
-        }
-
     let MeshIntensityMode =
         Pattern.EnumStrings "MeshIntensityMode" [
             "vertex"
@@ -119,7 +95,7 @@ module MeshModule =
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
-            "coloraxis", T<string> // type: subplotid
+            "coloraxis", T<string> // subplotid
             "color", Color
             "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
@@ -136,8 +112,8 @@ module MeshModule =
             "contour", MeshContour.Type
             "flatshading", T<bool>
             "hoverlabel", HoverLabel.Type
-            "lighting", MeshLighting.Type
-            "lightposition", MeshLightPosition.Type
+            "lighting", Lighting.Type
+            "lightposition", LightPosition.Type
             "xcalendar", Calendar.Type
             "ycalendar", Calendar.Type
             "zcalendar", Calendar.Type
@@ -146,8 +122,6 @@ module MeshModule =
 
     let MeshTraceNamespaces : CodeModel.NamespaceEntity list = [
         MeshHoverInfo
-        MeshLighting
-        MeshLightPosition
         MeshIntensityMode
         MeshDelanuayAxis
         MeshContour

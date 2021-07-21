@@ -39,17 +39,6 @@ module TreeMapModule =
             ]
         }
 
-    let TreeMapMarkerPad =
-        Pattern.Config "TreeMapMarkerPad" {
-            Required = []
-            Optional = [
-                "t", T<int> + T<float>
-                "l", T<int> + T<float>
-                "r", T<int> + T<float>
-                "b", T<int> + T<float>
-            ]
-        }
-
     let TreeMapMarkerDepthFade =
         Pattern.EnumStrings "TreeMapMarkerDepthFade" [
             "reversed"
@@ -59,7 +48,7 @@ module TreeMapModule =
         Pattern.Config "TreeMapMarker" {
             Required = []
             Optional = [
-                "pad", TreeMapMarkerPad.Type
+                "pad", Pad.Type
                 "colors", Color + !| Color //data array
                 "depthfade", T<bool> + TreeMapMarkerDepthFade.Type
                 "line", TreeMapMarkerLine.Type
@@ -72,23 +61,9 @@ module TreeMapModule =
                 "reverscale", T<bool>
                 "showscale", T<bool>
                 "colorbar", ColorBar.Type
-                "coloraxis", T<string> // type: subplotid
+                "coloraxis", T<string> // subplotid
             ]
         }
-
-    let TreeMapBranchValues =
-        Pattern.EnumStrings "TreeMapBranchValues" [
-            "remainder"
-            "total"
-        ]
-
-    let TreeMapCount =
-        Pattern.EnumStrings "TreeMapCount" [
-            "branches"
-            "leaves"
-            "branches+leaves"
-            "leaves+branches"
-        ]
 
     let TreeMapTilingPacking =
         Pattern.EnumStrings "TreeMapTilingPacking" [
@@ -125,22 +100,13 @@ module TreeMapModule =
             "bottom"
         ]
 
-    let TreeMapPathBarES =
-        Pattern.EnumInlines "TreeMapPathBarES" [
-            "greater", "'>'"
-            "lower", "'<'"
-            "pipeline", "'|'"
-            "slash", "'/'"
-            "backslash", "'\'" //TODO
-        ]
-
     let TreeMapPathBar =
         Pattern.Config "TreeMapPathBar" {
             Required = []
             Optional = [
                 "visible", T<bool>
                 "side", TreeMapPathBarSide.Type
-                "edgeshape", TreeMapPathBarES.Type
+                "edgeshape", EdgeShape.Type
                 "thickness", T<int> + T<float>
                 "textfont", Font.Type
             ]
@@ -176,8 +142,8 @@ module TreeMapModule =
             "marker", TreeMapMarker.Type
             "textfont", Font.Type
             "textinfo", !| T<string> //TODO
-            "branchvalues", TreeMapBranchValues.Type
-            "count", TreeMapCount.Type
+            "branchvalues", BranchValues.Type
+            "count", Count.Type
             "tiling", TreeMapTiling.Type
             "pathbar", TreeMapPathBar.Type
             "hoverlabel", HoverLabel.Type
@@ -192,16 +158,12 @@ module TreeMapModule =
 
     let TreeMapTraceNamespaces : CodeModel.NamespaceEntity list = [
         TreeMapMarkerLine
-        TreeMapMarkerPad
         TreeMapMarkerDepthFade
         TreeMapMarker
-        TreeMapBranchValues
-        TreeMapCount
         TreeMapTilingPacking
         TreeMapTilingFlip
         TreeMapTiling
         TreeMapPathBarSide
-        TreeMapPathBarES
         TreeMapPathBar
         TreeMapOptions
     ]

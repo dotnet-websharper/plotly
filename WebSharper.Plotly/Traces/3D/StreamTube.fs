@@ -30,36 +30,12 @@ module StreamTubeModule =
 
     open CommonModule
 
-    (*let StreamTubeHoverInfo =
-        let generatedEnum =
-            let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "u"; "v"; "w"; "norm"; "divergence"; "text"; "name"] '+')
-            let seq2 = seq{"all"; "none"; "skip"}
-            Seq.append seq1 seq2
-        Pattern.EnumStrings "StreamTubeHoverInfo" generatedEnum*)
-
-    let StreamTubeLighting =
-        Pattern.Config "StreamTubeLighting" {
-            Required = []
-            Optional = [
-                "vertexnormalsepsilon", T<float>
-                "facenormalsepsilon", T<float>
-                "ambient", T<float>
-                "diffuse", T<float>
-                "specular", T<float>
-                "roughness", T<float>
-                "fresnel", T<float>
-            ]        
-        }
-
-    let StreamTubeLightPosition =
-        Pattern.Config "StreamTubeLightPosition" {
-            Required = []
-            Optional = [
-                "x", T<int> + T<float>
-                "y", T<int> + T<float>
-                "z", T<int> + T<float>
-            ]
-        }
+    // let StreamTubeHoverInfo =
+    //     let generatedEnum =
+    //         let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "u"; "v"; "w"; "norm"; "divergence"; "text"; "name"] '+')
+    //         let seq2 = seq{"all"; "none"; "skip"}
+    //         Seq.append seq1 seq2
+    //     Pattern.EnumStrings "StreamTubeHoverInfo" generatedEnum
 
     let StreamTubeStarts =
         Pattern.Config "StreamTubeStarts" {
@@ -105,7 +81,7 @@ module StreamTubeModule =
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
-            "coloraxis", T<string> // type: subplotid
+            "coloraxis", T<string> // subplotid
             "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
             "colorscale", ColorScale
@@ -117,8 +93,8 @@ module StreamTubeModule =
             "cmid", T<int> + T<float>
             "cmin", T<int> + T<float>
             "hoverlabel", HoverLabel.Type
-            "lighting", StreamTubeLighting.Type
-            "lightposition", StreamTubeLightPosition.Type
+            "lighting", Lighting.Type
+            "lightposition", LightPosition.Type
             "maxdisplayed", T<int>
             "sizeref", T<int> + T<float>
             "starts", StreamTubeStarts.Type
@@ -127,8 +103,6 @@ module StreamTubeModule =
 
     let StreamTubeTraceNamespaces : CodeModel.NamespaceEntity list = [
         //StreamTubeHoverInfo
-        StreamTubeLighting
-        StreamTubeLightPosition
         StreamTubeStarts
         StreamTubeOptions
     ]

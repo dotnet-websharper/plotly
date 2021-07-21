@@ -80,7 +80,7 @@ module SplomModule =
                 "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reverscale", T<bool>
-                "coloraxis", T<string> // type: subplotid
+                "coloraxis", T<string> // subplotid
             ]
         }
 
@@ -99,7 +99,7 @@ module SplomModule =
                 "reverscale", T<bool>
                 "showscale", T<bool>
                 "colorbar", ColorBar.Type
-                "coloraxis", T<string> // type: subplotid
+                "coloraxis", T<string> // subplotid
                 "symbol", Symbol.Type
                 "size", T<int> + T<float> + !| T<int> + !| T<float>
                 "sizeref", T<int> + T<float>

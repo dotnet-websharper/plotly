@@ -35,50 +35,7 @@ module VolumeModule =
             let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "VolumeHoverInfo" generatedEnum
-
-    let VolumeLighting =
-        Pattern.Config "VolumeLighting" {
-            Required = []
-            Optional = [
-                "vertexnormalsepsilon", T<float>
-                "facenormalsepsilon", T<float>
-                "ambient", T<float>
-                "diffuse", T<float>
-                "specular", T<float>
-                "roughness", T<float>
-                "fresnel", T<float>
-            ]        
-        }
-
-    let VolumeLightPosition =
-        Pattern.Config "VolumeLightPosition" {
-            Required = []
-            Optional = [
-                "x", T<int> + T<float>
-                "y", T<int> + T<float>
-                "z", T<int> + T<float>
-            ]
-        }
-
-    let VolumeCapsXYZ =
-        Pattern.Config "VolumeCapsXYZ" {
-            Required = []
-            Optional = [
-                "show", T<bool>
-                "fill", T<int> + T<float>
-            ]
-        }
-
-    let VolumeCaps =
-        Pattern.Config "VolumeCaps" {
-            Required = []
-            Optional = [
-                "x", VolumeCapsXYZ.Type
-                "y", VolumeCapsXYZ.Type
-                "z", VolumeCapsXYZ.Type
-            ]
-        }
+        Pattern.EnumStrings "VolumeHoverInfo" generatedEnum    
 
     let VolumeContour =
         Pattern.Config "VolumeContour" {
@@ -167,7 +124,7 @@ module VolumeModule =
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
-            "coloraxis", T<string> // type: subplotid
+            "coloraxis", T<string> // subplotid
             "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
             "colorscale", ColorScale
@@ -178,14 +135,14 @@ module VolumeModule =
             "cmax", T<int> + T<float>
             "cmid", T<int> + T<float>
             "cmin", T<int> + T<float>
-            "caps", VolumeCaps.Type
+            "caps", Caps.Type
             "contour", VolumeContour.Type
             "flatshading", T<bool>
             "hoverlabel", HoverLabel.Type
             "isomax", T<int> + T<float>
             "isomin", T<int> + T<float>
-            "lighting", VolumeLighting.Type
-            "lightposition", VolumeLightPosition.Type
+            "lighting",Lighting.Type
+            "lightposition", LightPosition.Type
             "opacityscale", T<int> + T<float> + T<string>
             "slices", VolumeSlices.Type
             "spaceframe", VolumeSpaceFrame.Type
@@ -195,10 +152,6 @@ module VolumeModule =
 
     let VolumeTraceNamespaces : CodeModel.NamespaceEntity list = [
         VolumeHoverInfo
-        VolumeLighting
-        VolumeLightPosition
-        VolumeCapsXYZ
-        VolumeCaps
         VolumeContour
         VolumeSlicesXYZ
         VolumeSlices

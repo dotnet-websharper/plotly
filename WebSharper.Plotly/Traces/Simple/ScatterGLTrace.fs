@@ -57,7 +57,7 @@ module ScatterGLModule =
                 "ScatterGLColorscale", ColorScale
                 "autoScatterGLColorscale", T<bool>
                 "reversescale", T<bool>
-                "ScatterGLColoraxis", T<string> // type: subplotid
+                "ScatterGLColoraxis", T<string> // subplotid
             ]
         }
 
@@ -82,7 +82,7 @@ module ScatterGLModule =
                 "reverscale", T<bool>
                 "showscale", T<bool>
                 "ScatterGLColorbar", ColorBar.Type
-                "ScatterGLColoraxis", T<string> // type: subplotid
+                "ScatterGLColoraxis", T<string> // subplotid
             ]
         }
 

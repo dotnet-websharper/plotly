@@ -54,29 +54,7 @@ module SunBurstModule =
                 "reverscale", T<bool>
                 "showscale", T<bool>
                 "colorbar", ColorBar.Type
-                "coloraxis", T<string> // type: subplotid
-            ]
-        }
-
-    let SunBurstBranchValues =
-        Pattern.EnumStrings "SunBurstBranchValues" [
-            "remainder"
-            "total"
-        ]
-
-    let SunBurstCount =
-        Pattern.EnumStrings "SunBurstCount" [
-            "branches"
-            "leaves"
-            "branches+leaves"
-            "leaves+branches"
-        ]    
-
-    let SunBurstLeaf =
-        Pattern.Config "SunBurstLeaf" {
-            Required = []
-            Optional = [
-                "opacity", T<float>
+                "coloraxis", T<string> // subplotid
             ]
         }
 
@@ -108,14 +86,14 @@ module SunBurstModule =
             "marker", SunBurstMarker.Type
             "textfont", Font.Type
             "textinfo", !| T<string> //TODO
-            "branchvalues", SunBurstBranchValues.Type
-            "count", SunBurstCount.Type
+            "branchvalues", BranchValues.Type
+            "count", Count.Type
             "hoverlabel", HoverLabel.Type
             "insidetextfont", Font.Type
             "insidetextorientation", TextOrientation.Type
             "outsidetextfont", Font.Type
             "root", Root.Type
-            "leaf", SunBurstLeaf.Type
+            "leaf", Leaf.Type
             "level", T<int> + T<float> + T<string>
             "maxdepth", T<int>
             "rotation", T<int> + T<float>
@@ -126,8 +104,5 @@ module SunBurstModule =
     let SunBurstTraceNamespaces : CodeModel.NamespaceEntity list = [
         SunBurstMarkerLine
         SunBurstMarker
-        SunBurstBranchValues
-        SunBurstCount
-        SunBurstLeaf
         SunBurstOptions
     ]

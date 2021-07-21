@@ -70,23 +70,6 @@ module ContourModule =
             "none"
         ]
 
-    let ContourOperation =
-        Pattern.EnumInlines "ContourOperation" [
-            "equal", "'='"
-            "less", "'<'"
-            "greater", "'>'"
-            "greaterEqual", "'>='"
-            "lessEqual", "'<='"
-            "square", "'[]'"
-            "bracket", "'()'"
-            "squareBracket", "'[)'"
-            "bracketSquare", "'(]'"
-            "reverseSquare", "']['"
-            "reverseBracket", "')('"
-            "reverseSquareBracket", "']('"
-            "reverseBracketSquare", "')['"
-        ]
-
     let ContourContours =
         Pattern.Config "ContourContours" {
             Required = []
@@ -99,7 +82,7 @@ module ContourModule =
                 "showlines", T<bool>
                 "labelfont", Font.Type
                 "labelformat", T<string>
-                "operation", ContourOperation.Type
+                "operation", Operation.Type
                 "value", T<int> + T<float> + T<string>
             ]
         }
@@ -177,7 +160,6 @@ module ContourModule =
         ContourLine
         ContoursType
         ContourColoring
-        ContourOperation
         ContourContours
         ContourOptions
     ]

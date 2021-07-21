@@ -755,6 +755,131 @@ module CommonModule =
             "gradians"
         ]
 
+    let Pad =
+        Pattern.Config "Pad" {
+            Required = []
+            Optional = [
+                "t", T<int> + T<float>
+                "r", T<int> + T<float>
+                "b", T<int> + T<float>
+                "l", T<int> + T<float>
+            ]
+        }
+
+    let BranchValues =
+        Pattern.EnumStrings "BranchValues" [
+            "remainder"
+            "total"
+        ]
+
+    let Operation =
+        Pattern.EnumInlines "Operation" [
+            "equal", "'='"
+            "less", "'<'"
+            "greater", "'>'"
+            "greaterEqual", "'>='"
+            "lessEqual", "'<='"
+            "square", "'[]'"
+            "bracket", "'()'"
+            "squareBracket", "'[)'"
+            "bracketSquare", "'(]'"
+            "reverseSquare", "']['"
+            "reverseBracket", "')('"
+            "reverseSquareBracket", "']('"
+            "reverseBracketSquare", "')['"
+        ]
+
+    let EdgeShape =
+        Pattern.EnumInlines "EdgeShape" [
+            "greater", "'>'"
+            "lower", "'<'"
+            "pipeline", "'|'"
+            "slash", "'/'"
+            "backslash", "'\'" //TODO
+        ]
+
+    let Lighting =
+        Pattern.Config "Lighting" {
+            Required = []
+            Optional = [
+                "vertexnormalsepsilon", T<float>
+                "facenormalsepsilon", T<float>
+                "ambient", T<float>
+                "diffuse", T<float>
+                "specular", T<float>
+                "roughness", T<float>
+                "fresnel", T<float>
+            ]        
+        }
+
+    let Count =
+        Pattern.EnumStrings "Count" [
+            "branches"
+            "leaves"
+            "branches+leaves"
+            "leaves+branches"
+        ]
+
+    let Leaf =
+        Pattern.Config "Leaf" {
+            Required = []
+            Optional = [
+                "opacity", T<float>
+            ]
+        }
+
+    let LocationMode =
+        Pattern.EnumInlines "LocationMode" [
+            "ISO-3", "'ISO-3'"
+            "USA-states", "'USA-states'"
+            "countryNames", "'country names'"
+            "geojson-id", "'geojson-id'"
+        ]
+
+    let TextAnchor =
+        Pattern.EnumStrings "TextAnchor" [
+            "end"
+            "middle"
+            "start"
+        ]
+
+    let ConstrainText =
+        Pattern.EnumStrings "ConstrainText" [
+            "inside"
+            "outside"
+            "both"
+            "none"
+        ]
+
+    let LightPosition =
+        Pattern.Config "LightPosition" {
+            Required = []
+            Optional = [
+                "x", T<int> + T<float>
+                "y", T<int> + T<float>
+                "z", T<int> + T<float>
+            ]
+        }
+
+    let CapsXYZ =
+        Pattern.Config "CapsXYZ" {
+            Required = []
+            Optional = [
+                "show", T<bool>
+                "fill", T<int> + T<float>
+            ]
+        }
+
+    let Caps =
+        Pattern.Config "Caps" {
+            Required = []
+            Optional = [
+                "x", CapsXYZ.Type
+                "y", CapsXYZ.Type
+                "z", CapsXYZ.Type
+            ]
+        }
+
     let CommonNamespaces : CodeModel.NamespaceEntity list = [
         Trace
         VisibleString
@@ -802,4 +927,17 @@ module CommonModule =
         FillMode
         MarkerPattern
         ThetaUnit
+        Pad
+        BranchValues
+        Operation
+        EdgeShape
+        Lighting
+        Count
+        Leaf
+        LocationMode
+        TextAnchor
+        ConstrainText
+        LightPosition
+        CapsXYZ
+        Caps
     ]

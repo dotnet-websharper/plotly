@@ -97,21 +97,6 @@ module WaterfallModule =
             ]
         }
 
-    let WaterfallConstrainText =
-        Pattern.EnumStrings "WaterfallConstrainText" [
-            "inside"
-            "outside"
-            "both"
-            "none"
-        ]
-
-    let WaterfallInsideTextAnchor =
-        Pattern.EnumStrings "WaterfallInsideTextAnchor" [
-            "end"
-            "middle"
-            "start"
-        ]
-
     let WaterfallMarker =
         Pattern.Config "WaterfallMarker" {
             Required = []
@@ -182,11 +167,11 @@ module WaterfallModule =
             "selectedpoints", (T<float> + T<int>) + T<string>
             "cliponaxis", T<bool>
             "connector", WaterfallConnector.Type
-            "constraintext", WaterfallConstrainText.Type
+            "constraintext", ConstrainText.Type
             "increasing", WaterfallCreasing.Type
             "decreasing", WaterfallCreasing.Type
             "hoverlabel", HoverLabel.Type
-            "insidetextanchor", WaterfallInsideTextAnchor.Type
+            "insidetextanchor", TextAnchor.Type
             "insidetextfont", Font.Type
             "outsidetextfont", Font.Type
             "totals", WaterfallTotals.Type
@@ -202,8 +187,6 @@ module WaterfallModule =
         WaterfallCreasing
         WaterfallConnectorMode
         WaterfallConnector
-        WaterfallConstrainText
-        WaterfallInsideTextAnchor
         WaterfallMarker
         WaterfallTotals
         WaterfallOptions

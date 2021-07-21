@@ -57,7 +57,7 @@ module ScatterCarpetModule =
                 "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
-                "coloraxis", T<string> // type: subplotid
+                "coloraxis", T<string> // subplotid
             ]
         }
 
@@ -84,7 +84,7 @@ module ScatterCarpetModule =
                 "reverscale", T<bool>
                 "showscale", T<bool>
                 "colorbar", ColorBar.Type
-                "coloraxis", T<string> // type: subplotid
+                "coloraxis", T<string> // subplotid
             ]
         }
 

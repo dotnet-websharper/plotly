@@ -54,29 +54,7 @@ module IcicleModule =
                 "reverscale", T<bool>
                 "showscale", T<bool>
                 "colorbar", ColorBar.Type
-                "coloraxis", T<string> // type: subplotid
-            ]
-        }
-
-    let IcicleBranchValues =
-        Pattern.EnumStrings "IcicleBranchValues" [
-            "remainder"
-            "total"
-        ]
-
-    let IcicleCount =
-        Pattern.EnumStrings "IcicleCount" [
-            "branches"
-            "leaves"
-            "branches+leaves"
-            "leaves+branches"
-        ]
-
-    let IcicleLeaf =
-        Pattern.Config "IcicleLeaf" {
-            Required = []
-            Optional = [
-                "opacity", T<float>
+                "coloraxis", T<string> // subplotid
             ]
         }
 
@@ -102,16 +80,7 @@ module IcicleModule =
         Pattern.EnumStrings "IciclePathBarSide" [
             "top"
             "bottom"
-        ]
-
-    let IciclePathBarES =
-        Pattern.EnumInlines "IciclePathBarES" [
-            "greater", "'>'"
-            "lower", "'<'"
-            "pipeline", "'|'"
-            "slash", "'/'"
-            "backslash", "'\'" //TODO
-        ]
+        ]    
 
     let IciclePathBar =
         Pattern.Config "IciclePathBar" {
@@ -119,7 +88,7 @@ module IcicleModule =
             Optional = [
                 "visible", T<bool>
                 "side", IciclePathBarSide.Type
-                "edgeshape", IciclePathBarES.Type
+                "edgeshape", EdgeShape.Type
                 "thickness", T<int> + T<float>
                 "textfont", Font.Type
             ]
@@ -153,15 +122,15 @@ module IcicleModule =
             "marker", IcicleMarker.Type
             "textfont", Font.Type
             "textinfo", !| T<string> //TODO
-            "branchvalues", IcicleBranchValues.Type
-            "count", IcicleCount.Type
+            "branchvalues", BranchValues.Type
+            "count", Count.Type
             "tiling", IcicleTiling.Type
             "pathbar", IciclePathBar.Type
             "hoverlabel", HoverLabel.Type
             "insidetextfont", Font.Type
             "outsidetextfont", Font.Type
             "root", Root.Type
-            "leaf", IcicleLeaf.Type
+            "leaf", Leaf.Type
             "level", T<int> + T<float> + T<string>
             "maxdepth", T<int>
             "sort", T<bool>
@@ -171,13 +140,9 @@ module IcicleModule =
     let IcicleTraceNamespaces : CodeModel.NamespaceEntity list = [
         IcicleMarkerLine
         IcicleMarker
-        IcicleBranchValues
-        IcicleCount
-        IcicleLeaf
         IcicleTilingFlip
         IcicleTiling
         IciclePathBarSide
-        IciclePathBarES
         IciclePathBar
         IcicleOptions
     ]

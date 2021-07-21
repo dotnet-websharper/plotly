@@ -56,23 +56,6 @@ module ContourCarpetModule =
             "none"
         ]
 
-    let ContourCarpetOperation =
-        Pattern.EnumInlines "ContourCarpetOperation" [
-            "equal", "'='"
-            "less", "'<'"
-            "greater", "'>'"
-            "greaterEqual", "'>='"
-            "lessEqual", "'<='"
-            "square", "'[]'"
-            "bracket", "'()'"
-            "squareBracket", "'[)'"
-            "bracketSquare", "'(]'"
-            "reverseSquare", "']['"
-            "reverseBracket", "')('"
-            "reverseSquareBracket", "']('"
-            "reverseBracketSquare", "')['"
-        ]
-
     let ContourCarpetContours =
         Pattern.Config "ContourCarpetContours" {
             Required = []
@@ -85,7 +68,7 @@ module ContourCarpetModule =
                 "showlines", T<bool>
                 "labelfont", Font.Type
                 "labelformat", T<string>
-                "operation", ContourCarpetOperation.Type
+                "operation", Operation.Type
                 "value", T<int> + T<float> + T<string>
             ]
         }
@@ -145,7 +128,6 @@ module ContourCarpetModule =
         ContourCarpetLine
         ContourCarpetsType
         ContourCarpetColoring
-        ContourCarpetOperation
         ContourCarpetContours
         ContourCarpetOptions
     ]

@@ -50,7 +50,7 @@ module BarModule =
                 "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
-                "coloraxis", T<string> // type: subplotid
+                "coloraxis", T<string> // subplotid
             ]
         } 
 
@@ -69,26 +69,18 @@ module BarModule =
                 "reverscale", T<bool>
                 "showscale", T<bool>
                 "colorbar", ColorBar.Type
-                "coloraxis", T<string> // type: subplotid
+                "coloraxis", T<string> // subplotid
                 "opacity", (T<float> + T<int>)
                 "pattern", MarkerPattern.Type
             ]
         }
-
-    let BarErrorType =
-        Pattern.EnumStrings "BarErrorType" [
-            "percent"
-            "constant"
-            "sqrt"
-            "data"
-        ]
 
     let BarErrorX = 
         Pattern.Config "BarErrorX" {
             Required = []
             Optional = [
                 "visible", T<bool>
-                "type", BarErrorType.Type
+                "type", ErrorType.Type
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
@@ -108,7 +100,7 @@ module BarModule =
             Required = []
             Optional = [
                 "visible", T<bool>
-                "type", BarErrorType.Type
+                "type", ErrorType.Type
                 "symmetric", T<bool>
                 "array", !| T<obj> // data array
                 "arrayminus", !| T<obj> // data array
@@ -147,21 +139,6 @@ module BarModule =
                 "textfont",  BarSelectedTextFont.Type
             ]
         }
-
-    let BarConstrainText = 
-        Pattern.EnumStrings "BarConstrainText" [
-            "inside"
-            "outside"
-            "both"
-            "none"
-        ]
-
-    let BarTextAnchor =
-        Pattern.EnumStrings "BarTextAnchor" [
-            "end"
-            "middle"
-            "start"
-        ]
 
     let BarOptions =
         Class "BarOptions"
@@ -218,9 +195,9 @@ module BarModule =
             "selected", BarSelectedOption.Type
             "unselected", BarSelectedOption.Type
             "cliponaxis", T<bool>
-            "constraintext",  BarConstrainText.Type
+            "constraintext", ConstrainText.Type
             "hoverlabel",  HoverLabel.Type
-            "insidetextanchor",  BarTextAnchor.Type
+            "insidetextanchor",  TextAnchor.Type
             "insidetextfont", Font.Type
             "outsidetextfont", Font.Type
             "xcalendar",  Calendar.Type
@@ -232,13 +209,10 @@ module BarModule =
         BarHoverInfo
         BarMarkerLine
         BarMarker
-        BarErrorType
         BarErrorX
         BarErrorY
         BarSelectedMarker
         BarSelectedTextFont
         BarSelectedOption
-        BarConstrainText
-        BarTextAnchor
         BarOptions
     ]

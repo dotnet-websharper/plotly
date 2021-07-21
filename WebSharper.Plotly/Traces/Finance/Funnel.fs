@@ -79,21 +79,6 @@ module FunnelModule =
             ]
         }
 
-    let FunnelConstrainText =
-        Pattern.EnumStrings "FunnelConstrainText" [
-            "inside"
-            "outside"
-            "both"
-            "none"
-        ]
-
-    let FunnelInsideTextAnchor =
-        Pattern.EnumStrings "FunnelInsideTextAnchor" [
-            "end"
-            "middle"
-            "start"
-        ]
-
     let FunnelTotalsMarker =
         Pattern.Config "FunnelTotalsMarker" {
             Required = []
@@ -124,7 +109,7 @@ module FunnelModule =
                 "colorscale", ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
-                "coloraxis", T<string> // type: subplotid
+                "coloraxis", T<string> // subplotid
             ]
         }
 
@@ -200,9 +185,9 @@ module FunnelModule =
             "selectedpoints", (T<float> + T<int>) + T<string>
             "cliponaxis", T<bool>
             "connector", FunnelConnector.Type
-            "constraintext", FunnelConstrainText.Type
+            "constraintext", ConstrainText.Type
             "hoverlabel", HoverLabel.Type
-            "insidetextanchor", FunnelInsideTextAnchor.Type
+            "insidetextanchor", TextAnchor.Type
             "insidetextfont", Font.Type
             "outsidetextfont", Font.Type
             "uirevision", (T<float> + T<int>) + T<string>
@@ -215,8 +200,6 @@ module FunnelModule =
         FunnelTotalsMarkerLine
         FunnelConnectorMode
         FunnelConnector
-        FunnelConstrainText
-        FunnelInsideTextAnchor
         FunnelTotalsMarker
         FunnelTotals
         FunnelMarkerLine

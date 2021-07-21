@@ -57,7 +57,7 @@ module ScatterGeoModule =
                 "colorscale",ColorScale
                 "autocolorscale", T<bool>
                 "reversescale", T<bool>
-                "coloraxis", T<string> // type: subplotid
+                "coloraxis", T<string> // subplotid
             ]
         }
 
@@ -83,7 +83,7 @@ module ScatterGeoModule =
                 "reverscale", T<bool>
                 "showscale", T<bool>
                 "colorbar", ColorBar.Type
-                "coloraxis", T<string> // type: subplotid
+                "coloraxis", T<string> // subplotid
             ]
         }
 
@@ -95,15 +95,7 @@ module ScatterGeoModule =
                 "width", (T<float> + T<int>)
                 "dash", T<string>
             ]
-        }
-
-    let ScatterGeoLocationMode =
-        Pattern.EnumInlines "ScatterGeoLocationMode" [
-            "ISO-3", "'ISO-3'"
-            "USA-states", "'USA-states'"
-            "countryNames", "'country names'"
-            "geojson-id", "'geojson-id'"
-        ]
+        }    
 
     let ScatterGeoOptions =
         Class "ScatterGeoOptions"
@@ -146,7 +138,7 @@ module ScatterGeoModule =
             "fill", Fill.Type
             "fillcolor", Color
             "hoverlabel", HoverLabel.Type
-            "locationmode", ScatterGeoLocationMode.Type
+            "locationmode", LocationMode.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
@@ -156,6 +148,5 @@ module ScatterGeoModule =
         ScatterGeoMarkerLine
         ScatterGeoMarker
         ScatterGeoLine
-        ScatterGeoLocationMode
         ScatterGeoOptions
     ]

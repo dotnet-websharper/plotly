@@ -50,18 +50,7 @@ module LayoutModule =
             "top"
             "middle"
             "bottom"
-        ]
-
-    let LayoutPadding =
-        Pattern.Config "LayoutPadding" {
-            Required = []
-            Optional = [
-                "t", T<int> + T<float>
-                "r", T<int> + T<float>
-                "b", T<int> + T<float>
-                "l", T<int> + T<float>
-            ]
-        }
+        ]    
 
     let LayoutTitle =
         Pattern.Config "LayoutTitle" {
@@ -75,7 +64,7 @@ module LayoutModule =
                 "y", T<float>
                 "xanchor", LayoutXAnchor.Type
                 "yanchor", LayoutYAnchor.Type
-                "pad", LayoutPadding.Type
+                "pad", Pad.Type
             ]
         }
 
@@ -112,15 +101,6 @@ module LayoutModule =
             "bottom"
         ]
 
-    let LayoutLegendTitle =
-        Pattern.Config "LayoutLegendTitle" {
-            Required = []
-            Optional = [
-                "text", T<string>
-                "font", Font.Type
-            ]
-        }
-
     let LayoutLegendSide =
         Pattern.EnumInlines "LayoutLegendSide" [
             "top", "'top'"
@@ -149,7 +129,7 @@ module LayoutModule =
                 "yanchor", LayoutYAnchor.Type
                 "uirevision", T<int> + T<float> + T<string>
                 "valign", LayoutVAlign.Type
-                "title", LayoutLegendTitle.Type
+                "title", LegendGroupTitle.Type
                 "side", LayoutLegendSide.Type
             ]
         }
@@ -930,7 +910,7 @@ module LayoutModule =
         Pattern.Config "LayoutTernaryAAxis" {
             Required = []
             Optional = [
-                "title", LayoutLegendTitle.Type
+                "title", LegendGroupTitle.Type
                 "color", Color
                 "tickmode", LayoutTickMode.Type
                 "nticks", T<int>
@@ -1040,7 +1020,7 @@ module LayoutModule =
                 "color", Color
                 "categoryorder", LayoutCO.Type
                 "categoryarray", !| T<obj>
-                "title", LayoutLegendTitle.Type
+                "title", LegendGroupTitle.Type
                 "type", LayoutAxisType.Type
                 "autotypenumbers", LayoutAutoTypeNumbers.Type
                 "autorange", LayoutAutoRange.Type
@@ -1399,7 +1379,7 @@ module LayoutModule =
                 "categoryarray", !| T<obj>
                 "angle", T<int> + T<float> //angle
                 "side", LayoutRadialAxisSide.Type
-                "title", LayoutLegendTitle.Type
+                "title", LegendGroupTitle.Type
                 "hoverformat", T<string>
                 "uirevision", T<int> + T<float> + T<string>
                 "color", Color
@@ -1655,7 +1635,7 @@ module LayoutModule =
                 "y", T<float>
                 "xanchor", LayoutXAnchor.Type
                 "yanchor", LayoutYAnchor.Type
-                "pad", LayoutPadding.Type
+                "pad", Pad.Type
                 "font", Font.Type
                 "bgcolor", Color
                 "bordercolor", Color
@@ -1845,13 +1825,11 @@ module LayoutModule =
         LayoutRef
         LayoutXAnchor
         LayoutYAnchor
-        LayoutPadding
         LayoutOrientation
         LayoutTraceOrder
         LayoutItemSizing
         LayoutItemClick
         LayoutVAlign
-        LayoutLegendTitle
         LayoutLegendSide
         LayoutAlign
         LayoutEasing

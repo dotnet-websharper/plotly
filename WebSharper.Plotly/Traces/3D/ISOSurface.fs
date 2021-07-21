@@ -37,49 +37,6 @@ module ISOSurfaceModule =
             Seq.append seq1 seq2
         Pattern.EnumStrings "ISOSurfaceHoverInfo" generatedEnum
 
-    let ISOSurfaceLighting =
-        Pattern.Config "ISOSurfaceLighting" {
-            Required = []
-            Optional = [
-                "vertexnormalsepsilon", T<float>
-                "facenormalsepsilon", T<float>
-                "ambient", T<float>
-                "diffuse", T<float>
-                "specular", T<float>
-                "roughness", T<float>
-                "fresnel", T<float>
-            ]        
-        }
-
-    let ISOSurfaceLightPosition =
-        Pattern.Config "ISOSurfaceLightPosition" {
-            Required = []
-            Optional = [
-                "x", T<int> + T<float>
-                "y", T<int> + T<float>
-                "z", T<int> + T<float>
-            ]
-        }
-
-    let ISOSurfaceCapsXYZ =
-        Pattern.Config "ISOSurfaceCapsXYZ" {
-            Required = []
-            Optional = [
-                "show", T<bool>
-                "fill", T<int> + T<float>
-            ]
-        }
-
-    let ISOSurfaceCaps =
-        Pattern.Config "ISOSurfaceCaps" {
-            Required = []
-            Optional = [
-                "x", ISOSurfaceCapsXYZ.Type
-                "y", ISOSurfaceCapsXYZ.Type
-                "z", ISOSurfaceCapsXYZ.Type
-            ]
-        }
-
     let ISOSurfaceContour =
         Pattern.Config "ISOSurfaceContour" {
             Required = []
@@ -167,7 +124,7 @@ module ISOSurfaceModule =
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
-            "coloraxis", T<string> // type: subplotid
+            "coloraxis", T<string> // subplotid
             "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
             "colorscale", ColorScale
@@ -178,14 +135,14 @@ module ISOSurfaceModule =
             "cmax", T<int> + T<float>
             "cmid", T<int> + T<float>
             "cmin", T<int> + T<float>
-            "caps", ISOSurfaceCaps.Type
+            "caps", Caps.Type
             "contour", ISOSurfaceContour.Type
             "flatshading", T<bool>
             "hoverlabel", HoverLabel.Type
             "isomax", T<int> + T<float>
             "isomin", T<int> + T<float>
-            "lighting", ISOSurfaceLighting.Type
-            "lightposition", ISOSurfaceLightPosition.Type
+            "lighting", Lighting.Type
+            "lightposition", LightPosition.Type
             "opacityscale", T<int> + T<float> + T<string>
             "slices", ISOSurfaceSlices.Type
             "spaceframe", ISOSurfaceSpaceFrame.Type
@@ -195,10 +152,6 @@ module ISOSurfaceModule =
 
     let ISOSurfaceTraceNamespaces : CodeModel.NamespaceEntity list = [
         ISOSurfaceHoverInfo
-        ISOSurfaceLighting
-        ISOSurfaceLightPosition
-        ISOSurfaceCapsXYZ
-        ISOSurfaceCaps
         ISOSurfaceContour
         ISOSurfaceSlicesXYZ
         ISOSurfaceSlices

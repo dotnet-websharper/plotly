@@ -86,54 +86,6 @@ module Definition =
     // let ToTraceArray (arr: CodeModel.Class array) =
     //     Array.map (fun x -> x :> T<CommonModule.Trace>) arr
 
-    let Data =
-        !| ScatterModule.ScatterOptions.Type +
-        !| ScatterGLModule.ScatterGLOptions.Type +
-        !| PieModule.PieOptions.Type +
-        !| BarModule.BarOptions.Type +
-        !| HeatMapModule.HeatMapOptions.Type +
-        !| HeatMapGLModule.HeatMapGLOptions.Type +
-        !| ImageModule.ImageOptions +
-        !| TableModule.TableOptions +
-        !| ContourModule.ContourOptions +
-        !| BoxModule.BoxOptions +
-        !| HGModule.HGOptions +
-        !| HG2DModule.HG2DOptions +
-        !| HG2DContModule.HG2DContOptions +
-        !| ViolinModule.ViolinOptions +
-        !| CandleStickModule.CandleStickOptions +
-        !| FunnelModule.FunnelOptions +
-        !| FunnelAreaModule.FunnelAreaOptions +
-        !| IndicatorModule.IndicatorOptions +
-        !| OHLCModule.OHLCOptions +
-        !| WaterfallModule.WaterfallOptions +
-        !| ConeModule.ConeOptions +
-        !| ISOSurfaceModule.ISOSurfaceOptions +
-        !| MeshModule.MeshOptions +
-        !| Scatter3DModule.Scatter3DOptions +
-        !| StreamTubeModule.StreamTubeOptions +
-        !| SurfaceModule.SurfaceOptions +
-        !| VolumeModule.VolumeOptions +
-        !| ChoroplethModule.ChoroplethOptions +
-        !| ChoroplethMBModule.ChoroplethMBOptions +
-        !| DensityMBModule.DensityMBOptions +
-        !| ScatterGeoModule.ScatterGeoOptions +
-        !| ScatterMBModule.ScatterMBOptions +
-        !| BarPolarModule.BarPolarOptions +
-        !| CarpetModule.CarpetOptions +
-        !| ContourCarpetModule.ContourCarpetOptions +
-        !| IcicleModule.IcicleOptions +
-        !| ParCatsModule.ParCatsOptions +
-        !| ParCoordsModule.ParCoordsOptions +
-        !| SankeyModule.SankeyOptions +
-        !| ScatterCarpetModule.ScatterCarpetOptions +
-        !| ScatterPolarModule.ScatterPolarOptions +
-        !| ScatterPolarGLModule.ScatterPolarGLOptions +
-        !| ScatterTernaryModule.ScatterTernaryOptions +
-        !| SplomModule.SplomOptions +
-        !| SunBurstModule.SunBurstOptions +
-        !| TreeMapModule.TreeMapOptions
-
     let WithTypes values f =
         List.map f values
         |> List.reduce (fun l r -> l + r)
@@ -155,11 +107,14 @@ module Definition =
             "validate" => !| T<obj> * Layout ^-> T<HTMLElement>
             "makeTemplate" => T<obj> + T<HTMLElement> ^-> T<HTMLElement>
             "validateTemplate" => (T<obj> + T<HTMLElement>) * T<obj> ^-> T<HTMLElement>
-            "addTraces" => (T<string> + T<HTMLElement>) * Data ^-> T<HTMLElement>
+            "addTraces" => WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * !| t ^-> T<HTMLElement>)
+            "addTraces" => (T<string> + T<HTMLElement>) * !| CommonModule.Trace ^-> T<HTMLElement>
             "deleteTraces" => (T<string> + T<HTMLElement>) * (T<int> + !| T<int>) ^-> T<HTMLElement>
             "moveTraces" => (T<string> + T<HTMLElement>) * (T<int> + !| T<int>) * !? (T<int> + !| T<int>) ^-> T<HTMLElement>
-            "extendTraces" => (T<string> + T<HTMLElement>) * Data * !| T<int> * !? T<int> ^-> T<HTMLElement>
-            "prependTraces" => (T<string> + T<HTMLElement>) * Data * !| T<int> * !? T<int> ^-> T<HTMLElement>
+            "extendTraces" => WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * t * !| T<int> * !? T<int> ^-> T<HTMLElement>)
+            "extendTraces" => (T<string> + T<HTMLElement>) * !| CommonModule.Trace * !| T<int> * !? T<int> ^-> T<HTMLElement>
+            "prependTraces" => WithTypes Types (fun t -> (T<string> + T<HTMLElement>) * t * !| T<int> * !? T<int> ^-> T<HTMLElement>)
+            "prependTraces" => (T<string> + T<HTMLElement>) * !| CommonModule.Trace * !| T<int> * !? T<int> ^-> T<HTMLElement>
             "addFrames" => (T<string> + T<HTMLElement>) * T<obj> ^-> T<HTMLElement>
             "animate" => (T<string> + T<HTMLElement>) * T<obj> ^-> T<HTMLElement>
             "purge" => (T<string> + T<HTMLElement>) ^-> T<HTMLElement>

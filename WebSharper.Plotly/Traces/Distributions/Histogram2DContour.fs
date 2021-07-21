@@ -87,24 +87,7 @@ module HG2DContModule =
             "heatmap"
             "lines"
             "none"
-        ]
-
-    let HG2DContOperation =
-        Pattern.EnumInlines "HG2DContOperation" [
-            "equal", "'='"
-            "less", "'<'"
-            "greater", "'>'"
-            "greaterEqual", "'>='"
-            "lessEqual", "'<='"
-            "square", "'[]'"
-            "bracket", "'()'"
-            "squareBracket", "'[)'"
-            "bracketSquare", "'(]'"
-            "reverseSquare", "']['"
-            "reverseBracket", "')('"
-            "reverseSquareBracket", "']('"
-            "reverseBracketSquare", "')['"
-        ]
+        ]    
 
     let HG2DContContours =
         Pattern.Config "HG2DContContours" {
@@ -119,7 +102,7 @@ module HG2DContModule =
                 "showlabels", T<bool>
                 "labelfont", Font.Type
                 "labelformat", T<string>
-                "operation", HG2DContOperation.Type
+                "operation", Operation.Type
                 "value", T<int> + T<float> + T<string>
             ]
         }
@@ -192,7 +175,6 @@ module HG2DContModule =
         HG2DContLine
         HG2DContContoursType
         HG2DContContoursColoring
-        HG2DContOperation
         HG2DContContours
         HG2DContOptions
     ]

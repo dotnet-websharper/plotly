@@ -30,36 +30,12 @@ module ConeModule =
 
     open CommonModule
 
-    (*let ConeHoverInfo =
-        let generatedEnum =
-            let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "u"; "v"; "w"; "norm"; "text"; "name"] '+')
-            let seq2 = seq{"all"; "none"; "skip"}
-            Seq.append seq1 seq2
-        Pattern.EnumStrings "ConeHoverInfo" generatedEnum*)
-
-    let ConeLighting =
-        Pattern.Config "ConeLighting" {
-            Required = []
-            Optional = [
-                "vertexnormalsepsilon", T<float>
-                "facenormalsepsilon", T<float>
-                "ambient", T<float>
-                "diffuse", T<float>
-                "specular", T<float>
-                "roughness", T<float>
-                "fresnel", T<float>
-            ]        
-        }
-
-    let ConeLightPosition =
-        Pattern.Config "ConeLightPosition" {
-            Required = []
-            Optional = [
-                "x", T<int> + T<float>
-                "y", T<int> + T<float>
-                "z", T<int> + T<float>
-            ]
-        }
+    // let ConeHoverInfo =
+    //     let generatedEnum =
+    //         let seq1 = (GenerateOptions.allPermutations ["x"; "y"; "z"; "u"; "v"; "w"; "norm"; "text"; "name"] '+')
+    //         let seq2 = seq{"all"; "none"; "skip"}
+    //         Seq.append seq1 seq2
+    //     Pattern.EnumStrings "ConeHoverInfo" generatedEnum
 
     let ConeAnchor =
         Pattern.EnumStrings "ConeAnchor" [
@@ -109,7 +85,7 @@ module ConeModule =
             "meta", T<float> + T<int> + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "scene", T<string> //subplotid
-            "coloraxis", T<string> // type: subplotid
+            "coloraxis", T<string> // subplotid
             "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
             "colorscale", ColorScale
@@ -122,8 +98,8 @@ module ConeModule =
             "cmin", T<int> + T<float>
             "anchor", ConeAnchor.Type
             "hoverlabel", HoverLabel.Type
-            "lighting", ConeLighting.Type
-            "lightposition", ConeLightPosition.Type
+            "lighting", Lighting.Type
+            "lightposition", LightPosition.Type
             "sizemode", ConeSizeMode.Type
             "sizeref", T<int> + T<float>
             "uirevision", T<float> + T<int> + T<string>
@@ -131,8 +107,6 @@ module ConeModule =
 
     let ConeTraceNamespaces : CodeModel.NamespaceEntity list = [
         //ConeHoverInfo
-        ConeLighting
-        ConeLightPosition
         ConeAnchor
         ConeSizeMode
         ConeOptions

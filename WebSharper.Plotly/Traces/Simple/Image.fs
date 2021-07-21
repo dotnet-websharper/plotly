@@ -97,8 +97,8 @@ module ImageModule =
             "hovertemplate", T<string> + !| T<string>
             "meta", (T<int> + T<float>) + T<string>
             "customdata", !| T<int> + !| T<float> + !| T<string> //data array
-            "xaxis", T<string> // type: subplotid
-            "yaxis", T<string> // type: subplotid
+            "xaxis", T<string> // subplotid
+            "yaxis", T<string> // subplotid
             "colormodel", ImgColorModel.Type
             "zmax", !| T<int> + !| T<float> + !| T<string> //array
             "min", !| T<int> + !| T<float> + !| T<string> //array

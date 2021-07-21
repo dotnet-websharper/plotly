@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -16,48 +17,45 @@
     <Compile Include="Traces/Simple/PieTrace.fs" />
     <Compile Include="Traces/Simple/ScatterGLTrace.fs" />
     <Compile Include="Traces/Simple/ScatterTrace.fs" />
-    <Compile Include="Traces/Distributions/Box.fs"/>
-    <Compile Include="Traces/Distributions/Histogram.fs"/>
-    <Compile Include="Traces/Distributions/Histogram2D.fs"/>
-    <Compile Include="Traces/Distributions/Histogram2DContour.fs"/>
-    <Compile Include="Traces/Distributions/Violin.fs"/>
-    <Compile Include="Traces/Finance/CandleStick.fs"/>
-    <Compile Include="Traces/Finance/Funnel.fs"/>
-    <Compile Include="Traces/Finance/FunnelArea.fs"/>
-    <Compile Include="Traces/Finance/Indicator.fs"/>
-    <Compile Include="Traces/Finance/OHLC.fs"/>
-    <Compile Include="Traces/Finance/Waterfall.fs"/>
-    <Compile Include="Traces/3D/Cone.fs"/>
-    <Compile Include="Traces/3D/ISOSurface.fs"/>
-    <Compile Include="Traces/3D/Mesh.fs"/>
-    <Compile Include="Traces/3D/Scatter3D.fs"/>
-    <Compile Include="Traces/3D/StreamTube.fs"/>
-    <Compile Include="Traces/3D/Surface.fs"/>
-    <Compile Include="Traces/3D/Volume.fs"/>
-    <Compile Include="Traces/Maps/Choropleth.fs"/>
-    <Compile Include="Traces/Maps/ChoroplethMapBox.fs"/>
-    <Compile Include="Traces/Maps/DensityMapBox.fs"/>
-    <Compile Include="Traces/Maps/ScatterGeo.fs"/>
-    <Compile Include="Traces/Maps/ScatterMapBox.fs"/>
-    <Compile Include="Traces/Specialized/BarPolar.fs"/>
-    <Compile Include="Traces/Specialized/Carpet.fs"/>
-    <Compile Include="Traces/Specialized/ContourCarpet.fs"/>
-    <Compile Include="Traces/Specialized/Icicle.fs"/>
-    <Compile Include="Traces/Specialized/ParCats.fs"/>
-    <Compile Include="Traces/Specialized/ParCoords.fs"/>
-    <Compile Include="Traces/Specialized/Sankey.fs"/>
-    <Compile Include="Traces/Specialized/ScatterCarpet.fs"/>
-    <Compile Include="Traces/Specialized/ScatterPolar.fs"/>
-    <Compile Include="Traces/Specialized/ScatterPolarGL.fs"/>
-    <Compile Include="Traces/Specialized/ScatterTernary.fs"/>
-    <Compile Include="Traces/Specialized/Splom.fs"/>
-    <Compile Include="Traces/Specialized/SunBurst.fs"/>
-    <Compile Include="Traces/Specialized/TreeMap.fs"/>
+    <Compile Include="Traces/Distributions/Box.fs" />
+    <Compile Include="Traces/Distributions/Histogram.fs" />
+    <Compile Include="Traces/Distributions/Histogram2D.fs" />
+    <Compile Include="Traces/Distributions/Histogram2DContour.fs" />
+    <Compile Include="Traces/Distributions/Violin.fs" />
+    <Compile Include="Traces/Finance/CandleStick.fs" />
+    <Compile Include="Traces/Finance/Funnel.fs" />
+    <Compile Include="Traces/Finance/FunnelArea.fs" />
+    <Compile Include="Traces/Finance/Indicator.fs" />
+    <Compile Include="Traces/Finance/OHLC.fs" />
+    <Compile Include="Traces/Finance/Waterfall.fs" />
+    <Compile Include="Traces/3D/Cone.fs" />
+    <Compile Include="Traces/3D/ISOSurface.fs" />
+    <Compile Include="Traces/3D/Mesh.fs" />
+    <Compile Include="Traces/3D/Scatter3D.fs" />
+    <Compile Include="Traces/3D/StreamTube.fs" />
+    <Compile Include="Traces/3D/Surface.fs" />
+    <Compile Include="Traces/3D/Volume.fs" />
+    <Compile Include="Traces/Maps/Choropleth.fs" />
+    <Compile Include="Traces/Maps/ChoroplethMapBox.fs" />
+    <Compile Include="Traces/Maps/DensityMapBox.fs" />
+    <Compile Include="Traces/Maps/ScatterGeo.fs" />
+    <Compile Include="Traces/Maps/ScatterMapBox.fs" />
+    <Compile Include="Traces/Specialized/BarPolar.fs" />
+    <Compile Include="Traces/Specialized/Carpet.fs" />
+    <Compile Include="Traces/Specialized/ContourCarpet.fs" />
+    <Compile Include="Traces/Specialized/Icicle.fs" />
+    <Compile Include="Traces/Specialized/ParCats.fs" />
+    <Compile Include="Traces/Specialized/ParCoords.fs" />
+    <Compile Include="Traces/Specialized/Sankey.fs" />
+    <Compile Include="Traces/Specialized/ScatterCarpet.fs" />
+    <Compile Include="Traces/Specialized/ScatterPolar.fs" />
+    <Compile Include="Traces/Specialized/ScatterPolarGL.fs" />
+    <Compile Include="Traces/Specialized/ScatterTernary.fs" />
+    <Compile Include="Traces/Specialized/Splom.fs" />
+    <Compile Include="Traces/Specialized/SunBurst.fs" />
+    <Compile Include="Traces/Specialized/TreeMap.fs" />
     <Compile Include="Main.fs" />
     <None Include="wsconfig.json" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="WebSharper" Version="4.7.2.445" />
-    <PackageReference Include="WebSharper.FSharp" Version="4.7.2.445" />
-  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

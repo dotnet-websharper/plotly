@@ -6,3 +6,5 @@
 **/Properties
 .fake
 .ionide
+paket-files/
+build/

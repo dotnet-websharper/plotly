@@ -473,7 +473,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
    List.iter(function(x)
    {
     x();
-   },List.ofArray([Client.scatterChart,Client.pieChart,Client.barChart,Client.heatMapChart,Client.tableChart,Client.contourChart,Client.imageChart,Client.boxChart,Client.hgChart,Client.hg2dChart,Client.hg2dContChart,Client.violinChart,Client.candleStickChart,Client.funnelChart,Client.funnelAreaChart,Client.indicatorChart,Client.ohlcChart,Client.waterfallChart,Client.choroplethChart,Client.scatterGeoChart,Client.carpetChart,Client.isoSurfaceChart,Client.ccarpetChart,Client.parcatsChart,Client.sankeyChart,Client.scarpetChart,Client.spolarChart,Client.sternaryChart,Client.sunBurstChart,Client.treeMapChart,Client.icicleChart]));
+   },List.ofArray([Client.scatterChart,Client.pieChart,Client.barChart,Client.heatMapChart,Client.tableChart,Client.contourChart,Client.imageChart,Client.boxChart,Client.hgChart,Client.hg2dChart,Client.hg2dContChart,Client.violinChart,Client.candleStickChart,Client.funnelChart,Client.funnelAreaChart,Client.indicatorChart,Client.ohlcChart,Client.waterfallChart,Client.choroplethChart,Client.scatterGeoChart,Client.carpetChart,Client.isoSurfaceChart,Client.ccarpetChart,Client.parcatsChart,Client.sankeyChart,Client.scarpetChart,Client.spolarChart,Client.sternaryChart,Client.sunBurstChart,Client.treeMapChart,Client.icicleChart,Client.barpolarChart]));
    Concurrency.Start((b=null,Concurrency.Delay(function()
    {
     return Concurrency.Bind(Concurrency.Sequential(List.map(function(renderer)
@@ -620,6 +620,10 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
  Client.icicleChart=function()
  {
   return Plotly$1.newPlot("iciclechartDiv",[Client.icicle()],Client.icicleLayout());
+ };
+ Client.barpolarChart=function()
+ {
+  return Plotly$1.newPlot("barpolarchartDiv",[Client.barpolar1(),Client.barpolar2(),Client.barpolar3(),Client.barpolar4()],Client.barpolarLayout());
  };
  Client.scatterGLChart=function()
  {
@@ -878,6 +882,31 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
   SC$1.$cctor();
   return SC$1.icicleLayout;
  };
+ Client.barpolar1=function()
+ {
+  SC$1.$cctor();
+  return SC$1.barpolar1;
+ };
+ Client.barpolar2=function()
+ {
+  SC$1.$cctor();
+  return SC$1.barpolar2;
+ };
+ Client.barpolar3=function()
+ {
+  SC$1.$cctor();
+  return SC$1.barpolar3;
+ };
+ Client.barpolar4=function()
+ {
+  SC$1.$cctor();
+  return SC$1.barpolar4;
+ };
+ Client.barpolarLayout=function()
+ {
+  SC$1.$cctor();
+  return SC$1.barpolarLayout;
+ };
  Client.scatterGLTrace=function()
  {
   SC$1.$cctor();
@@ -987,31 +1016,6 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
  {
   SC$1.$cctor();
   return SC$1.densityMBLayout;
- };
- Client.barpolar3=function()
- {
-  SC$1.$cctor();
-  return SC$1.barpolar3;
- };
- Client.barpolar2=function()
- {
-  SC$1.$cctor();
-  return SC$1.barpolar2;
- };
- Client.barpolar1=function()
- {
-  SC$1.$cctor();
-  return SC$1.barpolar1;
- };
- Client.barpolar4=function()
- {
-  SC$1.$cctor();
-  return SC$1.barpolar4;
- };
- Client.barpolarLayout=function()
- {
-  SC$1.$cctor();
-  return SC$1.barpolarLayout;
  };
  Operators.FailWith=function(msg)
  {

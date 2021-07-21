@@ -1043,6 +1043,7 @@ module Client =
                     sunBurstChart
                     treeMapChart
                     icicleChart
+                    barpolarChart
                 ]
                 |> List.iter (fun x -> x () |> ignore)
                 async {

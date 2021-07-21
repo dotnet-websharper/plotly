@@ -103,9 +103,6 @@ module OptionsModule =
             ]
         }
 
-    let LocalInterface =
-        Class "ILocale"
-
     let Locale =
         Class "Locale"
 
@@ -114,101 +111,96 @@ module OptionsModule =
     let LocaleSetup (s: string) = 
         let r =
             Resource (s.ToUpperInvariant() + "CDN") (sprintf "https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.2.1/plotly-locale-%s.min.js" s)
-        let cl =
-            Class (s.ToUpperInvariant())
-            |> Requires [r]
-            |=> Inherits LocalInterface
-            |+> Static [
-                "localeString" =? T<string>
-                |> WithGetterInline (sprintf "'%s'" s)
-            ]
-
+        
         Resources <- List.append Resources [r]
 
-        Locale
-        |+> Static [
-            (s.ToUpperInvariant()) =? cl
-            |> WithGetterInline (sprintf "'%s'" s)
-        ]
-        |> ignore
-        
-        cl
+        (s.ToUpperInvariant()) =? TSelf
+        |> Requires [r]
+        // |> WithGetterInline (sprintf "'%s'" s)
 
-    let AF = LocaleSetup "af"
-    let AM = LocaleSetup "am"
-    let ARDZ = LocaleSetup "ar-dz"
-    let AREG = LocaleSetup "ar-eg"
-    let AR = LocaleSetup "ar"
-    let AZ = LocaleSetup "az"
-    let BG = LocaleSetup "bg"
-    let BS = LocaleSetup "bs"
-    let CA = LocaleSetup "ca"
-    let CS = LocaleSetup "cs"
-    let CY = LocaleSetup "cy"
-    let DA = LocaleSetup "da"
-    let DECH = LocaleSetup "de-ch"
-    let DE = LocaleSetup "de"
-    let EL = LocaleSetup "el"
-    let EO = LocaleSetup "eo"
-    let ESAR = LocaleSetup "es-ar"
-    let ESPE = LocaleSetup "es-pe"
-    let ES = LocaleSetup "es"
-    let ET = LocaleSetup "et"
-    let EU = LocaleSetup "eu"
-    let FA = LocaleSetup "fa"
-    let FI = LocaleSetup "fi"
-    let FO = LocaleSetup "fo"
-    let FRCH = LocaleSetup "fr-ch"
-    let FR = LocaleSetup "fr"
-    let GL = LocaleSetup "gl"
-    let GU = LocaleSetup "gu"
-    let HE = LocaleSetup "he"
-    let HIIN = LocaleSetup "hi-in"
-    let HR = LocaleSetup "hr"
-    let HU = LocaleSetup "hu"
-    let HY = LocaleSetup "hy"
-    let ID = LocaleSetup "id"
-    let IS = LocaleSetup "is"
-    let IT = LocaleSetup "it"
-    let JA = LocaleSetup "ja"
-    let KA = LocaleSetup "ka"
-    let KM = LocaleSetup "km"
-    let KO = LocaleSetup "ko"
-    let LT = LocaleSetup "lt"
-    let LV = LocaleSetup "lv"
-    let MEME = LocaleSetup "me-me"
-    let ME = LocaleSetup "me"
-    let MK = LocaleSetup "mk"
-    let ML = LocaleSetup "ml"
-    let MS = LocaleSetup "ms"
-    let MT = LocaleSetup "mt"
-    let NLBE = LocaleSetup "nl-be"
-    let NL = LocaleSetup "nl"
-    let NO = LocaleSetup "no"
-    let PA = LocaleSetup "pa"
-    let PL = LocaleSetup "pl"
-    let PTBR = LocaleSetup "pt-br"
-    let PTPT = LocaleSetup "pt-pt"
-    let RM = LocaleSetup "rm"
-    let RO = LocaleSetup "ro"
-    let RU = LocaleSetup "ru"
-    let SK =  LocaleSetup "sk"
-    let SL = LocaleSetup "sl"
-    let SQ = LocaleSetup "sq"
-    let SRSR = LocaleSetup "sr-sr"
-    let SR = LocaleSetup "sr"
-    let SV = LocaleSetup "sv"
-    let SW = LocaleSetup "sw"
-    let TA = LocaleSetup "ta"
-    let TH = LocaleSetup "th"
-    let TR = LocaleSetup "tr"
-    let TT = LocaleSetup "tt"
-    let UK = LocaleSetup "uk"
-    let UR = LocaleSetup "ur"
-    let VI = LocaleSetup "vi"
-    let ZHCN = LocaleSetup "zh-cn"
-    let ZHHK = LocaleSetup "zh-hk"
-    let ZHTW = LocaleSetup "zh-tw"
+    let localeStrings =
+        [
+
+            "af"
+            "am"
+            "ar-dz"
+            "ar-eg"
+            "ar"
+            "az"
+            "bg"
+            "bs"
+            "ca"
+            "cs"
+            "cy"
+            "da"
+            "de-ch"
+            "de"
+            "el"
+            "eo"
+            "es-ar"
+            "es-pe"
+            "es"
+            "et"
+            "eu"
+            "fa"
+            "fi"
+            "fo"
+            "fr-ch"
+            "fr"
+            "gl"
+            "gu"
+            "he"
+            "hi-in"
+            "hr"
+            "hu"
+            "hy"
+            "id"
+            "is"
+            "it"
+            "ja"
+            "ka"
+            "km"
+            "ko"
+            "lt"
+            "lv"
+            "me-me"
+            "me"
+            "mk"
+            "ml"
+            "ms"
+            "mt"
+            "nl-be"
+            "nl"
+            "no"
+            "pa"
+            "pl"
+            "pt-br"
+            "pt-pt"
+            "rm"
+            "ro"
+            "ru"
+            "sk"
+            "sl"
+            "sq"
+            "sr-sr"
+            "sr"
+            "sv"
+            "sw"
+            "ta"
+            "th"
+            "tr"
+            "tt"
+            "uk"
+            "ur"
+            "vi"
+            "zh-cn"
+            "zh-hk"
+            "zh-tw"
+        ]
+
+    Locale
+    |+> Static (localeStrings |> List.map (fun x -> LocaleSetup x :> CodeModel.IClassMember))
+    |> ignore
 
     let Options =
         Pattern.Config "Options" {
@@ -225,7 +217,7 @@ module OptionsModule =
                 "plotlyServerURL", T<string> // investigate
                 "linkText", T<string>
                 "showEditInChartStudio", T<bool>
-                "locale", LocalInterface.Type
+                "locale", Locale.Type
                 "displayLogo", T<bool>
                 "responsive", T<bool>
                 "doubleClickDelay", T<int>
@@ -240,80 +232,4 @@ module OptionsModule =
         ModeBarButtonsToAdd
         Options
         Locale
-        LocalInterface
-        AF
-        AM
-        ARDZ
-        AREG
-        AR
-        AZ
-        BG
-        BS
-        CA
-        CS
-        CY
-        DA
-        DECH
-        DE
-        EL
-        EO
-        ESAR
-        ESPE
-        ES
-        ET
-        EU
-        FA
-        FI
-        FO
-        FRCH
-        FR
-        GL
-        GU
-        HE
-        HIIN
-        HR
-        HU
-        HY
-        ID
-        IS
-        IT
-        JA
-        KA
-        KM
-        KO
-        LT
-        LV
-        MEME
-        ME
-        MK
-        ML
-        MS
-        MT
-        NLBE
-        NL
-        NO
-        PA
-        PL
-        PTBR
-        PTPT
-        RM
-        RO
-        RU
-        SK
-        SL
-        SQ
-        SRSR
-        SR
-        SV
-        SW
-        TA
-        TH
-        TR
-        TT
-        UK
-        UR
-        VI
-        ZHCN
-        ZHHK
-        ZHTW
     ]

@@ -113,7 +113,7 @@ module BarPolarModule =
         |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
-            |> WithInline "{type:'BarPolar'}"
+            |> WithInline "{type:'barpolar'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>

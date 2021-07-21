@@ -123,8 +123,8 @@ module Client =
     histogram2d.Y <- [|1;1;2;3;4;6;4;3;7;9;6;4;3;4;5;7;5|]
 
     let hg2dcontour = HG2DContOptions()
-    hg2dcontour.X <- [|2;3;4;2;1;3;5;7;98;7;6;54;4;5;6;7;8;9;4;5;3;32;2;4;5;7;45;3;3;3;4|]
-    hg2dcontour.Y <- [|8;9;4;5;3;32;2;4;2;3;4;2;1;3;5;7;98;7;6;54;4;5;6;7;5;7;45;3;3;3;4|]    
+    hg2dcontour.X <- [|2;3;4;2;1;3;5;7;9;7;6;6;4;5;6;7;8;9;4;5;3;10;2;4;5;7;5;3;3;3;4|]
+    hg2dcontour.Y <- [|8;9;4;5;3;3;2;4;2;3;4;2;1;3;5;7;9;7;6;7;4;5;6;7;5;7;5;3;3;3;4|]    
 
     let violin = ViolinOptions()
     violin.Y <- [|34;52;34;42;345;665;34;23;54;436;65;34;235;654;345|]
@@ -716,21 +716,77 @@ module Client =
     )
 
     let sternary = ScatterTernaryOptions()
-    sternary.Mode <- ScatterTernaryModes.Lines
+    sternary.Mode <- ScatterTernaryModes.Markers
     sternary.Name <- "k"
-    sternary.A <- [||]
-    sternary.B <- [||]
-    sternary.C <- [||]
-    sternary.Line <- ScatterTernaryLine(
-        Color = "#c00"
+    sternary.A <- [|75; 70; 75; 5; 10; 10; 20; 10; 15; 10; 20|]
+    sternary.B <- [|25; 10; 20; 60; 80; 90; 70; 20; 5; 10; 10|]
+    sternary.C <- [|0; 20; 5; 35; 10; 0; 10; 70; 80; 80; 70|]
+    sternary.Text <- Union2Of2([|"point 1"; "point 2"; "point 3"; "point 4"; "point 5"; "point 6"; "point 7"; "point 8"; "point 9"; "point 10"; "point 11"|])
+    sternary.Marker <- ScatterTernaryMarker(
+        Symbol = Symbol.``100``,
+        Color = "#DB7365",
+        Size = 14,
+        Line = ScatterTernaryMarkerLine(
+            Width = 2
+        )
     )
 
     let sternaryLayout = Layout()
     sternaryLayout.Ternary <- LayoutTernary(
-        Sum = 100
+        Sum = 100,
+        Aaxis = LayoutTernaryAAxis(
+            Title = LegendGroupTitle(
+                Text = "Journalist",
+                Font = Font(
+                    Size = 20
+                )
+            ),
+            Tickangle = 0,
+            Tickfont = Font(
+                Size = 15,
+                Color = "rgba(0,0,0,0)"
+            ),
+            Ticklen = 5,
+            Showline = true,
+            Showgrid = true
+        ),
+        Baxis = LayoutTernaryAAxis(
+            Title = LegendGroupTitle(
+                Text = "<br>Developer",
+                Font = Font(
+                    Size = 20
+                )
+            ),
+            Tickangle = 45,
+            Tickfont = Font(
+                Size = 15,
+                Color = "rgba(0,0,0,0)"
+            ),
+            Ticklen = 5,
+            Showline = true,
+            Showgrid = true
+        ),
+        Caxis = LayoutTernaryAAxis(
+            Title = LegendGroupTitle(
+                Text = "<br>Designer",
+                Font = Font(
+                    Size = 20
+                )
+            ),
+            Tickangle = -45,
+            Tickfont = Font(
+                Size = 15,
+                Color = "rgba(0,0,0,0)"
+            ),
+            Ticklen = 5,
+            Showline = true,
+            Showgrid = true
+        ),
+        Bgcolor = "#fff1e0"
     )
     sternaryLayout.Showlegend <- false
     sternaryLayout.Width <- 700
+    sternaryLayout.Paper_bgcolor <- "#fff1e0"
 
     let splom = SplomOptions()
     splom.Dimensions <- SplomDimensions(
@@ -837,9 +893,9 @@ module Client =
     barpolar1.R <- [|57.5; 50.0; 45.0; 35.0; 20.0; 22.5; 37.5; 55.0|]
     barpolar1.Name <- "8-11 m/s"
     barpolar1.Marker <- BarPolarMarker(
-        Color = "rgb(158,154,200)"
+        Color = "red"
     )
-    barpolar1.Text <- Union2Of2[|
+    barpolar1.Theta <- [|
         "North";"N-E";"East";"S-E";
         "South";"S-W";"West";"N-W"
        |]
@@ -847,12 +903,45 @@ module Client =
     barpolar2.R <- [|40.0; 30.0; 30.0; 35.0; 7.5; 7.5; 32.5; 40.0|]
     barpolar2.Name <- "5-8 m/s"
     barpolar2.Marker <- BarPolarMarker(
-        Color = "rgb(203,201,226)"
+        Color = "blue"
     )
-    barpolar2.Text <- Union2Of2[|
+    barpolar2.Theta <- [|
         "North";"N-E";"East";"S-E";
         "South";"S-W";"West";"N-W"
        |]
+
+    let barpolarLayout = Layout()
+    barpolarLayout.Title <- LayoutTitle(
+        Text = "Wind Speed Distribution in Laurel, NE",
+        Font = Font(
+            Size = 16
+        )
+    )
+    barpolarLayout.Legend <- LayoutLegend(
+        Font = Font(
+            Size = 16
+        )
+    )
+    barpolarLayout.Bargap <- 0
+    barpolarLayout.Polar <- LayoutPolar(
+        Radialaxis = LayoutPolarRadialAxis(
+            Ticksuffix = "%",
+            Angle = 45,
+            Dtick = 20
+        ),
+        Angularaxis = LayoutPolarAngularAxis(
+            Direction = LayoutRadialAxisSide.Clockwise
+        )
+    )
+
+    let barpolar = BarPolarOptions()
+    barpolar.R <- [|3; 2; 5; 1; 2|]
+    barpolar.Ids <- [|"Strength"; "Intelligence"; "Dexterity"; "Wisdom"; "Stealth"|]
+    barpolar.Theta <- [|108.0; 180.0; 252.0; 324.0; 396.0|]
+    barpolar.Width <- 72
+    barpolar.Marker <- BarPolarMarker(
+        Color = [|"red"; "green"; "blue"; "orange"; "pink"|]
+    )
 
     let option2 = Options()
     option2.Locale <- Locale.RU
@@ -904,10 +993,7 @@ module Client =
     let surfaceChart = Plotly.Plotly.NewPlot("surfacechartDiv", [|surface|], surfaceLayout)
     let scatterMBChart = Plotly.Plotly.NewPlot("scattermbchartDiv", [|scattermb|], scatterMBLayout)
     let choroplethMBChart = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], choroplethMBLayout, null)
-
-
-
-    //Console.Log(Tests)
+    let barpolarChart = Plotly.Plotly.NewPlot("barpolarchartDiv", [|barpolar1; barpolar2|], barpolarLayout)
 
     [<SPAEntryPoint>]
     let Main () =
@@ -1002,6 +1088,8 @@ module Client =
             div [attr.id "treemapchartDiv"] []
             h2 [] [text "Icicle chart"]
             div [attr.id "iciclechartDiv"] []
+            h2 [] [text "Bar Polar chart"]
+            div [attr.id "barpolarchartDiv"] []
         ]
         |> Doc.RunById "main"
         scatterChart |> ignore
@@ -1048,3 +1136,4 @@ module Client =
         sunBurstChart |> ignore
         treeMapChart |> ignore
         icicleChart |> ignore
+        barpolarChart |> ignore

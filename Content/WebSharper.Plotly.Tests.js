@@ -2197,7 +2197,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
    type:"choropleth"
   };
   Client.choropleth().locationmode="country names";
-  Client.choropleth().locations=["Montreal","Toronto","Vancouver","Calgary","Edmonton","Ottawa","Halifax","Victoria","Winnepeg","Regina"];
+  Client.choropleth().locations=["Brazil","Canada","Indonesia","Australia","Japan","France","Norway","Egypt","South Africa","Mongolia"];
   Client.choropleth().z=[234,234,23,235,45,23,23,5,24,234];
   Client.choropleth().text=["a","b","c","d","e","f","g","h","i","j"];
   Client.choropleth().autocolorscale=true;

@@ -14,9 +14,7 @@
     <Copy SourceFiles="index.html" DestinationFolder="$(OutputDirectory)" />
   </Target>
   <ItemGroup>
-    <Reference Include="WebSharper.Plotly">
-      <HintPath>..\WebSharper.Plotly\bin\Debug\netstandard2.0\WebSharper.Plotly.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="../WebSharper.Plotly/WebSharper.Plotly.fsproj" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

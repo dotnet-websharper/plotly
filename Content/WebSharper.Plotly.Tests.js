@@ -2731,6 +2731,13 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
    }),c):c;
   };
  };
+ View.Map=function(fn,a)
+ {
+  return View.CreateLazy(function()
+  {
+   return Snap.Map(fn,a());
+  });
+ };
  DomUtility.ParseHTMLIntoFakeRoot=function(elem)
  {
   var root,tag,m,p,w;
@@ -3301,6 +3308,22 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
    }
   else
    void 0;
+ };
+ Snap.Map=function(fn,sn)
+ {
+  var m,res;
+  m=sn.s;
+  return m!=null&&m.$==0?Snap.New({
+   $:0,
+   $0:fn(m.$0)
+  }):(res=Snap.New({
+   $:3,
+   $0:[],
+   $1:[]
+  }),(Snap.When(sn,function(a)
+  {
+   Snap.MarkDone(res,sn,fn(a));
+  },res),res));
  };
  SC$3.$cctor=function()
  {
@@ -4629,22 +4652,32 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
   var g,s,g$1,s$1,g$2,s$2,g$3,s$3,g$4,s$4;
   SC$5.$cctor=Global.ignore;
   SC$5.EmptyAttr=null;
-  SC$5.BoolCheckedApply=Runtime.Curried3(function(_var,el,cb)
+  SC$5.BoolCheckedApply=function(_var)
   {
-   return[el(function(el$1)
+   function set(el,v)
    {
-    el$1.addEventListener("change",function()
+    return v!=null&&v.$==1?void(el.checked=v.$0):null;
+   }
+   return[function(el)
+   {
+    el.addEventListener("change",function()
     {
-     return!Unchecked.Equals(_var.Get(),el$1.checked)?_var.Set(el$1.checked):null;
+     return!Unchecked.Equals(_var.Get(),el.checked)?_var.Set(el.checked):null;
     });
-   }),cb(function(el$1)
+   },function($1)
    {
-    return function(v)
+    return function($2)
     {
-     el$1.checked=v;
+     return set($1,$2);
     };
-   })];
-  });
+   },View.Map(function(a)
+   {
+    return{
+     $:1,
+     $0:a
+    };
+   },_var.get_View())];
+  };
   SC$5.StringSet=function(el)
   {
    return function(s$5)
@@ -4659,10 +4692,10 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
     $0:el.value
    };
   };
-  SC$5.StringApply=(g=BindVar.StringGet(),(s=BindVar.StringSet(),Runtime.Curried(BindVar.ApplyValue,3,[g,function($1,$2)
+  SC$5.StringApply=(g=BindVar.StringGet(),(s=BindVar.StringSet(),function(v)
   {
-   return(s($1))($2);
-  }])));
+   return BindVar.ApplyValue(g,s,v);
+  }));
   SC$5.IntSetUnchecked=function(el)
   {
    return function(i)
@@ -4682,10 +4715,10 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
     $0:pd
    });
   };
-  SC$5.IntApplyUnchecked=(g$1=BindVar.IntGetUnchecked(),(s$1=BindVar.IntSetUnchecked(),Runtime.Curried(BindVar.ApplyValue,3,[g$1,function($1,$2)
+  SC$5.IntApplyUnchecked=(g$1=BindVar.IntGetUnchecked(),(s$1=BindVar.IntSetUnchecked(),function(v)
   {
-   return(s$1($1))($2);
-  }])));
+   return BindVar.ApplyValue(g$1,s$1,v);
+  }));
   SC$5.IntSetChecked=function(el)
   {
    return function(i)
@@ -4726,10 +4759,10 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
     }))
    };
   };
-  SC$5.IntApplyChecked=(g$2=BindVar.IntGetChecked(),(s$2=BindVar.IntSetChecked(),Runtime.Curried(BindVar.ApplyValue,3,[g$2,function($1,$2)
+  SC$5.IntApplyChecked=(g$2=BindVar.IntGetChecked(),(s$2=BindVar.IntSetChecked(),function(v)
   {
-   return(s$2($1))($2);
-  }])));
+   return BindVar.ApplyValue(g$2,s$2,v);
+  }));
   SC$5.FloatSetUnchecked=function(el)
   {
    return function(i)
@@ -4749,10 +4782,10 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
     $0:pd
    });
   };
-  SC$5.FloatApplyUnchecked=(g$3=BindVar.FloatGetUnchecked(),(s$3=BindVar.FloatSetUnchecked(),Runtime.Curried(BindVar.ApplyValue,3,[g$3,function($1,$2)
+  SC$5.FloatApplyUnchecked=(g$3=BindVar.FloatGetUnchecked(),(s$3=BindVar.FloatSetUnchecked(),function(v)
   {
-   return(s$3($1))($2);
-  }])));
+   return BindVar.ApplyValue(g$3,s$3,v);
+  }));
   SC$5.FloatSetChecked=function(el)
   {
    return function(i)
@@ -4784,10 +4817,10 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
     }))
    };
   };
-  SC$5.FloatApplyChecked=(g$4=BindVar.FloatGetChecked(),(s$4=BindVar.FloatSetChecked(),Runtime.Curried(BindVar.ApplyValue,3,[g$4,function($1,$2)
+  SC$5.FloatApplyChecked=(g$4=BindVar.FloatGetChecked(),(s$4=BindVar.FloatSetChecked(),function(v)
   {
-   return(s$4($1))($2);
-  }])));
+   return BindVar.ApplyValue(g$4,s$4,v);
+  }));
  };
  SC$6.$cctor=function()
  {
@@ -4868,31 +4901,44 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
   return SC$9.Empty;
  };
  Var=UI.Var=Runtime.Class({},Obj,Var);
- BindVar.ApplyValue=function(get,set,_var,el,cb)
+ BindVar.ApplyValue=function(get,set,_var)
  {
-  return[el(function(el$1)
+  var expectedValue;
+  function f(a,o)
+  {
+   return o==null?null:a(o.$0);
+  }
+  expectedValue=null;
+  return[function(el)
   {
    function onChange()
    {
     _var.UpdateMaybe(function(v)
     {
-     var m,$1;
-     m=get(el$1);
-     return m!=null&&m.$==1&&(!Unchecked.Equals(m.$0,v)&&($1=[m,m.$0],true))?$1[0]:null;
+     var $1;
+     expectedValue=get(el);
+     return expectedValue!=null&&expectedValue.$==1&&(!Unchecked.Equals(expectedValue.$0,v)&&($1=[expectedValue,expectedValue.$0],true))?$1[0]:null;
     });
    }
-   el$1.addEventListener("change",onChange);
-   el$1.addEventListener("input",onChange);
-   el$1.addEventListener("keypress",onChange);
-  }),cb(function(el$1)
+   el.addEventListener("change",onChange);
+   el.addEventListener("input",onChange);
+   el.addEventListener("keypress",onChange);
+  },function(x)
   {
-   return function(v)
+   var $1;
+   $1=set(x);
+   return function($2)
    {
-    var m,$1;
-    m=get(el$1);
-    return m!=null&&m.$==1&&(Unchecked.Equals(m.$0,v)&&($1=m.$0,true))?null:set(el$1,v);
+    return f($1,$2);
    };
-  })];
+  },View.Map(function(v)
+  {
+   var $1;
+   return expectedValue!=null&&expectedValue.$==1&&(Unchecked.Equals(expectedValue.$0,v)&&($1=expectedValue.$0,true))?null:{
+    $:1,
+    $0:v
+   };
+  },_var.get_View())];
  };
  BindVar.StringSet=function()
  {

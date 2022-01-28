@@ -2,10 +2,10 @@
 namespace System
 open System.Reflection
 
-[<assembly: AssemblyVersionAttribute("5.0.0.0")>]
-[<assembly: AssemblyFileVersionAttribute("5.0.0.1")>]
+[<assembly: AssemblyVersionAttribute("6.0.0.0")>]
+[<assembly: AssemblyFileVersionAttribute("6.0.0.1")>]
 do ()
 
 module internal AssemblyVersionInformation =
-    let [<Literal>] AssemblyVersion = "5.0.0.0"
-    let [<Literal>] AssemblyFileVersion = "5.0.0.1"
+    let [<Literal>] AssemblyVersion = "6.0.0.0"
+    let [<Literal>] AssemblyFileVersion = "6.0.0.1"

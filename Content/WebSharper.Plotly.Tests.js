@@ -468,20 +468,20 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
  Date=Global.Date;
  Client.Main=function()
  {
-  var a;
-  a=Doc.Element("div",[AttrModule.OnAfterRender(function()
+  var _;
+  _=Doc.Element("div",[AttrModule.OnAfterRender(function()
   {
-   var b;
+   var _$1;
    List.iter(function(x)
    {
     x();
    },List.ofArray([Client.scatterChart,Client.pieChart,Client.barChart,Client.heatMapChart,Client.tableChart,Client.contourChart,Client.imageChart,Client.boxChart,Client.hgChart,Client.hg2dChart,Client.hg2dContChart,Client.violinChart,Client.candleStickChart,Client.funnelChart,Client.funnelAreaChart,Client.indicatorChart,Client.ohlcChart,Client.waterfallChart,Client.choroplethChart,Client.scatterGeoChart,Client.carpetChart,Client.isoSurfaceChart,Client.ccarpetChart,Client.parcatsChart,Client.sankeyChart,Client.scarpetChart,Client.spolarChart,Client.sternaryChart,Client.sunBurstChart,Client.treeMapChart,Client.icicleChart,Client.barpolarChart]));
-   Concurrency.Start((b=null,Concurrency.Delay(function()
+   Concurrency.Start((_$1=null,Concurrency.Delay(function()
    {
     return Concurrency.Bind(Concurrency.Sequential(List.map(function(renderer)
     {
-     var b$1;
-     b$1=null;
+     var _$2;
+     _$2=null;
      return Concurrency.Delay(function()
      {
       renderer();
@@ -497,7 +497,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
    })),null);
   })],[Doc.Element("h1",[],[Doc.TextNode("Plotly Js sample site")]),Doc.Element("h2",[],[Doc.TextNode("Scatter chart")]),Doc.Element("div",[AttrProxy.Create("id","scatterchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("ScatterGL chart")]),Doc.Element("div",[AttrProxy.Create("id","scatterglchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Pie chart")]),Doc.Element("div",[AttrProxy.Create("id","piechartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Bar chart")]),Doc.Element("div",[AttrProxy.Create("id","barchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Heatmap chart")]),Doc.Element("div",[AttrProxy.Create("id","heatmapchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Table chart")]),Doc.Element("div",[AttrProxy.Create("id","tablechartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("HeatMapGL chart")]),Doc.Element("div",[AttrProxy.Create("id","heatmapglchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Contour chart")]),Doc.Element("div",[AttrProxy.Create("id","contourchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Image chart")]),Doc.Element("div",[AttrProxy.Create("id","imagechartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Box chart")]),Doc.Element("div",[AttrProxy.Create("id","boxchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Histogram chart")]),Doc.Element("div",[AttrProxy.Create("id","hgchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Histogram2D chart")]),Doc.Element("div",[AttrProxy.Create("id","hg2dchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Histogram2DContour chart")]),Doc.Element("div",[AttrProxy.Create("id","hg2dcontchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Violin chart")]),Doc.Element("div",[AttrProxy.Create("id","violinchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("CandleStick chart")]),Doc.Element("div",[AttrProxy.Create("id","candlestickchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Funnel chart")]),Doc.Element("div",[AttrProxy.Create("id","funnelchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("FunnelArea chart")]),Doc.Element("div",[AttrProxy.Create("id","funnelareachartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Indicator chart")]),Doc.Element("div",[AttrProxy.Create("id","indicatorchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("OHLC chart")]),Doc.Element("div",[AttrProxy.Create("id","ohlcchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Waterfall chart")]),Doc.Element("div",[AttrProxy.Create("id","waterfallchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Choropleth chart")]),Doc.Element("div",[AttrProxy.Create("id","choroplethchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("ChoroplethMB chart")]),Doc.Element("div",[AttrProxy.Create("id","choroplethmbchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("DensityMB chart")]),Doc.Element("div",[AttrProxy.Create("id","densitymbchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("ScatterGeo chart")]),Doc.Element("div",[AttrProxy.Create("id","scattergeochartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("ScatterMB chart")]),Doc.Element("div",[AttrProxy.Create("id","scattermbchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Cone chart")]),Doc.Element("div",[AttrProxy.Create("id","conechartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Carpet chart")]),Doc.Element("div",[AttrProxy.Create("id","carpetchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("ISOSurface chart")]),Doc.Element("div",[AttrProxy.Create("id","isochartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Mesh chart")]),Doc.Element("div",[AttrProxy.Create("id","meshchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Scatter3D chart")]),Doc.Element("div",[AttrProxy.Create("id","scatter3dchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("StreamTube chart")]),Doc.Element("div",[AttrProxy.Create("id","streamtubechartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Surface chart")]),Doc.Element("div",[AttrProxy.Create("id","surfacechartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("ContourCarpet chart")]),Doc.Element("div",[AttrProxy.Create("id","ccarpetchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Parallel Categories chart")]),Doc.Element("div",[AttrProxy.Create("id","parcatschartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Parallel Coordinates chart")]),Doc.Element("div",[AttrProxy.Create("id","parcoordschartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Sankey chart")]),Doc.Element("div",[AttrProxy.Create("id","sankeychartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("ScatterCarpet chart")]),Doc.Element("div",[AttrProxy.Create("id","scarpetchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("ScatterPolar chart")]),Doc.Element("div",[AttrProxy.Create("id","spolarchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("ScatterPolarGL chart")]),Doc.Element("div",[AttrProxy.Create("id","spolarglchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("ScatterTernary chart")]),Doc.Element("div",[AttrProxy.Create("id","sternarychartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Splom chart")]),Doc.Element("div",[AttrProxy.Create("id","splomchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("SunBurst chart")]),Doc.Element("div",[AttrProxy.Create("id","sunburstchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("TreeMap chart")]),Doc.Element("div",[AttrProxy.Create("id","treemapchartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Icicle chart")]),Doc.Element("div",[AttrProxy.Create("id","iciclechartDiv")],[]),Doc.Element("h2",[],[Doc.TextNode("Bar Polar chart")]),Doc.Element("div",[AttrProxy.Create("id","barpolarchartDiv")],[])]);
   Templates.LoadLocalTemplates("");
-  Doc.RunById("main",a);
+  Doc.RunById("main",_);
  };
  Client.scatterChart=function()
  {
@@ -3626,8 +3626,8 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
  };
  Docs.PerformAnimatedUpdate=function(childrenOnly,st,doc)
  {
-  var b;
-  return An.get_UseAnimations()?(b=null,Concurrency.Delay(function()
+  var _;
+  return An.get_UseAnimations()?(_=null,Concurrency.Delay(function()
   {
    var cur,change,enter;
    cur=NodeSet.FindAll(doc);
@@ -4241,8 +4241,8 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
  };
  An.Play=function(anim)
  {
-  var b;
-  b=null;
+  var _;
+  _=null;
   return Concurrency.Delay(function()
   {
    return Concurrency.Bind(An.Run(Global.ignore,Anims.Actions(anim)),function()
@@ -4306,8 +4306,8 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
   var st;
   function work()
   {
-   var b;
-   b=null;
+   var _;
+   _=null;
    return Concurrency.Delay(function()
    {
     return Concurrency.Bind(procAsync,function()

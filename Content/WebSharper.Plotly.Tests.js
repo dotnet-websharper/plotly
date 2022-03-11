@@ -22,7 +22,7 @@
     }
   }
 
-  Global.IntelliFactory = {
+  Global.WebSharper = {
     Runtime: {
       Ctor: function (ctor, typeFunction) {
         ctor.prototype = typeFunction.prototype;
@@ -179,7 +179,7 @@
               invokes.push(del);
           }
         }
-        return IntelliFactory.Runtime.CreateDelegate(invokes);
+        return WebSharper.Runtime.CreateDelegate(invokes);
       },
 
       DelegateEqual: function (d1, d2) {
@@ -249,7 +249,7 @@
             return f.apply(null, allArgs);
           if (n == 2)
             return function (a) { return f.apply(null, allArgs.concat([a === void (0) ? null : a])); }
-          return IntelliFactory.Runtime.Curried(f, n - 1, allArgs);
+          return WebSharper.Runtime.Curried(f, n - 1, allArgs);
         }
       },
 
@@ -278,6 +278,16 @@
         if (!optional) {
           throw new Error("Type not expected for creating Choice value.");
         }
+      },
+
+      MarkResizable: function (arr) {
+        Object.defineProperty(arr, "resizable", { enumerable: false, writable: false, configurable: false, value: true });
+        return arr;
+      },
+
+      MarkReadOnly: function (arr) {
+        Object.defineProperty(arr, "readonly", { enumerable: false, writable: false, configurable: false, value: true });
+        return arr;
       },
 
       ScriptBasePath: "./",
@@ -309,7 +319,7 @@
     }
   }
 
-  Global.IntelliFactory.Runtime.OnLoad(function () {
+  Global.WebSharper.Runtime.OnLoad(function () {
     if (Global.WebSharper && WebSharper.Activator && WebSharper.Activator.Activate)
       WebSharper.Activator.Activate()
   });
@@ -371,7 +381,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
 (function(Global)
 {
  "use strict";
- var WebSharper,Plotly,Tests,Client,Operators,List,Obj,UI,HtmlModule,attr,AttrModule,T,Arrays,Unchecked,JavaScript,Pervasives,Concurrency,Doc,AttrProxy,Client$1,Templates,SC$1,AsyncBody,JS,Object,CT,SC$2,View,DomUtility,Attrs,EventTarget,Node,Collections,Dictionary,Trace,Scheduler,Error,OperationCanceledException,Enumerator,CancellationTokenSource,Snap,SC$3,HashSet,Seq,WindowOrWorkerGlobalScope,Docs,Elt,Array,DocElemNode,CharacterData,DictionaryUtil,Prepare,Slice,KeyCollection,Numeric,An,Settings,Abbrev,Mailbox,Updates,T$1,Attrs$1,Dyn,Strings,Docs$1,RunState,NodeSet,Anims,SC$4,Fresh,SC$5,SC$6,SC$7,AppendList,Var,BindVar,String,CheckedInput,Easing,HashSet$1,HashSetUtil,SC$8,Char,DomNodes,Lazy,SC$9,Queue,LazyExtensionsProxy,LazyRecord,Plotly$1,IntelliFactory,Runtime,console,Date;
+ var WebSharper,Plotly,Tests,Client,Operators,List,Obj,UI,HtmlModule,attr,AttrModule,T,Arrays,Unchecked,JavaScript,Pervasives,Concurrency,Doc,AttrProxy,Client$1,Templates,SC$1,AsyncBody,Object,CT,SC$2,View,DomUtility,Attrs,EventTarget,Node,Collections,Dictionary,Trace,Scheduler,Error,OperationCanceledException,Enumerator,CancellationTokenSource,Snap,SC$3,HashSet,Seq,WindowOrWorkerGlobalScope,Docs,Elt,Array,DocElemNode,CharacterData,DictionaryUtil,Prepare,Slice,KeyCollection,Numeric,An,Settings,Abbrev,Mailbox,Updates,T$1,Attrs$1,Dyn,Strings,Docs$1,RunState,NodeSet,Anims,SC$4,Fresh,SC$5,SC$6,SC$7,AppendList,Var,BindVar,String,CheckedInput,Easing,HashSet$1,SC$8,Char,DomNodes,Lazy,HashSetUtil,SC$9,Queue,LazyExtensionsProxy,LazyRecord,Plotly$1,Runtime,console,Date;
  WebSharper=Global.WebSharper=Global.WebSharper||{};
  Plotly=WebSharper.Plotly=WebSharper.Plotly||{};
  Tests=Plotly.Tests=Plotly.Tests||{};
@@ -395,7 +405,6 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
  Templates=Client$1.Templates=Client$1.Templates||{};
  SC$1=Global.StartupCode$WebSharper_Plotly_Tests$Client=Global.StartupCode$WebSharper_Plotly_Tests$Client||{};
  AsyncBody=Concurrency.AsyncBody=Concurrency.AsyncBody||{};
- JS=JavaScript.JS=JavaScript.JS||{};
  Object=Global.Object;
  CT=Concurrency.CT=Concurrency.CT||{};
  SC$2=Global.StartupCode$WebSharper_Main$Concurrency=Global.StartupCode$WebSharper_Main$Concurrency||{};
@@ -452,18 +461,17 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
  CheckedInput=UI.CheckedInput=UI.CheckedInput||{};
  Easing=UI.Easing=UI.Easing||{};
  HashSet$1=Abbrev.HashSet=Abbrev.HashSet||{};
- HashSetUtil=Collections.HashSetUtil=Collections.HashSetUtil||{};
  SC$8=Global.StartupCode$WebSharper_UI$Abbrev=Global.StartupCode$WebSharper_UI$Abbrev||{};
  Char=WebSharper.Char=WebSharper.Char||{};
  DomNodes=Docs$1.DomNodes=Docs$1.DomNodes||{};
  Lazy=WebSharper.Lazy=WebSharper.Lazy||{};
+ HashSetUtil=Collections.HashSetUtil=Collections.HashSetUtil||{};
  SC$9=Global.StartupCode$WebSharper_UI$AppendList=Global.StartupCode$WebSharper_UI$AppendList||{};
  Queue=WebSharper.Queue=WebSharper.Queue||{};
  LazyExtensionsProxy=WebSharper.LazyExtensionsProxy=WebSharper.LazyExtensionsProxy||{};
  LazyRecord=LazyExtensionsProxy.LazyRecord=LazyExtensionsProxy.LazyRecord||{};
  Plotly$1=Global.Plotly;
- IntelliFactory=Global.IntelliFactory;
- Runtime=IntelliFactory&&IntelliFactory.Runtime;
+ Runtime=WebSharper&&WebSharper.Runtime;
  console=Global.console;
  Date=Global.Date;
  Client.Main=function()
@@ -1118,10 +1126,6 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
     m=e.s;
     return m.$==0?false:(e.c=m.$0,e.s=m.$1,true);
    },void 0);
-  },
-  GetEnumerator0:function()
-  {
-   return Enumerator.Get(this);
   }
  },null,T);
  T.Empty=new T({
@@ -1722,8 +1726,8 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
      }),o]);
      if(m[0])
       {
-       instantiated.Add(name$2);
-       rawTpls.Remove(name$2);
+       instantiated.SAdd(name$2);
+       rawTpls.RemoveKey(name$2);
        Templates.PrepareTemplateStrict(baseName,{
         $:1,
         $0:name$2
@@ -1754,7 +1758,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
   }
   instantiated=new HashSet.New$3();
   while(rawTpls.count>0)
-   prepareTemplate(Seq.head(rawTpls.get_Keys()));
+   prepareTemplate(Seq.head(rawTpls.Keys()));
  };
  Templates.LoadedTemplates=function()
  {
@@ -1847,12 +1851,12 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
        {
         if(instBaseName===""&&prepareLocalTemplate!=null)
          prepareLocalTemplate.$0(instName);
-        d=Templates.LoadedTemplates().get_Item(instBaseName);
+        d=Templates.LoadedTemplates().Item(instBaseName);
         if(!d.ContainsKey(instName))
          return Prepare.failNotLoaded(instName);
         else
          {
-          t=d.get_Item(instName);
+          t=d.Item(instName);
           instance=t.cloneNode(true);
           usedHoles=new HashSet.New$3();
           mappings=new Dictionary.New$5();
@@ -1860,13 +1864,13 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
           for(i=0,$3=attrs.length-1;i<=$3;i++){
            name$3=attrs.item(i).name.toLowerCase();
            mappings.set_Item(name$3,(m$1=attrs.item(i).nodeValue,m$1===""?name$3:m$1.toLowerCase()));
-           if(!usedHoles.Add(name$3))
+           if(!usedHoles.SAdd(name$3))
             console.warn("Hole mapped twice",name$3);
           }
           for(i$1=0,$4=$1.childNodes.length-1;i$1<=$4;i$1++){
            n=$1.childNodes[i$1];
            if(Unchecked.Equals(n.nodeType,Node.ELEMENT_NODE))
-            !usedHoles.Add(n.nodeName.toLowerCase())?console.warn("Hole filled twice",instName):void 0;
+            !usedHoles.SAdd(n.nodeName.toLowerCase())?console.warn("Hole filled twice",instName):void 0;
           }
           singleTextFill=$1.childNodes.length===1&&Unchecked.Equals($1.firstChild.nodeType,Node.TEXT_NODE);
           if(singleTextFill)
@@ -1883,7 +1887,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
             {
              return function(a)
              {
-              return usedHoles$1.Add(a);
+              return usedHoles$1.SAdd(a);
              };
             }(usedHoles),function(x$1)
             {
@@ -2496,13 +2500,6 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
    ct:ct
   };
  };
- JS.GetFieldValues=function(o)
- {
-  var r,k;
-  r=[];
-  for(var k$1 in o)r.push(o[k$1]);
-  return r;
- };
  Arrays.ofSeq=function(xs)
  {
   var q,o;
@@ -2628,10 +2625,6 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
     q.push(m.$0);
   }
   return q;
- };
- Arrays.concat=function(xs)
- {
-  return Global.Array.prototype.concat.apply([],Arrays.ofSeq(xs));
  };
  Arrays.create=function(size,value)
  {
@@ -2960,11 +2953,11 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
     }:null;
    },d),v!=null&&v.$==1&&(res.set(v.$0),true));
   },
-  Remove:function(k)
+  RemoveKey:function(k)
   {
    return this.remove(k);
   },
-  get_Keys:function()
+  Keys:function()
   {
    return new KeyCollection.New(this);
   },
@@ -3008,7 +3001,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
     return!$this.equals.apply(null,[(Operators.KeyValue(a))[0],k]);
    },d),Arrays.length(r)<d.length&&(this.count=this.count-1,this.data[h]=r,true));
   },
-  get_Item:function(k)
+  Item:function(k)
   {
    return this.get(k);
   },
@@ -3026,14 +3019,6 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
      $0:a$1[1]
     }:null;
    },d);
-  },
-  GetEnumerator:function()
-  {
-   return Enumerator.Get0(this);
-  },
-  GetEnumerator0:function()
-  {
-   return Enumerator.Get0(Arrays.concat(JS.GetFieldValues(this.data)));
   }
  },Obj,Dictionary);
  Dictionary.New$5=Runtime.Ctor(function()
@@ -3139,10 +3124,6 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
    i=e.s;
    return i<s.length&&(e.c=s[i],e.s=i+1,true);
   },void 0);
- };
- Enumerator.Get0=function(x)
- {
-  return x instanceof Global.Array?Enumerator.ArrayEnumerator(x):Unchecked.Equals(typeof x,"string")?Enumerator.StringEnumerator(x):"GetEnumerator0"in x?x.GetEnumerator0():x.GetEnumerator();
  };
  CancellationTokenSource=WebSharper.CancellationTokenSource=Runtime.Class({},Obj,CancellationTokenSource);
  CancellationTokenSource.New=Runtime.Ctor(function()
@@ -3337,7 +3318,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
   SC$3.RenderedFullDocTemplate=null;
  };
  HashSet=Collections.HashSet=Runtime.Class({
-  Add:function(item)
+  SAdd:function(item)
   {
    return this.add(item);
   },
@@ -3382,7 +3363,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
      e.Dispose();
    }
   },
-  get_Count:function()
+  Count:function()
   {
    return this.count;
   },
@@ -3425,14 +3406,6 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
     else
      i=i+1;
    return!c;
-  },
-  GetEnumerator:function()
-  {
-   return Enumerator.Get(HashSetUtil.concat(this.data));
-  },
-  GetEnumerator0:function()
-  {
-   return Enumerator.Get(HashSetUtil.concat(this.data));
   }
  },Obj,HashSet);
  HashSet.New$3=Runtime.Ctor(function()
@@ -3788,13 +3761,10 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
          if(doc!=null&&doc.$==6)
           {
            t=doc.$0;
-           Arrays.iter(function(c)
+           Arrays.iter(function(h)
            {
-            return function(e)
-            {
-             Docs.SyncElemNode(c,e);
-            };
-           }(false),t.Holes);
+            Docs.SyncElemNode(false,h);
+           },t.Holes);
            Arrays.iter(function(t$1)
            {
             Attrs.Sync(t$1[0],t$1[1]);
@@ -4209,23 +4179,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
  {
   return Operators.FailWith("The input sequence has an insufficient number of elements.");
  };
- KeyCollection=Collections.KeyCollection=Runtime.Class({
-  GetEnumerator$1:function()
-  {
-   return Enumerator.Get(Seq.map(function(kvp)
-   {
-    return kvp.K;
-   },this.d));
-  },
-  GetEnumerator:function()
-  {
-   return this.GetEnumerator$1();
-  },
-  GetEnumerator0:function()
-  {
-   return this.GetEnumerator$1();
-  }
- },Obj,KeyCollection);
+ KeyCollection=Collections.KeyCollection=Runtime.Class({},Obj,KeyCollection);
  KeyCollection.New=Runtime.Ctor(function(d)
  {
   Obj.New.call(this);
@@ -4364,11 +4318,14 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
   },
   MoveNext:function()
   {
-   return this.n(this);
+   var m;
+   m=this.n(this);
+   this.e=m?1:2;
+   return m;
   },
   Current:function()
   {
-   return this.c;
+   return this.e===1?this.c:this.e===0?Operators.FailWith("Enumeration has not started. Call MoveNext."):Operators.FailWith("Enumeration already finished.");
   }
  },Obj,T$1);
  T$1.New=Runtime.Ctor(function(s,c,n,d)
@@ -4378,6 +4335,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
   this.c=c;
   this.n=n;
   this.d=d;
+  this.e=0;
  },T$1);
  Dyn.New=function(DynElem,DynFlags,DynNodes,OnAfterRender)
  {
@@ -4389,27 +4347,6 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
   };
   Runtime.SetOptional($1,"OnAfterRender",OnAfterRender);
   return $1;
- };
- Snap.Obsolete=function(sn)
- {
-  var $1,m,i,$2,o;
-  m=sn.s;
-  if(m==null||(m!=null&&m.$==2?($1=m.$1,false):m!=null&&m.$==3?($1=m.$1,false):true))
-   void 0;
-  else
-   {
-    sn.s=null;
-    for(i=0,$2=Arrays.length($1)-1;i<=$2;i++){
-     o=Arrays.get($1,i);
-     if(typeof o=="object")
-      (function(sn$1)
-      {
-       Snap.Obsolete(sn$1);
-      }(o));
-     else
-      o();
-    }
-   }
  };
  Snap.New=function(State)
  {
@@ -4583,9 +4520,9 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
   return m===0?Anims.Const():m===1?Arrays.get(xs$1,0):(dur=Seq.max(Seq.map(function(anim)
   {
    return anim.Duration;
-  },xs$1)),(xs$2=Arrays.map(function(a)
+  },xs$1)),(xs$2=Arrays.map(function(x)
   {
-   return Anims.Prolong(dur,a);
+   return Anims.Prolong(dur,x);
   },xs$1),Anims.Def(dur,function(t)
   {
    Arrays.iter(function(anim)
@@ -5026,7 +4963,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
  HashSet$1.ToArray=function(set)
  {
   var arr;
-  arr=Arrays.create(set.get_Count(),void 0);
+  arr=Arrays.create(set.Count(),void 0);
   set.CopyTo(arr);
   return arr;
  };
@@ -5036,13 +4973,6 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
   set=new HashSet.New$2(HashSet$1.ToArray(a));
   set.IntersectWith(HashSet$1.ToArray(b));
   return set;
- };
- HashSetUtil.concat=function(o)
- {
-  var r,k;
-  r=[];
-  for(var k$1 in o)r.push.apply(r,o[k$1]);
-  return r;
  };
  SC$8.$cctor=function()
  {
@@ -5183,6 +5113,13 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
  {
   return this.v;
  };
+ HashSetUtil.concat=function(o)
+ {
+  var r,k;
+  r=[];
+  for(var k$1 in o)r.push.apply(r,o[k$1]);
+  return r;
+ };
  SC$9.$cctor=function()
  {
   SC$9.$cctor=Global.ignore;
@@ -5209,7 +5146,7 @@ if(!p.closest){p.closest=function(s){var e=this;while(e&&e.nodeType==1){if(e.mat
 }(self));
 
 
-if (typeof IntelliFactory !=='undefined') {
-  IntelliFactory.Runtime.ScriptBasePath = '/Content/';
-  IntelliFactory.Runtime.Start();
+if (typeof WebSharper !=='undefined') {
+  WebSharper.Runtime.ScriptBasePath = '/Content/';
+  WebSharper.Runtime.Start();
 }

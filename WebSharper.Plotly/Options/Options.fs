@@ -106,16 +106,10 @@ module OptionsModule =
     let Locale =
         Class "Locale"
 
-    let mutable Resources : CodeModel.NamespaceEntity list = []
-
     let LocaleSetup (s: string) = 
-        let r =
-            Resource (s.ToUpperInvariant() + "CDN") (sprintf "https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.2.1/plotly-locale-%s.min.js" s)
         
-        Resources <- List.append Resources [r]
-
         (s.ToUpperInvariant()) =? TSelf
-        |> Requires [r]
+        |> ImportDefault (sprintf "plotly.js-locales/%s" s)
         |> WithGetterInline (sprintf "'%s'" s)
 
     let localeStrings =

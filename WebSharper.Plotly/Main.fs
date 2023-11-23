@@ -118,16 +118,10 @@ module Definition =
             "toImage" => (T<string> + T<HTMLElement>) * T<obj> ^-> T<HTMLElement>
             "downloadImage" => (T<string> + T<HTMLElement>) * T<obj> ^-> T<HTMLElement>
         ]
+        |> ImportDefault "plotly.js-dist-min"
 
     let Assembly =
         Assembly [
-            Namespace "WebSharper.Plotly.Resources" [
-                yield 
-                    Resource "PlotlyJsCDN" "https://cdn.plot.ly/plotly-2.2.1.min.js"
-                    |> AssemblyWide
-                yield!
-                    OptionsModule.Resources
-            ]
             Namespace "WebSharper.Plotly" (ConcatNamespaceEntities.concatNamespaceEntities [
                 ScatterModule.ScatterTraceNamespaces
                 ScatterGLModule.ScatterGLTraceNamespaces

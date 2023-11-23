@@ -58,5 +58,12 @@
     <Compile Include="Main.fs" />
     <None Include="wsconfig.json" />
   </ItemGroup>
+  <PropertyGroup>
+    <NpmDependencies>
+      <NpmPackage Name="plotly.js-dist-min" Version="gt= 2.26.0 lt 3.0.0" ResolutionStrategy="Max" />
+      <NpmPackage Name="plotly.js-locales" Version="gt= 2.26.0 lt 3.0.0" ResolutionStrategy="Max" />
+    </NpmDependencies>
+  </PropertyGroup>
+  <Import Project="..\paket-files\wsbuild\github.com\dotnet-websharper\build-script\WebSharper.Fake.targets" Condition="Exists('..\paket-files\wsbuild\github.com\dotnet-websharper\build-script\WebSharper.Fake.targets')" />
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

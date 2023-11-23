@@ -8,12 +8,13 @@ repositoryUrl https://github.com/dotnet-websharper/plotly/
 licenseUrl https://github.com/dotnet-websharper/plotly/blob/master/LICENSE.md
 iconUrl https://github.com/dotnet-websharper/core/raw/websharper50/tools/WebSharper.png
 description
-    WebSharper bindings for Plotly.js 2.2.1
+    WebSharper bindings for Plotly.js 2.26+
 tags
     Web JavaScript F# C#
 files
     ../WebSharper.Plotly/bin/Release/netstandard2.0/WebSharper.Plotly.dll ==> lib/netstandard2.0
     ../WebSharper.Plotly/bin/Release/netstandard2.0/WebSharper.Plotly.xml ==> lib/netstandard2.0
+    ../WebSharper.Plotly/WebSharper.Plotly.fsproj ==> src/
 dependencies
     framework: netstandard2.0
             WebSharper ~> LOCKEDVERSION:[3]

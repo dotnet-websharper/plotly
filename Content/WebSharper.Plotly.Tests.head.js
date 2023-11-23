@@ -1,1 +1,1 @@
-document.write("<script src=\"https://cdn.plot.ly/plotly-2.2.1.min.js\" type=\"text/javascript\" charset=\"UTF-8\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.2.1/plotly-locale-fr.min.js\" type=\"text/javascript\" charset=\"UTF-8\"></script><!--[if lte IE 11.0]>\r\n<![endif]-->\r\n<!--[if lte IE 9.0]>\r\n<![endif]-->\r\n")
+document.write("<!--[if lte IE 11.0]>\r\n<![endif]-->\r\n<!--[if lte IE 9.0]>\r\n<![endif]-->\r\n")

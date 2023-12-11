@@ -1,7 +1,4 @@
-import Runtime, { LoadScript, Start as Start_1 } from "./WebSharper.Core.JavaScript/Runtime.js"
-Runtime.ScriptBasePath="/Content/";
-LoadScript("WebSharper.UI/closest.js");
-LoadScript("WebSharper.Main/AnimFrame.js");
+import { Start as Start_1 } from "./WebSharper.Core.JavaScript/Runtime.js"
 import plotly_js_dist_min from "plotly.js-dist-min"
 import { Create as Create_1, Lazy, Force, GetOptional, SetOptional, OnLoad } from "./WebSharper.Core.JavaScript/Runtime.js"
 function isIDisposable(x){

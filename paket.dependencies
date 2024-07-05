@@ -14,4 +14,4 @@ nuget WebSharper.UI prerelease
 
 
 group wsbuild
-    git https://github.com/dotnet-websharper/build-script websharper50
+    git https://github.com/dotnet-websharper/build-script websharper80

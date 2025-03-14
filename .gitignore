@@ -9,3 +9,4 @@
 paket-files/
 build/
 websharper.log
+/WebSharper.Plotly.Tests/node_modules

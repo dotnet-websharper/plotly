@@ -13,6 +13,7 @@ tags
     Web JavaScript F# C#
 files
     ../WebSharper.Plotly/bin/Release/netstandard2.0/WebSharper.Plotly.dll ==> lib/netstandard2.0
+    ../WebSharper.Plotly/bin/Release/netstandard2.0/WebSharper.Plotly.websharper ==> lib/netstandard2.0
     ../WebSharper.Plotly/bin/Release/netstandard2.0/WebSharper.Plotly.xml ==> lib/netstandard2.0
     ../WebSharper.Plotly/WebSharper.Plotly.fsproj ==> src/
 dependencies

@@ -8,7 +8,7 @@ module CommonModule =
     let Trace =
         Class "Trace"
 
-    let NullValue = Pattern.EnumInlines "nullValue" ["null", "null"]
+    let NullValue = Pattern.EnumInlines "nullValue" [("null", "null")]
 
     let Color = T<string> + (T<float> + T<int>) + (!| (!? (NullValue.Type + T<string> + T<float>))) + (!| (!| ((!? (NullValue.Type + T<string> + (T<float> + T<int>)))))) 
 
@@ -602,7 +602,7 @@ module CommonModule =
         Pattern.Config "SelectedTextFont" {
             Required = []
             Optional = [
-                "color", Color
+                ("color", Color)
             ]
         }
 
@@ -619,7 +619,7 @@ module CommonModule =
         Pattern.Config "Root" {
             Required = []
             Optional = [
-                "color", Color
+                ("color", Color)
             ]
         }
 
@@ -824,7 +824,7 @@ module CommonModule =
         Pattern.Config "Leaf" {
             Required = []
             Optional = [
-                "opacity", T<float>
+                ("opacity", T<float>)
             ]
         }
 

@@ -41,7 +41,7 @@ module HG2DContModule =
         Pattern.Config "HG2DContMarker" {
             Required = []
             Optional = [
-                "color", Color + !| Color //data array
+                ("color", Color + !| Color) //data array
             ]
         }  
 

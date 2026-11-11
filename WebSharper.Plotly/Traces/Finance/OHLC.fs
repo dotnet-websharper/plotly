@@ -61,7 +61,7 @@ module OHLCModule =
         Pattern.Config "OHLCCreasing" {
             Required = []
             Optional = [
-                "line", OHLCCreasingLine.Type
+                ("line", OHLCCreasingLine.Type)
             ]
         }
 

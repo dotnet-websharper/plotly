@@ -114,7 +114,7 @@ module SplomModule =
         Pattern.Config "SplomDiagonal" {
             Required = []
             Optional = [
-                "visible", T<bool>
+                ("visible", T<bool>)
             ]
         }
 
@@ -132,7 +132,7 @@ module SplomModule =
         Pattern.Config "SplomSelected" {
             Required = []
             Optional = [
-                "marker", SplomSelectedMarker.Type
+                ("marker", SplomSelectedMarker.Type)
             ]
         }
 

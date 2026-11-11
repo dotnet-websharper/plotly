@@ -69,7 +69,7 @@ module TableModule =
         Pattern.Config "TableFill" {
             Required = []
             Optional = [
-                "color", Color + !| Color
+                ("color", Color + !| Color)
             ]
         }
 

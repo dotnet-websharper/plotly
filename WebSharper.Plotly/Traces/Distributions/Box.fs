@@ -75,7 +75,7 @@ module BoxModule =
         Pattern.Config "BoxSelectedOption" {
             Required = []
             Optional = [
-                "marker", BoxSelectedMarker.Type
+                ("marker", BoxSelectedMarker.Type)
             ]
         }
 

@@ -92,7 +92,7 @@ module FunnelModule =
         Pattern.Config "FunnelTotals" {
             Required = []
             Optional = [
-                "marker", FunnelTotalsMarker.Type
+                ("marker", FunnelTotalsMarker.Type)
             ]
         }
 

@@ -1,8 +1,12 @@
 {
+  "name": "websharper.plotly.sample",
+  "version": "1.0.0",
+  "private": true,
   "devDependencies": {
-    "esbuild": "^0.19.9"
+    "esbuild": "^0.28.1"
   },
   "dependencies": {
-    "plotly.js-dist-min": "^3.0.1"
+    "plotly.js-dist-min": "^4.3.0",
+    "plotly.js-locales": "^4.3.0"
   }
 }

@@ -4,7 +4,7 @@ namespace WebSharper.Plotly.Extension.Traces
 //
 // This file is part of WebSharper
 //
-// Copyright (c) 2008-2018 IntelliFactory
+// Copyright (c) 2008-2026 IntelliFactory
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you
 // may not use this file except in compliance with the License.  You may
@@ -59,7 +59,7 @@ module ChoroplethModule =
         Pattern.Config "ChoroplethSelectedMarker" {
             Required = []
             Optional = [
-                "opacity", T<float>
+                ("opacity", T<float>)
             ]
         }
 
@@ -67,7 +67,7 @@ module ChoroplethModule =
         Pattern.Config "ChoroplethSelectedOption" {
             Required = []
             Optional = [
-                "marker", ChoroplethSelectedMarker.Type
+                ("marker", ChoroplethSelectedMarker.Type)
             ]
         }
 

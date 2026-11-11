@@ -4,7 +4,7 @@ namespace WebSharper.Plotly.Extension.Traces
 //
 // This file is part of WebSharper
 //
-// Copyright (c) 2008-2018 IntelliFactory
+// Copyright (c) 2008-2026 IntelliFactory
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you
 // may not use this file except in compliance with the License.  You may
@@ -26,23 +26,23 @@ open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
 open WebSharper.Plotly.Extension.Common
 
-module DensityMBModule =
+module DensityMapModule =
 
     open CommonModule
 
-    let DensityMBHoverInfo =
+    let DensityMapHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["lon"; "lat"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "DensityMBHoverInfo" generatedEnum
+        Pattern.EnumStrings "DensityMapHoverInfo" generatedEnum
 
-    let DensityMBOptions =
-        Class "DensityMBOptions"
+    let DensityMapOptions =
+        Class "DensityMapOptions"
         |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
-            |> WithInline "{type:'densitymapbox'}"
+            |> WithInline "{type:'densitymap'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
@@ -59,7 +59,7 @@ module DensityMBModule =
             "lon", !| T<int> + !| T<float> + !| T<string> //data array
             "text", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", DensityMBHoverInfo.Type
+            "hoverinfo", DensityMapHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
@@ -79,7 +79,7 @@ module DensityMBModule =
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
-    let DensityMBTraceNamespaces : CodeModel.NamespaceEntity list = [
-        DensityMBHoverInfo
-        DensityMBOptions
+    let DensityMapTraceNamespaces : CodeModel.NamespaceEntity list = [
+        DensityMapHoverInfo
+        DensityMapOptions
     ]

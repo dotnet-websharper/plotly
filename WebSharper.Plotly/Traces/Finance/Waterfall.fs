@@ -4,7 +4,7 @@ namespace WebSharper.Plotly.Extension.Traces
 //
 // This file is part of WebSharper
 //
-// Copyright (c) 2008-2018 IntelliFactory
+// Copyright (c) 2008-2026 IntelliFactory
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you
 // may not use this file except in compliance with the License.  You may
@@ -110,7 +110,7 @@ module WaterfallModule =
         Pattern.Config "WaterfallTotals" {
             Required = []
             Optional = [
-                "marker", WaterfallMarker.Type
+                ("marker", WaterfallMarker.Type)
             ]
         }
 

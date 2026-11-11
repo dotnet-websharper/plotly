@@ -4,7 +4,7 @@ namespace WebSharper.Plotly.Extension.Traces
 //
 // This file is part of WebSharper
 //
-// Copyright (c) 2008-2018 IntelliFactory
+// Copyright (c) 2008-2026 IntelliFactory
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you
 // may not use this file except in compliance with the License.  You may
@@ -26,26 +26,26 @@ open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
 open WebSharper.Plotly.Extension.Common
 
-module ScatterMBModule =
+module ScatterMapModule =
 
     open CommonModule
 
-    let ScatterMBModes =
+    let ScatterMapModes =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["lines"; "markers"; "text"] '+')
             let seq2 = seq{"none"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "ScatterMBModes" generatedEnum
+        Pattern.EnumStrings "ScatterMapModes" generatedEnum
 
-    let ScatterMBHoverInfo =
+    let ScatterMapHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["lon"; "lat"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "ScatterMBHoverInfo" generatedEnum
+        Pattern.EnumStrings "ScatterMapHoverInfo" generatedEnum
 
-    let ScatterMBMarker =
-        Pattern.Config "ScatterMBMarker" {
+    let ScatterMapMarker =
+        Pattern.Config "ScatterMapMarker" {
             Required = []
             Optional = [
                 "symbol", T<string> + !| T<string>
@@ -70,8 +70,8 @@ module ScatterMBModule =
             ]
         }
 
-    let ScatterMBLine =
-        Pattern.Config "ScatterMBLine" {
+    let ScatterMapLine =
+        Pattern.Config "ScatterMapLine" {
             Required = []
             Optional = [
                 "color", Color
@@ -79,20 +79,20 @@ module ScatterMBModule =
             ]
         }
 
-    let ScatterMBSelectedOption =
-        Pattern.Config "ScatterMBSelectedOption" {
+    let ScatterMapSelectedOption =
+        Pattern.Config "ScatterMapSelectedOption" {
             Required = []
             Optional = [
-                "marker", SelectedMarker.Type
+                ("marker", SelectedMarker.Type)
             ]
         }
 
-    let ScatterMBOptions =
-        Class "ScatterMBOptions"
+    let ScatterMapOptions =
+        Class "ScatterMapOptions"
         |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
-            |> WithInline "{type:'scattermapbox'}"
+            |> WithInline "{type:'scattermap'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
@@ -102,7 +102,7 @@ module ScatterMBModule =
             "legendgroup", T<string>
             "legendgrouptitle", LegendGroupTitle.Type
             "opacity", T<float>
-            "mode", ScatterMBModes.Type
+            "mode", ScatterMapModes.Type
             "ids", !| T<string>
             "lat", !| T<int> + !| T<float> + !| T<string>
             "lon", !| T<int> + !| T<float> + !| T<string>
@@ -110,17 +110,17 @@ module ScatterMBModule =
             "textposition", TextPositionInline.Type
             "texttemplate", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", ScatterMBHoverInfo.Type
+            "hoverinfo", ScatterMapHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "subplot", T<string> //subplotid
-            "marker", ScatterMBMarker.Type
-            "line", ScatterMBLine.Type
+            "marker", ScatterMapMarker.Type
+            "line", ScatterMapLine.Type
             "textfont", Font.Type
             "selectedpoints", (T<float> + T<int>) + T<string>
-            "selected", ScatterMBSelectedOption.Type
-            "unselected", ScatterMBSelectedOption.Type // change name later
+            "selected", ScatterMapSelectedOption.Type
+            "unselected", ScatterMapSelectedOption.Type // change name later
             "below", T<string>
             "connectgaps", T<bool>
             "fill", Fill.Type
@@ -129,11 +129,11 @@ module ScatterMBModule =
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
-    let ScatterMBTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ScatterMBModes
-        ScatterMBHoverInfo
-        ScatterMBMarker
-        ScatterMBLine
-        ScatterMBSelectedOption
-        ScatterMBOptions
+    let ScatterMapTraceNamespaces : CodeModel.NamespaceEntity list = [
+        ScatterMapModes
+        ScatterMapHoverInfo
+        ScatterMapMarker
+        ScatterMapLine
+        ScatterMapSelectedOption
+        ScatterMapOptions
     ]

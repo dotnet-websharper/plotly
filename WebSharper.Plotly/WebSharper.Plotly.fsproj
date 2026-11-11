@@ -11,7 +11,6 @@
     <Compile Include="Layout/Layout.fs" />
     <Compile Include="Traces/Simple/Contour.fs" />
     <Compile Include="Traces/Simple/HeatMap.fs" />
-    <Compile Include="Traces/Simple/HeatMapGL.fs" />
     <Compile Include="Traces/Simple/Image.fs" />
     <Compile Include="Traces/Simple/Table.fs" />
     <Compile Include="Traces/Simple/Bar.fs" />
@@ -37,10 +36,10 @@
     <Compile Include="Traces/3D/Surface.fs" />
     <Compile Include="Traces/3D/Volume.fs" />
     <Compile Include="Traces/Maps/Choropleth.fs" />
-    <Compile Include="Traces/Maps/ChoroplethMapBox.fs" />
-    <Compile Include="Traces/Maps/DensityMapBox.fs" />
+    <Compile Include="Traces/Maps/ChoroplethMap.fs" />
+    <Compile Include="Traces/Maps/DensityMap.fs" />
     <Compile Include="Traces/Maps/ScatterGeo.fs" />
-    <Compile Include="Traces/Maps/ScatterMapBox.fs" />
+    <Compile Include="Traces/Maps/ScatterMap.fs" />
     <Compile Include="Traces/Specialized/BarPolar.fs" />
     <Compile Include="Traces/Specialized/Carpet.fs" />
     <Compile Include="Traces/Specialized/ContourCarpet.fs" />
@@ -60,8 +59,8 @@
   </ItemGroup>
   <PropertyGroup>
     <NpmDependencies>
-      <NpmPackage Name="plotly.js-dist-min" Version="gt= 2.26.0 lt 3.0.0" ResolutionStrategy="Max" />
-      <NpmPackage Name="plotly.js-locales" Version="gt= 2.26.0 lt 3.0.0" ResolutionStrategy="Max" />
+      <NpmPackage Name="plotly.js-dist-min" Version="&gt;= 4.3.0 &lt; 5.0.0" ResolutionStrategy="Max" />
+      <NpmPackage Name="plotly.js-locales" Version="&gt;= 4.3.0 &lt; 5.0.0" ResolutionStrategy="Max" />
     </NpmDependencies>
   </PropertyGroup>
   <Import Project="..\paket-files\wsbuild\github.com\dotnet-websharper\build-script\WebSharper.Fake.targets" Condition="Exists('..\paket-files\wsbuild\github.com\dotnet-websharper\build-script\WebSharper.Fake.targets')" />

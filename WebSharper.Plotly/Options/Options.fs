@@ -4,7 +4,7 @@ namespace WebSharper.Plotly.Extension.Options
 //
 // This file is part of WebSharper
 //
-// Copyright (c) 2008-2018 IntelliFactory
+// Copyright (c) 2008-2026 IntelliFactory
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you
 // may not use this file except in compliance with the License.  You may
@@ -52,6 +52,12 @@ module OptionsModule =
             "pan2d"
             "select2d"
             "lasso2d"
+            "drawclosedpath"
+            "drawopenpath"
+            "drawline"
+            "drawrect"
+            "drawcircle"
+            "eraseshape"
             "zoomIn2d"
             "zoomOut2d"
             "autoScale2d"
@@ -60,7 +66,6 @@ module OptionsModule =
             "pan3d"
             "orbitRotation"
             "tableRotation"
-            "handleDrag3d"
             "resetCameraDefault3d"
             "resetCameraLastSave3d"
             "hoverClosest3d"
@@ -70,14 +75,17 @@ module OptionsModule =
             "zoomOutGeo"
             "resetGeo"
             "hoverClosestGeo"
-            "hoverClosestGl2d"
             "hoverClosestPie"
+            "resetSankeyGroup"
             "toggleHover"
             "resetViews"
             "toImage"
-            "sendDataToCloud"
+            "downloadJson"
+            "sendChartToCloud"
             "toggleSpikelines"
-            "resetViewMapbox"
+            "resetViewMap"
+            "zoomInMap"
+            "zoomOutMap"
         ]
 
     let IconConfig =
@@ -205,12 +213,9 @@ module OptionsModule =
                 "staticPlot", T<bool>
                 "toImageButtonOptions", ToImageButtonOptions.Type
                 "displayModeBar", T<bool>
-                "modeBarButtonsToRemove", ModeBarButtonTypes.Type
-                "modeBarButtonsToAdd", ModeBarButtonsToAdd.Type
-                "showLink", T<bool>
+                "modeBarButtonsToRemove", !| ModeBarButtonTypes.Type
+                "modeBarButtonsToAdd", !| ModeBarButtonsToAdd.Type
                 "plotlyServerURL", T<string> // investigate
-                "linkText", T<string>
-                "showEditInChartStudio", T<bool>
                 "locale", Locale.Type
                 "displayLogo", T<bool>
                 "responsive", T<bool>

@@ -4,7 +4,7 @@
 //
 // This file is part of WebSharper
 //
-// Copyright (c) 2008-2018 IntelliFactory
+// Copyright (c) 2008-2026 IntelliFactory
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you
 // may not use this file except in compliance with the License.  You may
@@ -40,7 +40,6 @@ module Definition =
             PieModule.PieOptions.Type
             BarModule.BarOptions.Type
             HeatMapModule.HeatMapOptions.Type
-            HeatMapGLModule.HeatMapGLOptions.Type
             ImageModule.ImageOptions.Type
             TableModule.TableOptions.Type
             ContourModule.ContourOptions.Type
@@ -63,10 +62,10 @@ module Definition =
             SurfaceModule.SurfaceOptions.Type
             VolumeModule.VolumeOptions.Type
             ChoroplethModule.ChoroplethOptions.Type
-            ChoroplethMBModule.ChoroplethMBOptions.Type
-            DensityMBModule.DensityMBOptions.Type
+            ChoroplethMapModule.ChoroplethMapOptions.Type
+            DensityMapModule.DensityMapOptions.Type
             ScatterGeoModule.ScatterGeoOptions.Type
-            ScatterMBModule.ScatterMBOptions.Type
+            ScatterMapModule.ScatterMapOptions.Type
             BarPolarModule.BarPolarOptions.Type
             CarpetModule.CarpetOptions.Type
             ContourCarpetModule.ContourCarpetOptions.Type
@@ -128,7 +127,6 @@ module Definition =
                 PieModule.PieTraceNamespaces
                 BarModule.BarTraceNamespaces
                 HeatMapModule.HeatMapTraceNamespaces
-                HeatMapGLModule.HeatMapGLTraceNamespaces
                 ImageModule.ImageTraceNamespaces
                 TableModule.TableTraceNamespaces
                 ContourModule.ContourTraceNamespaces
@@ -151,10 +149,10 @@ module Definition =
                 SurfaceModule.SurfaceTraceNamespaces
                 VolumeModule.VolumeTraceNamespaces
                 ChoroplethModule.ChoroplethTraceNamespaces
-                ChoroplethMBModule.ChoroplethMBTraceNamespaces
-                DensityMBModule.DensityMBTraceNamespaces
+                ChoroplethMapModule.ChoroplethMapTraceNamespaces
+                DensityMapModule.DensityMapTraceNamespaces
                 ScatterGeoModule.ScatterGeoTraceNamespaces
-                ScatterMBModule.ScatterMBTraceNamespaces
+                ScatterMapModule.ScatterMapTraceNamespaces
                 BarPolarModule.BarPolarTraceNamespaces
                 CarpetModule.CarpetTraceNamespaces
                 ContourCarpetModule.ContourCarpetTraceNamespaces

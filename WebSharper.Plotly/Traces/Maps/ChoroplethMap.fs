@@ -4,7 +4,7 @@ namespace WebSharper.Plotly.Extension.Traces
 //
 // This file is part of WebSharper
 //
-// Copyright (c) 2008-2018 IntelliFactory
+// Copyright (c) 2008-2026 IntelliFactory
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you
 // may not use this file except in compliance with the License.  You may
@@ -26,25 +26,25 @@ open WebSharper.InterfaceGenerator
 open WebSharper.Plotly.Extension.GenerateEnum
 open WebSharper.Plotly.Extension.Common
 
-module ChoroplethMBModule =
+module ChoroplethMapModule =
 
     open CommonModule
 
-    let ChoroplethMBHoverInfo =
+    let ChoroplethMapHoverInfo =
         let generatedEnum =
             let seq1 = (GenerateOptions.allPermutations ["location"; "z"; "text"; "name"] '+')
             let seq2 = seq{"all"; "none"; "skip"}
             Seq.append seq1 seq2
-        Pattern.EnumStrings "ChoroplethMBHoverInfo" generatedEnum
+        Pattern.EnumStrings "ChoroplethMapHoverInfo" generatedEnum
 
-    let ChoroplethMBColorBarMode =
-        Pattern.EnumStrings "ChoroplethMBThicknessMode" [
+    let ChoroplethMapColorBarMode =
+        Pattern.EnumStrings "ChoroplethMapThicknessMode" [
             "fraction"
             "pixels"
         ]
 
-    let ChoroplethMBMarkerLine =
-        Pattern.Config "ChoroplethMBMarkerLine" {
+    let ChoroplethMapMarkerLine =
+        Pattern.Config "ChoroplethMapMarkerLine" {
             Required = []
             Optional = [
                 "color", Color
@@ -52,56 +52,56 @@ module ChoroplethMBModule =
             ]
         }
 
-    let ChoroplethMBMarker =
-        Pattern.Config "ChoroplethMBMarker" {
+    let ChoroplethMapMarker =
+        Pattern.Config "ChoroplethMapMarker" {
             Required = []
             Optional = [
-                "line", ChoroplethMBMarkerLine.Type
+                "line", ChoroplethMapMarkerLine.Type
                 "opacity", T<float>
             ]
         }
 
-    let ChoroplethMBSelectedMarker =
-        Pattern.Config "ChoroplethMBSelectedMarker" {
+    let ChoroplethMapSelectedMarker =
+        Pattern.Config "ChoroplethMapSelectedMarker" {
             Required = []
             Optional = [
-                "opacity", T<float>
+                ("opacity", T<float>)
             ]
         }
 
-    let ChoroplethMBSelectedOption =
-        Pattern.Config "ChoroplethMBSelectedOption" {
+    let ChoroplethMapSelectedOption =
+        Pattern.Config "ChoroplethMapSelectedOption" {
             Required = []
             Optional = [
-                "marker", ChoroplethMBSelectedMarker.Type
+                ("marker", ChoroplethMapSelectedMarker.Type)
             ]
         }
 
-    let ChoroplethMBAlign =
-        Pattern.EnumStrings "ChoroplethMBAlign" [
+    let ChoroplethMapAlign =
+        Pattern.EnumStrings "ChoroplethMapAlign" [
             "left"
             "right"
             "auto"
         ]
 
-    let ChoroplethMBHoverLabel =
-        Pattern.Config "ChoroplethMBHoverLabel" {
+    let ChoroplethMapHoverLabel =
+        Pattern.Config "ChoroplethMapHoverLabel" {
             Required = []
             Optional = [
                 "bgcolor", Color + !| Color
                 "bordercolor", Color + !| Color
                 "font", Font.Type
-                "align", ChoroplethMBAlign.Type
+                "align", ChoroplethMapAlign.Type
                 "namelength", T<int>
             ]
         }
 
-    let ChoroplethMBOptions =
-        Class "ChoroplethMBOptions"
+    let ChoroplethMapOptions =
+        Class "ChoroplethMapOptions"
         |=> Inherits Trace
         |+> Static [
             Constructor T<unit>
-            |> WithInline "{type:'choroplethmapbox'}"
+            |> WithInline "{type:'choroplethmap'}"
         ]
         |+> Pattern.OptionalFields [
             "name", T<string>
@@ -117,13 +117,13 @@ module ChoroplethMBModule =
             "locations", !| T<int> + !| T<float> + !| T<string>
             "text", T<string> + !| T<string>
             "hovertext", T<string> + !| T<string>
-            "hoverinfo", ChoroplethMBHoverInfo.Type
+            "hoverinfo", ChoroplethMapHoverInfo.Type
             "hovertemplate", T<string> + !| T<string>
             "meta", (T<float> + T<int>) + T<string>
             "customdata", T<string> // undefined type, string is placeholder
             "subplot", T<string> //subplotid
             "coloraxis", T<string> //subplotid
-            "marker", ChoroplethMBMarker.Type
+            "marker", ChoroplethMapMarker.Type
             "colorbar", ColorBar.Type
             "autocolorscale", T<bool>
             "colorscale", ColorScale
@@ -134,21 +134,21 @@ module ChoroplethMBModule =
             "zmid", T<int> + T<float>
             "zmin", T<int> + T<float>
             "selectedpoints", (T<float> + T<int>) + T<string>
-            "selected", ChoroplethMBSelectedOption.Type
-            "unselected", ChoroplethMBSelectedOption.Type // change name later
+            "selected", ChoroplethMapSelectedOption.Type
+            "unselected", ChoroplethMapSelectedOption.Type // change name later
             "below", T<string>
-            "hoverlabel", ChoroplethMBHoverLabel.Type
+            "hoverlabel", ChoroplethMapHoverLabel.Type
             "uirevision", (T<float> + T<int>) + T<string>
         ]
 
-    let ChoroplethMBTraceNamespaces : CodeModel.NamespaceEntity list = [
-        ChoroplethMBHoverInfo
-        ChoroplethMBColorBarMode
-        ChoroplethMBMarkerLine
-        ChoroplethMBMarker
-        ChoroplethMBSelectedMarker
-        ChoroplethMBSelectedOption
-        ChoroplethMBAlign
-        ChoroplethMBHoverLabel
-        ChoroplethMBOptions
+    let ChoroplethMapTraceNamespaces : CodeModel.NamespaceEntity list = [
+        ChoroplethMapHoverInfo
+        ChoroplethMapColorBarMode
+        ChoroplethMapMarkerLine
+        ChoroplethMapMarker
+        ChoroplethMapSelectedMarker
+        ChoroplethMapSelectedOption
+        ChoroplethMapAlign
+        ChoroplethMapHoverLabel
+        ChoroplethMapOptions
     ]

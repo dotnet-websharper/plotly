@@ -11,6 +11,26 @@ open WebSharper.Plotly
 [<JavaScript>]
 module Client =
 
+    // The whole document body is the template (see index.html), loaded from the
+    // DOM, so a browser refresh is enough after editing the markup.
+    type IndexTemplate = Template<"index.html", ClientLoad.FromDocument>
+
+    // Theme: light is the default; the choice is persisted in localStorage.
+    // The storage key is shared with the bootstrap script in index.html.
+    let themeStorageKey = "websharper-plotly-theme"
+    let theme = Var.Create "light"
+    let themeLabel = Var.Create "🌙 Dark mode"
+
+    let applyTheme () =
+        JS.Document.DocumentElement.SetAttribute("data-theme", theme.Value)
+        themeLabel.Value <-
+            if theme.Value = "dark" then "☀️ Light mode" else "🌙 Dark mode"
+
+    let toggleTheme () =
+        theme.Value <- (if theme.Value = "dark" then "light" else "dark")
+        try JS.Window.LocalStorage.SetItem(themeStorageKey, theme.Value) with _ -> ()
+        applyTheme ()
+
     let carpet = CarpetOptions()
     carpet.A <- [|
         4.0; 4.0; 4.0; 4.5; 4.5; 4.5;
@@ -43,11 +63,6 @@ module Client =
     heatmap.X <- [|"Monday"; "Tuesday"; "Wednesday"; "Thursday"; "Friday"|]
     heatmap.Y <- [|"Morning"; "Afternoon"; "Evening"|]
     heatmap.Hoverongaps <- false
-
-    let heatmapgl = HeatMapOptions()
-    heatmapgl.Z <- [|[|1; 5; 30; 50; 1|]; [|20; 1; 60; 80; 30|]; [|30; 60; 1; -10; 20|]|]
-    heatmapgl.X <- [|"Monday"; "Tuesday"; "Wednesday"; "Thursday"; "Friday"|]
-    heatmapgl.Y <- [|"Morning"; "Afternoon"; "Evening"|]
 
 
     let table = TableOptions()
@@ -338,14 +353,14 @@ module Client =
     choropleth.Text <- Union2Of2([|"a";"b";"c";"d";"e";"f";"g";"h";"i";"j"|])
     choropleth.Autocolorscale <- true
 
-    let choroplethmb = ChoroplethMBOptions()
+    let choroplethmb = ChoroplethMapOptions()
     choroplethmb.Locations <- [|"NY";"MA";"VT"|]
     choroplethmb.Z <- [|-50;-10;-20|]
     choroplethmb.Geojson <- "https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json"
     
     let choroplethMBLayout = Layout()
-    choroplethMBLayout.Mapbox <- LayoutMapbox(
-        Style = "stamen-watercolor",
+    choroplethMBLayout.Map <- LayoutMap(
+        Style = "open-street-map",
         Center = LayoutCenter(
             Lon = -74,
             Lat = 43
@@ -354,7 +369,7 @@ module Client =
     )
 
 
-    let densitymb = DensityMBOptions()
+    let densitymb = DensityMapOptions()
     densitymb.Lon <- [|10;20;30|]
     densitymb.Lat <- [|15;25;35|]
     densitymb.Z <- [|1;3;2|]
@@ -398,11 +413,11 @@ module Client =
         TextPositionInline.TopRight;
     |]
 
-    let scattermb = ScatterMBOptions()
+    let scattermb = ScatterMapOptions()
     scattermb.Lat <- [|"45.5017"|]
     scattermb.Lon <- [|"-73.5673"|]
-    scattermb.Mode <- ScatterMBModes.Markers
-    scattermb.Marker <- ScatterMBMarker(
+    scattermb.Mode <- ScatterMapModes.Markers
+    scattermb.Marker <- ScatterMapMarker(
         Size = 14
     )
     scattermb.Text <- Union2Of2([|"Montreal"|])
@@ -631,8 +646,8 @@ module Client =
     let densityMBLayout = Layout()
     densityMBLayout.Width <- 600
     densityMBLayout.Height <- 400
-    densityMBLayout.Mapbox <- LayoutMapbox(
-        Style = "stamen-terrain"
+    densityMBLayout.Map <- LayoutMap(
+        Style = "carto-positron"
     )
 
     let scatterGeoLayout = Layout()
@@ -669,8 +684,8 @@ module Client =
     let scatterMBLayout = Layout()
     scatterMBLayout.Autosize <- true
     scatterMBLayout.Hovermode <- LayoutHoverMode.Closest
-    scatterMBLayout.Mapbox <- LayoutMapbox(
-        Style = "stamen-terrain",
+    scatterMBLayout.Map <- LayoutMap(
+        Style = "carto-positron",
         Bearing = 0,
         Center = LayoutCenter(
             Lat = 45,
@@ -984,7 +999,6 @@ module Client =
     let barChart () = Plotly.Plotly.NewPlot("barchartDiv", [|barTrace|])
     let heatMapChart () = Plotly.Plotly.NewPlot("heatmapchartDiv", [|heatmap|])
     let tableChart () = Plotly.Plotly.NewPlot("tablechartDiv", [|table|])
-    let heatMapGLChart () = Plotly.Plotly.NewPlot("heatmapglchartDiv", [|heatmapgl|])
     let contourChart () = Plotly.Plotly.NewPlot("contourchartDiv", [|contour|])
     let imageChart () = Plotly.Plotly.NewPlot("imagechartDiv", [|image|], imageLayout)
     let boxChart () = Plotly.Plotly.NewPlot("boxchartDiv", [|box|])
@@ -1005,167 +1019,89 @@ module Client =
     let choroplethMBChart () = Plotly.Plotly.NewPlot("choroplethmbchartDiv", [|choroplethmb|], choroplethMBLayout, null)
     let barpolarChart () = Plotly.Plotly.NewPlot("barpolarchartDiv", [|barpolar1; barpolar2; barpolar3; barpolar4|], barpolarLayout)
 
+    // Charts exercise the whole typed surface. Each entry is
+    // (heading, element id, renderer, needs sequential/WebGL startup).
+    let private chartDefs : (string * string * (unit -> HTMLElement) * bool) list = [
+        "Scatter chart", "scatterchartDiv", scatterChart, false
+        "ScatterGL chart", "scatterglchartDiv", scatterGLChart, true
+        "Pie chart", "piechartDiv", pieChart, false
+        "Bar chart", "barchartDiv", barChart, false
+        "Heatmap chart", "heatmapchartDiv", heatMapChart, false
+        "Table chart", "tablechartDiv", tableChart, false
+        "Contour chart", "contourchartDiv", contourChart, false
+        "Image chart", "imagechartDiv", imageChart, false
+        "Box chart", "boxchartDiv", boxChart, false
+        "Histogram chart", "hgchartDiv", hgChart, false
+        "Histogram2D chart", "hg2dchartDiv", hg2dChart, false
+        "Histogram2DContour chart", "hg2dcontchartDiv", hg2dContChart, false
+        "Violin chart", "violinchartDiv", violinChart, false
+        "CandleStick chart", "candlestickchartDiv", candleStickChart, false
+        "Funnel chart", "funnelchartDiv", funnelChart, false
+        "FunnelArea chart", "funnelareachartDiv", funnelAreaChart, false
+        "Indicator chart", "indicatorchartDiv", indicatorChart, false
+        "OHLC chart", "ohlcchartDiv", ohlcChart, false
+        "Waterfall chart", "waterfallchartDiv", waterfallChart, false
+        "Choropleth chart", "choroplethchartDiv", choroplethChart, false
+        "ChoroplethMap chart", "choroplethmbchartDiv", choroplethMBChart, true
+        "DensityMap chart", "densitymbchartDiv", densityMBChart, true
+        "ScatterGeo chart", "scattergeochartDiv", scatterGeoChart, false
+        "ScatterMap chart", "scattermbchartDiv", scatterMBChart, true
+        "Cone chart", "conechartDiv", coneChart, true
+        "Carpet chart", "carpetchartDiv", carpetChart, false
+        "ISOSurface chart", "isochartDiv", isoSurfaceChart, true
+        "Mesh chart", "meshchartDiv", meshChart, true
+        "Scatter3D chart", "scatter3dchartDiv", scatter3DChart, true
+        "StreamTube chart", "streamtubechartDiv", streamTubeChart, true
+        "Surface chart", "surfacechartDiv", surfaceChart, true
+        "ContourCarpet chart", "ccarpetchartDiv", ccarpetChart, false
+        "Parallel Categories chart", "parcatschartDiv", parcatsChart, false
+        "Parallel Coordinates chart", "parcoordschartDiv", parcoordsChart, true
+        "Sankey chart", "sankeychartDiv", sankeyChart, false
+        "ScatterCarpet chart", "scarpetchartDiv", scarpetChart, false
+        "ScatterPolar chart", "spolarchartDiv", spolarChart, false
+        "ScatterPolarGL chart", "spolarglchartDiv", spolarglChart, true
+        "ScatterTernary chart", "sternarychartDiv", sternaryChart, false
+        "Splom chart", "splomchartDiv", splomChart, true
+        "SunBurst chart", "sunburstchartDiv", sunBurstChart, false
+        "TreeMap chart", "treemapchartDiv", treeMapChart, false
+        "Icicle chart", "iciclechartDiv", icicleChart, false
+        "Bar Polar chart", "barpolarchartDiv", barpolarChart, false
+    ]
+
+    let private chartSection (title: string, id: string, _render, _webgl) =
+        div [ attr.``class`` "chart-card" ] [
+            h2 [] [ text title ]
+            div [ attr.id id ] []
+        ]
+
     [<SPAEntryPoint>]
     let Main () =
+        // Restore a previously chosen theme (light is the default).
+        let savedTheme =
+            try JS.Window.LocalStorage.GetItem(themeStorageKey) with _ -> null
+        if savedTheme = "dark" || savedTheme = "light" then
+            theme.Value <- savedTheme
+        applyTheme ()
 
-        div [
-            on.afterRender (fun _ ->
-                [
-                    scatterChart
-                    pieChart
-                    barChart
-                    heatMapChart
-                    tableChart
-                    contourChart
-                    imageChart
-                    boxChart
-                    hgChart
-                    hg2dChart
-                    hg2dContChart
-                    violinChart
-                    candleStickChart
-                    funnelChart
-                    funnelAreaChart
-                    indicatorChart
-                    ohlcChart
-                    waterfallChart
-                    choroplethChart
-                    scatterGeoChart
-                    carpetChart
-                    isoSurfaceChart
-                    ccarpetChart
-                    parcatsChart
-                    sankeyChart
-                    scarpetChart
-                    spolarChart
-                    sternaryChart
-                    sunBurstChart
-                    treeMapChart
-                    icicleChart
-                    barpolarChart
-                ]
-                |> List.iter (fun x -> x () |> ignore)
-                async {
-                    let webglchartRenderers =
-                        [
-                            scatterGLChart
-                            spolarglChart
-                            heatMapGLChart
-                            splomChart
-                            parcoordsChart
-                            scatter3DChart
-                            surfaceChart
-                            streamTubeChart
-                            meshChart
-                            coneChart
-                            scatterMBChart
-                            choroplethMBChart
-                            densityMBChart
-                        ]
-                    let! _ = 
-                        webglchartRenderers
-                        |> List.map (fun renderer ->
-                            async {
-                                renderer () |> ignore
-                                do! Async.Sleep 1000
-                            }
-                        )
-                        |> Async.Sequential
-                    ()
-                }
-                |> Async.Start
-            )
-        ] [
-            h1 [] [text "Plotly Js sample site"]
-            h2 [] [text "Scatter chart"]
-            div [attr.id "scatterchartDiv"] []
-            h2 [] [text "ScatterGL chart"]
-            div [attr.id "scatterglchartDiv"] []
-            h2 [] [text "Pie chart"]
-            div [attr.id "piechartDiv"] []
-            h2 [] [text "Bar chart"]
-            div [attr.id "barchartDiv"] []
-            h2 [] [text "Heatmap chart"]
-            div [attr.id "heatmapchartDiv"] []
-            h2 [] [text "Table chart"]
-            div [attr.id "tablechartDiv"] []
-            h2 [] [text "HeatMapGL chart"]
-            div [attr.id "heatmapglchartDiv"] []
-            h2 [] [text "Contour chart"]
-            div [attr.id "contourchartDiv"] []
-            h2 [] [text "Image chart"]
-            div [attr.id "imagechartDiv"] []
-            h2 [] [text "Box chart"]
-            div [attr.id "boxchartDiv"] []
-            h2 [] [text "Histogram chart"]
-            div [attr.id "hgchartDiv"] []
-            h2 [] [text "Histogram2D chart"]
-            div [attr.id "hg2dchartDiv"] []
-            h2 [] [text "Histogram2DContour chart"]
-            div [attr.id "hg2dcontchartDiv"] []
-            h2 [] [text "Violin chart"]
-            div [attr.id "violinchartDiv"] []
-            h2 [] [text "CandleStick chart"]
-            div [attr.id "candlestickchartDiv"] []
-            h2 [] [text "Funnel chart"]
-            div [attr.id "funnelchartDiv"] []
-            h2 [] [text "FunnelArea chart"]
-            div [attr.id "funnelareachartDiv"] []
-            h2 [] [text "Indicator chart"]
-            div [attr.id "indicatorchartDiv"] []
-            h2 [] [text "OHLC chart"]
-            div [attr.id "ohlcchartDiv"] []
-            h2 [] [text "Waterfall chart"]
-            div [attr.id "waterfallchartDiv"] []
-            h2 [] [text "Choropleth chart"]
-            div [attr.id "choroplethchartDiv"] []
-            h2 [] [text "ChoroplethMB chart"]
-            div [attr.id "choroplethmbchartDiv"] []
-            h2 [] [text "DensityMB chart"]
-            div [attr.id "densitymbchartDiv"] []
-            h2 [] [text "ScatterGeo chart"]
-            div [attr.id "scattergeochartDiv"] []
-            h2 [] [text "ScatterMB chart"]
-            div [attr.id "scattermbchartDiv"] []
-            h2 [] [text "Cone chart"]
-            div [attr.id "conechartDiv"] []
-            h2 [] [text "Carpet chart"]
-            div [attr.id "carpetchartDiv"] []
-            h2 [] [text "ISOSurface chart"]
-            div [attr.id "isochartDiv"] []
-            h2 [] [text "Mesh chart"]
-            div [attr.id "meshchartDiv"] []
-            h2 [] [text "Scatter3D chart"]
-            div [attr.id "scatter3dchartDiv"] []
-            h2 [] [text "StreamTube chart"]
-            div [attr.id "streamtubechartDiv"] []
-            h2 [] [text "Surface chart"]
-            div [attr.id "surfacechartDiv"] []
-            h2 [] [text "ContourCarpet chart"]
-            div [attr.id "ccarpetchartDiv"] []
-            h2 [] [text "Parallel Categories chart"]
-            div [attr.id "parcatschartDiv"] []
-            h2 [] [text "Parallel Coordinates chart"]
-            div [attr.id "parcoordschartDiv"] []
-            h2 [] [text "Sankey chart"]
-            div [attr.id "sankeychartDiv"] []
-            h2 [] [text "ScatterCarpet chart"]
-            div [attr.id "scarpetchartDiv"] []
-            h2 [] [text "ScatterPolar chart"]
-            div [attr.id "spolarchartDiv"] []
-            h2 [] [text "ScatterPolarGL chart"]
-            div [attr.id "spolarglchartDiv"] []
-            h2 [] [text "ScatterTernary chart"]
-            div [attr.id "sternarychartDiv"] []
-            h2 [] [text "Splom chart"]
-            div [attr.id "splomchartDiv"] []
-            h2 [] [text "SunBurst chart"]
-            div [attr.id "sunburstchartDiv"] []
-            h2 [] [text "TreeMap chart"]
-            div [attr.id "treemapchartDiv"] []
-            h2 [] [text "Icicle chart"]
-            div [attr.id "iciclechartDiv"] []
-            h2 [] [text "Bar Polar chart"]
-            div [attr.id "barpolarchartDiv"] []
-        ]
-        |> Doc.RunById "main"
+        // `.Bind()` renders the whole document body, so the chart divs are in
+        // the DOM only after this call.
+        IndexTemplate()
+            .themeLabel(themeLabel.V)
+            .Charts(Doc.Concat (chartDefs |> List.map chartSection))
+            .ToggleTheme(fun _ -> toggleTheme ())
+            .Bind()
+
+        // Draw the SVG charts first, then the WebGL-backed ones sequentially —
+        // browsers cap live WebGL contexts, so creating them all at once makes
+        // some fail to render.
+        chartDefs
+        |> List.filter (fun (_, _, _, webgl) -> not webgl)
+        |> List.iter (fun (_, _, render, _) -> render () |> ignore)
+
+        async {
+            for (_, _, render, webgl) in chartDefs do
+                if webgl then
+                    render () |> ignore
+                    do! Async.Sleep 1000
+        }
+        |> Async.Start

@@ -110,7 +110,7 @@ module WaterfallModule =
         Pattern.Config "WaterfallTotals" {
             Required = []
             Optional = [
-                "marker", WaterfallMarker.Type
+                ("marker", WaterfallMarker.Type)
             ]
         }
 

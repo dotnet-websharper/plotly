@@ -982,7 +982,7 @@ module LayoutModule =
         Pattern.Config "LayoutCameraProjection" {
             Required = []
             Optional = [
-                "type", LayoutCameraProjType.Type
+                ("type", LayoutCameraProjType.Type)
             ]
         }
 
@@ -1268,7 +1268,7 @@ module LayoutModule =
         Pattern.Config "LayoutMapLayerCircle" {
             Required = []
             Optional = [
-                "radius", T<int> + T<float>
+                ("radius", T<int> + T<float>)
             ]
         }
 
@@ -1286,7 +1286,7 @@ module LayoutModule =
         Pattern.Config "LayoutMapLayerFill" {
             Required = []
             Optional = [
-                "outlinecolor", Color
+                ("outlinecolor", Color)
             ]
         }
 

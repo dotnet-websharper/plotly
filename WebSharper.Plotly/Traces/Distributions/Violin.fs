@@ -75,7 +75,7 @@ module ViolinModule =
         Pattern.Config "ViolinSelectedOption" {
             Required = []
             Optional = [
-                "marker", ViolinSelectedMarker.Type
+                ("marker", ViolinSelectedMarker.Type)
             ]
         }
 

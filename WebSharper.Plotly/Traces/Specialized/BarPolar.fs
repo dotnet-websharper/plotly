@@ -95,7 +95,7 @@ module BarPolarModule =
         Pattern.Config "BarPolarSelectedTextFont" {
             Required = []
             Optional = [
-                "color", Color
+                ("color", Color)
             ]
         }
 

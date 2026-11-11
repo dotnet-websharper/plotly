@@ -65,7 +65,7 @@ module ChoroplethMapModule =
         Pattern.Config "ChoroplethMapSelectedMarker" {
             Required = []
             Optional = [
-                "opacity", T<float>
+                ("opacity", T<float>)
             ]
         }
 
@@ -73,7 +73,7 @@ module ChoroplethMapModule =
         Pattern.Config "ChoroplethMapSelectedOption" {
             Required = []
             Optional = [
-                "marker", ChoroplethMapSelectedMarker.Type
+                ("marker", ChoroplethMapSelectedMarker.Type)
             ]
         }
 

@@ -41,7 +41,7 @@ module HG2DModule =
         Pattern.Config "HG2DMarker" {
             Required = []
             Optional = [
-                "color", Color + !| Color //data array
+                ("color", Color + !| Color) //data array
             ]
         }
 

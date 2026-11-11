@@ -83,7 +83,7 @@ module ScatterMapModule =
         Pattern.Config "ScatterMapSelectedOption" {
             Required = []
             Optional = [
-                "marker", SelectedMarker.Type
+                ("marker", SelectedMarker.Type)
             ]
         }
 

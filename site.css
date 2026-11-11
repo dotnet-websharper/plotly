@@ -1,0 +1,130 @@
+/* Light is the default theme; `data-theme="dark"` on <html> switches to dark. */
+:root {
+    color-scheme: light;
+
+    --bg: #f6f7fb;
+    --panel: #ffffff;
+    --line: #e4e7ee;
+    --text: #0f172a;
+    --muted: #64748b;
+    --accent: #3f4f8f;
+    --accent-strong: #2f3b6e;
+    --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 8px 24px rgba(16, 24, 40, .06);
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --bg: #0f1420;
+    --panel: #171d2b;
+    --line: #28324a;
+    --text: #e8ecf5;
+    --muted: #9aa6bf;
+    --accent: #8ea2ff;
+    --accent-strong: #adbcff;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .35);
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+}
+
+code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: .9em;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: .05em .35em;
+}
+
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.app-titles h1 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.app-titles p {
+    margin: .15rem 0 0;
+    font-size: .875rem;
+    color: var(--muted);
+}
+
+.app-titles p a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.app-titles p a:hover { text-decoration: underline; }
+
+.app-actions { display: flex; align-items: center; gap: .6rem; }
+
+.btn {
+    appearance: none;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--text);
+    padding: .4rem .85rem;
+    border-radius: 8px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.btn:hover { border-color: var(--accent); }
+
+.app-source {
+    font-size: .875rem;
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: .4rem .85rem;
+}
+
+.app-source:hover { border-color: var(--accent); }
+
+.page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 20px 64px;
+}
+
+.lede {
+    color: var(--muted);
+    max-width: 75ch;
+    margin: 0 0 28px;
+}
+
+.chart-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px 8px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow);
+}
+
+.chart-card h2 {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+}
+
+.chart-card > div { width: 100%; }

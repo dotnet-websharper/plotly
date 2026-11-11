@@ -2,11 +2,10 @@
 **/obj
 .vs
 *.user
-**/wwwroot
-**/Properties
 .fake
 .ionide
 paket-files/
 build/
 websharper.log
+dist/
 /WebSharper.Plotly.Tests/node_modules

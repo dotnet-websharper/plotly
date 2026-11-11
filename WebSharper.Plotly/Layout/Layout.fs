@@ -1256,24 +1256,24 @@ module LayoutModule =
             "image"
         ]
 
-    let LayoutMapboxLayerType =
-        Pattern.EnumStrings "LayoutMapboxLayerType" [
+    let LayoutMapLayerType =
+        Pattern.EnumStrings "LayoutMapLayerType" [
             "circle"
             "line"
             "fill"
             "symbol"
         ]
 
-    let LayoutMapboxLayerCircle =
-        Pattern.Config "LayoutMapboxLayerCircle" {
+    let LayoutMapLayerCircle =
+        Pattern.Config "LayoutMapLayerCircle" {
             Required = []
             Optional = [
                 "radius", T<int> + T<float>
             ]
         }
 
-    let LayoutMapboxLayerLine =
-        Pattern.Config "LayoutMapboxLayerLine" {
+    let LayoutMapLayerLine =
+        Pattern.Config "LayoutMapLayerLine" {
             Required = []
             Optional = [
                 "color", Color
@@ -1282,8 +1282,8 @@ module LayoutModule =
             ]
         }
 
-    let LayoutMapboxLayerFill =
-        Pattern.Config "LayoutMapboxLayerFill" {
+    let LayoutMapLayerFill =
+        Pattern.Config "LayoutMapLayerFill" {
             Required = []
             Optional = [
                 "outlinecolor", Color
@@ -1297,8 +1297,8 @@ module LayoutModule =
             "line-center"
         ]
 
-    let LayoutMapboxLayerSymbol =
-        Pattern.Config "LayoutMapboxLayerSymbol" {
+    let LayoutMapLayerSymbol =
+        Pattern.Config "LayoutMapLayerSymbol" {
             Required = []
             Optional = [
                 "icon", T<string>
@@ -1310,8 +1310,8 @@ module LayoutModule =
             ]
         }
 
-    let LayoutMapboxLayer =
-        Pattern.Config "LayoutMapboxLayer" {
+    let LayoutMapLayer =
+        Pattern.Config "LayoutMapLayer" {
             Required = []
             Optional = [
                 "visible", T<bool>
@@ -1319,34 +1319,35 @@ module LayoutModule =
                 "source", T<int> + T<float> + T<string>
                 "sourcelayer", T<string>
                 "sourceattribution", T<string>
-                "type", LayoutMapboxLayerType.Type
+                "type", LayoutMapLayerType.Type
                 "coordinates", T<int> + T<float> + T<string>
                 "below", T<string>
                 "color", Color
                 "opacity", T<float> + T<int>
                 "minzoom", T<float> + T<int>
                 "maxzoom", T<float> + T<int>
-                "circle", LayoutMapboxLayerCircle.Type
-                "line", LayoutMapboxLayerLine.Type
-                "fill", LayoutMapboxLayerFill.Type
-                "symbol", LayoutMapboxLayerSymbol.Type
+                "circle", LayoutMapLayerCircle.Type
+                "line", LayoutMapLayerLine.Type
+                "fill", LayoutMapLayerFill.Type
+                "symbol", LayoutMapLayerSymbol.Type
                 "name", T<string>
                 "templateitemname", T<string>
             ]
         }
 
-    let LayoutMapbox =
-        Pattern.Config "LayoutMapbox" {
+    // `layout.map` replaced `layout.mapbox` in plotly.js 4.0 (the `mapbox`
+    // subplot and the `mapboxAccessToken`/`accesstoken` option were removed).
+    let LayoutMap =
+        Pattern.Config "LayoutMap" {
             Required = []
             Optional = [
                 "domain", Domain.Type
-                "accesstoken", T<string>
                 "style", T<int> + T<float> + T<string>
                 "center", LayoutCenter.Type
                 "zoom", T<int> + T<float>
                 "bearing", T<int> + T<float>
                 "pitch", T<int> + T<float>
-                "layers", LayoutMapboxLayer.Type
+                "layers", !| LayoutMapLayer.Type
                 "uirevision", T<int> + T<float> + T<string>
             ]
         }
@@ -1757,7 +1758,6 @@ module LayoutModule =
                 "calendar", LayoutCalendar.Type
                 "newshape", LayoutNewShape.Type
                 "activeshape", LayoutActiveShape.Type
-                "hidesources", T<bool>
                 "barmode", LayoutBarMode.Type
                 "barnorm", LayoutBarNorm.Type
                 "bargap", T<float> + T<int>
@@ -1790,7 +1790,7 @@ module LayoutModule =
                 "ternary", LayoutTernary.Type
                 "scene", LayoutScene.Type
                 "geo", LayoutGeo.Type
-                "mapbox", LayoutMapbox.Type
+                "map", LayoutMap.Type
                 "polar", LayoutPolar.Type
                 "coloraxis", LayoutColorAxis.Type
                 "annotations", !| T<obj>
@@ -1885,13 +1885,13 @@ module LayoutModule =
         LayoutCenter
         LayoutGeoAxis
         LayoutSourceType
-        LayoutMapboxLayerType
-        LayoutMapboxLayerLine
-        LayoutMapboxLayerFill
+        LayoutMapLayerType
+        LayoutMapLayerLine
+        LayoutMapLayerFill
         LayoutSymbolPlacement
-        LayoutMapboxLayerSymbol
-        LayoutMapboxLayerCircle
-        LayoutMapboxLayer
+        LayoutMapLayerSymbol
+        LayoutMapLayerCircle
+        LayoutMapLayer
         LayoutColorBarMode
         LayoutColorBarTickLabelPosition
         LayoutColorBar
@@ -1912,7 +1912,7 @@ module LayoutModule =
         LayoutPolarThetaUnit
         LayoutPolarAngularAxis
         LayoutGridShape
-        LayoutMapbox
+        LayoutMap
         LayoutPolar
         LayoutGeo
         LayoutTernary

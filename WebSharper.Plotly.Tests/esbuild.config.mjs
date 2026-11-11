@@ -1,14 +1,22 @@
 ﻿import { build } from 'esbuild'
+import { copyFileSync, mkdirSync } from 'fs'
 
-var options =
-{
-  entryPoints: ['./build/WebSharper.Plotly.Tests.js'],
+const name = 'WebSharper.Plotly.Tests'
+
+// The WebSharper-generated module imports the npm `plotly.js-dist-min` package
+// (and the WebSharper runtime); bundle it all into a single IIFE for the
+// static page.
+await build({
+  entryPoints: [`./build/${name}.js`],
   bundle: true,
   minify: true,
   format: 'iife',
-  outfile: '../build/Scripts/WebSharper.Plotly.Tests.min.js',
+  outfile: `../dist/Scripts/${name}.min.js`,
   globalName: 'wsbundle'
-};
+})
 
-build(options);
+mkdirSync('../dist', { recursive: true })
+copyFileSync('./index.html', '../dist/index.html')
+copyFileSync('./site.css', '../dist/site.css')
 
+console.log('Bundled:', name)
